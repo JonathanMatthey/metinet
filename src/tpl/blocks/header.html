@@ -20,29 +20,42 @@
       <div class="collapse pos-rlt navbar-collapse box-shadow {{app.settings.navbarCollapseColor}}">
         <!-- link and dropdown -->
         <ul class="nav navbar-nav hidden-sm">
-          <li class="dropdown pos-stc">
+<!--           <li class="dropdown pos-stc">
             <a href class="dropdown-toggle">
               <span>Menu</span>
               <span class="caret"></span>
             </a>
             <div class="dropdown-menu wrapper w-full bg-white">
               <div class="row">
-                <div class="col-sm-3">
-                  <div class="m-l-xs m-t-xs m-b-xs font-bold">Projects <span class="badge badge-sm bg-success">10</span></div>
+                <div class="col-sm-4">
+                  <div class="m-l-xs m-t-xs m-b-xs font-bold"><a ui-sref="app.page.projects">Projects</a> <span class="badge badge-sm bg-success">10</span></div>
                   <div class="row">
                     <div class="col-xs-6">
                       <ul class="list-unstyled l-h-2x">
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>sec1</a>
+                          <a ui-sref="app.page.project"><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>proj1</a>
                         </li>
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>sec2</a>
+                          <a ui-sref="app.page.project"><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>proj2</a>
                         </li>
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>sec3</a>
+                          <a ui-sref="app.page.project"><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>proj3</a>
                         </li>
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>sec4</a>
+                          <a ui-sref="app.page.project"><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>proj4</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-xs-6">
+                      <ul class="list-unstyled l-h-2x">
+                        <li>
+                          <a ui-sref="app.page.project"><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>proj5</a>
+                        </li>
+                        <li>
+                          <a ui-sref="app.page.project"><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>proj6</a>
+                        </li>
+                        <li>
+                          <a ui-sref="app.page.project"><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>All Projects</a>
                         </li>
                       </ul>
                     </div>
@@ -54,65 +67,35 @@
                     <div class="col-xs-6">
                       <ul class="list-unstyled l-h-2x">
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>Buttons</a>
+                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>Lorem</a>
                         </li>
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>qwe <!-- <span class="badge badge-sm bg-warning">1000+</span> --></a>
+                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>Ipsum </a>
                         </li>
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>ewq</a>
+                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>Lorem</a>
                         </li>
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>qwe</a>
+                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>Ipsum</a>
                         </li>
                       </ul>
                     </div>
                   </div>
                 </div>
-<!--                 <div class="col-sm-4 b-l b-light">
-                  <div class="m-l-xs m-t-xs m-b-sm font-bold">Analysis</div>
-                  <div class="text-center">
-                    <div class="inline">
-                      <div ui-jq="easyPieChart" ui-options="{
-                          percent: 65,
-                          lineWidth: 50,
-                          trackColor: '{{app.color.light}}',
-                          barColor: '{{app.color.info}}',
-                          scaleColor: false,
-                          size: 100,
-                          rotate: 90,
-                          lineCap: 'butt',
-                          animate: 2000
-                        }">
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
               </div>
             </div>
+          </li> -->
+          <li class="dropdown">
+            <a ui-sref="app.page.projects" href>
+              <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
+              <span>Projects</span>
+            </a>
           </li>
           <li class="dropdown">
             <a href class="dropdown-toggle">
               <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
               <span>Inbox</span>
             </a>
-<!--             <ul class="dropdown-menu" role="menu">
-              <li><a href="#" translate="header.navbar.new.PROJECT">Projects</a></li>
-              <li>
-                <a href>
-                  <span class="badge bg-info pull-right">5</span>
-                  <span translate="header.navbar.new.TASK">Task</span>
-                </a>
-              </li>
-              <li><a href translate="header.navbar.new.USER">User</a></li>
-              <li class="divider"></li>
-              <li>
-                <a href>
-                  <span class="badge bg-danger pull-right">4</span>
-                  <span translate="header.navbar.new.EMAIL">Email</span>
-                </a>
-              </li>
-            </ul> -->
           </li>
         </ul>
         <!-- / link and dropdown -->

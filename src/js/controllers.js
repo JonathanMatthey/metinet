@@ -16,7 +16,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         version: '0.0.2',
         // for chart colors
         color: {
-          primary: '#7266ba',
+          primary: '#6CC3A0',
           info:    '#23b7e5',
           success: '#27c24c',
           warning: '#fad733',
@@ -27,8 +27,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         },
         settings: {
           themeID: 1,
-          navbarHeaderColor: 'bg-info',
-          navbarCollapseColor: 'bg-white-only',
+          navbarHeaderColor: 'bg-primary',
+          navbarCollapseColor: 'bg-primary',//'bg-white-only',
           asideColor: 'bg-black',
           headerFixed: true,
           asideFixed: false,
@@ -40,7 +40,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
       // save settings to local storage
       if ( angular.isDefined($localStorage.settings) ) {
-        $scope.app.settings = $localStorage.settings;
+        $scope.app.settings =  $localStorage.settings;
       } else {
         $localStorage.settings = $scope.app.settings;
       }

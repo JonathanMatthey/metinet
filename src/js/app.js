@@ -233,9 +233,13 @@ var app = angular.module('app', [
                 url: '/profile',
                 templateUrl: 'tpl/page_profile.html'
             })
-            .state('app.page.post', {
-                url: '/post',
-                templateUrl: 'tpl/page_post.html'
+            .state('app.page.projects', {
+                url: '/projects',
+                templateUrl: 'tpl/page_projects.html'
+            })
+            .state('app.page.project', {
+                url: '/project',
+                templateUrl: 'tpl/page_project.html'
             })
             .state('app.page.search', {
                 url: '/search',
