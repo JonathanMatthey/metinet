@@ -11,22 +11,26 @@
             <div class=" m-b">
               <div class="col-md-6">
                 <dl >
-                  <dt>Created</dt>
-                  <dd class="m-b-xs">10 March 2014</dd>
-                  <dt>Industry</dt>
-                  <dd class="m-b-xs">Pharma</dd>
+                  <dt>Description</dt>
+                  <dd class="m-b-xs">{{project.desc}}</dd>
                   <dt>Country</dt>
-                  <dd class="m-b-xs">Hungary</dd>
+                  <dd class="m-b-xs">{{project.country_id}}</dd>
+                  <dt>Start Date</dt>
+                  <dd class="m-b-xs">{{project.start_date}}</dd>
+                  <dt>Contract End Date</dt>
+                  <dd class="m-b-xs">{{project.end_date_contract}}</dd>
+                  <dt>Calculate Ed Date</dt>
+                  <dd class="m-b-xs">{{project.end_date_calculated}}</dd>
                 </dl>
               </div>
               <div class="col-md-6">
                 <dl >
-                  <dt>Deadline</dt>
-                  <dd class="m-b-xs">10 March 2015</dd>
-                  <dt>More Shit</dt>
-                  <dd class="m-b-xs">Same Shit</dd>
-                  <dt>Budget</dt>
-                  <dd class="m-b-xs">$120mm</dd>
+                  <dt>Budget Contract</dt>
+                  <dd class="m-b-xs">{{project.budget_contract}}</dd>
+                  <dt>Approval Time</dt>
+                  <dd class="m-b-xs">{{project.approval_time}}</dd>
+                  <dt>Alert Threshold</dt>
+                  <dd class="m-b-xs">{{project.alert_threshold}}</dd>
                 </dl>
               </div>
             </div>
@@ -35,7 +39,7 @@
             <div class="row row-sm">
               <div class="col-xs-6 text-center">
                 <div ui-jq="easyPieChart" ui-options="{
-                percent: 75,
+                percent: {{project.progress}},
                 lineWidth: 4,
                 trackColor: '#e8eff0',
                 barColor: '#27c24c',
@@ -45,10 +49,10 @@
                 lineCap: 'butt'
               }" class="inline m-t easyPieChart" style="width: 115px; height: 115px; line-height: 115px;">
               <div>
-                <span class="text-primary h4">75%</span>
+                <span class="text-primary h4">{{project.progress}}%</span>
               </div>
               <canvas width="115" height="115"></canvas></div>
-              <div class="text-muted font-bold text-xs m-t m-b">Work Done</div>
+              <div class="text-muted font-bold text-xs m-t m-b">Progress</div>
             </div>
             <div class="col-xs-6 text-center">
               <div ui-jq="easyPieChart" ui-options="{
@@ -62,10 +66,10 @@
               lineCap: 'butt'
             }" class="inline m-t easyPieChart" style="width: 115px; height: 115px; line-height: 115px;">
             <div>
-              <span class="text-info h4">50%</span>
+              <span class="text-info h4">??%</span>
             </div>
             <canvas width="115" height="115"></canvas></div>
-            <div class="text-muted font-bold text-xs m-t m-b">Started</div>
+            <div class="text-muted font-bold text-xs m-t m-b">??</div>
           </div>
         </div>
       </div>
