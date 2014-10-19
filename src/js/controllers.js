@@ -74,12 +74,19 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       }
 
   }])
-  //
+  // -- Projects Controllers -- START
   .controller('ProjectListController', ['$scope', '$state', '$window', 'Project', function($scope,$state,$window,Project) {
 
     $scope.projects=Project.query();
 
   }])
+  .controller('ProjectViewController', ['$scope', '$stateParams', 'Project', function($scope,$stateParams,Project) {
+
+    $scope.project=Project.get({id:$stateParams.id});
+
+  }])
+  // -- Projects Controllers -- END
+
   // bootstrap controller
   .controller('AccordionDemoCtrl', ['$scope', function($scope) {
     $scope.oneAtATime = true;

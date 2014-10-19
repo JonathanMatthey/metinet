@@ -31,8 +31,8 @@ var app = angular.module('app', [
   ]
 )
 .config(
-  [          '$stateProvider', '$urlRouterProvider', '$controllerProvider', '$compileProvider', '$filterProvider', '$provide',
-    function ($stateProvider,   $urlRouterProvider,   $controllerProvider,   $compileProvider,   $filterProvider,   $provide) {
+  [          '$stateProvider', '$urlRouterProvider', '$httpProvider', '$controllerProvider', '$compileProvider', '$filterProvider', '$provide',
+    function ($stateProvider,   $urlRouterProvider,  $httpProvider, $controllerProvider,   $compileProvider,   $filterProvider,   $provide) {
 
         // lazy controller, directive and service
         app.controller = $controllerProvider.register;
@@ -241,10 +241,21 @@ var app = angular.module('app', [
                 templateUrl: 'tpl/page_projects.html',
                 controller:'ProjectListController'
             })
-            .state('app.page.project', {
-                url: '/project',
-                templateUrl: 'tpl/page_project.html'
+            .state('app.page.project',{
+                url:'/projects/:id',
+                templateUrl: 'tpl/page_project.html',
+                controller:'ProjectViewController'
             })
+            // .state('newProject',{
+            //     url:'/projects/new',
+            //     templateUrl:'partials/Project-add.html',
+            //     controller:'ProjectCreateController'
+            // })
+            // .state('editProject',{
+            //     url:'/projects/:id/edit',
+            //     templateUrl:'partials/Project-edit.html',
+            //     controller:'ProjectEditController'
+            // })
             .state('app.page.search', {
                 url: '/search',
                 templateUrl: 'tpl/page_search.html'

@@ -3,7 +3,7 @@
 /* Services */
 
 angular.module('app.services',[]).factory('Project', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/user/projects/:id',{
+    return $resource('http://178.62.117.241/projects/:id',{
       id:'@_id'
     },{
         query: {
