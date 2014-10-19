@@ -74,7 +74,12 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       }
 
   }])
+  //
+  .controller('ProjectListController', ['$scope', '$state', '$window', 'Project', function($scope,$state,$window,Project) {
 
+    $scope.projects=Project.query();
+
+  }])
   // bootstrap controller
   .controller('AccordionDemoCtrl', ['$scope', function($scope) {
     $scope.oneAtATime = true;
@@ -176,11 +181,32 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       $modalInstance.dismiss('cancel');
     };
   }])
-  .controller('ModalDemoCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
-    $scope.items = ['item1', 'item2', 'item3'];
+  .controller('ModalRFICtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
+    $scope.items = ['rfi1', 'rfi2', 'rfi3'];
+    $scope.open = function (size, templateUrl) {
+      var modalInstance = $modal.open({
+        templateUrl: templateUrl,
+        controller: 'ModalInstanceCtrl',
+        size: size,
+        resolve: {
+          items: function () {
+            return $scope.items;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (selectedItem) {
+        $scope.selected = selectedItem;
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+    };
+  }])
+  .controller('ModalPermitCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
+    $scope.items = ['permit1', 'permit2', 'permit3'];
     $scope.open = function (size) {
       var modalInstance = $modal.open({
-        templateUrl: 'myModalContent.html',
+        templateUrl: 'permitModalContent.html',
         controller: 'ModalInstanceCtrl',
         size: size,
         resolve: {

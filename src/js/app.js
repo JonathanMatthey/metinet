@@ -1,5 +1,8 @@
 'use strict';
 
+// routes avail at
+// https://bitbucket.org/stevchenks/fixing_metinet_api/src/7f82ee9db72b3c2160859c7dedd54c04a09d1474/app/routes.php?at=master
+
 
 // Declare app level module which depends on filters, and services
 var app = angular.module('app', [
@@ -235,7 +238,8 @@ var app = angular.module('app', [
             })
             .state('app.page.projects', {
                 url: '/projects',
-                templateUrl: 'tpl/page_projects.html'
+                templateUrl: 'tpl/page_projects.html',
+                controller:'ProjectListController'
             })
             .state('app.page.project', {
                 url: '/project',

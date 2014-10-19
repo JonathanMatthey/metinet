@@ -3,9 +3,9 @@
 </div>
 <div class="wrapper-md">
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-12">
             <div class="panel panel-default">
-                <div class="row wrapper">
+<!--                 <div class="row wrapper">
                     <div class="col-sm-5 m-b-xs">
                     </div>
                     <div class="col-sm-4">
@@ -18,7 +18,7 @@
                             </span>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="table-responsive">
                     <table class="table table-striped b-t b-light">
                         <thead>
@@ -29,13 +29,14 @@
                                     </label>
                                 </th>
                                 <th>Project</th>
-                                <th>Activity?</th>
-                                <th>Date</th>
+                                <th>Progress</th>
+                                <th>Start</th>
+                                <th>End</th>
                                 <th style="width:30px;">Foo</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr ng-repeat="project in projects">
                                 <td>
                                   <label class="i-checks m-b-none">
                                       <input type="checkbox" name="post[]"><i></i>
@@ -43,106 +44,12 @@
                                 </td>
                                 <td>
                                   <a ui-sref="app.page.project">
-                                    Brooklyn Bridge Clean Up
+                                    {{project.name}}
                                   </a>
                                 </td>
-                                <td>4c</td>
-                                <td>Jul 25, 2013</td>
-                                <td>
-                                  Foo
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="i-checks m-b-none">
-                                        <input type="checkbox" name="post[]"><i></i>
-                                    </label>
-                                </td>
-                                <td>
-                                  <a ui-sref="app.page.project">
-                                    Williamsburg Bridge
-                                  </a>
-                                </td>
-                                <td>8c</td>
-                                <td>Jul 22, 2013</td>
-                                <td>
-                                  Foo
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="i-checks m-b-none">
-                                        <input type="checkbox" name="post[]"><i></i>
-                                    </label>
-                                </td>
-                                <td>Avatar system</td>
-                                <td>15c</td>
-                                <td>Jul 15, 2013</td>
-                                <td>
-                                  Foo
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="i-checks m-b-none">
-                                        <input type="checkbox" name="post[]"><i></i>
-                                    </label>
-                                </td>
-                                <td>Throwdown</td>
-                                <td>4c</td>
-                                <td>Jul 11, 2013</td>
-                                <td>
-                                  Foo
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="i-checks m-b-none">
-                                        <input type="checkbox" name="post[]"><i></i>
-                                    </label>
-                                </td>
-                                <td>Idrawfast</td>
-                                <td>4c</td>
-                                <td>Jul 7, 2013</td>
-                                <td>
-                                  Foo
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="i-checks m-b-none">
-                                        <input type="checkbox" name="post[]"><i></i>
-                                    </label>
-                                </td>
-                                <td>Formasa</td>
-                                <td>8c</td>
-                                <td>Jul 3, 2013</td>
-                                <td>
-                                  Foo
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="i-checks m-b-none">
-                                        <input type="checkbox" name="post[]"><i></i>
-                                    </label>
-                                </td>
-                                <td>Avatar system</td>
-                                <td>15c</td>
-                                <td>Jul 2, 2013</td>
-                                <td>
-                                  Foo
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="i-checks m-b-none">
-                                        <input type="checkbox" name="post[]"><i></i>
-                                    </label>
-                                </td>
-                                <td>Videodown</td>
-                                <td>4c</td>
-                                <td>Jul 1, 2013</td>
+                                <td>{{project.name}}</td>
+                                <td>{{project.start_date}}</td>
+                                <td>{{project.end_date_contract}}</td>
                                 <td>
                                   Foo
                                 </td>
