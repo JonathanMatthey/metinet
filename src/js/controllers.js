@@ -79,12 +79,25 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.projects=Project.query();
   }])
 
-  .controller('ProjectViewController', ['$scope', '$stateParams', 'Project', function($scope,$stateParams,Project) {
+  .controller('ProjectViewController', ['$scope', '$stateParams', 'Project','ProjectUsers', function($scope,$stateParams,Project,ProjectUsers) {
     Project.get({id:$stateParams.id})
     .$promise.then(function(project) {
       $scope.project = project.project_data;
       $('#progress-chart').data('easyPieChart').update(project.project_data.progress);
+      console.log('-- project project');
+      console.log(project);
     });
+
+    ProjectUsers.get({
+      id:$stateParams.id
+    })
+    .$promise.then(function(data) {
+        // success handler
+      $scope.projectUsers = data.users
+      console.log('-- projectUsers');
+      console.log(data);
+    });
+
   }])
   // -- Projects Controllers -- END
 

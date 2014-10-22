@@ -23,6 +23,23 @@ angular.module('app.services',[]).factory('Project', ['$resource', function($res
             method: 'PUT'
         }
     });
+}]).factory('ProjectUsers', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/projects/:id/users',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var data = JSON.parse(res);
+                console.log(data);
+                return;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
 }])
 .factory('Auth', ['Base64', '$cookieStore', '$http', function (Base64, $cookieStore, $http) {
     // initialize to whatever is in the cookie, if anything

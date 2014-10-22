@@ -254,34 +254,15 @@
         </div>
       </div>
       <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
+        <li class="list-group-item" ng-repeat="projectUser in projectUsers">
           <a href="" class="thumb-sm m-r">
             <img src="img/a1.jpg" class="r r-2x">
           </a>
-          <span class="pull-right label bg-primary inline m-t-sm">Admin</span>
-          <a href="">Damon Parker</a>
+          <span class="pull-right label bg-primary inline m-t-sm">{{projectUser.fullname}}</span>
+          <a href="" ng-bind=projectUser.fullname></a> [ <a class="small" href="" ng-bind=projectUser.email></a> ]
         </li>
-        <li class="list-group-item">
-          <a href="" class="thumb-sm m-r">
-            <img src="img/a2.jpg" class="r r-2x">
-          </a>
-          <span class="pull-right label bg-info inline m-t-sm">Member</span>
-          <a href="">Joe Waston</a>
-        </li>
-        <li class="list-group-item">
-          <a href="" class="thumb-sm m-r">
-            <img src="img/a3.jpg" class="r r-2x">
-          </a>
-          <span class="pull-right label bg-warning inline m-t-sm">Editor</span>
-          <a href="">Jannie Dvis</a>
-        </li>
-        <li class="list-group-item">
-          <a href="" class="thumb-sm m-r">
-            <img src="img/a4.jpg" class="r r-2x">
-          </a>
-          <span class="pull-right label bg-warning inline m-t-sm">Editor</span>
-          <a href="">Emma Welson</a>
-        </li>
+                            <tr >
+
       </ul>
       <div class="panel-footer">
         <!-- <span class="pull-right badge badge-bg m-t-xs">32</span> -->
