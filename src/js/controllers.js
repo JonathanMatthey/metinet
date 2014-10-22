@@ -76,14 +76,15 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   }])
   // -- Projects Controllers -- START
   .controller('ProjectListController', ['$scope', '$state', '$window', 'Auth', 'Project', function($scope,$state,$window,Auth,Project) {
-    Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
     $scope.projects=Project.query();
-
   }])
+
   .controller('ProjectViewController', ['$scope', '$stateParams', 'Project', function($scope,$stateParams,Project) {
-
-    $scope.project=Project.get({id:$stateParams.id});
-
+    Project.get({id:$stateParams.id})
+    .$promise.then(function(project) {
+      $scope.project = project.project_data;
+      $('#progress-chart').data('easyPieChart').update(project.project_data.progress);
+    });
   }])
   // -- Projects Controllers -- END
 

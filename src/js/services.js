@@ -8,9 +8,14 @@ angular.module('app.services',[]).factory('Project', ['$resource', function($res
     },{
         query: {
             method: 'GET',
-            transformResponse: function (data) {
-                console.log(JSON.parse(data).projects)
-                return JSON.parse(data).projects;
+            transformResponse: function (res) {
+                var data = JSON.parse(res);
+                console.log(data);
+                if (data.projects){
+                    return data.projects;
+                } else if (data.project_data){
+                    return data.project_data;
+                }
             },
             isArray: true
         },

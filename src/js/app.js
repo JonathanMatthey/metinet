@@ -23,10 +23,11 @@ var app = angular.module('app', [
     'app.controllers'
   ])
 .run(
-  [          '$rootScope', '$state', '$stateParams',
-    function ($rootScope,   $state,   $stateParams) {
+  [          '$rootScope', '$state', '$stateParams','$cookieStore','$http',
+    function ($rootScope,   $state,   $stateParams,$cookieStore,$http) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
     }
   ]
 )

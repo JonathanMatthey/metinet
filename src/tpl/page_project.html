@@ -38,8 +38,8 @@
           <div class="col-md-6">
             <div class="row row-sm">
               <div class="col-xs-6 text-center">
-                <div ui-jq="easyPieChart" ui-options="{
-                percent: {{project.progress}},
+                <div id="progress-chart" ui-jq="easyPieChart" ui-options="{
+                percent: 0,
                 lineWidth: 4,
                 trackColor: '#e8eff0',
                 barColor: '#27c24c',
@@ -56,7 +56,7 @@
             </div>
             <div class="col-xs-6 text-center">
               <div ui-jq="easyPieChart" ui-options="{
-              percent: 50,
+              percent: 0,
               lineWidth: 4,
               trackColor: '#e8eff0',
               barColor: '#23b7e5',
@@ -66,7 +66,7 @@
               lineCap: 'butt'
             }" class="inline m-t easyPieChart" style="width: 115px; height: 115px; line-height: 115px;">
             <div>
-              <span class="text-info h4">??%</span>
+              <span class="text-info h4">0%</span>
             </div>
             <canvas width="115" height="115"></canvas></div>
             <div class="text-muted font-bold text-xs m-t m-b">??</div>
