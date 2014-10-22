@@ -75,8 +75,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
   }])
   // -- Projects Controllers -- START
-  .controller('ProjectListController', ['$scope', '$state', '$window', 'Project', function($scope,$state,$window,Project) {
-
+  .controller('ProjectListController', ['$scope', '$state', '$window', 'Auth', 'Project', function($scope,$state,$window,Auth,Project) {
+    Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
     $scope.projects=Project.query();
 
   }])
@@ -530,21 +530,30 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   }])
 
   // signin controller
-  .controller('SigninFormController', ['$scope', '$http', '$state', function($scope, $http, $state) {
+  .controller('SigninFormController', ['$scope', '$http', '$state','Auth', function($scope, $http, $state, Auth) {
     $scope.user = {};
     $scope.authError = null;
     $scope.login = function() {
       $scope.authError = null;
       // Try to login
-      $http.post('api/login', {email: $scope.user.email, password: $scope.user.password})
+      $http.post('http://178.62.117.241/auth', {
+        headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
+        email: $scope.user.email,
+        password: $scope.user.password})
       .then(function(response) {
-        if ( !response.data.user ) {
-          $scope.authError = 'Email or Password not right';
-        }else{
+        if ( response.status === 200 ) {
+          // user logged in
+          Auth.setCredentials($scope.user.email,$scope.user.password);
           $state.go('app.dashboard-v1');
+        }else{
+          $scope.authError = 'Email or Password not right';
         }
-      }, function(x) {
-        $scope.authError = 'Server Error';
+      }, function(response) {
+        if ( response.status === 403 ) {
+          $scope.authError = 'Email or Password not right';
+        } else {
+          $scope.authError = 'Server Error';
+        }
       });
     };
   }])
