@@ -2,20 +2,18 @@
 
 /* Services */
 
-angular.module('app.services',[]).factory('Project', ['$resource', function($resource) {
+angular.module('app.services',[])
+.factory('Project', ['$resource', function($resource) {
     return $resource('http://178.62.117.241/projects/:id',{
       id:'@_id'
     },{
         query: {
             method: 'GET',
             transformResponse: function (res) {
-                var data = JSON.parse(res);
-                console.log(data);
-                if (data.projects){
-                    return data.projects;
-                } else if (data.project_data){
-                    return data.project_data;
-                }
+                var res = JSON.parse(res);
+                console.log('==project');
+                console.log(res);
+                return res.data;
             },
             isArray: true
         },
@@ -31,9 +29,9 @@ angular.module('app.services',[]).factory('Project', ['$resource', function($res
         query: {
             method: 'GET',
             transformResponse: function (res) {
-                var data = JSON.parse(res);
-                console.log(data);
-                return;
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
             },
             isArray: true
         },
@@ -49,9 +47,9 @@ angular.module('app.services',[]).factory('Project', ['$resource', function($res
         query: {
             method: 'GET',
             transformResponse: function (res) {
-                var data = JSON.parse(res);
-                console.log(data);
-                return;
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
             },
             isArray: true
         },
@@ -61,15 +59,15 @@ angular.module('app.services',[]).factory('Project', ['$resource', function($res
     });
 }])
 .factory('ProjectRFIs', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/projects/:id/rfi',{
+    return $resource('http://178.62.117.241/projects/:id/rfis',{
       id:'@_id'
     },{
         query: {
             method: 'GET',
             transformResponse: function (res) {
-                var data = JSON.parse(res);
-                console.log(data);
-                return;
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
             },
             isArray: true
         },
@@ -85,9 +83,9 @@ angular.module('app.services',[]).factory('Project', ['$resource', function($res
         query: {
             method: 'GET',
             transformResponse: function (res) {
-                var data = JSON.parse(res);
-                console.log(data);
-                return;
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
             },
             isArray: true
         },
@@ -103,9 +101,9 @@ angular.module('app.services',[]).factory('Project', ['$resource', function($res
         query: {
             method: 'GET',
             transformResponse: function (res) {
-                var data = JSON.parse(res);
-                console.log(data);
-                return;
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
             },
             isArray: true
         },
@@ -121,9 +119,9 @@ angular.module('app.services',[]).factory('Project', ['$resource', function($res
         query: {
             method: 'GET',
             transformResponse: function (res) {
-                var data = JSON.parse(res);
-                console.log(data);
-                return;
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
             },
             isArray: true
         },

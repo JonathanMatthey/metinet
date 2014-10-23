@@ -1,7 +1,7 @@
 {
   "items":[
     {
-      "group" : "Partner",
+      "network" : "ARUP",
       "first": "Bertina",
       "last": "Robert",
       "company": "",
@@ -12,7 +12,7 @@
       "avatar": "img/a3.jpg"
     },
     {
-      "group" : "Coworkers",
+      "network" : "ARUP",
       "first": "Alexandra",
       "last": "Galton",
       "company": "Google Inc.",
@@ -23,7 +23,7 @@
       "avatar": "img/a0.jpg"
     },
     {
-       "group" : "Family",
+       "network" : "ARUP",
       "first": "Angela",
       "last": "Oscar",
       "company": "Max Inc.",
@@ -34,7 +34,7 @@
       "avatar": "img/a1.jpg"
     },
     {
-      "group" : "Friends",
+      "network" : "ARUP",
       "first": "Annabelle",
       "last": "",
       "company": "",
@@ -45,7 +45,7 @@
       "avatar": "img/a2.jpg"
     },
     {
-      "group" : "Friends",
+      "network" : "Friends",
       "first": "Brenda",
       "last": "Lanny",
       "company": "",
@@ -56,7 +56,7 @@
       "avatar": "img/a4.jpg"
     },
     {
-      "group" : "Group",
+      "network" : "Group",
       "first": "Britney",
       "last": "Patricia",
       "company": "",
@@ -67,7 +67,7 @@
       "avatar": "img/a5.jpg"
     },
     {
-      "group" : "Friends",
+      "network" : "Friends",
       "first": "Blanche",
       "last": "Julian",
       "company": "",
@@ -78,7 +78,7 @@
       "avatar": "img/a6.jpg"
     },
     {
-      "group" : "Group",
+      "network" : "Group",
       "first": "Deborah",
       "last": "Darryl",
       "company": "",
@@ -89,7 +89,7 @@
       "avatar": "img/a7.jpg"
     },
     {
-      "group" : "Group",
+      "network" : "Group",
       "first": "Elizabeth",
       "last": "",
       "company": "",
@@ -100,7 +100,7 @@
       "avatar": "img/a8.jpg"
     },
     {
-      "group" : "Partners",
+      "network" : "Partners",
       "first": "Emily",
       "last": "Jolyon",
       "company": "",
@@ -111,7 +111,7 @@
       "avatar": "img/a9.jpg"
     },
     {
-      "group" : "Partners",
+      "network" : "Partners",
       "first": "Gertrude",
       "last": "",
       "company": "",
@@ -122,7 +122,7 @@
       "avatar": "img/a8.jpg"
     },
     {
-      "group" : "Family",
+      "network" : "Family",
       "first": "Gwynne",
       "last": "Rufus",
       "company": "",
@@ -133,7 +133,7 @@
       "avatar": "img/a8.jpg"
     },
     {
-      "group" : "Coworkers",
+      "network" : "Coworkers",
       "first": "Octavia",
       "last": "Swaine",
       "company": "",

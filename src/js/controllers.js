@@ -16,7 +16,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         version: '0.0.2',
         // for chart colors
         color: {
-          primary: '#6CC3A0',
+          primary: '#eee',
           info:    '#23b7e5',
           success: '#27c24c',
           warning: '#fad733',
@@ -27,8 +27,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         },
         settings: {
           themeID: 1,
-          navbarHeaderColor: 'bg-primary',
-          navbarCollapseColor: 'bg-primary',//'bg-white-only',
+          navbarHeaderColor: 'bg-metinet',
+          navbarCollapseColor: 'bg-metinet',//'bg-white-only',
           asideColor: 'bg-black',
           headerFixed: true,
           asideFixed: false,
@@ -84,72 +84,91 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     function($scope,$stateParams,Auth,Project,ProjectUsers,ProjectRFIs,ProjectLongLeads,ProjectNetworks, ProjectLeaves, ProjectPermits) {
     Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
     Project.get({id:$stateParams.id})
-    .$promise.then(function(project) {
-      $scope.project = project.project_data;
-      $('#progress-chart').data('easyPieChart').update(project.project_data.progress);
+    .$promise.then(function(res) {
+      $scope.project = res.data;
+      $('#progress-chart').data('easyPieChart').update($scope.project.progress);
       console.log('-- project project');
-      console.log(project);
+      console.log($scope.project);
     });
 
     ProjectUsers.get({
       id:$stateParams.id
     })
-    .$promise.then(function(data) {
+    .$promise.then(function(res) {
         // success handler
-      $scope.projectUsers = data.users
+      $scope.projectUsers = res.data
       console.log('-- projectUsers');
-      console.log(data);
+      console.log(res.data);
     });
 
     ProjectRFIs.get({
       id:$stateParams.id
     })
-    .$promise.then(function(data) {
+    .$promise.then(function(res) {
         // success handler
-      $scope.projectRFIs = data.project_rfis;
+      $scope.projectRFIs = res.data;
       console.log('-- projectRFIs');
-      console.log(data);
+      console.log(res.data);
     });
 
     ProjectNetworks.get({
       id:$stateParams.id
     })
-    .$promise.then(function(data) {
+    .$promise.then(function(res) {
         // success handler
-      $scope.projectNetworks = data.networks
+      $scope.projectNetworks = res.data
       console.log('-- projectNetworks');
-      console.log(data);
+      console.log(res.data);
     });
 
     ProjectLongLeads.get({
       id:$stateParams.id
     })
-    .$promise.then(function(data) {
+    .$promise.then(function(res) {
         // success handler
-      $scope.projectLongLeads = data.long_lead_items
+      $scope.projectLongLeads = res.data
       console.log('-- projectLongLeads');
-      console.log(data);
+      console.log(res.data);
     });
 
     ProjectPermits.get({
       id:$stateParams.id
     })
-    .$promise.then(function(data) {
+    .$promise.then(function(res) {
         // success handler
-      $scope.projectPermits = data.permits
+      $scope.projectPermits = res.data
       console.log('-- projectPermits');
-      console.log(data);
+      console.log(res.data);
     });
 
     ProjectLeaves.get({
       id:$stateParams.id
     })
-    .$promise.then(function(data) {
+    .$promise.then(function(res) {
         // success handler
-      $scope.projectLeaves = data.leaf_nodes
+      $scope.projectLeaves = res.data
       console.log('-- projectLeaves');
-      console.log(data);
+      console.log(res.data);
     });
+  }])
+  .controller('ProjectNetworkCreateController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectNetworks',
+    function($scope,$stateParams,Auth,Project,ProjectNetworks){
+
+      Project.get({id:$stateParams.id})
+      .$promise.then(function(res) {
+        $scope.project = res.data;
+        console.log('-- project project');
+        console.log($scope.project);
+      });
+
+      $scope.projectNetwork = new ProjectNetworks();
+
+      $scope.addProjectNetwork=function(){
+          $scope.projectNetwork.$save(function(){
+              $state.go('projectNetwork');
+          });
+      }
+
   }])
   // -- Projects Controllers -- END
 

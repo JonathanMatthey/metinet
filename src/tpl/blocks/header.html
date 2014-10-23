@@ -1,6 +1,6 @@
       <!-- navbar header -->
       <div class="navbar-header {{app.settings.navbarHeaderColor}}">
-        <button class="pull-right visible-xs dk" ui-toggle-class="show" data-target=".navbar-collapse">
+        <button class="pull-right visible-xs dk" ui-toggle-class="show" data-target="">
           <i class="glyphicon glyphicon-cog"></i>
         </button>
         <button class="pull-right visible-xs" ui-toggle-class="off-screen" data-target=".app-aside" ui-scroll="app">
@@ -10,7 +10,7 @@
         <a href="#/" class="navbar-brand text-lt">
           <i class="fa fa-building"></i>
           <img src="img/logo.png" alt="." class="hide">
-          <span class="hidden-folded m-l-xs">{{app.name}}</span>
+          <span class=" m-l-xs">{{app.name}}</span>
         </a>
         <!-- / brand -->
       </div>
@@ -92,6 +92,12 @@
             </a>
           </li>
           <li class="dropdown">
+            <a ui-sref="apps.users" href>
+              <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
+              <span>Users</span>
+            </a>
+          </li>
+          <li class="dropdown">
             <a href class="dropdown-toggle">
               <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
               <span>Inbox</span>
@@ -101,7 +107,7 @@
         <!-- / link and dropdown -->
 
         <!-- search form -->
-<!--         <form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
+<!--         <form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" target="" role="search" ng-controller="TypeaheadDemoCtrl">
           <div class="form-group">
             <div class="input-group">
               <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control input-sm bg-light no-border rounded padder" placeholder="Search projects...">

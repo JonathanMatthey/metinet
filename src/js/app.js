@@ -242,6 +242,11 @@ var app = angular.module('app', [
                 templateUrl: 'tpl/page_projects.html',
                 controller:'ProjectListController'
             })
+            .state('app.page.network', {
+                url: '/projects/:id/network/create',
+                templateUrl: 'tpl/page_project_network_new.html',
+                controller:'ProjectNetworkCreateController'
+            })
             .state('app.page.project',{
                 url:'/projects/:id',
                 templateUrl: 'tpl/page_project.html',
@@ -400,13 +405,13 @@ var app = angular.module('app', [
                     }]
                 }
             })
-            .state('apps.contact', {
-                url: '/contact',
-                templateUrl: 'tpl/apps_contact.html',
+            .state('apps.users', {
+                url: '/users',
+                templateUrl: 'tpl/apps_users.html',
                 resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
-                        return uiLoad.load( ['js/app/contact/contact.js'] );
+                        return uiLoad.load( ['js/app/users/users.js'] );
                     }]
                 }
             })

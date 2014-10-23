@@ -1,23 +1,27 @@
-app.controller('ContactCtrl', ['$scope', '$http', '$filter', function($scope, $http, $filter) {
-  $http.get('js/app/contact/contacts.json').then(function (resp) {
+app.controller('UserCtrl', ['$scope', '$http', '$filter', 'Auth', function($scope, $http, $filter, Auth) {
+  Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
+
+  $http.get('js/app/users/users.json').then(function (resp) {
     $scope.items = resp.data.items;
     $scope.item = $filter('orderBy')($scope.items, 'first')[0];
     $scope.item.selected = true;
   });
 
+  $http.get('http://178.62.117.241/users',{ headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'}}    ).then(function (res) {
+    console.log('-- users');
+    console.log(res)
+  });
+
   $scope.filter = '';
-  $scope.groups = [
-    {name: 'Coworkers'}, 
-    {name: 'Family'}, 
-    {name: 'Friends'}, 
-    {name: 'Partners'}, 
-    {name: 'Group'}
+  $scope.networks = [
+    {name: 'ARUP'},
+    {name: 'Network 1'}
   ];
 
-  $scope.createGroup = function(){
-    var group = {name: 'New Group'};
-    group.name = $scope.checkItem(group, $scope.groups, 'name');
-    $scope.groups.push(group);
+  $scope.createNetwork = function(){
+    var network = {name: 'New Network'};
+    network.name = $scope.checkItem(network, $scope.networks, 'name');
+    $scope.networks.push(network);
   };
 
   $scope.checkItem = function(obj, arr, key){
@@ -35,20 +39,20 @@ app.controller('ContactCtrl', ['$scope', '$http', '$filter', function($scope, $h
     return obj[key] + (i ? ' '+i : '');
   };
 
-  $scope.deleteGroup = function(item){
-    $scope.groups.splice($scope.groups.indexOf(item), 1);
+  $scope.deleteNetwork = function(item){
+    $scope.networks.splice($scope.networks.indexOf(item), 1);
   };
 
-  $scope.selectGroup = function(item){    
-    angular.forEach($scope.groups, function(item) {
+  $scope.selectNetwork = function(item){
+    angular.forEach($scope.networks, function(item) {
       item.selected = false;
     });
-    $scope.group = item;
-    $scope.group.selected = true;
+    $scope.network = item;
+    $scope.network.selected = true;
     $scope.filter = item.name;
   };
 
-  $scope.selectItem = function(item){    
+  $scope.selectItem = function(item){
     angular.forEach($scope.items, function(item) {
       item.selected = false;
       item.editing = false;
@@ -65,7 +69,7 @@ app.controller('ContactCtrl', ['$scope', '$http', '$filter', function($scope, $h
 
   $scope.createItem = function(){
     var item = {
-      group: 'Friends',
+      network: 'Friends',
       avatar:'img/a0.jpg'
     };
     $scope.items.push(item);

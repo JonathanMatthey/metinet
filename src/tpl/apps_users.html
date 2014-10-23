@@ -1,11 +1,7 @@
 <!-- hbox layout -->
 <div class="hbox hbox-auto-xs hbox-auto-sm bg-light " ng-init="
-  app.settings.asideFixed = true;
-  app.settings.asideDock = false;
-  app.settings.container = false;
-  app.hideAside = false;
-  app.hideFooter = true;
-  " ng-controller="ContactCtrl">
+  app.hideAside = true;
+  " ng-controller="UserCtrl">
 
   <!-- column -->
   <div class="col w b-r">
@@ -14,9 +10,9 @@
         <div class="cell scrollable hover">
           <div class="cell-inner">
             <div class="list-group no-radius no-border no-bg m-b-none">
-              <a class="list-group-item b-b" ng-class="{'focus': (filter == '')}" ng-click="selectGroup({name:''})">ALL Contacts</a>
-              <a ng-repeat="item in groups" ng-dblclick="editItem(item)" class="list-group-item m-l hover-anchor b-a no-select" ng-class="{'focus m-l-none': item.selected}" ng-click="selectGroup(item)">
-                <span ng-click='deleteGroup(item)' class="pull-right text-muted hover-action"><i class="fa fa-times"></i></span>
+              <a class="list-group-item b-b" ng-class="{'focus': (filter == '')}" ng-click="selectNetwork({name:''})">ALL Users</a>
+              <a ng-repeat="item in networks" ng-dblclick="editItem(item)" class="list-group-item m-l hover-anchor b-a no-select" ng-class="{'focus m-l-none': item.selected}" ng-click="selectNetwork(item)">
+                <span ng-click='deleteNetwork(item)' class="pull-right text-muted hover-action"><i class="fa fa-times"></i></span>
                 <span class="block m-l-n" ng-class="{'m-n': item.selected }">{{ item.name ? item.name : 'Untitled' }}</span>
                 <input type="text" class="form-control pos-abt" ng-show="item.editing" ng-blur="doneEditing(item)" ng-model="item.name" style="top:3px;left:2px;width:98%" ui-focus="item.editing">
               </a>
@@ -25,8 +21,7 @@
         </div>
       </div>
       <div class="wrapper b-t">
-        <span tooltip="Double click to Edit" class="pull-right text-muted inline wrapper-xs m-r-sm"><i class="fa fa-question"></i></span>
-        <a href class="btn btn-sm btn-default" ng-click="createGroup()"><i class="fa fa-plus fa-fw m-r-xs"></i> New Group</a>
+        <a href class="btn btn-sm btn-primary" ng-click="createNetwork()"><i class="fa fa-plus fa-fw m-r-xs"></i> New Network</a>
       </div>
     </div>
   </div>
@@ -37,7 +32,7 @@
       <div class="wrapper-xs b-b">
         <div class="input-group m-b-xxs">
           <span class="input-group-addon input-sm no-border no-bg"><i class="icon-magnifier text-md m-t-xxs"></i></span>
-          <input type="text" class="form-control input-sm no-border no-bg text-md" placeholder="Search {{group.name ? group.name : 'All Contacts'}}" ng-model="query">
+          <input type="text" class="form-control input-sm no-border no-bg text-md" placeholder="Search {{network.name ? network.name : 'All Users'}}" ng-model="query">
         </div>
       </div>
       <div class="row-row">
@@ -53,12 +48,12 @@
                 </a>
               </div>
             </div>
-            <div class="text-center pos-abt w-full" style="top:50%;" ng-hide="(items | filter:{group:filter} | filter:query).length">No Contacts</div>
+            <div class="text-center pos-abt w-full" style="top:50%;" ng-hide="(items | filter:{group:filter} | filter:query).length">No Users</div>
           </div>
         </div>
       </div>
       <div class="wrapper b-t text-center">
-        <a href class="btn btn-sm btn-default btn-addon" ng-click="createItem()"><i class="fa fa-plus fa-fw m-r-xs"></i> New Contact</a>
+        <a href class="btn btn-sm btn-primary btn-addon" ng-click="createItem()"><i class="fa fa-plus fa-fw m-r-xs"></i> New User</a>
       </div>
     </div>
   </div>
@@ -69,9 +64,9 @@
     <div class="vbox">
       <div class="wrapper-sm b-b">
         <div class="m-t-n-xxs m-b-n-xxs m-l-xs">
-          <a class="btn btn-xs btn-default pull-right" ng-hide="!item" ng-click="deleteItem(item)"><i class="fa fa-times"></i></a>
-          <a class="btn btn-xs btn-default" ng-hide="item.editing" ng-click="editItem(item)">Edit</a>
-          <a class="btn btn-xs btn-default" ng-show="item.editing" ng-click="doneEditing(item)">Done</a>
+          <a class="btn btn-xs btn-primary pull-right" ng-hide="!item" ng-click="deleteItem(item)"><i class="fa fa-times"></i></a>
+          <a class="btn btn-xs btn-primary" ng-hide="item.editing" ng-click="editItem(item)">Edit</a>
+          <a class="btn btn-xs btn-primary" ng-show="item.editing" ng-click="doneEditing(item)">Done</a>
         </div>
       </div>
       <div class="row-row">
