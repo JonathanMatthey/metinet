@@ -23,8 +23,99 @@ angular.module('app.services',[]).factory('Project', ['$resource', function($res
             method: 'PUT'
         }
     });
-}]).factory('ProjectUsers', ['$resource', function($resource) {
+}])
+.factory('ProjectUsers', ['$resource', function($resource) {
     return $resource('http://178.62.117.241/projects/:id/users',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var data = JSON.parse(res);
+                console.log(data);
+                return;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('ProjectNetworks', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/projects/:id/networks',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var data = JSON.parse(res);
+                console.log(data);
+                return;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('ProjectRFIs', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/projects/:id/rfi',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var data = JSON.parse(res);
+                console.log(data);
+                return;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('ProjectLongLeads', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/projects/:id/longLeads',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var data = JSON.parse(res);
+                console.log(data);
+                return;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('ProjectPermits', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/projects/:id/permits',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var data = JSON.parse(res);
+                console.log(data);
+                return;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('ProjectLeaves', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/projects/:id/leaves',{
       id:'@_id'
     },{
         query: {

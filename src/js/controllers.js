@@ -76,10 +76,13 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   }])
   // -- Projects Controllers -- START
   .controller('ProjectListController', ['$scope', '$state', '$window', 'Auth', 'Project', function($scope,$state,$window,Auth,Project) {
+    Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
     $scope.projects=Project.query();
   }])
 
-  .controller('ProjectViewController', ['$scope', '$stateParams', 'Project','ProjectUsers', function($scope,$stateParams,Project,ProjectUsers) {
+  .controller('ProjectViewController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectUsers', 'ProjectRFIs', 'ProjectLongLeads', 'ProjectNetworks', 'ProjectLeaves', 'ProjectPermits',
+    function($scope,$stateParams,Auth,Project,ProjectUsers,ProjectRFIs,ProjectLongLeads,ProjectNetworks, ProjectLeaves, ProjectPermits) {
+    Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
     Project.get({id:$stateParams.id})
     .$promise.then(function(project) {
       $scope.project = project.project_data;
@@ -98,6 +101,55 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       console.log(data);
     });
 
+    ProjectRFIs.get({
+      id:$stateParams.id
+    })
+    .$promise.then(function(data) {
+        // success handler
+      $scope.projectRFIs = data.project_rfis;
+      console.log('-- projectRFIs');
+      console.log(data);
+    });
+
+    ProjectNetworks.get({
+      id:$stateParams.id
+    })
+    .$promise.then(function(data) {
+        // success handler
+      $scope.projectNetworks = data.networks
+      console.log('-- projectNetworks');
+      console.log(data);
+    });
+
+    ProjectLongLeads.get({
+      id:$stateParams.id
+    })
+    .$promise.then(function(data) {
+        // success handler
+      $scope.projectLongLeads = data.long_lead_items
+      console.log('-- projectLongLeads');
+      console.log(data);
+    });
+
+    ProjectPermits.get({
+      id:$stateParams.id
+    })
+    .$promise.then(function(data) {
+        // success handler
+      $scope.projectPermits = data.permits
+      console.log('-- projectPermits');
+      console.log(data);
+    });
+
+    ProjectLeaves.get({
+      id:$stateParams.id
+    })
+    .$promise.then(function(data) {
+        // success handler
+      $scope.projectLeaves = data.leaf_nodes
+      console.log('-- projectLeaves');
+      console.log(data);
+    });
   }])
   // -- Projects Controllers -- END
 
