@@ -62,171 +62,7 @@ var app = angular.module('app', [
             })
             .state('app.ui', {
                 url: '/ui',
-                template: '<div ui-view class="fade-in-up"></div>'
-            })
-            .state('app.ui.buttons', {
-                url: '/buttons',
-                templateUrl: 'tpl/ui_buttons.html'
-            })
-            .state('app.ui.icons', {
-                url: '/icons',
-                templateUrl: 'tpl/ui_icons.html'
-            })
-            .state('app.ui.grid', {
-                url: '/grid',
-                templateUrl: 'tpl/ui_grid.html'
-            })
-            .state('app.ui.widgets', {
-                url: '/widgets',
-                templateUrl: 'tpl/ui_widgets.html'
-            })
-            .state('app.ui.bootstrap', {
-                url: '/bootstrap',
-                templateUrl: 'tpl/ui_bootstrap.html'
-            })
-            .state('app.ui.sortable', {
-                url: '/sortable',
-                templateUrl: 'tpl/ui_sortable.html'
-            })
-            .state('app.ui.portlet', {
-                url: '/portlet',
-                templateUrl: 'tpl/ui_portlet.html'
-            })
-            .state('app.ui.timeline', {
-                url: '/timeline',
-                templateUrl: 'tpl/ui_timeline.html'
-            })
-            .state('app.ui.tree', {
-                url: '/tree',
-                templateUrl: 'tpl/ui_tree.html',
-                resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad ){
-                        return $ocLazyLoad.load(
-                            {
-                                name: 'angularBootstrapNavTree',
-                                files: ['js/modules/abn_tree/abn_tree_directive.js',
-                                        'js/modules/abn_tree/ctrl.js',
-                                        'js/modules/abn_tree/abn_tree.css']
-                            }
-                        );
-                    }]
-                }
-            })
-            .state('app.ui.toaster', {
-                url: '/toaster',
-                templateUrl: 'tpl/ui_toaster.html',
-                resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad){
-                        return $ocLazyLoad.load('toaster').then(
-                            function(){
-                               return $ocLazyLoad.load('js/modules/toaster/ctrl.js');
-                            }
-                        );
-                    }]
-                }
-            })
-            .state('app.ui.jvectormap', {
-                url: '/jvectormap',
-                templateUrl: 'tpl/ui_jvectormap.html'
-            })
-            .state('app.ui.googlemap', {
-                url: '/googlemap',
-                templateUrl: 'tpl/ui_googlemap.html',
-                resolve: {
-                    deps: ['uiLoad',
-                      function( uiLoad ){
-                        return uiLoad.load( ['js/app/map/load-google-maps.js',
-                                                'js/modules/ui-map.js',
-                                                'js/app/map/map.js'] ).then(function(){ return loadGoogleMaps(); });
-                    }]
-                }
-            })
-            .state('app.chart', {
-                url: '/chart',
-                templateUrl: 'tpl/ui_chart.html'
-            })
-            // table
-            .state('app.table', {
-                url: '/table',
                 template: '<div ui-view></div>'
-            })
-            .state('app.table.static', {
-                url: '/static',
-                templateUrl: 'tpl/table_static.html'
-            })
-            .state('app.table.datatable', {
-                url: '/datatable',
-                templateUrl: 'tpl/table_datatable.html'
-            })
-            .state('app.table.footable', {
-                url: '/footable',
-                templateUrl: 'tpl/table_footable.html'
-            })
-            .state('app.table.grid', {
-                url: '/grid',
-                templateUrl: 'tpl/table_grid.html',
-                resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad ){
-                        return $ocLazyLoad.load('ngGrid').then(
-                            function(){
-                                return $ocLazyLoad.load('js/modules/ng-grid/ctrl.js');
-                            }
-                        );
-                    }]
-                }
-            })
-            // form
-            .state('app.form', {
-                url: '/form',
-                template: '<div ui-view class="fade-in"></div>'
-            })
-            .state('app.form.elements', {
-                url: '/elements',
-                templateUrl: 'tpl/form_elements.html'
-            })
-            .state('app.form.validation', {
-                url: '/validation',
-                templateUrl: 'tpl/form_validation.html'
-            })
-            .state('app.form.wizard', {
-                url: '/wizard',
-                templateUrl: 'tpl/form_wizard.html'
-            })
-            .state('app.form.fileupload', {
-                url: '/fileupload',
-                templateUrl: 'tpl/form_fileupload.html',
-                resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad ){
-                        return $ocLazyLoad.load(
-                            {
-                                name: 'angularFileUpload',
-                                files: ['js/modules/angular-file-upload/angular-file-upload.js',
-                                        'js/modules/angular-file-upload/ctrl.js' ]
-                            }
-                        );
-                    }]
-                }
-            })
-            .state('app.form.imagecrop', {
-                url: '/imagecrop',
-                templateUrl: 'tpl/form_imagecrop.html',
-                resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad ){
-                        return $ocLazyLoad.load(
-                            {
-                                name: 'ngImgCrop',
-                                files: ['js/modules/ngImgCrop/ng-img-crop.css',
-                                        'js/modules/ngImgCrop/ng-img-crop.js',
-                                        'js/modules/ngImgCrop/ctrl.js' ]
-                            }
-                        );
-                    }]
-                }
             })
             // pages
             .state('app.page', {
@@ -240,7 +76,13 @@ var app = angular.module('app', [
             .state('app.page.projects', {
                 url: '/projects',
                 templateUrl: 'tpl/page_projects.html',
-                controller:'ProjectListController'
+                controller:'ProjectListController',
+                resolve: {
+                    deps: ['uiLoad',
+                      function( uiLoad ){
+                        return uiLoad.load( ['js/libs/moment.min.js'] );
+                    }]
+                }
             })
             .state('app.page.network', {
                 url: '/projects/:id/network/create',
@@ -252,11 +94,6 @@ var app = angular.module('app', [
                 templateUrl: 'tpl/page_project.html',
                 controller:'ProjectViewController'
             })
-            // .state('newProject',{
-            //     url:'/projects/new',
-            //     templateUrl:'partials/Project-add.html',
-            //     controller:'ProjectCreateController'
-            // })
             // .state('editProject',{
             //     url:'/projects/:id/edit',
             //     templateUrl:'partials/Project-edit.html',
