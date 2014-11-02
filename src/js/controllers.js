@@ -80,6 +80,19 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.projects=Project.query();
   }])
 
+  // .controller('ProjectCreateController', ['$scope', '$state', '$window', '$http', 'Auth', 'Project', function($scope,$state,$window,$http,Auth,Project) {
+  //   $http.get('http://178.62.117.241/countries').then(function (resp) {
+  //     $scope.countries = resp.data.data;
+  //     console.log('$scope.countries ')
+  //     console.log($scope.countries )
+  //   });
+  //   $http.get('http://178.62.117.241/currencies').then(function (resp) {
+  //     $scope.currencies = resp.data.data;
+  //     console.log('$scope.currencies' )
+  //     console.log($scope.currencies )
+  //   });
+  // }])
+
   .controller('ProjectViewController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectUsers', 'ProjectRFIs', 'ProjectLongLeads', 'ProjectNetworks', 'ProjectLeaves', 'ProjectPermits',
     function($scope,$stateParams,Auth,Project,ProjectUsers,ProjectRFIs,ProjectLongLeads,ProjectNetworks, ProjectLeaves, ProjectPermits) {
     Auth.setCredentials('jemima.scott@fakeremail.com','test1234');

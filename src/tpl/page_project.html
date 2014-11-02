@@ -1,48 +1,48 @@
 <div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="
 ">
-<!-- main -->
-<div class="col">
-  <div class="bg-light lter b-b wrapper-md">
-    <h1 class="m-n font-thin h3">{{project.name}}</h1>
-  </div>
-  <div class="wrapper-md">
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="wrapper bg-white b-b ">
-          <div class="row m-b">
-            <div class="col-md-6 b-r b-light no-border-xs">
-              <h4 class="font-thin m-t-none m-b-sm">Details</h4>
-              <div class=" m-b">
-                <div class="col-md-6">
-                  <dl>
-                    <dt>Description</dt>
-                    <dd class="m-b-xs">{{project.desc}}</dd>
-                    <dt>Country</dt>
-                    <dd class="m-b-xs">{{project.country_id}}</dd>
-                    <dt>Start Date</dt>
-                    <dd class="m-b-xs">{{project.start_date}}</dd>
-                    <dt>Contract End Date</dt>
-                    <dd class="m-b-xs">{{project.end_date_contract}}</dd>
-                  </dl>
-                </div>
-                <div class="col-md-6">
-                  <dl>
-                    <dt>Budget Contract</dt>
-                    <dd class="m-b-xs">{{project.budget_contract}}</dd>
-                    <dt>Approval Time</dt>
-                    <dd class="m-b-xs">{{project.approval_time}}</dd>
-                    <dt>Alert Threshold</dt>
-                    <dd class="m-b-xs">{{project.alert_threshold}}</dd>
-                    <dt>Calculate End Date</dt>
-                    <dd class="m-b-xs">{{project.end_date_calculated}}</dd>
-                  </dl>
+  <!-- main -->
+  <div class="col">
+    <div class="bg-light lter b-b wrapper-md">
+      <h1 class="m-n font-thin h3">{{project.name}}</h1>
+    </div>
+    <div class="wrapper-md">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="wrapper bg-white b-b ">
+            <div class="row m-b">
+              <div class="col-md-6 b-r b-light no-border-xs">
+                <h4 class="font-thin m-t-none m-b-sm">Details</h4>
+                <div class=" m-b">
+                  <div class="col-md-6">
+                    <dl>
+                      <dt>Description</dt>
+                      <dd class="m-b-xs">{{project.desc}}</dd>
+                      <dt>Country</dt>
+                      <dd class="m-b-xs">{{project.country_id}}</dd>
+                      <dt>Start Date</dt>
+                      <dd class="m-b-xs">{{project.start_date}}</dd>
+                      <dt>Contract End Date</dt>
+                      <dd class="m-b-xs">{{project.end_date_contract}}</dd>
+                    </dl>
+                  </div>
+                  <div class="col-md-6">
+                    <dl>
+                      <dt>Budget Contract</dt>
+                      <dd class="m-b-xs">{{project.budget_contract}}</dd>
+                      <dt>Approval Time</dt>
+                      <dd class="m-b-xs">{{project.approval_time}}</dd>
+                      <dt>Alert Threshold</dt>
+                      <dd class="m-b-xs">{{project.alert_threshold}}</dd>
+                      <dt>Calculate End Date</dt>
+                      <dd class="m-b-xs">{{project.end_date_calculated}}</dd>
+                    </dl>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-md-6">
-              <div class="row row-sm">
-                <div class="col-xs-6 text-center">
-                  <div id="progress-chart" ui-jq="easyPieChart" ui-options="{
+              <div class="col-md-6">
+                <div class="row row-sm">
+                  <div class="col-xs-6 text-center">
+                    <div id="progress-chart" ui-jq="easyPieChart" ui-options="{
                   percent: 0,
                   lineWidth: 4,
                   trackColor: '#e8eff0',
@@ -52,14 +52,15 @@
                   rotate: 90,
                   lineCap: 'butt'
                 }" class="inline m-t easyPieChart" style="width: 115px; height: 115px; line-height: 115px;">
-                <div>
-                  <span class="text-primary h4">{{project.progress}}%</span>
-                </div>
-                <canvas width="115" height="115"></canvas></div>
-                <div class="text-muted font-bold text-xs m-t m-b">Progress</div>
-              </div>
-              <div class="col-xs-6 text-center">
-                <div ui-jq="easyPieChart" ui-options="{
+                      <div>
+                        <span class="text-primary h4">{{project.progress}}%</span>
+                      </div>
+                      <canvas width="115" height="115"></canvas>
+                    </div>
+                    <div class="text-muted font-bold text-xs m-t m-b">Progress</div>
+                  </div>
+                  <div class="col-xs-6 text-center">
+                    <div ui-jq="easyPieChart" ui-options="{
                 percent: 0,
                 lineWidth: 4,
                 trackColor: '#e8eff0',
@@ -69,34 +70,35 @@
                 rotate: 180,
                 lineCap: 'butt'
               }" class="inline m-t easyPieChart" style="width: 115px; height: 115px; line-height: 115px;">
-              <div>
-                <span class="text-info h4">0%</span>
-              </div>
-              <canvas width="115" height="115"></canvas></div>
-              <div class="text-muted font-bold text-xs m-t m-b">??</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <tabset class="nav-tabs-alt" justified="true">
-        <tab>
-          <tab-heading>
-          Activity
-        </tab-heading>
-        <div class="wrapper-md">
-          <ul class="timeline">
-            <li class="tl-header">
-              <div class="btn btn-info">Now</div>
-            </li>
-            <li class="tl-item" ng-repeat="projectLeaf in projectLeaves">
-              <div class="tl-wrap">
-                <span class="tl-date" ng-bind=projectLeaf.updated_at></span>
-                <div class="tl-content" ng-bind=projectLeaf.name>
+                      <div>
+                        <span class="text-info h4">0%</span>
+                      </div>
+                      <canvas width="115" height="115"></canvas>
+                    </div>
+                    <div class="text-muted font-bold text-xs m-t m-b">??</div>
+                  </div>
                 </div>
               </div>
-            </li>
-<!--           <li class="tl-item">
+            </div>
+
+            <tabset class="nav-tabs-alt" justified="true">
+              <tab>
+                <tab-heading>
+                  Activity
+                </tab-heading>
+                <div class="wrapper-xs">
+                  <ul class="timeline">
+                    <li class="tl-header">
+                      <div class="btn btn-info">Now</div>
+                    </li>
+                    <li class="tl-item" ng-repeat="projectLeaf in projectLeaves">
+                      <div class="tl-wrap">
+                        <span class="tl-date" ng-bind=projectLeaf.updated_at></span>
+                        <div class="tl-content" ng-bind=projectLeaf.name>
+                        </div>
+                      </div>
+                    </li>
+                    <!--           <li class="tl-item">
             <div class="tl-wrap">
               <span class="tl-date">2h ago</span>
               <div class="tl-content panel padder b-a">
@@ -105,195 +107,292 @@
               </div>
             </div>
           </li> -->
-<!--           <li class="tl-header">
+                    <!--           <li class="tl-header">
             <div class="btn btn-sm btn-default btn-rounded">2014</div>
           </li> -->
-          <li class="tl-header">
-            <div class="btn btn-sm btn-default btn-rounded">more</div>
-          </li>
-        </ul>
+                    <li class="tl-header">
+                      <div class="btn btn-sm btn-default btn-rounded">more</div>
+                    </li>
+                  </ul>
 
-      </div>
-    </tab>
-    <tab>
-      <tab-heading>
-      Networks
-    </tab-heading>
-    <div class="wrapper-md">
-      <div class="panel no-border no-shadow m-b-none">
-        <ul class="list-group list-group-sm list-group-sp list-group-alt auto m-t">
-          <li class="list-group-item row" ng-repeat="projectNetwork in projectNetworks">
-            <a href="" class="thumb-sm m-r col-sm-1">
-              <img src="img/f3.png" class="r r-2x">
-            </a>
-            <div class="col-sm-8">
-              <span class="" ng-bind=projectNetwork.name></span>
-              <span class="block text-md" ng-bind=projectNetwork.desc></span>
-            </div>
-          </li>
-        </ul>
-        <div class="panel-footer row m-t">
-          <div class="col-sm-3">
-  <!--           <div class="input-group">
+                </div>
+              </tab>
+              <tab>
+                <tab-heading>
+                  Networks
+                </tab-heading>
+                <div class="wrapper-xs">
+                  <div class="panel no-border no-shadow m-b-none">
+                    <ul class="list-group list-group-sm list-group-sp list-group-alt auto m-t">
+                      <li class="list-group-item row" ng-repeat="projectNetwork in projectNetworks">
+                        <a href="" class="thumb-sm m-r col-sm-1">
+                          <img src="img/f3.png" class="r r-2x">
+                        </a>
+                        <div class="col-sm-8">
+                          <span class="" ng-bind=projectNetwork.name></span>
+                          <span class="block text-md" ng-bind=projectNetwork.desc></span>
+                        </div>
+                      </li>
+                    </ul>
+                    <div class="panel-footer row m-t">
+                      <div class="col-sm-3">
+                        <!--           <div class="input-group">
               <input type="text" class="input-sm form-control" placeholder="Search Users">
               <span class="input-group-btn">
                 <button class="btn btn-sm btn-default" type="button">Go!</button>
               </span>
             </div> -->
-          </div>
-          <div class="col-sm-6 ">
-          </div>
-          <div class="col-sm-3">
-            <a class="btn btn-primary btn-addon btn-sm pull-right" ng-href="#/app/page/projects/{{project.id}}/network/create"><i class="fa fa-plus"></i>Add Network to Project</a>
-          </div>
-          <!-- <span class="pull-right badge badge-bg m-t-xs">32</span> -->
-        </div>
-      </div>
-    </div>
-  </tab>
-  <tab>
-    <tab-heading>
-    Users
-  </tab-heading>
-  <div class="wrapper-md">
-    <div class="panel no-border no-shadow m-b-none">
-      <!-- <div class="panel-heading wrapper b-b b-light no-gutter row no-gutter">
+                      </div>
+                      <div class="col-sm-6 ">
+                      </div>
+                      <div class="col-sm-3">
+                        <a class="btn btn-primary btn-addon btn-sm pull-right" ng-href="#/app/page/projects/{{project.id}}/network/create"><i class="fa fa-plus"></i>Add Network to Project</a>
+                      </div>
+                      <!-- <span class="pull-right badge badge-bg m-t-xs">32</span> -->
+                    </div>
+                  </div>
+                </div>
+              </tab>
+              <tab>
+                <tab-heading>
+                  Users
+                </tab-heading>
+                <div class="wrapper-xs">
+                  <div class="panel no-border no-shadow m-b-none">
+                    <!-- <div class="panel-heading wrapper b-b b-light no-gutter row no-gutter">
     </div> -->
-    <ul class="list-group list-group-lg m-b-none">
-      <li class="list-group-item" ng-repeat="projectUser in projectUsers">
-        <a href="" class="thumb-sm m-r">
-          <img src="img/a1.jpg" class="r r-2x">
-        </a>
-        <span class="pull-right label bg-primary inline m-t-sm">{{projectUser.fullname}}</span>
-        <a href="" ng-bind=projectUser.fullname></a> [ <a class="small" href="" ng-bind=projectUser.email></a> ]
-      </li>
-    </ul>
-    <div class="panel-footer row m-t">
-      <div class="col-sm-3">
-<!--           <div class="input-group">
+                    <ul class="list-group list-group-lg m-b-none">
+                      <li class="list-group-item" ng-repeat="projectUser in projectUsers">
+                        <a href="" class="thumb-sm m-r">
+                          <img src="img/a1.jpg" class="r r-2x">
+                        </a>
+                        <span class="pull-right label bg-primary inline m-t-sm">{{projectUser.fullname}}</span>
+                        <a href="" ng-bind=projectUser.fullname></a> [
+                        <a class="small" href="" ng-bind=projectUser.email></a> ]
+                      </li>
+                    </ul>
+                    <div class="panel-footer row m-t">
+                      <div class="col-sm-3">
+                        <!--           <div class="input-group">
             <input type="text" class="input-sm form-control" placeholder="Search Users">
             <span class="input-group-btn">
               <button class="btn btn-sm btn-default" type="button">Go!</button>
             </span>
           </div> -->
-        </div>
-        <div class="col-sm-6 ">
-        </div>
-        <div class="col-sm-3">
-          <button class="btn btn-primary btn-addon btn-sm pull-right"><i class="fa fa-plus"></i>Add User to Project</button>
-        </div>
-        <!-- <span class="pull-right badge badge-bg m-t-xs">32</span> -->
-      </div>
-    </div>
-  </div>
-</tab>
-<tab>
-  <tab-heading>
-  RFIs
-</tab-heading>
-<div class="wrapper-md">
-  <div class="panel no-border no-shadow m-b-none">
-    <div class="panel-heading wrapper b-b b-light no-gutter row no-gutter">
-      <div class="col-sm-3">
-        <div class="input-group">
-        </div>
-      </div>
-      <div class="col-sm-6 ">
-      </div>
-      <div class="col-sm-3">
-        <span ng-controller="ModalRFICtrl" class="ng-scope">
-          <script type="text/ng-template" id="rfiEditModalContent.html">
-            <div ng-include="'tpl/modal_rfi.form.html'"></div>
-          </script>
-          <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','rfiEditModalContent.html')"><i class="fa fa-plus"></i>Add New RFI</button>
-        </span>
-      </div>
-    </div>
-    <div ng-controller="ModalRFICtrl" class="ng-scope">
-      <script type="text/ng-template" id="rfiViewModalContent.html">
-        <div ng-include="'tpl/modal_rfi.html'"></div>
-      </script>
-      <ul class="list-group list-group-lg no-radius m-b-none m-t-n-xxs">
-        <li class="list-group-item row" ng-repeat="projectRFI in projectRFIs">
-          <a href="" class="thumb-sm m-r col-sm-1">
-            <img src="img/f3.png" class="r r-2x">
-          </a>
-          <div class="col-sm-8">
-            <span class="" ng-bind=projectRFI.specific_id></span>
-            <span class="block text-md" ng-bind=projectRFI.status></span>
+                      </div>
+                      <div class="col-sm-6 ">
+                      </div>
+                      <div class="col-sm-3">
+                        <button class="btn btn-primary btn-addon btn-sm pull-right"><i class="fa fa-plus"></i>Add User to Project</button>
+                      </div>
+                      <!-- <span class="pull-right badge badge-bg m-t-xs">32</span> -->
+                    </div>
+                  </div>
+                </div>
+              </tab>
+              <tab>
+                <tab-heading>
+                  RFIs
+                </tab-heading>
+                <div class="wrapper-xs">
+                  <div class="panel-body">
+                    <div ng-controller="ModalRFICtrl" class="ng-scope">
+                      <script type="text/ng-template" id="rfiViewModalContent.html">
+                        <div ng-include="'tpl/modal_rfi.html'"></div>
+                      </script>
+                      <table class="table table-striped m-b-none">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Response Stage</th>
+                            <th class="text-center">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="rfi in projectRFIs">
+                            <td data-ng-bind="rfi.specific_id"></td>
+                            <td data-ng-bind="rfi.requesting_network"></td>
+                            <td data-ng-bind="rfi.responding_network"></td>
+                            <td data-ng-bind="rfi.response_body"></td>
+                            <td class="text-center">
+                              <span class="label bg-{{rfi.status.colour}}" data-ng-bind="rfi.status.text"></span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="panel-footer wrapper row no-gutter no-border">
+                    <div class="col-sm-3">
+                      <div class="input-group">
+                      </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                    </div>
+                    <div class="col-sm-3">
+                      <span ng-controller="ModalRFICtrl" class="ng-scope">
+                        <script type="text/ng-template" id="rfiEditModalContent.html">
+                          <div ng-include="'tpl/modal_rfi.form.html'"></div>
+                        </script>
+                        <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','rfiEditModalContent.html')"><i class="fa fa-plus"></i>Add New RFI</button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </tab>
+              <tab>
+                <tab-heading>
+                  Permits
+                </tab-heading>
+                <div class="wrapper-xs">
+                  <div class="panel-body">
+                    <div ng-controller="ModalPermitCtrl" class="ng-scope">
+                      <script type="text/ng-template" id="permitModalContent.html">
+                        <div ng-include="'tpl/modal_permit.html'"></div>
+                      </script>
+                      <table class="table table-striped m-b-none">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Applied</th>
+                            <th class="text-center">Received</th>
+                            <th class="text-center">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="permit in projectPermits">
+                            <td data-ng-bind="permit.name"></td>
+                            <td class="text-center">
+                              <span class="label bg-{{permit.status.status_colour}}" data-ng-bind="permit.status.status"></span>
+                            </td>
+                            <td class="text-center">
+                              <div class="checkbox m-n">
+                                <label class="i-checks">
+                                  <input type="checkbox" checked=""><i></i>
+                                </label>
+                              </div>
+                            </td>
+                            <td class="text-center">
+                              <div class="checkbox m-n">
+                                <label class="i-checks">
+                                  <input type="checkbox" checked=""><i></i>
+                                </label>
+                              </div>
+                            </td>
+                            <td class="text-center">
+                              <a href="" ng-click="open()"><i class="fa fa-fw m-r-xs fa-search"></i></a>
+                              <a href=""><i class="fa fa-fw m-r-xs fa-pencil"></i></a>
+                              <a href=""><i class="fa fa-fw fa-trash"></i></a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="panel-footer wrapper row no-gutter no-border">
+                    <div class="col-sm-3">
+                      <div class="input-group">
+                      </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                    </div>
+                    <div class="col-sm-3">
+                      <span ng-controller="ModalPermitCtrl" class="ng-scope">
+                        <script type="text/ng-template" id="permitEditModalContent.html">
+                          <div ng-include="'tpl/modal_permit.form.html'"></div>
+                        </script>
+                        <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','permitEditModalContent.html')"><i class="fa fa-plus"></i>Add New Permit</button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </tab>
+              <tab>
+                <tab-heading>
+                  Long Lead Times
+                </tab-heading>
+                <div class="wrapper-xs">
+                  <div class="panel-body">
+                    <table class="table table-striped m-b-none">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th class="text-center">Quantity</th>
+                          <th class="text-center">Status</th>
+                          <th class="text-center">Ordered</th>
+                          <th class="text-center">Received</th>
+                          <th class="text-center">Approved</th>
+                          <th class="text-center">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="longLead in projectLongLeads">
+                          <td data-ng-bind="longLead.name"></td>
+                          <td class="text-center" data-ng-bind="longLead.quantity"></td>
+                          <td class="text-center">
+                            <span class="label bg-danger" data-ng-bind="longLead.status.status"></span>
+                          </td>
+                          <td class="text-center">
+                            <div class="checkbox m-n">
+                              <label class="i-checks">
+                                <input type="checkbox" checked=""><i></i>
+                              </label>
+                            </div>
+                          </td>
+                          <td class="text-center">
+                            <div class="checkbox m-n">
+                              <label class="i-checks">
+                                <input type="checkbox" checked=""><i></i>
+                              </label>
+                            </div>
+                          </td>
+                          <td class="text-center">
+                            <div class="checkbox m-n">
+                              <label class="i-checks">
+                                <input type="checkbox" checked=""><i></i>
+                              </label>
+                            </div>
+                          </td>
+                          <td class="text-center">
+                              <a href=""><i class="fa fa-fw m-r-xs fa-search"></i></a>
+                              <a href=""><i class="fa fa-fw m-r-xs fa-pencil"></i></a>
+                              <a href=""><i class="fa fa-fw fa-trash"></i></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="panel-footer wrapper row no-gutter no-border">
+                    <div class="col-sm-3">
+                      <div class="input-group">
+                      </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                    </div>
+                    <div class="col-sm-3">
+                      <span ng-controller="ModalPermitCtrl" class="ng-scope">
+                        <script type="text/ng-template" id="permitEditModalContent.html">
+                          <div ng-include="'tpl/modal_permit.form.html'"></div>
+                        </script>
+                        <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','permitEditModalContent.html')"><i class="fa fa-plus"></i>Add New Long Lead Item</button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </tab>
+            </tabset>
           </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-</tab>
-<tab>
-  <tab-heading>
-  Permits
-</tab-heading>
-<div class="wrapper-md">
-  <div class="panel-heading wrapper b-b b-light no-gutter row no-gutter">
-    <div class="col-sm-3">
-      <div class="input-group">
+        </div>
       </div>
     </div>
-    <div class="col-sm-6 ">
-    </div>
-    <div class="col-sm-3">
-      <span ng-controller="ModalPermitCtrl" class="ng-scope">
-        <script type="text/ng-template" id="permitEditModalContent.html">
-          <div ng-include="'tpl/modal_permit.form.html'"></div>
-        </script>
-        <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','permitEditModalContent.html')"><i class="fa fa-plus"></i>Add New Permit</button>
-      </span>
-    </div>
   </div>
-  <div ng-controller="ModalPermitCtrl" class="ng-scope">
-    <script type="text/ng-template" id="permitModalContent.html">
-      <div ng-include="'tpl/modal_permit.html'"></div>
-    </script>
-    <ul class="list-group list-group-lg no-radius m-b-none m-t-n-xxs">
-      <li class="tl-item clearfix" ng-repeat="projectPermit in projectPermits">
-        <span class="" ng-bind=projectPermit.name></span>
-        <!-- <span class="block text-md text-info">B 15,000.00</span> -->
-        <button class="btn btn-info btn-sm pull-right" ng-click="open()">View</button>
-      </li>
-    </ul>
-  </div>
-</div>
-</tab>
-<tab>
-  <tab-heading>
-  Long Lead Times
-</tab-heading>
-<div class="wrapper-md">
-  <ul class="list-group list-group-sm list-group-sp list-group-alt auto m-t">
-    <li class="list-group-item">
-      <span class="text-muted">What's an RFI ?</span>
-      <span class="block text-md text-info">B 15,000.00</span>
-    </li>
-    <li class="list-group-item">
-      <span class="text-muted">Got from Mike at 1:00 pm</span>
-      <span class="block text-md text-primary">B 23,000.00</span>
-    </li>
-    <li class="list-group-item">
-      <span class="text-muted">Send to Jacob at 8:00 am</span>
-      <span class="block text-md">B 11,000.00</span>
-    </li>
-  </ul>
-</div>
-</tab>
-</tabset>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- / main -->
-<!-- right col -->
-<div class="col w-md bg-light lter b-l bg-auto no-border-xs">
+  <!-- / main -->
+  <!-- right col -->
+  <div class="col w-md bg-light lter b-l bg-auto no-border-xs">
 
-</div>
-<!-- / right col -->
+  </div>
+  <!-- / right col -->
 </div>

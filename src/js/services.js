@@ -77,7 +77,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectLongLeads', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/projects/:id/longLeads',{
+    return $resource('http://178.62.117.241/projects/:id/long-leads',{
       id:'@_id'
     },{
         query: {
