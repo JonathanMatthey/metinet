@@ -143,6 +143,9 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   .controller('ProjectViewController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectUsers', 'ProjectRFIs', 'ProjectLongLeads', 'ProjectNetworks', 'ProjectLeaves', 'ProjectPermits',
     function($scope,$stateParams,Auth,Project,ProjectUsers,ProjectRFIs,ProjectLongLeads,ProjectNetworks, ProjectLeaves, ProjectPermits) {
     Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
+
+    $scope.newProjectRFI = ProjectRFIs();
+
     Project.get({id:$stateParams.id})
     .$promise.then(function(res) {
       $scope.project = res.data;
@@ -210,6 +213,23 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       console.log('-- projectLeaves');
       console.log(res.data);
     });
+
+    $scope.createRFI = function(rfi){
+      toaster.pop('wait', 'Saving RFI', 'Shouldn\'t take long...');
+      $scope.newProjectRFI.$save(
+        function(data){
+          console.log(JSON.stringify(data));
+          if (!data.result) {
+            toaster.pop('error', 'Error', '');
+          } else {
+            toaster.pop('success', 'Success', '');
+            // setTimeout(function(){
+              // $state.go('app.page.projects');
+            // }, 1500);
+          }
+      });
+    }
+
   }])
   .controller('ProjectNetworkCreateController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectNetworks',
     function($scope,$stateParams,Auth,Project,ProjectNetworks){
