@@ -77,6 +77,34 @@
 
           <hr class="m-t-sm"/>
 
+          <div class="wrapper-md" ng-controller="JVectorMapDemoCtrl">
+            <div class="row">
+              <div class="col-sm-12">
+                <div style="height:240px;" ui-jq="vectorMap" ui-options="{
+                  map: 'world_mill_en',
+                  markers: null,
+                  normalizeFunction: 'polynomial',
+                  backgroundColor: '#fff',
+                  regionStyle: {
+                    initial: {
+                      fill: '{{app.color.light}}'
+                    },
+                   hover: {
+                      fill: '{{app.color.primary}}'
+                    },
+                  },
+                  markerStyle: {
+                    initial: {
+                      fill: '{{app.color.info}}',
+                      stroke: '#fff'
+                    }
+                  }
+                }" >
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="row">
             <div class="form-group col-md-6">
               <label class="control-label">Lat</label>
