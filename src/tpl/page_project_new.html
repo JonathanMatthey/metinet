@@ -10,8 +10,7 @@
   <div class="">
     <div class="panel panel-default">
       <div class="panel-body">
-        <form name="userForm" class="signin ng-pristine ng-valid" autocomplete="off">
-
+        <form name="projectForm" class="signin ng-pristine ng-valid" autocomplete="off"  data-ng-submit="create()">
           <div class="row">
             <div class="form-group col-md-6">
               <label class="control-label">Name</label>
@@ -19,26 +18,33 @@
                 <input type="text" id="name" name="name" class="form-control ng-pristine ng-valid" data-ng-model="project.name" placeholder="">
               </div>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-6" ng-controller="DatepickerDemoCtrl">
               <label class="control-label">Start Date</label>
-              <div class="">
-                <input type="text" id="start_date" name="start_date" class="form-control ng-pristine ng-valid" data-ng-model="project.start_date" placeholder="">
-              </div>
+              <p class="input-group">
+                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="project.start_date" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
             </div>
+
           </div>
 
           <div class="row">
             <div class="form-group col-md-6">
               <label class="control-label">Client</label>
               <div class="">
-                <input type="text" id="client" name="client" class="form-control ng-pristine ng-valid" data-ng-model="project.client" placeholder="">
+                <input type="text" id="client" name="client" class="form-control ng-pristine ng-valid" data-ng-model="project.client_name" placeholder="">
               </div>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-6" ng-controller="DatepickerDemoCtrl">
               <label class="control-label">End Date</label>
-              <div class="">
-                <input type="text" id="end_date" name="end_date" class="form-control ng-pristine ng-valid" data-ng-model="project.end_date" placeholder="">
-              </div>
+              <p class="input-group">
+                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="project.end_date_contract" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
             </div>
           </div>
 
@@ -46,13 +52,13 @@
             <div class="form-group col-md-6">
               <label class="control-label">Contractor</label>
               <div class="">
-                <input type="text" id="contractor" name="contractor" class="form-control ng-pristine ng-valid" data-ng-model="project.contractor" placeholder="">
+                <input type="text" id="contractor_name" name="contractor_name" class="form-control ng-pristine ng-valid" data-ng-model="project.contractor_name" placeholder="">
               </div>
             </div>
             <div class="form-group col-md-6">
               <label class="control-label">Consultant</label>
               <div class="">
-                <input type="text" id="consultant" name="consultant" class="form-control ng-pristine ng-valid" data-ng-model="project.consultant" placeholder="">
+                <input type="text" id="consultant_name" name="consultant_name" class="form-control ng-pristine ng-valid" data-ng-model="project.consultant_name" placeholder="">
               </div>
             </div>
           </div>
@@ -69,14 +75,29 @@
           <hr class="m-t-sm"/>
 
           <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label">Lat</label>
+              <div class="">
+                <input type="text" id="lat" name="lat" class="form-control ng-pristine ng-valid" data-ng-model="project.lat" placeholder="">
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Long</label>
+              <div class="">
+                <input type="text" id="lng" name="lng" class="form-control ng-pristine ng-valid" data-ng-model="project.lng" placeholder="">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
             <div class="col-md-6">
-
-              <select class="form-control m-b" ng-model="project.country" ng-options="country.iso as country.name for country in countries">
+              <select class="form-control m-b" ng-model="country" ng-change="updateCountry(country)" ng-options="country as country.name for country in countries">
+                <option value="">Select Country</option>
               </select>
-
             </div>
             <div class="col-md-6">
-              <select class="form-control m-b" ng-model="project.currency" ng-options="currency.code as currency.name for currency in currencies">
+              <select class="form-control m-b" ng-model="currency" ng-change="updateCurrency(currency)" ng-options="currency as currency.name for currency in currencies">
+                <option value="">Select Currency</option>
               </select>
             </div>
           </div>
@@ -85,13 +106,13 @@
             <div class="form-group col-md-6">
               <label class="control-label">Work Days</label>
               <div class="">
-                <input type="text" id="contractor" name="contractor" class="form-control ng-pristine ng-valid" data-ng-model="project.contractor" placeholder="">
+                <input type="text" id="working_hours" name="working_hours" class="form-control ng-pristine ng-valid" data-ng-model="project.working_hours" placeholder="">
               </div>
             </div>
             <div class="form-group col-md-6">
               <label class="control-label">Working Hours</label>
               <div class="">
-                <input type="text" id="consultant" name="consultant" class="form-control ng-pristine ng-valid" data-ng-model="project.consultant" placeholder="">
+                <input type="text" id="working_days" name="working_days" class="form-control ng-pristine ng-valid" data-ng-model="project.working_days" placeholder="">
               </div>
             </div>
           </div>
@@ -103,32 +124,36 @@
               <h5 class="font-bold">Tracking</h5>
               <div class="checkbox m-t-xxs">
                 <label class="i-checks">
-                  <input type="checkbox"  checklist-value="uiTemplate"><i></i> Progress Reports
+                  <input type="checkbox"  checklist-value="uiTemplate" ng-model="project.progress_reports"><i></i> Progress Reports
                 </label>
               </div>
               <div class="checkbox m-t-xxs">
                 <label class="i-checks">
-                  <input type="checkbox"  checklist-value="uiTemplate"><i></i> Long Lead Time
+                  <input type="checkbox"  checklist-value="uiTemplate" ng-model="project.long_lead_items"><i></i> Long Lead Time
                 </label>
               </div>
               <div class="checkbox m-t-xxs">
                 <label class="i-checks">
-                  <input type="checkbox"  checklist-value="uiTemplate"><i></i> Permits
+                  <input type="checkbox"  checklist-value="uiTemplate" ng-model="project.permit_assessment"><i></i> Permits
                 </label>
               </div>
               <div class="checkbox m-t-xxs">
                 <label class="i-checks">
-                  <input type="checkbox"  checklist-value="uiTemplate"><i></i> Risk Assessment
+                  <input type="checkbox"  checklist-value="uiTemplate" ng-model="project.risk_assessment"><i></i> Risk Assessment
+                </label>
+              </div>
+              <div class="checkbox m-t-xxs">
+                <label class="i-checks">
+                  <input type="checkbox"  checklist-value="uiTemplate" ng-model="project.cost_management"><i></i> Cost Management
                 </label>
               </div>
             </div>
             <div class="col-md-6">
               <h5 class="font-bold">Defaults</h5>
-              <div class="m-t-xs">
-                Defaults?
-              </div>
-              <div class="m-t-xs">
-                Defaults?
+              <div class="checkbox m-t-xxs">
+                <label class="i-checks">
+                  <input type="checkbox"  checklist-value="uiTemplate" ng-model="project.terms"><i></i> Terms
+                </label>
               </div>
               <div class="m-t-xs">
                 Defaults?

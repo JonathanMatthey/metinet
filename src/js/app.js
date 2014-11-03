@@ -20,7 +20,8 @@ var app = angular.module('app', [
     'app.filters',
     'app.services',
     'app.directives',
-    'app.controllers'
+    'app.controllers',
+    'angularMoment'
   ])
 .run(
   [          '$rootScope', '$state', '$stateParams','$cookieStore','$http',
@@ -88,6 +89,17 @@ var app = angular.module('app', [
                 url: '/projects/:id/network/create',
                 templateUrl: 'tpl/page_project_network_new.html',
                 controller:'ProjectNetworkCreateController'
+            })
+            .state('app.page.newproject',{
+                url:'/projects/new',
+                templateUrl: 'tpl/page_project_new.html',
+                controller:'ProjectCreateController',
+                resolve: {
+                    deps: ['uiLoad',
+                      function( uiLoad ){
+                        return uiLoad.load( ['js/libs/moment.min.js'] );
+                    }]
+                }
             })
             .state('app.page.project',{
                 url:'/projects/:id',
