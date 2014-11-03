@@ -80,7 +80,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.projects=Project.query();
   }])
 
-  .controller('ProjectCreateController', ['$scope', '$state', '$window', '$http', 'Auth', 'Project', 'moment', function($scope,$state,$window,$http,Auth,Project,moment) {
+  .controller('ProjectCreateController', ['$scope', '$state', '$window', '$http', 'Auth', 'Project', 'moment', 'toaster', function($scope,$state,$window,$http,Auth,Project,moment,toaster) {
     $scope.project = new Project();
     $scope.projectCountry = {};
     $scope.project.name = "Big New Project";
@@ -124,8 +124,18 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     $scope.create = function() {
       console.log($scope.project);
-      $scope.project.$save(function(){
-        $state.go('app.page.projects');
+      toaster.pop('wait', 'Saving Project', 'Shouldn\'t take long...');
+      $scope.project.$save(
+        function(data){
+          console.log(JSON.stringify(data));
+          if(!data.result){
+            toaster.pop('error', 'Error', '');
+          }else{
+            toaster.pop('success', 'Success', '');
+            setTimeout(function(){
+              $state.go('app.page.projects');
+            }, 1500);
+          }
       });
     };
   }])

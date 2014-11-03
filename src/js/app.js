@@ -21,7 +21,8 @@ var app = angular.module('app', [
     'app.services',
     'app.directives',
     'app.controllers',
-    'angularMoment'
+    'angularMoment',
+    'toaster'
   ])
 .run(
   [          '$rootScope', '$state', '$stateParams','$cookieStore','$http',
@@ -357,7 +358,7 @@ var app = angular.module('app', [
 .config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
     // We configure ocLazyLoad to use the lib script.js as the async loader
     $ocLazyLoadProvider.config({
-        debug: false,
+        debug: true,
         events: true,
         modules: [
             {
