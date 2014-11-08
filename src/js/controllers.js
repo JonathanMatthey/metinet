@@ -230,6 +230,19 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }
 
   }])
+  .controller('NodeViewController', ['$scope', '$stateParams','Auth', 'Node',
+    function($scope,$stateParams,Auth,Node) {
+    Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
+
+    console.log('nodeviewcontr')
+    Node.get({id:$stateParams.id})
+    .$promise.then(function(res) {
+      $scope.node = res.data;
+      console.log('-- node:');
+      console.log($scope.node);
+    });
+
+  }])
   .controller('ProjectNetworkCreateController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectNetworks',
     function($scope,$stateParams,Auth,Project,ProjectNetworks){
 

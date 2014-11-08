@@ -130,6 +130,24 @@ angular.module('app.services',[])
         }
     });
 }])
+.factory('Node', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/nodes/:id',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                console.log(res);
+                var res = JSON.parse(res);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
 .factory('Auth', ['Base64', '$cookieStore', '$http', function (Base64, $cookieStore, $http) {
     // initialize to whatever is in the cookie, if anything
     $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');

@@ -102,6 +102,17 @@ var app = angular.module('app', [
                     }]
                 }
             })
+            .state('app.page.branchnode',{
+                url:'/nodes/:id',
+                templateUrl: 'tpl/page_node.html',
+                controller:'NodeViewController',
+                resolve: {
+                    deps: ['uiLoad',
+                      function( uiLoad ){
+                        return uiLoad.load( ['js/libs/moment.min.js'] );
+                    }]
+                }
+            })
             .state('app.page.project',{
                 url:'/projects/:id',
                 templateUrl: 'tpl/page_project.html',
