@@ -112,6 +112,24 @@ angular.module('app.services',[])
         }
     });
 }])
+.factory('ProjectAudit', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/projects/:id/audit',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
 .factory('ProjectPermits', ['$resource', function($resource) {
     return $resource('http://178.62.117.241/projects/:id/permits',{
       id:'@_id'

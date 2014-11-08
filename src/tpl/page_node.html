@@ -17,7 +17,7 @@
         </div>
       </dd>
       <dt>Assigned User</dt>
-      <dd class="m-b-xs ng-binding" ng-bind="node.updating_user.fullname"></dd>
+      <dd class="m-b-xs ng-binding" ng-bind="node.associated_user.fullname"></dd>
       <dt>Last Updated</dt>
       <dt>By <span class="font-normal" ng-bind="node.updated_data.user.fullname"></span></dt>
       <dt>On <span class="font-normal" ng-bind="node.updated_data.time.date"></span></dt>
@@ -47,7 +47,7 @@
   <div class="row" ng-show="node.is_leaf">
     <div class="col-sm-12 col-xs-12">
       <div class="list-group list-group-lg list-group-sp">
-        <h4 class="m m-t-sm m-l-xs m-b-lg h4 text-black">leaf !</h4>
+        <h4 class="m m-t-sm m-l-xs m-b-lg h4 text-black"ng-bind="node.name"></h4>
         <tabset class="nav-tabs-alt" justified="true">
           <tab>
             <tab-heading>
@@ -55,7 +55,7 @@
           </tab-heading>
           <div class="wrapper-xs">
             <div class="row m-t">
-            audit history
+            [ audit history goes here, CORS ERRORS ]
             </div>
           </div>
         </tab>
@@ -64,7 +64,10 @@
             Users
           </tab-heading>
           <div class="wrapper-xs">
-            <div class="panel no-border no-shadow m-b-none">
+            <div class="m-t alert alert-warning text-center" ng-hide="nodeUsers.length">
+              This node has no Users
+            </div>
+            <div ng-show="nodeUsers.length" class="panel no-border no-shadow m-b-none">
               <!-- <div class="panel-heading wrapper b-b b-light no-gutter row no-gutter">
             </div> -->
               <ul class="list-group list-group-lg m-b-none">
@@ -99,94 +102,29 @@
             <tab-heading>
             Long Lead
           </tab-heading>
-                <div class="wrapper-xs">
-                  <div class="panel-body">
-                    <table class="table table-striped m-b-none">
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th class="text-center">Quantity</th>
-                          <th class="text-center">Status</th>
-                          <th class="text-center">Ordered</th>
-                          <th class="text-center">Received</th>
-                          <th class="text-center">Approved</th>
-                          <th class="text-center">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr ng-repeat="longLead in nodeLongLeads">
-                          <td data-ng-bind="longLead.name"></td>
-                          <td class="text-center" data-ng-bind="longLead.quantity"></td>
-                          <td class="text-center">
-                            <span class="label bg-danger" data-ng-bind="longLead.status.status"></span>
-                          </td>
-                          <td class="text-center">
-                            <div class="checkbox m-n">
-                              <label class="i-checks">
-                                <input type="checkbox" checked=""><i></i>
-                              </label>
-                            </div>
-                          </td>
-                          <td class="text-center">
-                            <div class="checkbox m-n">
-                              <label class="i-checks">
-                                <input type="checkbox" checked=""><i></i>
-                              </label>
-                            </div>
-                          </td>
-                          <td class="text-center">
-                            <div class="checkbox m-n">
-                              <label class="i-checks">
-                                <input type="checkbox" checked=""><i></i>
-                              </label>
-                            </div>
-                          </td>
-                          <td class="text-center">
-                            <a href=""><i class="fa fa-fw m-r-xs fa-search"></i></a>
-                            <a href=""><i class="fa fa-fw m-r-xs fa-pencil"></i></a>
-                            <a href=""><i class="fa fa-fw fa-trash"></i></a>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="panel-footer wrapper row no-gutter no-border">
-                    <div class="col-sm-3">
-                      <div class="input-group">
-                      </div>
-                    </div>
-                    <div class="col-sm-6 ">
-                    </div>
-                    <div class="col-sm-3">
-                    </div>
-                  </div>
-                </div>
-        </tab>
-          <tab>
-            <tab-heading>
-            Permits
-          </tab-heading>
-          <div class="wrapper-xs">
-            <div class="panel-body">
-              <div ng-controller="ModalPermitCtrl" class="ng-scope">
-                <script type="text/ng-template" id="permitModalContent.html">
-                  <div ng-include="'tpl/modal_permit.html'"></div>
-                </script>
+            <div class="m-t alert alert-warning text-center" ng-hide="nodeLongLeads.length">
+              This node has no Long Lead Items
+            </div>
+            <div class="wrapper-xs" ng-show="nodeLongLeads.length">
+              <div class="panel-body">
                 <table class="table table-striped m-b-none">
                   <thead>
                     <tr>
                       <th>Name</th>
+                      <th class="text-center">Quantity</th>
                       <th class="text-center">Status</th>
-                      <th class="text-center">Applied</th>
+                      <th class="text-center">Ordered</th>
                       <th class="text-center">Received</th>
+                      <th class="text-center">Approved</th>
                       <th class="text-center">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr ng-repeat="permit in nodePermits">
-                      <td data-ng-bind="permit.name"></td>
+                    <tr ng-repeat="longLead in nodeLongLeads">
+                      <td data-ng-bind="longLead.name"></td>
+                      <td class="text-center" data-ng-bind="longLead.quantity"></td>
                       <td class="text-center">
-                        <span class="label bg-{{permit.status.status_colour}}" data-ng-bind="permit.status.status"></span>
+                        <span class="label bg-danger" data-ng-bind="longLead.status.status"></span>
                       </td>
                       <td class="text-center">
                         <div class="checkbox m-n">
@@ -203,7 +141,14 @@
                         </div>
                       </td>
                       <td class="text-center">
-                        <a href="" ng-click="open()"><i class="fa fa-fw m-r-xs fa-search"></i></a>
+                        <div class="checkbox m-n">
+                          <label class="i-checks">
+                            <input type="checkbox" checked=""><i></i>
+                          </label>
+                        </div>
+                      </td>
+                      <td class="text-center">
+                        <a href=""><i class="fa fa-fw m-r-xs fa-search"></i></a>
                         <a href=""><i class="fa fa-fw m-r-xs fa-pencil"></i></a>
                         <a href=""><i class="fa fa-fw fa-trash"></i></a>
                       </td>
@@ -211,27 +156,86 @@
                   </tbody>
                 </table>
               </div>
-            </div>
-            <div class="panel-footer wrapper row no-gutter no-border">
-              <div class="col-sm-3">
-                <div class="input-group">
+              <div class="panel-footer wrapper row no-gutter no-border">
+                <div class="col-sm-3">
+                  <div class="input-group">
+                  </div>
+                </div>
+                <div class="col-sm-6 ">
+                </div>
+                <div class="col-sm-3">
                 </div>
               </div>
-              <div class="col-sm-6 ">
+            </div>
+          </tab>
+          <tab>
+            <tab-heading>
+              Permits
+            </tab-heading>
+            <div class="m-t alert alert-warning text-center" ng-hide="nodePermits.length">
+              This node has no Permits
+            </div>
+            <div class="wrapper-xs" ng-show="nodePermits.length">
+              <div class="panel-body">
+                <div class="ng-scope">
+                  <table class="table table-striped m-b-none">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Applied</th>
+                        <th class="text-center">Received</th>
+                        <th class="text-center">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="permit in nodePermits">
+                        <td data-ng-bind="permit.name"></td>
+                        <td class="text-center">
+                          <span class="label bg-{{permit.status.status_colour}}" data-ng-bind="permit.status.status"></span>
+                        </td>
+                        <td class="text-center">
+                          <div class="checkbox m-n">
+                            <label class="i-checks">
+                              <input type="checkbox" checked=""><i></i>
+                            </label>
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          <div class="checkbox m-n">
+                            <label class="i-checks">
+                              <input type="checkbox" checked=""><i></i>
+                            </label>
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          <a href="" ng-click="open()"><i class="fa fa-fw m-r-xs fa-search"></i></a>
+                          <a href=""><i class="fa fa-fw m-r-xs fa-pencil"></i></a>
+                          <a href=""><i class="fa fa-fw fa-trash"></i></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
-              <div class="col-sm-3">
+              <div class="panel-footer wrapper row no-gutter no-border">
+                <div class="col-sm-3">
+                  <div class="input-group">
+                  </div>
+                </div>
+                <div class="col-sm-6 ">
+                </div>
+                <div class="col-sm-3">
+                </div>
               </div>
             </div>
-          </div>
-        </tab>
+          </tab>
           <tab>
             <tab-heading>
             Notes
           </tab-heading>
-          <div class="wrapper-xs">
-            <div class="row m-t">
-            audit history
-            </div>
+          <div class="m-t alert alert-warning text-center">
+            This node has no Notes
           </div>
         </tab>
       </tabset>

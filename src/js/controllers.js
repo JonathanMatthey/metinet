@@ -140,8 +140,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     };
   }])
 
-  .controller('ProjectViewController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectUsers', 'ProjectRFIs', 'ProjectLongLeads', 'ProjectNetworks', 'ProjectLeaves', 'ProjectPermits','ProjectProgressPlot',
-    function($scope,$stateParams,Auth,Project,ProjectUsers,ProjectRFIs,ProjectLongLeads,ProjectNetworks, ProjectLeaves, ProjectPermits, ProjectProgressPlot) {
+  .controller('ProjectViewController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectUsers', 'ProjectRFIs', 'ProjectLongLeads', 'ProjectNetworks', 'ProjectLeaves', 'ProjectPermits','ProjectProgressPlot','ProjectAudit',
+    function($scope,$stateParams,Auth,Project,ProjectUsers,ProjectRFIs,ProjectLongLeads,ProjectNetworks, ProjectLeaves, ProjectPermits, ProjectProgressPlot, ProjectAudit) {
     Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
 
     $scope.newProjectRFI = ProjectRFIs();
@@ -160,6 +160,16 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         // success handler
       $scope.projectUsers = res.data
       console.log('-- projectUsers');
+      console.log(res.data);
+    });
+
+    ProjectAudit.get({
+      id:$stateParams.id
+    })
+    .$promise.then(function(res) {
+        // success handler
+      $scope.projectAudit = res.data
+      console.log('-- projectAudit');
       console.log(res.data);
     });
 

@@ -93,22 +93,22 @@
                         <span class="col-xs-3 text-right text-danger">5</span>
                       </div>
                       <div class="m-b-xs">
-                        <span class="col-xs-9">RFIs:</span>
+                        <span>RFIs:</span>
                         <span class="col-xs-3 text-right text-info">3</span>
                       </div>
                       <div class="m-b-xs">
-                        <span class="col-xs-9">Long Leads:</span>
+                        <span>Long Leads:</span>
                         <span class="col-xs-3 text-right text-danger">4</span>
                       </div>
                       <div class="m-b-xs">
-                        <span class="col-xs-9">Permit:</span>
+                        <span>Permit:</span>
                         <span class="col-xs-3 text-right text-success">1</span>
                       </div>
                     </div>
                   </div>
                 </div>
               </tab>
-              <tab>
+ <!--              <tab>
                 <tab-heading>
                   Activity
                 </tab-heading>
@@ -124,7 +124,7 @@
                         </div>
                       </div>
                     </li>
-                    <!--           <li class="tl-item">
+                              <li class="tl-item">
             <div class="tl-wrap">
               <span class="tl-date">2h ago</span>
               <div class="tl-content panel padder b-a">
@@ -132,17 +132,17 @@
                 <div>Content in a panel</div>
               </div>
             </div>
-          </li> -->
-                    <!--           <li class="tl-header">
+          </li>
+                               <li class="tl-header">
             <div class="btn btn-sm btn-default btn-rounded">2014</div>
-          </li> -->
+          </li>
                     <li class="tl-header">
                       <div class="btn btn-sm btn-default btn-rounded">more</div>
                     </li>
                   </ul>
 
                 </div>
-              </tab>
+              </tab> -->
               <tab>
                 <tab-heading>
                   Networks
@@ -418,7 +418,19 @@
   <!-- / main -->
   <!-- right col -->
   <div class="col w-md bg-light lter b-l bg-auto no-border-xs">
-
+<div class="padder-md">
+      <!-- streamline -->
+      <div class="m-b text-md">Recent Activity</div>
+      <div class="streamline b-l m-b">
+        <div class="sl-item" ng-repeat="activity in projectAudit">
+          <div class="m-l">
+            <div class="text-muted">5 minutes ago</div>
+            <p><a href="" class="text-info">Jessi</a> commented your post.</p>
+          </div>
+        </div>
+      </div>
+      <!-- / streamline -->
+    </div>
   </div>
   <!-- / right col -->
 </div>
