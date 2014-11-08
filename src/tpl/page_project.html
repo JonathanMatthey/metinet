@@ -2,86 +2,81 @@
 ">
   <!-- main -->
   <div class="col">
-    <div class="bg-light lter b-b wrapper-md">
-      <h1 class="m-n font-thin h3">{{project.name}}</h1>
-    </div>
     <div class="wrapper-md">
       <div class="row">
         <div class="col-sm-12">
           <div class="wrapper bg-white b-b ">
-            <div class="row m-b">
-              <div class="col-md-6 b-r b-light no-border-xs">
-                <h4 class="font-thin m-t-none m-b-sm">Details</h4>
-                <div class=" m-b">
-                  <div class="col-md-6">
-                    <dl>
-                      <dt>Description</dt>
-                      <dd class="m-b-xs">{{project.desc}}</dd>
-                      <dt>Country</dt>
-                      <dd class="m-b-xs">{{project.country_id}}</dd>
-                      <dt>Start Date</dt>
-                      <dd class="m-b-xs">{{project.start_date}}</dd>
-                      <dt>Contract End Date</dt>
-                      <dd class="m-b-xs">{{project.end_date_contract}}</dd>
-                    </dl>
-                  </div>
-                  <div class="col-md-6">
-                    <dl>
-                      <dt>Budget Contract</dt>
-                      <dd class="m-b-xs">{{project.budget_contract}}</dd>
-                      <dt>Approval Time</dt>
-                      <dd class="m-b-xs">{{project.approval_time}}</dd>
-                      <dt>Alert Threshold</dt>
-                      <dd class="m-b-xs">{{project.alert_threshold}}</dd>
-                      <dt>Calculate End Date</dt>
-                      <dd class="m-b-xs">{{project.end_date_calculated}}</dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="row row-sm">
-                  <div class="col-xs-6 text-center">
-                    <div id="progress-chart" ui-jq="easyPieChart" ui-options="{
-                  percent: 0,
-                  lineWidth: 4,
-                  trackColor: '#e8eff0',
-                  barColor: '#27c24c',
-                  scaleColor: false,
-                  size: 115,
-                  rotate: 90,
-                  lineCap: 'butt'
-                }" class="inline m-t easyPieChart" style="width: 115px; height: 115px; line-height: 115px;">
-                      <div>
-                        <span class="text-primary h4">{{project.progress}}%</span>
-                      </div>
-                      <canvas width="115" height="115"></canvas>
-                    </div>
-                    <div class="text-muted font-bold text-xs m-t m-b">Progress</div>
-                  </div>
-                  <div class="col-xs-6 text-center">
-                    <div ui-jq="easyPieChart" ui-options="{
-                percent: 0,
-                lineWidth: 4,
-                trackColor: '#e8eff0',
-                barColor: '#23b7e5',
-                scaleColor: false,
-                size: 115,
-                rotate: 180,
-                lineCap: 'butt'
-              }" class="inline m-t easyPieChart" style="width: 115px; height: 115px; line-height: 115px;">
-                      <div>
-                        <span class="text-info h4">0%</span>
-                      </div>
-                      <canvas width="115" height="115"></canvas>
-                    </div>
-                    <div class="text-muted font-bold text-xs m-t m-b">??</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            <h1 class="m-n font-thin h3">{{project.name}}</h1>
             <tabset class="nav-tabs-alt" justified="true">
+              <tab>
+                <tab-heading>
+                  Overview
+                </tab-heading>
+                <div class="wrapper-xs">
+                  <div class="row m-t">
+                    <div class="col-md-6 b-r b-light no-border-xs">
+                      flot chart here...
+                    </div>
+                    <div class="col-md-6 ">
+                      <div class=" m-b">
+                        <div class="col-md-6">
+                          <dl>
+                            <dt>Description</dt>
+                            <dd class="m-b-xs">{{project.desc}}</dd>
+                            <dt>Country</dt>
+                            <dd class="m-b-xs">{{project.country_id}}</dd>
+                            <dt>Start Date</dt>
+                            <dd class="m-b-xs">{{project.start_date}}</dd>
+                            <dt>Contract End Date</dt>
+                            <dd class="m-b-xs">{{project.end_date_contract}}</dd>
+                          </dl>
+                        </div>
+                        <div class="col-md-6">
+                          <dl>
+                            <dt>Budget Contract</dt>
+                            <dd class="m-b-xs">{{project.budget_contract}}</dd>
+                            <dt>Approval Time</dt>
+                            <dd class="m-b-xs">{{project.approval_time}}</dd>
+                            <dt>Alert Threshold</dt>
+                            <dd class="m-b-xs">{{project.alert_threshold}}</dd>
+                            <dt>Calculate End Date</dt>
+                            <dd class="m-b-xs">{{project.end_date_calculated}}</dd>
+                          </dl>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr/>
+                <div class="row m-t">
+                  <div class="col-md-6 bg-dark dk">
+                    <h4 class="font-thin m-t-none m-b">Reports</h4>
+                    <div class="col-md-11 m-l-n">
+                      <div ng-repeat="package in project.packages">
+                        <div class="">
+                          <span class="pull-right text-info">35%</span>
+                          <span>Online tutorials</span>
+                        </div>
+                        <div class="progress-xs m-t-sm bg-white progress ng-isolate-scope" value="35" animate="true" type="info">
+                          <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" ng-style="{width: 10 + '%'}" aria-valuetext="35%" style="width: 35%;"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-1 no-padder">
+                      <a href="/nodes/" class="pull-right"><i class="fa fa-fw m-r-xs fa-search"></i></a>
+                    </div>
+                  </div>
+                  <div class="col-md-6 bg-dark dk">
+                    <h4 class="font-thin m-t-none m-b">To Do List</h4>
+                    <div class="col-md-11 m-l-n">
+                      <div class="">
+                        <span class="pull-right text-success">Status</span>
+                        <span>QA Status:</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </tab>
               <tab>
                 <tab-heading>
                   Activity
@@ -160,7 +155,7 @@
                 <div class="wrapper-xs">
                   <div class="panel no-border no-shadow m-b-none">
                     <!-- <div class="panel-heading wrapper b-b b-light no-gutter row no-gutter">
-    </div> -->
+                  </div> -->
                     <ul class="list-group list-group-lg m-b-none">
                       <li class="list-group-item" ng-repeat="projectUser in projectUsers">
                         <a href="" class="thumb-sm m-r">
@@ -233,11 +228,11 @@
                     </div>
                     <div class="col-sm-3">
                       <span ng-controller="ModalRFICtrl" class="ng-scope">
-                        <script type="text/ng-template" id="rfiEditModalContent.html">
-                          <div ng-include="'tpl/modal_rfi.form.html'"></div>
-                        </script>
-                        <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','rfiEditModalContent.html')"><i class="fa fa-plus"></i>Add New RFI</button>
-                      </span>
+        <script type="text/ng-template" id="rfiEditModalContent.html">
+          <div ng-include="'tpl/modal_rfi.form.html'"></div>
+        </script>
+        <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','rfiEditModalContent.html')"><i class="fa fa-plus"></i>Add New RFI</button>
+      </span>
                     </div>
                   </div>
                 </div>
@@ -301,18 +296,18 @@
                     </div>
                     <div class="col-sm-3">
                       <span ng-controller="ModalPermitCtrl" class="ng-scope">
-                        <script type="text/ng-template" id="permitEditModalContent.html">
-                          <div ng-include="'tpl/modal_permit.form.html'"></div>
-                        </script>
-                        <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','permitEditModalContent.html')"><i class="fa fa-plus"></i>Add New Permit</button>
-                      </span>
+        <script type="text/ng-template" id="permitEditModalContent.html">
+          <div ng-include="'tpl/modal_permit.form.html'"></div>
+        </script>
+        <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','permitEditModalContent.html')"><i class="fa fa-plus"></i>Add New Permit</button>
+      </span>
                     </div>
                   </div>
                 </div>
               </tab>
               <tab>
                 <tab-heading>
-                  Long Lead Times
+                  LongLeadTimes
                 </tab-heading>
                 <div class="wrapper-xs">
                   <div class="panel-body">
@@ -357,9 +352,9 @@
                             </div>
                           </td>
                           <td class="text-center">
-                              <a href=""><i class="fa fa-fw m-r-xs fa-search"></i></a>
-                              <a href=""><i class="fa fa-fw m-r-xs fa-pencil"></i></a>
-                              <a href=""><i class="fa fa-fw fa-trash"></i></a>
+                            <a href=""><i class="fa fa-fw m-r-xs fa-search"></i></a>
+                            <a href=""><i class="fa fa-fw m-r-xs fa-pencil"></i></a>
+                            <a href=""><i class="fa fa-fw fa-trash"></i></a>
                           </td>
                         </tr>
                       </tbody>

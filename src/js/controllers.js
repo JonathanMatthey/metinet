@@ -149,7 +149,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     Project.get({id:$stateParams.id})
     .$promise.then(function(res) {
       $scope.project = res.data;
-      $('#progress-chart').data('easyPieChart').update($scope.project.progress);
       console.log('-- project project');
       console.log($scope.project);
     });
