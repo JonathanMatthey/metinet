@@ -22,6 +22,24 @@ angular.module('app.services',[])
         }
     });
 }])
+.factory('ProjectProgressPlot', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/projects/:id/progress-plot',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
 .factory('ProjectUsers', ['$resource', function($resource) {
     return $resource('http://178.62.117.241/projects/:id/users',{
       id:'@_id'
@@ -114,6 +132,60 @@ angular.module('app.services',[])
 }])
 .factory('ProjectLeaves', ['$resource', function($resource) {
     return $resource('http://178.62.117.241/projects/:id/leaves',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('NodePermits', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/nodes/:id/permits',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('NodeLongLeads', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/nodes/:id/long-leads',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('NodeUsers', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/nodes/:id/users',{
       id:'@_id'
     },{
         query: {

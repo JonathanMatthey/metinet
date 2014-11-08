@@ -14,13 +14,30 @@
                 </tab-heading>
                 <div class="wrapper-xs">
                   <div class="row m-t">
-                    <div class="col-md-6 b-r b-light no-border-xs">
-                      flot chart here...
+                    <div class="col-md-12 no-border-xs">
+                      <div ui-jq="plot" ui-refresh="d0_1" ui-options="
+                        [
+                          { data: [{{d0_1}}], label:'Actual', points: { show: true, radius: 1}, splines: { show: true, tension: 0.4, lineWidth: 1, fill: 0.8 } },
+                          { data: [{{d0_2}}], label:'Calculated', points: { show: true, radius: 1}, splines: { show: true, tension: 0.4, lineWidth: 1, fill: 0.8 } }
+                        ],
+                        {
+                          colors: ['{{app.color.info}}', '#aaa'],
+                          series: { shadowSize: 3 },
+                          xaxis:{ mode:'time', timeformat: '%Y/%m/%d', font: { color: '#a1a7ac' } },
+                          yaxis:{ font: { color: '#666' }, max:100 },
+                          grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#dce5ec' },
+                          tooltip: true,
+                          tooltipOpts: { content: '%x.1 of %y.4',  defaultTheme: false, shifts: { x: 10, y: -25 } }
+                        }
+                      " style="height:246px" >
+                      </div>
                     </div>
-                    <div class="col-md-6 ">
-                      <div class=" m-b">
+                  </div>
+                  <div class="row m-t">
+                    <div class="col-md-12 ">
+                      <div class="m-b">
                         <div class="col-md-6">
-                          <dl>
+                          <dl class="m-b-n">
                             <dt>Description</dt>
                             <dd class="m-b-xs">{{project.desc}}</dd>
                             <dt>Country</dt>
@@ -32,7 +49,7 @@
                           </dl>
                         </div>
                         <div class="col-md-6">
-                          <dl>
+                          <dl class="m-b-n">
                             <dt>Budget Contract</dt>
                             <dd class="m-b-xs">{{project.budget_contract}}</dd>
                             <dt>Approval Time</dt>
@@ -51,15 +68,19 @@
                 <div class="row m-t">
                   <div class="col-md-6 bg-dark dk">
                     <h4 class="font-thin m-t-none m-b">Reports</h4>
-                    <div class="col-md-12 m-l-n">
-                      <div ng-repeat="package in project.packages">
-                        <div class="">
-                          <span ng-bind="package.name"></span>
-                          <a href="#/app/page/nodes/{{package.id}}" class="pull-right m-l"><i class="fa fa-fw m-r-xs fa-search"></i></a>
-                          <span class="pull-right text-info">{{package.progress}}%</span>
-                        </div>
-                        <div class="progress-xs m-t-sm bg-white progress ng-isolate-scope" value="35" animate="true" type="info">
-                          <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{package.progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width: package.progress + '%'}" aria-valuetext="{{package.progress}}%" style="width: {{package.progress}}%;"></div>
+                    <div class="row">
+                      <div class="col-md-12 m-l-n">
+                        <div ng-repeat="package in project.packages">
+                          <div>
+                            <span class="col-md-9" ng-bind="package.name"></span>
+                            <div class="col-md-3" style="padding:0;">
+                              <a href="#/app/page/nodes/{{package.id}}" class="pull-right m-l-xs"><i class="fa fa-fw m-r-xs fa-search"></i></a>
+                              <span class="pull-right text-info">{{package.progress}}%</span>
+                            </div>
+                          </div>
+                          <div class="progress-xs m-t-sm bg-white progress ng-isolate-scope" value="35" animate="true" type="info">
+                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{package.progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width: package.progress + '%'}" aria-valuetext="{{package.progress}}%" style="width: {{package.progress}}%;"></div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -68,20 +89,20 @@
                     <h4 class="font-thin m-t-none m-b">To Do List</h4>
                     <div class="col-md-11 m-l-n">
                       <div class="m-b-xs">
-                        <span class="pull-right text-danger">5</span>
-                        <span>QA Status:</span>
+                        <span class="col-xs-9">QA Status:</span>
+                        <span class="col-xs-3 text-right text-danger">5</span>
                       </div>
                       <div class="m-b-xs">
-                        <span class="pull-right text-info">3</span>
-                        <span>RFIs:</span>
+                        <span class="col-xs-9">RFIs:</span>
+                        <span class="col-xs-3 text-right text-info">3</span>
                       </div>
                       <div class="m-b-xs">
-                        <span class="pull-right text-danger">4</span>
-                        <span>Long Leads:</span>
+                        <span class="col-xs-9">Long Leads:</span>
+                        <span class="col-xs-3 text-right text-danger">4</span>
                       </div>
                       <div class="m-b-xs">
-                        <span class="pull-right text-success">1</span>
-                        <span>Permit:</span>
+                        <span class="col-xs-9">Permit:</span>
+                        <span class="col-xs-3 text-right text-success">1</span>
                       </div>
                     </div>
                   </div>
