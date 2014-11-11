@@ -16,7 +16,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         version: '0.0.2',
         // for chart colors
         color: {
-          primary: '#7266ba',
+          primary: '#eee',
           info:    '#23b7e5',
           success: '#27c24c',
           warning: '#fad733',
@@ -27,20 +27,20 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         },
         settings: {
           themeID: 1,
-          navbarHeaderColor: 'bg-black',
-          navbarCollapseColor: 'bg-white-only',
+          navbarHeaderColor: 'bg-metinet',
+          navbarCollapseColor: 'bg-metinet',//'bg-white-only',
           asideColor: 'bg-black',
           headerFixed: true,
           asideFixed: false,
-          asideFolded: false,
+          asideFolded: true,
           asideDock: false,
-          container: false
+          container: true
         }
       }
 
       // save settings to local storage
       if ( angular.isDefined($localStorage.settings) ) {
-        $scope.app.settings = $localStorage.settings;
+        $scope.app.settings =  $localStorage.settings;
       } else {
         $localStorage.settings = $scope.app.settings;
       }
@@ -74,6 +74,254 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       }
 
   }])
+  // -- Projects Controllers -- START
+  .controller('ProjectListController', ['$scope', '$state', '$window', 'Auth', 'Project', function($scope,$state,$window,Auth,Project) {
+    Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
+    $scope.projects=Project.query();
+  }])
+
+  .controller('ProjectCreateController', ['$scope', '$state', '$window', '$http', 'Auth', 'Project', 'moment', 'toaster', function($scope,$state,$window,$http,Auth,Project,moment,toaster) {
+    $scope.project = new Project();
+    $scope.projectCountry = {};
+    $scope.project.name = "Big New Project";
+    $scope.project.lat = 1.1;
+    $scope.project.lng = 2.2;
+    $scope.project.client_name = "JCB";
+    $scope.project.contractor_name = "Mr Contractor";
+    $scope.project.consultant_name = "Mrs Consultant";
+    $scope.project.start_date = new moment().format("DD-MMMM-YYYY");//new moment().format("YYYY-MM-DD 00:00:00");
+    $scope.project.end_date_contract = new moment().add(6, 'M').format("DD-MMMM-YYYY");
+    $scope.project.progress_reports = true;
+    $scope.project.long_lead_items = true;
+    $scope.project.risk_assessment = true;
+    $scope.project.permit_assessment = true;
+    $scope.project.cost_management = true;
+    $scope.project.terms = true;
+
+    $http.get('http://178.62.117.241/countries').then(function (resp) {
+      $scope.countries = resp.data.data;
+      console.log('$scope.countries ')
+      console.log($scope.countries )
+      $scope.projectCountry = $scope.countries[1];
+    });
+
+    $http.get('http://178.62.117.241/currencies').then(function (resp) {
+      $scope.currencies = resp.data.data;
+      console.log('$scope.currencies' )
+      console.log($scope.currencies )
+    });
+
+    $scope.updateCountry = function(country) {
+      $scope.project.country_id = country.iso
+      $scope.project.working_hours = country.working_hours;
+      $scope.project.working_days = country.working_days;
+    }
+
+    $scope.updateCurrency = function(currency) {
+      console.log(currency)
+      $scope.project.currency_id = currency.code
+    }
+
+    $scope.create = function() {
+      console.log($scope.project);
+      toaster.pop('wait', 'Saving Project', 'Shouldn\'t take long...');
+      $scope.project.$save(
+        function(data){
+          console.log(JSON.stringify(data));
+          if(!data.result){
+            toaster.pop('error', 'Error', '');
+          }else{
+            toaster.pop('success', 'Success', '');
+            setTimeout(function(){
+              $state.go('app.page.projects');
+            }, 1500);
+          }
+      });
+    };
+  }])
+
+  .controller('ProjectViewController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectUsers', 'ProjectRFIs', 'ProjectLongLeads', 'ProjectNetworks', 'ProjectLeaves', 'ProjectPermits','ProjectProgressPlot','ProjectAudit',
+    function($scope,$stateParams,Auth,Project,ProjectUsers,ProjectRFIs,ProjectLongLeads,ProjectNetworks, ProjectLeaves, ProjectPermits, ProjectProgressPlot, ProjectAudit) {
+    Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
+
+    $scope.newProjectRFI = ProjectRFIs();
+
+    Project.get({id:$stateParams.id})
+    .$promise.then(function(res) {
+      $scope.project = res.data;
+      console.log('-- project project');
+      console.log($scope.project);
+    });
+
+    ProjectUsers.get({
+      id:$stateParams.id
+    })
+    .$promise.then(function(res) {
+        // success handler
+      $scope.projectUsers = res.data
+      console.log('-- projectUsers');
+      console.log(res.data);
+    });
+
+    ProjectAudit.get({
+      id:$stateParams.id
+    })
+    .$promise.then(function(res) {
+        // success handler
+      $scope.projectAudit = res.data
+      console.log('-- projectAudit');
+      console.log(res.data);
+    });
+
+    ProjectRFIs.get({
+      id:$stateParams.id
+    })
+    .$promise.then(function(res) {
+        // success handler
+      $scope.projectRFIs = res.data;
+      console.log('-- projectRFIs');
+      console.log(res.data);
+    });
+
+    ProjectNetworks.get({
+      id:$stateParams.id
+    })
+    .$promise.then(function(res) {
+        // success handler
+      $scope.projectNetworks = res.data
+      console.log('-- projectNetworks');
+      console.log(res.data);
+    });
+
+    ProjectLongLeads.get({
+      id:$stateParams.id
+    })
+    .$promise.then(function(res) {
+        // success handler
+      $scope.projectLongLeads = res.data
+      console.log('-- projectLongLeads');
+      console.log(res.data);
+    });
+
+    ProjectPermits.get({
+      id:$stateParams.id
+    })
+    .$promise.then(function(res) {
+        // success handler
+      $scope.projectPermits = res.data
+      console.log('-- projectPermits');
+      console.log(res.data);
+    });
+
+    ProjectLeaves.get({
+      id:$stateParams.id
+    })
+    .$promise.then(function(res) {
+        // success handler
+      $scope.projectLeaves = res.data
+      console.log('-- projectLeaves');
+      console.log(res.data);
+    });
+
+    ProjectProgressPlot.get({
+      id:$stateParams.id
+    })
+    .$promise.then(function(res) {
+        // success handler
+      $scope.projectProgressPlot = res.data
+      console.log('-- projectProgressPlot');
+      console.log(res.data);
+      $scope.d0_1 = res.data.actual_plot;
+      $scope.d0_2 = res.data.calculated_plot;
+    });
+
+    // $scope.createRFI = function(rfi){
+    //   toaster.pop('wait', 'Saving RFI', 'Shouldn\'t take long...');
+    //   $scope.newProjectRFI.$save(
+    //     function(data){
+    //       console.log(JSON.stringify(data));
+    //       if (!data.result) {
+    //         toaster.pop('error', 'Error', '');
+    //       } else {
+    //         toaster.pop('success', 'Success', '');
+    //         // setTimeout(function(){
+    //           // $state.go('app.page.projects');
+    //         // }, 1500);
+    //       }
+    //   });
+    // }
+
+    // $scope.d0_1 = "[1350687600000, 0], [1351292400000, 0.049174569722515], [1351900800000, 0.11239901650861], [1352505600000, 0.25992272567615], [1353110400000, 0.4074464348437], [1353715200000, 0.55497014401124], [1354320000000, 0.70249385317878], [1354924800000, 0.85001756234633], [1355529600000, 0.99754127151387], [1356134400000, 1.1731647348086], [1356739200000, 1.3698630136986], [1357344000000, 1.5314365999298], [1357948800000, 1.7632595714787], [1358553600000, 2.0512820512821], [1359158400000, 2.31822971549], [1359763200000, 2.5781524411661], [1360368000000, 2.8099754127151], [1360972800000, 3.0066736916052], [1361577600000, 3.3017211099403], [1362182400000, 3.6880927291886], [1362787200000, 4.137688795223], [1363392000000, 4.5802599227257], [1363996800000, 5.1211801896733], [1364601600000, 5.662100456621], [1365202800000, 6.2030207235687], [1365807600000, 6.7439409905163], [1366412400000, 7.284861257464], [1367017200000, 7.8257815244117], [1367622000000, 8.3877766069547], [1368226800000, 8.9778714436249], [1368831600000, 9.5890410958904], [1369436400000, 10.242360379347], [1370041200000, 10.930804355462], [1370646000000, 11.703547593959], [1371250800000, 12.490340709519], [1371855600000, 13.277133825079], [1372460400000, 14.063926940639], [1373065200000, 14.913944502986], [1373670000000, 15.778011942396], [1374274800000, 16.663154197401], [1374879600000, 17.597471022129], [1375484400000, 18.531787846856], [1376089200000, 19.466104671584], [1376694000000, 20.400421496312], [1377298800000, 21.33473832104], [1377903600000, 22.297154899895], [1378508400000, 23.329820864067], [1379113200000, 24.36248682824], [1379718000000, 25.353003161222], [1380322800000, 26.301369863014], [1380927600000, 27.165437302424], [1381532400000, 27.966280295047], [1382137200000, 28.837372672989], [1382742000000, 29.757639620653], [1383350400000, 30.64980681419], [1383955200000, 31.696522655427], [1384560000000, 32.764313312259], [1385164800000, 33.775904460836], [1385769600000, 34.61889708465], [1386374400000, 35.623463294696], [1386979200000, 36.663154197401], [1387584000000, 37.730944854233], [1388188800000, 38.777660695469], [1388793600000, 39.873551106428], [1389398400000, 40.850017562346], [1390003200000, 41.945907973305], [1390608000000, 43.294696171408], [1391212800000, 44.685634000702], [1391817600000, 45.943097997892], [1392422400000, 47.095187917106], [1393027200000, 48.310502283105], [1393632000000, 49.582016157359], [1394236800000, 50.832455216017], [1394841600000, 52.153143659993], [1395446400000, 53.523006673692], [1396051200000, 54.654021777309], [1396652400000, 55.665612925887], [1397257200000, 56.810677906568], [1397862000000, 58.018967334036], [1398466800000, 59.100807867931], [1399071600000, 60.189673340358], [1399676400000, 61.313663505444], [1400281200000, 62.521952932912], [1400886000000, 63.758342114506], [1401490800000, 64.966631541974], [1402095600000, 66.139796276783], [1402700400000, 67.186512118019], [1403305200000, 68.219178082192], [1403910000000, 69.167544783983], [1404514800000, 70.186160871092], [1405119600000, 71.169652265543], [1405724400000, 71.977520196698], [1406329200000, 72.7291886196], [1406934000000, 73.403582718651], [1407538800000, 74.049877063576], [1408143600000, 74.604847207587], [1408748400000, 75.16684229013], [1409353200000, 75.700737618546], [1409958000000, 76.248682824025], [1410562800000, 76.775553213909], [1411167600000, 77.246224095539], [1411772400000, 77.737969792764], [1412377200000, 78.22971548999], [1412982000000, 78.721461187215], [1413586800000, 79.227256761503], [1414191600000, 79.641728134879], [1414800000000, 79.950825430278], [1415404800000, 80.288022479803], [1416009600000, 80.632244467861], [1416614400000, 80.976466455919], [1417219200000, 81.292588689849], [1417824000000, 81.601685985248], [1418428800000, 81.945907973305], [1419033600000, 82.290129961363], [1419638400000, 82.59220231823], [1420243200000, 82.971548998946], [1420848000000, 83.371970495258], [1421452800000, 83.870741131015], [1422057600000, 84.341412012645], [1422662400000, 84.783983140148], [1423267200000, 85.18440463646], [1423872000000, 85.451352300667], [1424476800000, 85.746399719003], [1425081600000, 85.985247629083], [1425686400000, 86.195995785037], [1426291200000, 86.48401826484], [1426896000000, 86.807165437303], [1427500800000, 87.024938531788], [1428102000000, 87.130312609765], [1428706800000, 87.221636810678], [1429311600000, 87.305936073059], [1429916400000, 87.390235335441], [1430521200000, 87.50263435195], [1431126000000, 87.650158061117], [1431730800000, 87.769582016157], [1432335600000, 87.903055848261], [1432940400000, 88.050579557429], [1433545200000, 88.198103266597], [1434150000000, 88.373726729891], [1434754800000, 88.584474885845], [1435359600000, 88.851422550053], [1435964400000, 89.188619599579], [1436569200000, 89.518791710573], [1437174000000, 89.799789251844], [1437778800000, 90.05971197752], [1438383600000, 90.326659641728], [1438988400000, 90.53038285915], [1439593200000, 90.741131015104], [1440198000000, 90.972953986653], [1440802800000, 91.338250790306], [1441407600000, 91.731647348086], [1442012400000, 92.075869336143], [1442617200000, 92.448191078328], [1443222000000, 92.918861959958], [1443826800000, 93.424657534247], [1444431600000, 93.860203723218], [1445036400000, 94.113101510362], [1445641200000, 94.443273621356], [1446249600000, 94.731296101159], [1446854400000, 94.984193888304], [1447459200000, 95.258166491043], [1448064000000, 95.602388479101], [1448668800000, 95.869336143309], [1449273600000, 96.066034422199], [1449878400000, 96.318932209343], [1450483200000, 96.578854935019], [1451088000000, 96.944151738672], [1451692800000, 97.190024587285], [1452297600000, 97.499121882684], [1452902400000, 97.702845100105], [1453507200000, 97.885493501932], [1454112000000, 98.0330172111], [1454716800000, 98.180540920267], [1455321600000, 98.236740428521], [1455926400000, 98.335089567966], [1456531200000, 98.482613277134], [1457136000000, 98.566912539515], [1457740800000, 98.749560941342], [1458345600000, 98.981383912891], [1458950400000, 99.114857744995], [1459551600000, 99.164032314717], [1460156400000, 99.227256761503], [1460761200000, 99.283456269758], [1461366000000, 99.304531085353], [1461970800000, 99.346680716544], [1462575600000, 99.388830347735], [1463180400000, 99.445029855989], [1463785200000, 99.494204425711], [1464390000000, 99.543378995434], [1464994800000, 99.592553565156], [1465599600000, 99.641728134879], [1466204400000, 99.690902704601], [1466809200000, 99.740077274324], [1467414000000, 99.789251844046], [1468018800000, 99.838426413769], [1468623600000, 99.929750614682], [1469228400000, 100], [1469833200000, 100], [1470438000000, 100], [1471042800000, 100], [1471647600000, 100], [1472252400000, 100], [1472857200000, 100], [1473462000000, 100], [1474066800000, 100]";
+
+    // $scope.d0_2 = [ [0,4],[1,4.5],[2,7],[3,4.5],[4,3],[5,3.5],[6,6],[7,3],[8,4],[9,3] ];
+  }])
+  .controller('NodeViewController', ['$scope', '$stateParams','Auth', 'Node', 'NodePermits', 'NodeLongLeads', 'NodeUsers',
+    function($scope,$stateParams,Auth,Node,NodePermits,NodeLongLeads,NodeUsers) {
+    Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
+
+    console.log('nodeviewcontr')
+    Node.get({id:$stateParams.id})
+    .$promise.then(function(res) {
+      $scope.node = res.data;
+      console.log('-- node:');
+      console.log($scope.node);
+      if ($scope.node.is_leaf){
+        // get users / permits / audit / longleads
+
+        NodeUsers.get({
+          id:$stateParams.id
+        })
+        .$promise.then(function(res) {
+            // success handler
+          $scope.nodeUsers = res.data
+          console.log('-- nodeUsers');
+          console.log(res.data);
+        });
+
+        NodeLongLeads.get({
+          id:$stateParams.id
+        })
+        .$promise.then(function(res) {
+            // success handler
+          $scope.nodeLongLeads = res.data
+          console.log('-- nodeLongLeads');
+          console.log(res.data);
+        });
+
+        NodePermits.get({
+          id:$stateParams.id
+        })
+        .$promise.then(function(res) {
+            // success handler
+          $scope.nodePermits = res.data
+          console.log('-- nodePermits');
+          console.log(res.data);
+        });
+
+      }
+    });
+
+  }])
+  .controller('ProjectNetworkCreateController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectNetworks',
+    function($scope,$stateParams,Auth,Project,ProjectNetworks){
+
+      Project.get({id:$stateParams.id})
+      .$promise.then(function(res) {
+        $scope.project = res.data;
+        console.log('-- project project');
+        console.log($scope.project);
+      });
+
+      $scope.projectNetwork = new ProjectNetworks();
+
+      $scope.addProjectNetwork=function(){
+          $scope.projectNetwork.$save(function(){
+              $state.go('projectNetwork');
+          });
+      }
+
+  }])
+  // -- Projects Controllers -- END
 
   // bootstrap controller
   .controller('AccordionDemoCtrl', ['$scope', function($scope) {
@@ -176,11 +424,32 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       $modalInstance.dismiss('cancel');
     };
   }])
-  .controller('ModalDemoCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
-    $scope.items = ['item1', 'item2', 'item3'];
+  .controller('ModalRFICtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
+    $scope.items = ['rfi1', 'rfi2', 'rfi3'];
+    $scope.open = function (size, templateUrl) {
+      var modalInstance = $modal.open({
+        templateUrl: templateUrl,
+        controller: 'ModalInstanceCtrl',
+        size: size,
+        resolve: {
+          items: function () {
+            return $scope.items;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (selectedItem) {
+        $scope.selected = selectedItem;
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+    };
+  }])
+  .controller('ModalPermitCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
+    $scope.items = ['permit1', 'permit2', 'permit3'];
     $scope.open = function (size) {
       var modalInstance = $modal.open({
-        templateUrl: 'myModalContent.html',
+        templateUrl: 'permitModalContent.html',
         controller: 'ModalInstanceCtrl',
         size: size,
         resolve: {
@@ -398,60 +667,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
   // Flot Chart controller
   .controller('FlotChartDemoCtrl', ['$scope', function($scope) {
-    $scope.d = [ [1,6.5],[2,6.5],[3,7],[4,8],[5,7.5],[6,7],[7,6.8],[8,7],[9,7.2],[10,7],[11,6.8],[12,7] ];
 
-    $scope.d0_1 = [ [0,7],[1,6.5],[2,12.5],[3,7],[4,9],[5,6],[6,11],[7,6.5],[8,8],[9,7] ];
-
-    $scope.d0_2 = [ [0,4],[1,4.5],[2,7],[3,4.5],[4,3],[5,3.5],[6,6],[7,3],[8,4],[9,3] ];
-
-    $scope.d1_1 = [ [10, 120], [20, 70], [30, 70], [40, 60] ];
-
-    $scope.d1_2 = [ [10, 50],  [20, 60], [30, 90],  [40, 35] ];
-
-    $scope.d1_3 = [ [10, 80],  [20, 40], [30, 30],  [40, 20] ];
-
-    $scope.d2 = [];
-
-    for (var i = 0; i < 20; ++i) {
-      $scope.d2.push([i, Math.sin(i)]);
-    }
-
-    $scope.d3 = [
-      { label: "iPhone5S", data: 40 },
-      { label: "iPad Mini", data: 10 },
-      { label: "iPad Mini Retina", data: 20 },
-      { label: "iPhone4S", data: 12 },
-      { label: "iPad Air", data: 18 }
-    ];
-
-    $scope.refreshData = function(){
-      $scope.d0_1 = $scope.d0_2;
-    };
-
-    $scope.getRandomData = function() {
-      var data = [],
-      totalPoints = 150;
-      if (data.length > 0)
-        data = data.slice(1);
-      while (data.length < totalPoints) {
-        var prev = data.length > 0 ? data[data.length - 1] : 50,
-          y = prev + Math.random() * 10 - 5;
-        if (y < 0) {
-          y = 0;
-        } else if (y > 100) {
-          y = 100;
-        }
-        data.push(y);
-      }
-      // Zip the generated y values with the x values
-      var res = [];
-      for (var i = 0; i < data.length; ++i) {
-        res.push([i, data[i]])
-      }
-      return res;
-    }
-
-    $scope.d4 = $scope.getRandomData();
   }])
 
   // jVectorMap controller
@@ -497,21 +713,30 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   }])
 
   // signin controller
-  .controller('SigninFormController', ['$scope', '$http', '$state', function($scope, $http, $state) {
+  .controller('SigninFormController', ['$scope', '$http', '$state','Auth', function($scope, $http, $state, Auth) {
     $scope.user = {};
     $scope.authError = null;
     $scope.login = function() {
       $scope.authError = null;
       // Try to login
-      $http.post('api/login', {email: $scope.user.email, password: $scope.user.password})
+      $http.post('http://178.62.117.241/auth', {
+        headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
+        email: $scope.user.email,
+        password: $scope.user.password})
       .then(function(response) {
-        if ( !response.data.user ) {
-          $scope.authError = 'Email or Password not right';
-        }else{
+        if ( response.status === 200 ) {
+          // user logged in
+          Auth.setCredentials($scope.user.email,$scope.user.password);
           $state.go('app.dashboard-v1');
+        }else{
+          $scope.authError = 'Email or Password not right';
         }
-      }, function(x) {
-        $scope.authError = 'Server Error';
+      }, function(response) {
+        if ( response.status === 403 ) {
+          $scope.authError = 'Email or Password not right';
+        } else {
+          $scope.authError = 'Server Error';
+        }
       });
     };
   }])

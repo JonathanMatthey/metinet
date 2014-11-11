@@ -1,5 +1,8 @@
 'use strict';
 
+// routes avail at
+// https://bitbucket.org/stevchenks/fixing_metinet_api/src/7f82ee9db72b3c2160859c7dedd54c04a09d1474/app/routes.php?at=master
+
 
 // Declare app level module which depends on filters, and services
 var app = angular.module('app', [
@@ -17,20 +20,23 @@ var app = angular.module('app', [
     'app.filters',
     'app.services',
     'app.directives',
-    'app.controllers'
+    'app.controllers',
+    'angularMoment',
+    'toaster'
   ])
 .run(
-  [          '$rootScope', '$state', '$stateParams',
-    function ($rootScope,   $state,   $stateParams) {
+  [          '$rootScope', '$state', '$stateParams','$cookieStore','$http',
+    function ($rootScope,   $state,   $stateParams,$cookieStore,$http) {
         $rootScope.$state = $state;
-        $rootScope.$stateParams = $stateParams;        
+        $rootScope.$stateParams = $stateParams;
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
     }
   ]
 )
 .config(
-  [          '$stateProvider', '$urlRouterProvider', '$controllerProvider', '$compileProvider', '$filterProvider', '$provide',
-    function ($stateProvider,   $urlRouterProvider,   $controllerProvider,   $compileProvider,   $filterProvider,   $provide) {
-        
+  [          '$stateProvider', '$urlRouterProvider', '$httpProvider', '$controllerProvider', '$compileProvider', '$filterProvider', '$provide',
+    function ($stateProvider,   $urlRouterProvider,  $httpProvider, $controllerProvider,   $compileProvider,   $filterProvider,   $provide) {
+
         // lazy controller, directive and service
         app.controller = $controllerProvider.register;
         app.directive  = $compileProvider.directive;
@@ -58,185 +64,65 @@ var app = angular.module('app', [
             })
             .state('app.ui', {
                 url: '/ui',
-                template: '<div ui-view class="fade-in-up"></div>'
-            })
-            .state('app.ui.buttons', {
-                url: '/buttons',
-                templateUrl: 'tpl/ui_buttons.html'
-            })
-            .state('app.ui.icons', {
-                url: '/icons',
-                templateUrl: 'tpl/ui_icons.html'
-            })
-            .state('app.ui.grid', {
-                url: '/grid',
-                templateUrl: 'tpl/ui_grid.html'
-            })
-            .state('app.ui.widgets', {
-                url: '/widgets',
-                templateUrl: 'tpl/ui_widgets.html'
-            })          
-            .state('app.ui.bootstrap', {
-                url: '/bootstrap',
-                templateUrl: 'tpl/ui_bootstrap.html'
-            })
-            .state('app.ui.sortable', {
-                url: '/sortable',
-                templateUrl: 'tpl/ui_sortable.html'
-            })
-            .state('app.ui.portlet', {
-                url: '/portlet',
-                templateUrl: 'tpl/ui_portlet.html'
-            })
-            .state('app.ui.timeline', {
-                url: '/timeline',
-                templateUrl: 'tpl/ui_timeline.html'
-            })
-            .state('app.ui.tree', {
-                url: '/tree',
-                templateUrl: 'tpl/ui_tree.html',
-                resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad ){
-                        return $ocLazyLoad.load(
-                            {
-                                name: 'angularBootstrapNavTree',
-                                files: ['js/modules/abn_tree/abn_tree_directive.js',
-                                        'js/modules/abn_tree/ctrl.js',
-                                        'js/modules/abn_tree/abn_tree.css'] 
-                            }
-                        );
-                    }]
-                }
-            })
-            .state('app.ui.toaster', {
-                url: '/toaster',
-                templateUrl: 'tpl/ui_toaster.html',
-                resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad){
-                        return $ocLazyLoad.load('toaster').then(
-                            function(){
-                               return $ocLazyLoad.load('js/modules/toaster/ctrl.js');
-                            }
-                        );
-                    }]
-                }
-            })
-            .state('app.ui.jvectormap', {
-                url: '/jvectormap',
-                templateUrl: 'tpl/ui_jvectormap.html'
-            })
-            .state('app.ui.googlemap', {
-                url: '/googlemap',
-                templateUrl: 'tpl/ui_googlemap.html',
-                resolve: {
-                    deps: ['uiLoad',
-                      function( uiLoad ){
-                        return uiLoad.load( ['js/app/map/load-google-maps.js',
-                                                'js/modules/ui-map.js',
-                                                'js/app/map/map.js'] ).then(function(){ return loadGoogleMaps(); });
-                    }]
-                }
-            })
-            .state('app.chart', {
-                url: '/chart',
-                templateUrl: 'tpl/ui_chart.html'
-            })
-            // table
-            .state('app.table', {
-                url: '/table',
                 template: '<div ui-view></div>'
-            })
-            .state('app.table.static', {
-                url: '/static',
-                templateUrl: 'tpl/table_static.html'
-            })
-            .state('app.table.datatable', {
-                url: '/datatable',
-                templateUrl: 'tpl/table_datatable.html'
-            })
-            .state('app.table.footable', {
-                url: '/footable',
-                templateUrl: 'tpl/table_footable.html'
-            })
-            .state('app.table.grid', {
-                url: '/grid',
-                templateUrl: 'tpl/table_grid.html',
-                resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad ){
-                        return $ocLazyLoad.load('ngGrid').then(
-                            function(){
-                                return $ocLazyLoad.load('js/modules/ng-grid/ctrl.js');
-                            }
-                        );
-                    }]
-                }
-            })
-            // form
-            .state('app.form', {
-                url: '/form',
-                template: '<div ui-view class="fade-in"></div>'
-            })
-            .state('app.form.elements', {
-                url: '/elements',
-                templateUrl: 'tpl/form_elements.html'
-            })
-            .state('app.form.validation', {
-                url: '/validation',
-                templateUrl: 'tpl/form_validation.html'
-            })
-            .state('app.form.wizard', {
-                url: '/wizard',
-                templateUrl: 'tpl/form_wizard.html'
-            })
-            .state('app.form.fileupload', {
-                url: '/fileupload',
-                templateUrl: 'tpl/form_fileupload.html',
-                resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad ){
-                        return $ocLazyLoad.load(
-                            {
-                                name: 'angularFileUpload',
-                                files: ['js/modules/angular-file-upload/angular-file-upload.js',
-                                        'js/modules/angular-file-upload/ctrl.js' ]
-                            }
-                        );
-                    }]
-                }
-            })
-            .state('app.form.imagecrop', {
-                url: '/imagecrop',
-                templateUrl: 'tpl/form_imagecrop.html',
-                resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad ){
-                        return $ocLazyLoad.load(
-                            {
-                                name: 'ngImgCrop',
-                                files: ['js/modules/ngImgCrop/ng-img-crop.css',
-                                        'js/modules/ngImgCrop/ng-img-crop.js',
-                                        'js/modules/ngImgCrop/ctrl.js' ]
-                            }
-                        );
-                    }]
-                }
             })
             // pages
             .state('app.page', {
                 url: '/page',
-                template: '<div ui-view class="fade-in-down"></div>'
+                template: '<div class="hbox hbox-auto-xs bg-light " ng-init="" ui-view></div>'
             })
             .state('app.page.profile', {
                 url: '/profile',
                 templateUrl: 'tpl/page_profile.html'
             })
-            .state('app.page.post', {
-                url: '/post',
-                templateUrl: 'tpl/page_post.html'
+            .state('app.page.projects', {
+                url: '/projects',
+                templateUrl: 'tpl/page_projects.html',
+                controller:'ProjectListController',
+                resolve: {
+                    deps: ['uiLoad',
+                      function( uiLoad ){
+                        return uiLoad.load( ['js/libs/moment.min.js'] );
+                    }]
+                }
             })
+            .state('app.page.network', {
+                url: '/projects/:id/network/create',
+                templateUrl: 'tpl/page_project_network_new.html',
+                controller:'ProjectNetworkCreateController'
+            })
+            .state('app.page.newproject',{
+                url:'/projects/new',
+                templateUrl: 'tpl/page_project_new.html',
+                controller:'ProjectCreateController',
+                resolve: {
+                    deps: ['uiLoad',
+                      function( uiLoad ){
+                        return uiLoad.load( ['js/libs/moment.min.js'] );
+                    }]
+                }
+            })
+            .state('app.page.branchnode',{
+                url:'/nodes/:id',
+                templateUrl: 'tpl/page_node.html',
+                controller:'NodeViewController',
+                resolve: {
+                    deps: ['uiLoad',
+                      function( uiLoad ){
+                        return uiLoad.load( ['js/libs/moment.min.js'] );
+                    }]
+                }
+            })
+            .state('app.page.project',{
+                url:'/projects/:id',
+                templateUrl: 'tpl/page_project.html',
+                controller:'ProjectViewController'
+            })
+            // .state('editProject',{
+            //     url:'/projects/:id/edit',
+            //     templateUrl:'partials/Project-edit.html',
+            //     controller:'ProjectEditController'
+            // })
             .state('app.page.search', {
                 url: '/search',
                 templateUrl: 'tpl/page_search.html'
@@ -380,13 +266,13 @@ var app = angular.module('app', [
                     }]
                 }
             })
-            .state('apps.contact', {
-                url: '/contact',
-                templateUrl: 'tpl/apps_contact.html',
+            .state('apps.users', {
+                url: '/users',
+                templateUrl: 'tpl/apps_users.html',
                 resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
-                        return uiLoad.load( ['js/app/contact/contact.js'] );
+                        return uiLoad.load( ['js/app/users/users.js'] );
                     }]
                 }
             })
@@ -400,9 +286,9 @@ var app = angular.module('app', [
                             {
                                 name: 'angular-skycons',
                                 files: ['js/app/weather/skycons.js',
-                                        'js/libs/moment.min.js', 
+                                        'js/libs/moment.min.js',
                                         'js/app/weather/angular-skycons.js',
-                                        'js/app/weather/ctrl.js' ] 
+                                        'js/app/weather/ctrl.js' ]
                             }
                         );
                     }]
@@ -439,11 +325,12 @@ var app = angular.module('app', [
 .constant('JQ_CONFIG', {
     easyPieChart:   ['js/jquery/charts/easypiechart/jquery.easy-pie-chart.js'],
     sparkline:      ['js/jquery/charts/sparkline/jquery.sparkline.min.js'],
-    plot:           ['js/jquery/charts/flot/jquery.flot.min.js', 
+    plot:           ['js/jquery/charts/flot/jquery.flot.min.js',
                         'js/jquery/charts/flot/jquery.flot.resize.js',
                         'js/jquery/charts/flot/jquery.flot.tooltip.min.js',
                         'js/jquery/charts/flot/jquery.flot.spline.js',
                         'js/jquery/charts/flot/jquery.flot.orderBars.js',
+                        'js/jquery/charts/flot/jquery.flot.time.js',
                         'js/jquery/charts/flot/jquery.flot.pie.min.js'],
     slimScroll:     ['js/jquery/slimscroll/jquery.slimscroll.min.js'],
     sortable:       ['js/jquery/sortable/jquery.sortable.js'],
@@ -461,7 +348,7 @@ var app = angular.module('app', [
     dataTable:      ['js/jquery/datatables/jquery.dataTables.min.js',
                         'js/jquery/datatables/dataTables.bootstrap.js',
                         'js/jquery/datatables/dataTables.bootstrap.css'],
-    vectorMap:      ['js/jquery/jvectormap/jquery-jvectormap.min.js', 
+    vectorMap:      ['js/jquery/jvectormap/jquery-jvectormap.min.js',
                         'js/jquery/jvectormap/jquery-jvectormap-world-mill-en.js',
                         'js/jquery/jvectormap/jquery-jvectormap-us-aea-en.js',
                         'js/jquery/jvectormap/jquery-jvectormap.css'],
@@ -483,7 +370,7 @@ var app = angular.module('app', [
 .config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
     // We configure ocLazyLoad to use the lib script.js as the async loader
     $ocLazyLoadProvider.config({
-        debug: false,
+        debug: true,
         events: true,
         modules: [
             {
@@ -496,7 +383,7 @@ var app = angular.module('app', [
             },
             {
                 name: 'toaster',
-                files: [                    
+                files: [
                     'js/modules/toaster/toaster.js',
                     'js/modules/toaster/toaster.css'
                 ]

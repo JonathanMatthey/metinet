@@ -1,6 +1,6 @@
       <!-- navbar header -->
       <div class="navbar-header {{app.settings.navbarHeaderColor}}">
-        <button class="pull-right visible-xs dk" ui-toggle-class="show" data-target=".navbar-collapse">
+        <button class="pull-right visible-xs dk" ui-toggle-class="show" data-target="">
           <i class="glyphicon glyphicon-cog"></i>
         </button>
         <button class="pull-right visible-xs" ui-toggle-class="off-screen" data-target=".app-aside" ui-scroll="app">
@@ -10,7 +10,7 @@
         <a href="#/" class="navbar-brand text-lt">
           <i class="fa fa-building"></i>
           <img src="img/logo.png" alt="." class="hide">
-          <span class="hidden-folded m-l-xs">{{app.name}}</span>
+          <span class=" m-l-xs">{{app.name}}</span>
         </a>
         <!-- / brand -->
       </div>
@@ -20,29 +20,42 @@
       <div class="collapse pos-rlt navbar-collapse box-shadow {{app.settings.navbarCollapseColor}}">
         <!-- link and dropdown -->
         <ul class="nav navbar-nav hidden-sm">
-          <li class="dropdown pos-stc">
+<!--           <li class="dropdown pos-stc">
             <a href class="dropdown-toggle">
               <span>Menu</span>
               <span class="caret"></span>
             </a>
             <div class="dropdown-menu wrapper w-full bg-white">
               <div class="row">
-                <div class="col-sm-2">
-                  <div class="m-l-xs m-t-xs m-b-xs font-bold">Projects <span class="badge badge-sm bg-success">10</span></div>
+                <div class="col-sm-4">
+                  <div class="m-l-xs m-t-xs m-b-xs font-bold"><a ui-sref="app.page.projects">Projects</a> <span class="badge badge-sm bg-success">10</span></div>
                   <div class="row">
                     <div class="col-xs-6">
                       <ul class="list-unstyled l-h-2x">
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>section1</a>
+                          <a ui-sref="app.page.project"><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>proj1</a>
                         </li>
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>section2</a>
+                          <a ui-sref="app.page.project"><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>proj2</a>
                         </li>
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>section3</a>
+                          <a ui-sref="app.page.project"><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>proj3</a>
                         </li>
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>section4</a>
+                          <a ui-sref="app.page.project"><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>proj4</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-xs-6">
+                      <ul class="list-unstyled l-h-2x">
+                        <li>
+                          <a ui-sref="app.page.project"><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>proj5</a>
+                        </li>
+                        <li>
+                          <a ui-sref="app.page.project"><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>proj6</a>
+                        </li>
+                        <li>
+                          <a ui-sref="app.page.project"><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>All Projects</a>
                         </li>
                       </ul>
                     </div>
@@ -54,87 +67,41 @@
                     <div class="col-xs-6">
                       <ul class="list-unstyled l-h-2x">
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>Buttons</a>
+                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>Lorem</a>
                         </li>
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>qwe <!-- <span class="badge badge-sm bg-warning">1000+</span> --></a>
+                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>Ipsum </a>
                         </li>
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>ewq</a>
+                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>Lorem</a>
                         </li>
                         <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>qwe</a>
+                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>Ipsum</a>
                         </li>
                       </ul>
-                    </div>
-                    <div class="col-xs-6">
-                      <ul class="list-unstyled l-h-2x">
-                        <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>Bootstap</a>
-                        </li>
-                        <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>Sortable</a>
-                        </li>
-                        <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>Portlet</a>
-                        </li>
-                        <li>
-                          <a href><i class="fa fa-fw fa-angle-right text-muted m-r-xs"></i>Timeline</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-4 b-l b-light">
-                  <div class="m-l-xs m-t-xs m-b-sm font-bold">Analysis</div>
-                  <div class="text-center">
-                    <div class="inline">
-                      <div ui-jq="easyPieChart" ui-options="{
-                          percent: 65,
-                          lineWidth: 50,
-                          trackColor: '{{app.color.light}}',
-                          barColor: '{{app.color.info}}',
-                          scaleColor: false,
-                          size: 100,
-                          rotate: 90,
-                          lineCap: 'butt',
-                          animate: 2000
-                        }">
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </li>
+          </li> -->
           <li class="dropdown">
-            <a href class="dropdown-toggle">
+            <a ui-sref="app.page.projects" href>
               <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
-              <span>Inbox</span>
+              <span>Projects</span>
             </a>
-<!--             <ul class="dropdown-menu" role="menu">
-              <li><a href="#" translate="header.navbar.new.PROJECT">Projects</a></li>
-              <li>
-                <a href>
-                  <span class="badge bg-info pull-right">5</span>
-                  <span translate="header.navbar.new.TASK">Task</span>
-                </a>
-              </li>
-              <li><a href translate="header.navbar.new.USER">User</a></li>
-              <li class="divider"></li>
-              <li>
-                <a href>
-                  <span class="badge bg-danger pull-right">4</span>
-                  <span translate="header.navbar.new.EMAIL">Email</span>
-                </a>
-              </li>
-            </ul> -->
           </li>
+          <!-- <li class="dropdown">
+            <a ui-sref="apps.users" href>
+              <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
+              <span>Users</span>
+            </a>
+          </li> -->
         </ul>
         <!-- / link and dropdown -->
 
         <!-- search form -->
-<!--         <form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
+<!--         <form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" target="" role="search" ng-controller="TypeaheadDemoCtrl">
           <div class="form-group">
             <div class="input-group">
               <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control input-sm bg-light no-border rounded padder" placeholder="Search projects...">
