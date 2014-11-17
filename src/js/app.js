@@ -86,6 +86,11 @@ var app = angular.module('app', [
                     }]
                 }
             })
+            .state('app.page.gantt', {
+                url: '/projects/:id/gantt',
+                templateUrl: 'tpl/page_gantt.html',
+                controller:'ProjectViewGanttController'
+            })
             .state('app.page.network', {
                 url: '/projects/:id/network/create',
                 templateUrl: 'tpl/page_project_network_new.html',

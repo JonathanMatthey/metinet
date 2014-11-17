@@ -76,6 +76,24 @@ angular.module('app.services',[])
         }
     });
 }])
+.factory('ProjectGantt', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/projects/:id/gantt',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
 .factory('ProjectRFIs', ['$resource', function($resource) {
     return $resource('http://178.62.117.241/projects/:id/rfis',{
       id:'@_id'
@@ -168,6 +186,24 @@ angular.module('app.services',[])
 }])
 .factory('NodePermits', ['$resource', function($resource) {
     return $resource('http://178.62.117.241/nodes/:id/permits',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('NodeAudit', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/nodes/:id/audit',{
       id:'@_id'
     },{
         query: {
