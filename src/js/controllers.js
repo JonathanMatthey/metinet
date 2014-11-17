@@ -255,8 +255,21 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     // $scope.d0_2 = [ [0,4],[1,4.5],[2,7],[3,4.5],[4,3],[5,3.5],[6,6],[7,3],[8,4],[9,3] ];
   }])
-  .controller('NodeViewController', ['$scope', '$stateParams','Auth', 'Node', 'NodePermits', 'NodeLongLeads', 'NodeUsers',
-    function($scope,$stateParams,Auth,Node,NodePermits,NodeLongLeads,NodeUsers) {
+  .controller('ProjectViewGanttController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectGantt',
+    function($scope,$stateParams,Auth,Project,ProjectGantt) {
+    Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
+
+    Project.get({id:$stateParams.id})
+    .$promise.then(function(res) {
+      $scope.project = res.data;
+      console.log('-- project project');
+      console.log($scope.project);
+    });
+
+
+  }])
+  .controller('NodeViewController', ['$scope', '$stateParams','Auth', 'Node', 'NodePermits', 'NodeLongLeads', 'NodeUsers', 'NodeAudit',
+    function($scope,$stateParams,Auth,Node,NodePermits,NodeLongLeads,NodeUsers,NodeAudit) {
     Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
 
     console.log('nodeviewcontr')
@@ -295,6 +308,16 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
             // success handler
           $scope.nodePermits = res.data
           console.log('-- nodePermits');
+          console.log(res.data);
+        });
+
+        NodeAudit.get({
+          id:$stateParams.id
+        })
+        .$promise.then(function(res) {
+            // success handler
+          $scope.nodeAudit = res.data
+          console.log('-- nodeAudits');
           console.log(res.data);
         });
 
@@ -445,11 +468,11 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       });
     };
   }])
-  .controller('ModalPermitCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
+  .controller('ModalPermitCtrl', ['$scope', '$modal', '$log', 'ProjectPermits', function($scope, $modal, $log, ProjectPermits) {
     $scope.items = ['permit1', 'permit2', 'permit3'];
     $scope.open = function (size) {
       var modalInstance = $modal.open({
-        templateUrl: 'permitModalContent.html',
+        templateUrl: 'permitEditModalContent.html',
         controller: 'ModalInstanceCtrl',
         size: size,
         resolve: {
@@ -463,6 +486,28 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         $scope.selected = selectedItem;
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
+      });
+    };
+    $scope.newPermit = new ProjectPermits();
+    $scope.newPermit.name = "Big New Project";
+    $scope.newPermit.lat = 1.1;
+    $scope.newPermit.lng = 2.2;
+    $scope.newPermit.client_name = "JCB";
+
+    $scope.create = function() {
+      console.log($scope.newPermit);
+      toaster.pop('wait', 'Saving Permit', 'Shouldn\'t take long...');
+      $scope.newPermit.$save(
+        function(data){
+          console.log(JSON.stringify(data));
+          if(!data.result){
+            toaster.pop('error', 'Error', '');
+          }else{
+            toaster.pop('success', 'Success', '');
+            setTimeout(function(){
+              // $state.go('app.page.projects');
+            }, 1500);
+          }
       });
     };
   }])

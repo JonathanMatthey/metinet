@@ -6,7 +6,7 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="wrapper bg-white b-b ">
-            <h1 class="m-n font-thin h3">{{project.name}}</h1>
+            <h1 class="m-n font-thin h3" ng-bind="project.name"></h1>
             <tabset class="nav-tabs-alt" justified="true">
               <tab>
                 <tab-heading>
@@ -78,7 +78,7 @@
                               <span class="pull-right text-info">{{package.progress}}%</span>
                             </div>
                           </div>
-                          <div class="progress-xs m-t-sm bg-white progress ng-isolate-scope" value="35" animate="true" type="info">
+                          <div class="col-xs-12 progress-xs m-t-sm bg-white progress ng-isolate-scope" value="35" animate="true" type="info">
                             <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{package.progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width: package.progress + '%'}" aria-valuetext="{{package.progress}}%" style="width: {{package.progress}}%;"></div>
                           </div>
                         </div>
@@ -259,11 +259,11 @@
                     </div>
                     <div class="col-sm-3">
                       <span ng-controller="ModalRFICtrl" class="ng-scope">
-        <script type="text/ng-template" id="rfiEditModalContent.html">
-          <div ng-include="'tpl/modal_rfi.form.html'"></div>
-        </script>
-        <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','rfiEditModalContent.html')"><i class="fa fa-plus"></i>Add New RFI</button>
-      </span>
+                        <script type="text/ng-template" id="rfiEditModalContent.html">
+                          <div ng-include="'tpl/modal_rfi.form.html'"></div>
+                        </script>
+                        <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','rfiEditModalContent.html')"><i class="fa fa-plus"></i>Add New RFI</button>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -275,7 +275,7 @@
                 <div class="wrapper-xs">
                   <div class="panel-body">
                     <div ng-controller="ModalPermitCtrl" class="ng-scope">
-                      <script type="text/ng-template" id="permitModalContent.html">
+                      <script type="text/ng-template" id="permitViewModalContent.html">
                         <div ng-include="'tpl/modal_permit.html'"></div>
                       </script>
                       <table class="table table-striped m-b-none">
@@ -316,22 +316,6 @@
                           </tr>
                         </tbody>
                       </table>
-                    </div>
-                  </div>
-                  <div class="panel-footer wrapper row no-gutter no-border">
-                    <div class="col-sm-3">
-                      <div class="input-group">
-                      </div>
-                    </div>
-                    <div class="col-sm-6 ">
-                    </div>
-                    <div class="col-sm-3">
-                      <span ng-controller="ModalPermitCtrl" class="ng-scope">
-        <script type="text/ng-template" id="permitEditModalContent.html">
-          <div ng-include="'tpl/modal_permit.form.html'"></div>
-        </script>
-        <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','permitEditModalContent.html')"><i class="fa fa-plus"></i>Add New Permit</button>
-      </span>
                     </div>
                   </div>
                 </div>
@@ -391,22 +375,6 @@
                       </tbody>
                     </table>
                   </div>
-                  <div class="panel-footer wrapper row no-gutter no-border">
-                    <div class="col-sm-3">
-                      <div class="input-group">
-                      </div>
-                    </div>
-                    <div class="col-sm-6 ">
-                    </div>
-                    <div class="col-sm-3">
-                      <span ng-controller="ModalPermitCtrl" class="ng-scope">
-                        <script type="text/ng-template" id="permitEditModalContent.html">
-                          <div ng-include="'tpl/modal_permit.form.html'"></div>
-                        </script>
-                        <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','permitEditModalContent.html')"><i class="fa fa-plus"></i>Add New Long Lead Item</button>
-                      </span>
-                    </div>
-                  </div>
                 </div>
               </tab>
             </tabset>
@@ -424,8 +392,8 @@
       <div class="streamline b-l m-b">
         <div class="sl-item" ng-repeat="activity in projectAudit">
           <div class="m-l">
-            <div class="text-muted">5 minutes ago</div>
-            <p><a href="" class="text-info">Jessi</a> commented your post.</p>
+            <div class="text-muted">{{ activity.time | fromNow }}</div>
+            <p ng-bind="activity.text"></p>
           </div>
         </div>
       </div>

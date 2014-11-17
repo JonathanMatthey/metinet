@@ -28,7 +28,7 @@
   <div class="row" ng-hide="node.is_leaf">
     <div class="col-sm-6 col-xs-12">
       <div class="list-group list-group-lg list-group-sp">
-        <h4 class="m m-t-sm m-l-xs m-b-lg h4 text-black">Children nodes</h4>
+        <h4 class="m m-t-sm m-l-xs m-b-lg h4 text-black">Sub-task details</h4>
         <div ng-repeat="childNode in node.children">
           <a href="#/app/page/nodes/{{childNode.id}}" class="list-group-item clearfix" >
             <span class="clear">
@@ -55,7 +55,12 @@
           </tab-heading>
           <div class="wrapper-xs">
             <div class="row m-t">
-            [ audit history goes here, CORS ERRORS ]
+              <ul class="list-group list-group-lg m-b-none">
+                <li class="list-group-item" ng-repeat="audit in nodeAudit">
+                  <span class="pull-right label bg-primary inline m-t-sm">{{audit.text}}</span>
+                  <a href="" ng-bind=audit.text></a> [
+                </li>
+              </ul>
             </div>
           </div>
         </tab>
@@ -164,6 +169,12 @@
                 <div class="col-sm-6 ">
                 </div>
                 <div class="col-sm-3">
+                  <span ng-controller="" class="ng-scope">
+                    <script type="text/ng-template" id="">
+                      <div ng-include="'tpl/modal_permit.form.html'"></div>
+                    </script>
+                    <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','')"><i class="fa fa-plus"></i>Add New Long Lead Item</button>
+                  </span>
                 </div>
               </div>
             </div>
