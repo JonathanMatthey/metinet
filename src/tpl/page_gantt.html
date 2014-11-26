@@ -88,10 +88,12 @@
 
         gantt.config.work_time = true;
         gantt.config.details_on_create = false;
-        gantt.config.scale_unit = "day";
+        gantt.config.scale_unit = "month";
         gantt.config.duration_unit = "day";
         gantt.config.row_height = 30;
         gantt.config.min_column_width = 40;
+        gantt.config.step = 1;
+
         gantt.init("gantt_here");
         gantt.templates.task_cell_class = function(task, date){
           if(!gantt.isWorkTime(date))

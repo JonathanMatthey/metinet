@@ -27,7 +27,7 @@
                           yaxis:{ font: { color: '#666' }, max:100 },
                           grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#dce5ec' },
                           tooltip: true,
-                          tooltipOpts: { content: '%x.1 of %y.4',  defaultTheme: false, shifts: { x: 10, y: -25 } }
+                          tooltipOpts: { content: '%y.4 on %x',  defaultTheme: false, shifts: { x: 10, y: -25 } }
                         }
                       " style="height:246px" >
                       </div>
@@ -192,7 +192,7 @@
                         <a href="" class="thumb-sm m-r">
                           <img src="img/a1.jpg" class="r r-2x">
                         </a>
-                        <span class="pull-right label bg-primary inline m-t-sm">{{projectUser.fullname}}</span>
+                        <span class="pull-right label bg-info inline m-t-sm">{{projectUser.network.name}}</span>
                         <a href="" ng-bind=projectUser.fullname></a> [
                         <a class="small" href="" ng-bind=projectUser.email></a> ]
                       </li>
@@ -209,7 +209,12 @@
                       <div class="col-sm-6 ">
                       </div>
                       <div class="col-sm-3">
-                        <button class="btn btn-primary btn-addon btn-sm pull-right"><i class="fa fa-plus"></i>Add User to Project</button>
+                        <span ng-controller="ModalRFICtrl" class="ng-scope">
+                          <script type="text/ng-template" id="userViewModalContent.html">
+                            <div ng-include="'tpl/modal_user.html'"></div>
+                          </script>
+                          <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','userViewModalContent.html')"><i class="fa fa-plus"></i>Add User to Project</button>
+                        </span>
                       </div>
                       <!-- <span class="pull-right badge badge-bg m-t-xs">32</span> -->
                     </div>

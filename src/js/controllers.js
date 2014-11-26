@@ -77,7 +77,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   // -- Projects Controllers -- START
   .controller('ProjectListController', ['$scope', '$state', '$window', 'Auth', 'Project', function($scope,$state,$window,Auth,Project) {
     Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
-    $scope.projects=Project.query();
+    $scope.projects = Project.query();
   }])
 
   .controller('ProjectCreateController', ['$scope', '$state', '$window', '$http', 'Auth', 'Project', 'moment', 'toaster', function($scope,$state,$window,$http,Auth,Project,moment,toaster) {
@@ -259,13 +259,63 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     function($scope,$stateParams,Auth,Project,ProjectGantt) {
     Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
 
+    $scope.gantt_data = {
+      'data':[],
+      'links':[]
+    };
+
+    var link, dataNode;
+
     Project.get({id:$stateParams.id})
     .$promise.then(function(res) {
       $scope.project = res.data;
-      console.log('-- project project');
+      console.log('-- project:');
       console.log($scope.project);
     });
 
+    ProjectGantt.get({id:$stateParams.id})
+    .$promise.then(function(res) {
+      $scope.gantt_data_raw = res.data;
+      console.log('-- gantt data:');
+      console.log($scope.gantt_data_raw);
+
+      for (var i = 0; i < $scope.gantt_data_raw.gantt_data.length; i++){
+        var type;
+        var start_date = $scope.gantt_data_raw.gantt_data[i].start_date.substring(8,10) + "-" +
+        $scope.gantt_data_raw.gantt_data[i].start_date.substring(5,7) + "-" +
+        $scope.gantt_data_raw.gantt_data[i].start_date.substring(0,4);
+        console.log(start_date);
+        if(!$scope.gantt_data_raw.gantt_data[i].is_leaf){
+          type = gantt.config.types.task;
+        } else {
+          type = gantt.config.types.project;
+        }
+        dataNode = {
+                "id": $scope.gantt_data_raw.gantt_data[i].id,
+                "text": $scope.gantt_data_raw.gantt_data[i].name,
+                "start_date": start_date,
+                "duration": $scope.gantt_data_raw.gantt_data[i].duration,
+                "parent":  $scope.gantt_data_raw.gantt_data[i].parent_id,
+                "type": type
+              }
+        $scope.gantt_data.data.push(dataNode);
+      }
+
+      for (var j = 0; j < $scope.gantt_data_raw.dependencies.length; j++){
+        link = {
+                "id": j,
+                "source": $scope.gantt_data_raw.dependencies[j].source,
+                "target":  $scope.gantt_data_raw.dependencies[j].target,
+                "type":  $scope.gantt_data_raw.dependencies[j].type
+              }
+        $scope.gantt_data.links.push(link);
+      }
+
+      console.log('ganta data');
+      console.log($scope.gantt_data)
+      gantt.parse($scope.gantt_data);
+
+    });
 
   }])
   .controller('NodeViewController', ['$scope', '$stateParams','Auth', 'Node', 'NodePermits', 'NodeLongLeads', 'NodeUsers', 'NodeAudit',
@@ -791,6 +841,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.user = {};
     $scope.authError = null;
     $scope.signup = function() {
+      alert("signup!");
       $scope.authError = null;
       // Try to create
       $http.post('api/signup', {name: $scope.user.name, email: $scope.user.email, password: $scope.user.password})
