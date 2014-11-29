@@ -76,6 +76,24 @@ angular.module('app.services',[])
         }
     });
 }])
+.factory('Networks', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/networks',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
 .factory('ProjectGantt', ['$resource', function($resource) {
     return $resource('http://178.62.117.241/projects/:id/gantt',{
       id:'@_id'

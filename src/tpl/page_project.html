@@ -1,5 +1,4 @@
-<div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="
-">
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="init()">
   <!-- main -->
   <div class="col">
     <div class="wrapper-md">
@@ -192,6 +191,7 @@
                         <a href="" class="thumb-sm m-r">
                           <img src="img/a1.jpg" class="r r-2x">
                         </a>
+                        <a class="pull-right m m-t-xs" ng-click="deleteUser(projectUser.id)" style="line-height:26px"><i class="fa fa-trash"></i></a>
                         <span class="pull-right label bg-info inline m-t-sm">{{projectUser.network.name}}</span>
                         <a href="" ng-bind=projectUser.fullname></a> [
                         <a class="small" href="" ng-bind=projectUser.email></a> ]
@@ -200,21 +200,16 @@
                     <div class="panel-footer row m-t">
                       <div class="col-sm-3">
                         <!--           <div class="input-group">
-            <input type="text" class="input-sm form-control" placeholder="Search Users">
-            <span class="input-group-btn">
-              <button class="btn btn-sm btn-default" type="button">Go!</button>
-            </span>
-          </div> -->
+                          <input type="text" class="input-sm form-control" placeholder="Search Users">
+                          <span class="input-group-btn">
+                            <button class="btn btn-sm btn-default" type="button">Go!</button>
+                          </span>
+                        </div> -->
                       </div>
                       <div class="col-sm-6 ">
                       </div>
                       <div class="col-sm-3">
-                        <span ng-controller="ModalRFICtrl" class="ng-scope">
-                          <script type="text/ng-template" id="userViewModalContent.html">
-                            <div ng-include="'tpl/modal_user.html'"></div>
-                          </script>
-                          <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','userViewModalContent.html')"><i class="fa fa-plus"></i>Add User to Project</button>
-                        </span>
+                        <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="openAddUserToNetworkModal()"><i class="fa fa-plus"></i>Add User to Project</button>
                       </div>
                       <!-- <span class="pull-right badge badge-bg m-t-xs">32</span> -->
                     </div>
@@ -263,12 +258,7 @@
                     <div class="col-sm-6 ">
                     </div>
                     <div class="col-sm-3">
-                      <span ng-controller="ModalRFICtrl" class="ng-scope">
-                        <script type="text/ng-template" id="rfiEditModalContent.html">
-                          <div ng-include="'tpl/modal_rfi.form.html'"></div>
-                        </script>
-                        <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','rfiEditModalContent.html')"><i class="fa fa-plus"></i>Add New RFI</button>
-                      </span>
+                      <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="openAddRFIToNetworkModal()"><i class="fa fa-plus"></i>Add New RFI</button>
                     </div>
                   </div>
                 </div>

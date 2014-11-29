@@ -5,7 +5,7 @@
 <div class="wrapper-md">
   <div class="row">
     <div class="col-lg-6">
-      <!-- accordion -->      
+      <!-- accordion -->
       <div ng-controller="AccordionDemoCtrl">
         <accordion close-others="oneAtATime">
           <accordion-group heading="Accordion Header, initially expanded" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
@@ -103,14 +103,14 @@
         </carousel>
         <div class="panel-footer">
           <button type="button" class="btn btn-default m-r" ng-click="addSlide()">Add Slide</button>
-          Interval: <input type="number" class="form-control w-sm inline" ng-model="myInterval"> ms          
+          Interval: <input type="number" class="form-control w-sm inline" ng-model="myInterval"> ms
         </div>
       </div>
-      <!-- / carousel -->      
+      <!-- / carousel -->
 
       <!-- collapse -->
       <div class="panel b-a">
-        <div class="panel-heading b-b b-light">Collapse 
+        <div class="panel-heading b-b b-light">Collapse
           <button class="btn btn-default btn-xs pull-right" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed">Toggle collapse</button>
         </div>
         <div collapse="isCollapsed" class="panel-body">
@@ -219,13 +219,13 @@
           </div>
         </div>
         <button popover="{{dynamicPopover}}" popover-title="{{dynamicPopoverTitle}}" class="btn btn-info">Dynamic Popover</button>
-        
+
         <h5 class="m-t-md">Positional</h5>
         <button popover-placement="top" popover="On the Top!" class="btn btn-default">Top</button>
         <button popover-placement="left" popover="On the Left!" class="btn btn-default">Left</button>
         <button popover-placement="right" popover="On the Right!" class="btn btn-default">Right</button>
         <button popover-placement="bottom" popover="On the Bottom!" class="btn btn-default">Bottom</button>
-        
+
         <h5 class="m-t-md">Triggers</h5>
         <div class="row">
           <div class="col-sm-6">
@@ -260,7 +260,7 @@
             <progressbar class="progress-striped active progress-xs m-b-sm" max="200" value="90" type="warning"><i>90 / 200</i></progressbar>
           </div>
           <div class="list-group-item">
-            <progressbar max="max" value="dynamic" type="info" class="progress-sm m-t-sm"><span style="white-space:nowrap;">{{dynamic}} / {{max}}</span></progressbar>            
+            <progressbar max="max" value="dynamic" type="info" class="progress-sm m-t-sm"><span style="white-space:nowrap;">{{dynamic}} / {{max}}</span></progressbar>
             <progressbar animate="false" value="dynamic" type="success"><b>{{dynamic}}%</b></progressbar>
             <progressbar class="progress-striped active m-b-sm" value="dynamic" type="{{type}}">{{type}} <i ng-show="showWarning">!!! Watch out !!!</i></progressbar>
           </div>
@@ -348,10 +348,10 @@
           </div>
           <p>
             Pellentesque <a href="#" class="text-info" tooltip="{{dynamicTooltip}}">{{dynamicTooltipText}}</a>,
-            sit amet 
+            sit amet
             <a href="#" class="text-info" tooltip-placement="left" tooltip="On the Left!">left</a> eget arcu
-            <a href="#" class="text-info" tooltip-placement="right" tooltip="On the Right!">right</a> unc sed 
-            <a href="#" class="text-info" tooltip-placement="bottom" tooltip="On the Bottom!">bottom</a> pharetra convallis, 
+            <a href="#" class="text-info" tooltip-placement="right" tooltip="On the Right!">right</a> unc sed
+            <a href="#" class="text-info" tooltip-placement="bottom" tooltip="On the Bottom!">bottom</a> pharetra convallis,
             <a href="#" class="text-info" tooltip-animation="false" tooltip="I don't fade. :-(">fading</a> at elementum eu
             <a href="#" class="text-info" tooltip-popup-delay='1000' tooltip='appears with delay'>delayed</a> turpis.
           </p>
@@ -380,7 +380,7 @@
         <div class="pos-rlt">
           <i ng-show="loadingLocations" class="fa fa-spinner fa-spin form-control-spin"></i>
           <input type="text" ng-model="asyncSelected" placeholder="Locations loaded via $http" typeahead="address for address in getLocation($viewValue)" typeahead-loading="loadingLocations" class="form-control">
-        </div>        
+        </div>
       </div>
       <!-- / typehead -->
 
@@ -391,7 +391,7 @@
         <div class="m-b">
           <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="datepicker"></datepicker>
         </div>
-        <pre class="alert alert-info">Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>    
+        <pre class="alert alert-info">Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
         <div class="row">
           <div class="col-md-6">
             <label>Popup</label>
@@ -420,7 +420,7 @@
 
         <pre class="alert alert-info">Time is: {{mytime | date:'shortTime' }}</pre>
 
-        <div class="row m-b"> 
+        <div class="row m-b">
           <div class="col-xs-6">
               Hours step is:
             <select class="form-control" ng-model="hstep" ng-options="opt for opt in options.hstep"></select>
@@ -502,7 +502,7 @@
           <span class="label bg-danger">Danger</span>
           <span class="label bg-light dk">Light</span>
         </p>
-        <p class="m-b-none">          
+        <p class="m-b-none">
           <span class="badge bg-primary">15</span>
           <span class="badge bg-success">20</span>
           <span class="badge bg-info">21</span>
