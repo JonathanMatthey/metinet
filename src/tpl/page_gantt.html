@@ -2,7 +2,8 @@
   <div class="bg-light lter b-b wrapper-md ng-scope clear">
     <h1 class="pull-left m-n font-thin h3" >{{project.name}} - Gantt Chart</h1>
     <button  class="btn btn-primary pull-right m-l">Save</button>
-    <button  onclick="updateCriticalPath(this)" class="btn btn-info pull-right">Show Critical Path</button>
+    <button  onclick="updateCriticalPath(this)" class="btn btn-info pull-right m-l">Show Critical Path</button>
+    <button  onclick="goToToday(this)" class="btn btn-info pull-right m-l">Today</button>
   </div>
   <section class=" col-xs-12 ng-scope">
     <div class="wrapper b-b">
@@ -31,6 +32,20 @@
           }
           gantt.render();
         }
+
+        function goToToday(){
+          $(".gantt_task").animate({ scrollLeft: $(".gantt_marker.today").position().left-200}, 1000)
+        }
+
+        var date_to_str = gantt.date.date_to_str(gantt.config.task_date);
+
+        var id = gantt.addMarker({ start_date: new Date(), css: "today", title:date_to_str( new Date())});
+        setInterval(function(){
+            var today = gantt.getMarker(id);
+            today.start_date = new Date();
+            today.title = date_to_str(today.start_date);
+            gantt.updateMarker(id);
+        }, 1000*60);
           //also possible
           /*gantt.templates.task_class = function(start, end, task){
            if(gantt.isCriticalTask(task))
