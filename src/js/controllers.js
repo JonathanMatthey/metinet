@@ -76,7 +76,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   }])
   // -- Projects Controllers -- START
   .controller('ProjectListController', ['$scope', '$state', '$window', 'Auth', 'Project', function($scope,$state,$window,Auth,Project) {
-    Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
     $scope.projects = Project.query();
   }])
 
@@ -142,7 +141,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
   .controller('ProjectViewController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectUsers', 'ProjectRFIs', 'ProjectLongLeads', 'ProjectNetworks', 'ProjectLeaves', 'ProjectPermits','ProjectProgressPlot','ProjectAudit', 'Networks', '$modal', '$http', 'toaster',
     function($scope,$stateParams,Auth,Project,ProjectUsers,ProjectRFIs,ProjectLongLeads,ProjectNetworks, ProjectLeaves, ProjectPermits, ProjectProgressPlot, ProjectAudit, Networks, $modal, $http, toaster) {
-    Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
 
     $scope.newProjectRFI = ProjectRFIs();
 
@@ -350,7 +348,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   }])
   .controller('ProjectViewGanttController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectGantt',
     function($scope,$stateParams,Auth,Project,ProjectGantt) {
-    Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
 
     $scope.gantt_data = {
       'data':[],
@@ -413,7 +410,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   }])
   .controller('NodeViewController', ['$scope', '$stateParams','Auth', 'Node', 'NodePermits', 'NodeLongLeads', 'NodeUsers', 'NodeAudit',
     function($scope,$stateParams,Auth,Node,NodePermits,NodeLongLeads,NodeUsers,NodeAudit) {
-    Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
 
     console.log('nodeviewcontr')
     Node.get({id:$stateParams.id})
@@ -931,6 +927,9 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   .controller('SigninFormController', ['$scope', '$http', '$state','Auth', function($scope, $http, $state, Auth) {
     $scope.user = {};
     $scope.authError = null;
+    Auth.clearCredentials();
+    console.log(Auth.clearCredentials());
+
     $scope.login = function() {
       $scope.authError = null;
       // Try to login

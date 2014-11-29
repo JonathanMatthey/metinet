@@ -292,9 +292,13 @@ angular.module('app.services',[])
         }
     });
 }])
-.factory('Auth', ['Base64', '$cookieStore', '$http', function (Base64, $cookieStore, $http) {
+.factory('Auth', ['Base64', '$cookieStore', '$http', '$state', function (Base64, $cookieStore, $http, $state) {
     // initialize to whatever is in the cookie, if anything
     $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
+
+    if(typeof($cookieStore.get('authdata'))=="undefined"){
+      $state.go('access.signin');
+    }
 
     return {
         setCredentials: function (username, password) {

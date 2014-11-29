@@ -1,5 +1,5 @@
 app.controller('UserCtrl', ['$scope', '$http', '$filter', 'Auth', function($scope, $http, $filter, Auth) {
-  Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
+  // Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
 
   $http.get('js/app/users/users.json').then(function (resp) {
     $scope.items = resp.data.items;
