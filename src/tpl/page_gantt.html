@@ -37,6 +37,17 @@
           gantt.render();
         }
 
+        gantt.config.buttons_left=["dhx_save_btn","dhx_cancel_btn","details_btn"];
+        gantt.locale.labels["details_btn"] = "Full Details";
+
+        gantt.attachEvent("onLightboxButton", function(button_id, node, e){
+          if(button_id == "details_btn"){
+            var id = gantt.getState().lightbox;
+            window.location.href="#/app/page/nodes/"+id;
+            gantt.hideLightbox();
+          }
+        });
+
         function goToToday(){
           $(".gantt_task").animate({ scrollLeft: $(".gantt_marker.today").position().left-200}, 1000)
         }
