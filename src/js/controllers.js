@@ -313,9 +313,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         modalInstance.result.then(function (newRFI) {
           newRFI._id = $stateParams.id;
           ProjectRFIs.save(newRFI,function(u, putResponseHeaders) {
-            toaster.pop('success', 'User added', '');
-            setTimeout(function(){
-            }, 1500);
+            toaster.pop('success', 'User added', '.');
+            $scope.getProjectRFIs();
           });
         }, function () {
         });
