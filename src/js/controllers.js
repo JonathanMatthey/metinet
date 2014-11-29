@@ -354,7 +354,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         var start_date = $scope.gantt_data_raw.gantt_data[i].start_date.substring(8,10) + "-" +
         $scope.gantt_data_raw.gantt_data[i].start_date.substring(5,7) + "-" +
         $scope.gantt_data_raw.gantt_data[i].start_date.substring(0,4);
-        if(!$scope.gantt_data_raw.gantt_data[i].is_leaf){
+        if($scope.gantt_data_raw.gantt_data[i].is_leaf){
           type = gantt.config.types.task;
         } else {
           type = gantt.config.types.project;
