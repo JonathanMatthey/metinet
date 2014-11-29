@@ -181,10 +181,11 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       console.log('deleteUser',userId);
       ProjectUsers.delete({
         id:$stateParams.id,
-        users: [userId]
+        userId: userId
       })
       .$promise.then(function(res) {
-          // success handler
+          toaster.pop('success', 'User deleted', '.');
+          $scope.getProjectUsers();
       });
     }
 
@@ -337,8 +338,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
           console.log(selectedUsers);
           ProjectUsers.save({"_id":$stateParams.id,"users":selectedUsers},function(u, putResponseHeaders) {
             toaster.pop('success', 'User added', '');
-            setTimeout(function(){
-            }, 1500);
+            $scope.getProjectUsers();
           });
         }, function () {
         });

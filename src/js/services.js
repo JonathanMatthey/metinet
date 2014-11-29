@@ -41,8 +41,9 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectUsers', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/projects/:id/users',{
-      id:'@_id'
+    return $resource('http://178.62.117.241/projects/:id/users/:userId',{
+      id:'@_id',
+      userId:'@userId'
     },{
         query: {
             method: 'GET',
