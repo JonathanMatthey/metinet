@@ -36,3 +36,7 @@
   color: #454545;
   border: 1px solid #cecece;
 }
+
+.progress-xs{
+  background-color:#eee;
+}
