@@ -153,6 +153,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       $scope.getProjectLongLeads();
       $scope.getProjectPermits();
       $scope.getProjectLeaves();
+      $scope.getProjectProgressPlot();
     }
 
     $scope.getProject = function(){
@@ -384,7 +385,55 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       gantt.parse($scope.gantt_data);
 
       gantt_data = $scope.gantt_data.data;
+
     });
+
+    gantt.attachEvent("onAfterTaskUpdate", function(id,item){
+      $scope.updateProgressGantt();
+      $scope.updatingProjectGantt = true;
+    });
+    gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
+      $scope.updateProgressGantt();
+      $scope.updatingProjectGantt = true;
+    });
+    gantt.attachEvent("onAfterTaskDelete", function(id,item){
+      $scope.updateProgressGantt();
+      $scope.updatingProjectGantt = true;
+    });
+    gantt.attachEvent("onAfterTaskAdd", function(id,item){
+      $scope.updateProgressGantt();
+      $scope.updatingProjectGantt = true;
+    });
+    gantt.attachEvent("onAfterLinkUpdate", function(id,item){
+      $scope.updateProgressGantt();
+      $scope.updatingProjectGantt = true;
+    });
+    gantt.attachEvent("onAfterLinkDelete", function(id,item){
+      $scope.updateProgressGantt();
+      $scope.updatingProjectGantt = true;
+    });
+    gantt.attachEvent("onAfterLinkAdd", function(id,item){
+      $scope.updateProgressGantt();
+      $scope.updatingProjectGantt = true;
+    });
+
+    $scope.updatingProjectGantt = false;
+
+    $scope.updateProgressGantt = function(){
+      if (!$scope.updatingProjectGantt){
+        var gantt_data = gantt.serialize();
+        console.log($stateParams.id);
+        ProjectGantt.save({_id:$stateParams.id, gantt_data: gantt_data.data, dependencies: gantt_data.links},function(u, putResponseHeaders) {
+          $scope.updatingProjectGantt = false;
+          toaster.pop('success', 'Gantt update', '');
+          console.log('updated!');
+        });
+        // in case POST failed, enable it again
+        setTimeout(function(){
+          $scope.updatingProjectGantt = false;
+        },3000);
+      }
+    }
 
   }])
   .controller('NodeViewController', ['$scope', '$stateParams','Auth', 'Node', 'NodePermits', 'NodeLongLeads', 'NodeUsers', 'NodeAudit',
