@@ -26,7 +26,13 @@
 }
 
 .complete_button{
-    margin-top: 1px;
-    background-image:url("common/v_complete.png");
-    width: 20px;
+  margin-top: 1px;
+  background-image:url("common/v_complete.png");
+  width: 20px;
+}
+
+.gantt_btn_set.details_btn_set {
+  background: #fff;
+  color: #454545;
+  border: 1px solid #cecece;
 }

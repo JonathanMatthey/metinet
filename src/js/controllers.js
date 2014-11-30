@@ -379,11 +379,11 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
               }
         $scope.gantt_data.links.push(link);
       }
-
       console.log('ganta data');
       console.log($scope.gantt_data)
       gantt.parse($scope.gantt_data);
 
+      gantt_data = $scope.gantt_data.data;
     });
 
   }])

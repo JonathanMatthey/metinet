@@ -25,6 +25,8 @@
         <span>Loading Gantt Chart</span>
       </div>
       <script type="text/javascript">
+        var gantt_data;
+
         function updateCriticalPath(toggle){
           toggle.enabled = !toggle.enabled;
           if(toggle.enabled){
@@ -43,8 +45,22 @@
         gantt.attachEvent("onLightboxButton", function(button_id, node, e){
           if(button_id == "details_btn"){
             var id = gantt.getState().lightbox;
+            console.log('id',id);
             window.location.href="#/app/page/nodes/"+id;
             gantt.hideLightbox();
+          }
+        });
+
+        //excludes overtaking the target task by the source task
+        //in case of creating "finish_to_start" links
+        gantt.attachEvent("onBeforeLinkAdd", function(id, link){
+          if (link.type == 0){
+              var sourceTask = gantt.getTask(link.source);
+              var targetTask = gantt.getTask(link.target);
+              if (sourceTask.type === "project" || targetTask.type === "project"){
+                  alert("Can't link a folder")
+                  return false;
+              }
           }
         });
 
