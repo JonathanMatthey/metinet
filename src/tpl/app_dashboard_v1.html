@@ -1,5 +1,4 @@
-<div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="
-  ">
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="init()">
   <!-- main -->
   <div class="col">
     <!-- main header -->
@@ -8,6 +7,46 @@
         <div class="col-sm-6 col-xs-12">
           <h1 class="m-n font-thin h3 text-black">HOME</h1>
           <small class="text-muted">Welcome to angulr application</small>
+        </div>
+      </div>
+    </div>
+    <div class="bg-light lter b-b wrapper-md">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="wrapper bg-white b-b ">
+            <div class="row m-t">
+              <div class="col-md-4 bg-dark dk">
+                <h4 class="font-thin m-t-none m-b">Current Tasks</h4>
+                <div class="list-group no-radius alt">
+                  <a class="list-group-item" href=""  ng-repeat="task in homepageData.current_tasks">
+                    <span class="badge bg-success">{{task.progress}}%</span>
+                    <i class="fa fa-comment fa-fw text-muted"></i>
+                    {{task.name}}
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-4 bg-dark dk">
+                <h4 class="font-thin m-t-none m-b">Upcoming Tasks</h4>
+                <div class="list-group no-radius alt">
+                  <a class="list-group-item" href=""  ng-repeat="task in homepageData.upcoming_tasks">
+                    <span class="badge bg-success">{{task.progress}}%</span>
+                    <i class="fa fa-comment fa-fw text-muted"></i>
+                    {{task.name}}
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-4 bg-dark dk">
+                <h4 class="font-thin m-t-none m-b">Network RFIs</h4>
+                <div class="list-group no-radius alt">
+                  <a class="list-group-item" href=""  ng-repeat="rfi in homepageData.network_rfis">
+                    <span class="badge bg-{{rfi.status.colour}}">{{rfi.specific_id}}%</span>
+                    <i class="fa fa-comment fa-fw text-muted"></i>
+                    {{rfi.status.text}}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

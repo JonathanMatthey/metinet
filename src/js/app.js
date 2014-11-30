@@ -56,6 +56,7 @@ var app = angular.module('app', [
             })
             .state('app.dashboard-v1', {
                 url: '/dashboard-v1',
+                controller:'HomepageController',
                 templateUrl: 'tpl/app_dashboard_v1.html'
             })
             .state('app.dashboard-v2', {

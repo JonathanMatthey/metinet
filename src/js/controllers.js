@@ -905,6 +905,22 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   }])
 
   // Flot Chart controller
+  .controller('HomepageController', ['$scope', 'UserHomepage', function($scope, UserHomepage) {
+
+    $scope.init = function(){
+      console.log('qwe');
+
+      UserHomepage.get({
+      })
+      .$promise.then(function(res) {
+        console.log(res);
+        $scope.homepageData = res.data
+      });
+
+    }
+
+  }])
+  // Flot Chart controller
   .controller('FlotChartDemoCtrl', ['$scope', function($scope) {
 
   }])
@@ -950,7 +966,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       {latLng: [37.36, -122.03], name: 'Silicon Valley'}
     ];
   }])
-
   // signin controller
   .controller('SigninFormController', ['$scope', '$http', '$state','Auth', function($scope, $http, $state, Auth) {
     $scope.user = {};
