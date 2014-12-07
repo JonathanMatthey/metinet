@@ -30,15 +30,15 @@
           <dd>{{longleadItem.approved_data.user.fullname}} on <span ng-bind="longleadItem.approved_data.time | formatFullDate"></span></dd>
         </dl>
       </div>
-      <div class="modal-audit col-sm-12 dk padder-v r-r" ng-hide="hideAudit">
-          <h4 class="m-b text-md">Audit</h4>
-          <div class="streamline b-l m-b">
-            <div class="sl-item" ng-repeat="activity in longleadAudit">
-              <div class="m-l">
-                <div class="text-muted">{{ activity.time | fromNow }}</div>
-                <p ng-bind="activity.text"></p>
-              </div>
+      <div class="modal-audit wrapper-lg col-sm-12 bg-light lt padder-v r-r" ng-hide="hideAudit">
+        <h3 class="m-b text-md m-t-sm">Audit</h3>
+        <div class="streamline b-l m-b">
+          <div class="sl-item" ng-repeat="activity in longleadAudit">
+            <div class="m-l">
+              <div class="text-muted">{{ activity.time | fromNow }}</div>
+              <p ng-bind="activity.text"></p>
             </div>
+          </div>
         </div>
       </div>
       <div class="checkbox m-t-lg col-xs-12">

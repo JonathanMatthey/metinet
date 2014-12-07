@@ -529,10 +529,31 @@ $scope.updateProgressGantt = function(){
     }
 
   }])
-.controller('NodeViewController', ['$scope', '$stateParams','Auth', 'Node', 'NodePermits', 'NodeLongLeads', 'NodeUsers', 'NodeAudit',
-  function($scope,$stateParams,Auth,Node,NodePermits,NodeLongLeads,NodeUsers,NodeAudit) {
+.controller('NodeViewController', [
+  '$scope',
+  '$stateParams',
+  'Auth',
+  'Node',
+  'NodePermits',
+  'NodeLongLeads',
+  'NodeUsers',
+  'NodeAudit',
+  '$modal',
+  'LongLeads',
+  'toaster',
+  function($scope,
+    $stateParams,
+    Auth,
+    Node,
+    NodePermits,
+    NodeLongLeads,
+    NodeUsers,
+    NodeAudit,
+    $modal,
+    LongLeads,
+    toaster
+    ) {
 
-    console.log('nodeviewcontr')
     Node.get({id:$stateParams.id})
     .$promise.then(function(res) {
       $scope.node = res.data;
@@ -540,51 +561,110 @@ $scope.updateProgressGantt = function(){
       console.log($scope.node);
       if ($scope.node.is_leaf){
         // get users / permits / audit / longleads
-
-        NodeUsers.get({
-          id:$stateParams.id
-        })
-        .$promise.then(function(res) {
-            // success handler
-            $scope.nodeUsers = res.data
-            console.log('-- nodeUsers');
-            console.log(res.data);
-          });
-
-        NodeLongLeads.get({
-          id:$stateParams.id
-        })
-        .$promise.then(function(res) {
-            // success handler
-            $scope.nodeLongLeads = res.data
-            console.log('-- nodeLongLeads');
-            console.log(res.data);
-          });
-
-        NodePermits.get({
-          id:$stateParams.id
-        })
-        .$promise.then(function(res) {
-            // success handler
-            $scope.nodePermits = res.data
-            console.log('-- nodePermits');
-            console.log(res.data);
-          });
-
-        NodeAudit.get({
-          id:$stateParams.id
-        })
-        .$promise.then(function(res) {
-            // success handler
-            $scope.nodeAudit = res.data
-            console.log('-- nodeAudits');
-            console.log(res.data);
-          });
-
+        $scope.getNodeAudit();
+        $scope.getNodePermits();
+        $scope.getNodeLongLeads();
+        $scope.getNodeUsers();
       }
     });
 
-}])
+    $scope.getNodeAudit = function(){
+      NodeAudit.get({
+        id:$stateParams.id
+      })
+      .$promise.then(function(res) {
+        // success handler
+        $scope.nodeAudit = res.data
+        console.log('-- nodeAudits');
+        console.log(res.data);
+      });
+    }
+
+    $scope.getNodePermits = function(){
+      NodePermits.get({
+        id:$stateParams.id
+      })
+      .$promise.then(function(res) {
+        // success handler
+        $scope.nodePermits = res.data
+        console.log('-- nodePermits');
+        console.log(res.data);
+      });
+    }
+
+    $scope.getNodeLongLeads = function(){
+      NodeLongLeads.get({
+        id:$stateParams.id
+      })
+      .$promise.then(function(res) {
+        // success handler
+        $scope.nodeLongLeads = res.data
+        console.log('-- nodeLongLeads');
+        console.log(res.data);
+        console.log('$scope.nodeLongLeads.length');
+        console.log($scope.nodeLongLeads.length);
+
+      });
+    }
+
+    $scope.getNodeUsers = function(){
+      NodeUsers.get({
+        id:$stateParams.id
+      })
+      .$promise.then(function(res) {
+        // success handler
+        $scope.nodeUsers = res.data
+        console.log('-- nodeUsers');
+        console.log(res.data);
+      });
+    }
+
+    $scope.openAddLongLeadModal = function(){
+      $scope.newLongLead = new NodeLongLeads();
+      var modalInstance = $modal.open({
+        templateUrl: 'tpl/modal_longlead.form.html',
+        controller: 'AddLongLeadModal',
+        resolve: {
+          longlead: function () {
+            return $scope.newLongLead;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (newLongLead) {
+        newLongLead._id = $stateParams.id;
+        console.log(newLongLead);
+        NodeLongLeads.save(newLongLead,function(u, putResponseHeaders) {
+          toaster.pop('success', 'Long Lead Item added', '.');
+          $scope.getNodeLongLeads();
+        });
+      }, function () {
+      });
+    }
+
+    $scope.openAddPermitModal = function(){
+      $scope.newPermit = new NodePermits();
+      var modalInstance = $modal.open({
+        templateUrl: 'tpl/modal_permit.form.html',
+        controller: 'AddPermitModal',
+        resolve: {
+          permit: function () {
+            return $scope.newPermit;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (newPermit) {
+        newPermit._id = $stateParams.id;
+        console.log(newPermit);
+        NodePermits.save(newPermit,function(u, putResponseHeaders) {
+          toaster.pop('success', 'Permit added', '.');
+          $scope.getNodePermits();
+        });
+      }, function () {
+      });
+    }
+  }])
 .controller('ProjectNetworkCreateController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectNetworks',
   function($scope,$stateParams,Auth,Project,ProjectNetworks){
 
@@ -730,7 +810,7 @@ $scope.updateProgressGantt = function(){
     $scope.hideAudit = true;
 
     $scope.showAudit = function () {
-    $scope.hideAudit = false;
+      $scope.hideAudit = false;
     };
 
     $scope.ok = function () {
@@ -747,6 +827,28 @@ $scope.updateProgressGantt = function(){
 
     $scope.ok = function () {
       $modalInstance.close($scope.selectedUsers);
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  }])
+  .controller('AddLongLeadModal', ['$scope', '$modalInstance', 'longlead',  function($scope, $modalInstance, longlead) {
+    $scope.longlead = longlead;
+
+    $scope.ok = function () {
+      $modalInstance.close($scope.longlead);
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  }])
+  .controller('AddPermitModal', ['$scope', '$modalInstance', 'permit', function($scope, $modalInstance, permit) {
+    $scope.permit = permit;
+
+    $scope.ok = function () {
+      $modalInstance.close($scope.permit);
     };
 
     $scope.cancel = function () {

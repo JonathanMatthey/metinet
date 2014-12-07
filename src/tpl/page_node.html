@@ -53,16 +53,16 @@
             <tab-heading>
             Audit History
           </tab-heading>
-          <div class="wrapper-xs">
-            <div class="row m-t">
-              <ul class="list-group list-group-lg m-b-none">
-                <li class="list-group-item" ng-repeat="audit in nodeAudit">
-                  <span class="pull-right label bg-primary inline m-t-sm">{{audit.text}}</span>
-                  <a href="" ng-bind=audit.text></a> [
-                </li>
-              </ul>
+            <div class="row m-t  wrapper-lg ">
+              <div class="streamline b-l m-b">
+                <div class="sl-item" ng-repeat="activity in nodeAudit">
+                  <div class="m-l">
+                    <div class="text-muted">{{ activity.time | fromNow }}</div>
+                    <p ng-bind="activity.text"></p>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
         </tab>
           <tab>
             <tab-heading>
@@ -107,11 +107,11 @@
             <tab-heading>
             Long Lead
           </tab-heading>
-            <div class="m-t alert alert-warning text-center" ng-hide="nodeLongLeads.length">
+            <div class="m-t alert alert-warning text-center" ng-hide="nodeLongLeads.length > 0">
               This node has no Long Lead Items
             </div>
-            <div class="wrapper-xs" ng-show="nodeLongLeads.length">
-              <div class="panel-body">
+            <div class="wrapper-xs" >
+              <div class="panel-body" ng-show="nodeLongLeads.length > 0">
                 <table class="table table-striped m-b-none">
                   <thead>
                     <tr>
@@ -169,12 +169,7 @@
                 <div class="col-sm-6 ">
                 </div>
                 <div class="col-sm-3">
-                  <span ng-controller="" class="ng-scope">
-                    <script type="text/ng-template" id="">
-                      <div ng-include="'tpl/modal_permit.form.html'"></div>
-                    </script>
-                    <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="open('','')"><i class="fa fa-plus"></i>Add New Long Lead Item</button>
-                  </span>
+                  <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="openAddLongLeadModal()"><i class="fa fa-plus"></i>Add New Long Lead Item</button>
                 </div>
               </div>
             </div>
@@ -186,8 +181,8 @@
             <div class="m-t alert alert-warning text-center" ng-hide="nodePermits.length">
               This node has no Permits
             </div>
-            <div class="wrapper-xs" ng-show="nodePermits.length">
-              <div class="panel-body">
+            <div class="wrapper-xs">
+              <div class="panel-body"  ng-show="nodePermits.length">
                 <div class="ng-scope">
                   <table class="table table-striped m-b-none">
                     <thead>
@@ -237,6 +232,7 @@
                 <div class="col-sm-6 ">
                 </div>
                 <div class="col-sm-3">
+                  <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="openAddPermitModal()"><i class="fa fa-plus"></i>Add Permit</button>
                 </div>
               </div>
             </div>
