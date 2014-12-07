@@ -40,3 +40,17 @@
 .progress-xs{
   background-color:#eee;
 }
+
+.modal-body .dl-horizontal dd{
+  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-left:130px;
+}
+.modal-body .dl-horizontal dt{
+  margin-top: 10px;
+  width:110px;
+}
+
+.modal-body dl dd{
+  margin-bottom: 20px;
+}

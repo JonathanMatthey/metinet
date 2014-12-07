@@ -149,6 +149,42 @@ angular.module('app.services',[])
         }
     });
 }])
+.factory('LongLeads', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/long-leads/:id',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('Permits', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/permits/:id',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
 .factory('ProjectAudit', ['$resource', function($resource) {
     return $resource('http://178.62.117.241/projects/:id/audit',{
       id:'@_id'

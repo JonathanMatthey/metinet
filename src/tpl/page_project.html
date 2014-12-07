@@ -1,11 +1,11 @@
 <div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="init()">
   <!-- main -->
   <div class="col">
-    <div class="wrapper-md">
+    <div class="wrapper-sm">
       <div class="row">
         <div class="col-sm-12">
-          <div class="wrapper bg-white b-b ">
-            <h1 class="m-n font-thin h3" ng-bind="project.name"></h1>
+          <div class="wrapper-lg bg-white b-b ">
+            <h1 class="m-b-sm font-thin h3 " ng-bind="project.name"></h1>
             <tabset class="nav-tabs-alt" justified="true">
               <tab>
                 <tab-heading>
@@ -131,7 +131,7 @@
                       <div class="col-sm-6 ">
                       </div>
                       <div class="col-sm-3">
-                        <a class="btn btn-primary btn-addon btn-sm pull-right" ng-href="#/app/page/projects/{{project.id}}/network/create"><i class="fa fa-plus"></i>Add Network to Project</a>
+                        <!-- <a class="btn btn-primary btn-addon btn-sm pull-right" ng-href="#/app/page/projects/{{project.id}}/network/create"><i class="fa fa-plus"></i>Add Network to Project</a> -->
                       </div>
                       <!-- <span class="pull-right badge badge-bg m-t-xs">32</span> -->
                     </div>
@@ -257,9 +257,9 @@
                               </div>
                             </td>
                             <td class="text-center">
-                              <a href="" ng-click="open()"><i class="fa fa-fw m-r-xs fa-search"></i></a>
+                              <a href="" ng-click="openViewPermitModal($index)"><i class="fa fa-fw m-r-xs fa-search"></i></a>
                               <a href=""><i class="fa fa-fw m-r-xs fa-pencil"></i></a>
-                              <a href=""><i class="fa fa-fw fa-trash"></i></a>
+                              <a href="" ng-click="deletePermit(permit.id,permit.name)"><i class="fa fa-fw fa-trash"></i></a>
                             </td>
                           </tr>
                         </tbody>
@@ -315,9 +315,9 @@
                             </div>
                           </td>
                           <td class="text-center">
-                            <a href=""><i class="fa fa-fw m-r-xs fa-search"></i></a>
-                            <a href=""><i class="fa fa-fw m-r-xs fa-pencil"></i></a>
-                            <a href=""><i class="fa fa-fw fa-trash"></i></a>
+                            <a href="" ng-click="openViewLongLeadModal($index)"><i class="fa fa-fw m-r-xs fa-search"></i></a>
+                            <a href="" ng-click="openEditLongLeadModal(longLead._id)"><i class="fa fa-fw m-r-xs fa-pencil"></i></a>
+                            <a href="" ng-click="deleteLongLead(longLead.id,longLead.name)"><i class="fa fa-fw fa-trash"></i></a>
                           </td>
                         </tr>
                       </tbody>
@@ -334,7 +334,7 @@
   <!-- / main -->
   <!-- right col -->
   <div class="col w-md bg-light lter b-l bg-auto no-border-xs">
-<div class="padder-md">
+    <div class="padder-md">
       <!-- streamline -->
       <div class="m-b text-md">Recent Activity</div>
       <div class="streamline b-l m-b">
