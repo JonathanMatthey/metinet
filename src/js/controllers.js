@@ -337,46 +337,41 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     var link, dataNode;
 
-    Project.get({id:$stateParams.id})
-    .$promise.then(function(res) {
-      $scope.project = res.data;
-      console.log('-- project:');
-      console.log($scope.project);
-    });
 
     ProjectGantt.get({id:$stateParams.id})
     .$promise.then(function(res) {
+      $scope.project = res.data.project;
       $scope.gantt_data_raw = res.data;
       console.log('-- gantt data:');
       console.log($scope.gantt_data_raw);
 
-      for (var i = 0; i < $scope.gantt_data_raw.gantt_data.length; i++){
+      for (var i = 0; i < $scope.gantt_data_raw.data.length; i++){
         var type;
-        var start_date = $scope.gantt_data_raw.gantt_data[i].start_date.substring(8,10) + "-" +
-        $scope.gantt_data_raw.gantt_data[i].start_date.substring(5,7) + "-" +
-        $scope.gantt_data_raw.gantt_data[i].start_date.substring(0,4);
-        if($scope.gantt_data_raw.gantt_data[i].is_leaf){
+        var start_date = $scope.gantt_data_raw.data[i].start_date.substring(8,10) + "-" +
+        $scope.gantt_data_raw.data[i].start_date.substring(5,7) + "-" +
+        $scope.gantt_data_raw.data[i].start_date.substring(0,4);
+        if($scope.gantt_data_raw.data[i].is_leaf){
           type = gantt.config.types.task;
         } else {
           type = gantt.config.types.project;
         }
         dataNode = {
-                "id": $scope.gantt_data_raw.gantt_data[i].id,
-                "text": $scope.gantt_data_raw.gantt_data[i].name,
+                "id": $scope.gantt_data_raw.data[i].id,
+                "text": $scope.gantt_data_raw.data[i].name,
                 "start_date": start_date,
-                "duration": $scope.gantt_data_raw.gantt_data[i].duration,
-                "parent":  $scope.gantt_data_raw.gantt_data[i].parent_id,
+                "duration": $scope.gantt_data_raw.data[i].duration,
+                "parent":  $scope.gantt_data_raw.data[i].parent_id,
                 "type": type
               }
         $scope.gantt_data.data.push(dataNode);
       }
 
-      for (var j = 0; j < $scope.gantt_data_raw.dependencies.length; j++){
+      for (var j = 0; j < $scope.gantt_data_raw.links.length; j++){
         link = {
                 "id": j,
-                "source": $scope.gantt_data_raw.dependencies[j].source,
-                "target":  $scope.gantt_data_raw.dependencies[j].target,
-                "type":  $scope.gantt_data_raw.dependencies[j].type
+                "source": $scope.gantt_data_raw.links[j].source,
+                "target":  $scope.gantt_data_raw.links[j].target,
+                "type":  $scope.gantt_data_raw.links[j].type
               }
         $scope.gantt_data.links.push(link);
       }
@@ -421,9 +416,9 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     $scope.updateProgressGantt = function(){
       if (!$scope.updatingProjectGantt){
-        var gantt_data = gantt.serialize();
+        var data = gantt.serialize();
         console.log($stateParams.id);
-        ProjectGantt.save({_id:$stateParams.id, gantt_data: gantt_data.data, dependencies: gantt_data.links},function(u, putResponseHeaders) {
+        ProjectGantt.save({_id:$stateParams.id, data: data.data, links: data.links},function(u, putResponseHeaders) {
           $scope.updatingProjectGantt = false;
           toaster.pop('success', 'Gantt update', '');
           console.log('updated!');
