@@ -401,6 +401,88 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       });
     };
 
+    $scope.openEditPermitModal = function(permitIndex){
+      var permitId = $scope.projectPermits[permitIndex].id;
+      var permit = $scope.projectPermits[permitIndex];
+      var modalInstance = $modal.open({
+        templateUrl: 'tpl/modal_permit.form.html',
+        controller: 'EditPermitModal',
+        resolve: {
+          permit: function () {
+            return permit;
+          }
+        }
+      });
+
+      // var currentPermit = {};
+      // currentPermit.id = $scope.projectPermits[permitIndex].id;
+      // currentPermit.name = $scope.projectPermits[permitIndex].name;
+      // currentPermit.quantity = $scope.projectPermits[permitIndex].quantity;
+      // currentPermit.application_time = $scope.projectPermits[permitIndex].application_time;
+      // currentPermit.cost = $scope.projectPermits[permitIndex].cost;
+
+      // var modalInstance = $modal.open({
+      //   templateUrl: 'tpl/modal_permit.form.html',
+      //   controller: 'EditPermitModal',
+      //   resolve: {
+      //     permit: function () {
+      //       return currentPermit;
+      //     }
+      //   }
+      // });
+
+      modalInstance.result.then(function (permit) {
+        // permit._id = $stateParams.id;
+        console.log(permit);
+        Permits.save(permit,function(u, putResponseHeaders) {
+          toaster.pop('success', 'Permit saved', '.');
+          $scope.getNodePermits();
+        });
+      }, function () {
+      });
+    }
+
+    $scope.openEditLongLeadModal = function(longleadIndex){
+      var longleadId = $scope.projectLongLeads[longleadIndex].id;
+      var longlead = $scope.projectLongLeads[longleadIndex];
+      var modalInstance = $modal.open({
+        templateUrl: 'tpl/modal_longlead.form.html',
+        controller: 'AddLongLeadModal',
+        resolve: {
+          longlead: function () {
+            return longlead;
+          }
+        }
+      });
+
+      // var currentLongLead = {};
+      // currentLongLead.id = $scope.projectLongLeads[longleadIndex].id;
+      // currentLongLead.name = $scope.projectLongLeads[longleadIndex].name;
+      // currentLongLead.quantity = $scope.projectLongLeads[longleadIndex].quantity;
+      // currentLongLead.application_time = $scope.projectLongLeads[longleadIndex].application_time;
+      // currentLongLead.cost = $scope.projectLongLeads[longleadIndex].cost;
+
+      // var modalInstance = $modal.open({
+      //   templateUrl: 'tpl/modal_longlead.form.html',
+      //   controller: 'EditLongLeadModal',
+      //   resolve: {
+      //     longlead: function () {
+      //       return currentLongLead;
+      //     }
+      //   }
+      // });
+
+      modalInstance.result.then(function (longlead) {
+        // longlead._id = $stateParams.id;
+        console.log(longlead);
+        LongLeads.save(longlead,function(u, putResponseHeaders) {
+          toaster.pop('success', 'LongLead saved', '.');
+          $scope.getNodeLongLeads();
+        });
+      }, function () {
+      });
+    }
+
     $scope.deleteLongLead = function (longLeadId,longLeadName) {
       var r = confirm("Are you sure you want to delete " + longLeadName + "?");
       if (r == true) {
@@ -815,6 +897,17 @@ $scope.updateProgressGantt = function(){
 
     $scope.ok = function () {
       $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  }])
+  .controller('EditPermitModal', ['$scope', '$modalInstance', 'permit', function($scope, $modalInstance, permit) {
+    $scope.permit = permit;
+
+    $scope.ok = function () {
+      $modalInstance.close($scope.permit);
     };
 
     $scope.cancel = function () {

@@ -151,7 +151,7 @@ angular.module('app.services',[])
 }])
 .factory('LongLeads', ['$resource', function($resource) {
     return $resource('http://178.62.117.241/long-leads/:id',{
-      id:'@_id'
+      id:'@id'
     },{
         query: {
             method: 'GET',
@@ -169,7 +169,7 @@ angular.module('app.services',[])
 }])
 .factory('Permits', ['$resource', function($resource) {
     return $resource('http://178.62.117.241/permits/:id',{
-      id:'@_id'
+      id:'@id'
     },{
         query: {
             method: 'GET',
