@@ -293,6 +293,23 @@ angular.module('app.services',[])
         }
     });
 }])
+.factory('NodeDependencies', ['$resource', function($resource) {
+    return $resource('http://178.62.117.241/nodes/:id/dependencies',{
+      id:'@id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
 .factory('NodeUsers', ['$resource', function($resource) {
     return $resource('http://178.62.117.241/nodes/:id/users',{
       id:'@_id'
@@ -313,7 +330,7 @@ angular.module('app.services',[])
 }])
 .factory('Node', ['$resource', function($resource) {
     return $resource('http://178.62.117.241/nodes/:id',{
-      id:'@_id'
+      id:'@id'
     },{
         query: {
             method: 'GET',

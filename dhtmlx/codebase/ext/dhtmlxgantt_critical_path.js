@@ -21,8 +21,7 @@ gantt.attachEvent("onAfterTaskDelete", gantt._criticalPathHandler);
 
 
 gantt.isCriticalTask = function (task) {
-  console.log('iscrittask?')
-  if(this._isTask(task)){
+  if(this._isTask(task)||true){
     if(this._isProjectEnd(task)){
       return true;
     }else{
@@ -38,7 +37,6 @@ gantt.isCriticalTask = function (task) {
 };
 
 gantt.isCriticalLink = function (link) {
-  console.log('isCriticalLink?')
   return this.isCriticalTask(gantt.getTask(link.source));
 };
 

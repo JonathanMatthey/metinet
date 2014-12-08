@@ -511,8 +511,25 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       }
     };
   }])
-.controller('ProjectViewGanttController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectGantt',
-  function($scope,$stateParams,Auth,Project,ProjectGantt) {
+.controller('ProjectViewGanttController', [
+  '$scope',
+  '$stateParams',
+  'Auth',
+  'Project',
+  'ProjectGantt',
+  'Node',
+  'toaster',
+  'NodeDependencies',
+  function(
+    $scope,
+    $stateParams,
+    Auth,
+    Project,
+    ProjectGantt,
+    Node,
+    toaster,
+    NodeDependencies
+  ) {
 
     $scope.gantt_data = {
       'data':[],
@@ -529,9 +546,10 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
       for (var i = 0; i < $scope.gantt_data_raw.data.length; i++){
         var type;
+        // "2012-10-20 00:00:00"
         var start_date = $scope.gantt_data_raw.data[i].start_date.substring(8,10) + "-" +
-        $scope.gantt_data_raw.data[i].start_date.substring(5,7) + "-" +
-        $scope.gantt_data_raw.data[i].start_date.substring(0,4);
+            $scope.gantt_data_raw.data[i].start_date.substring(5,7) + "-" +
+            $scope.gantt_data_raw.data[i].start_date.substring(0,4);
         if($scope.gantt_data_raw.data[i].is_leaf){
           type = gantt.config.types.task;
         } else {
@@ -543,7 +561,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
           "start_date": start_date,
           "duration": $scope.gantt_data_raw.data[i].duration,
           "parent":  $scope.gantt_data_raw.data[i].parent_id,
-          "type": type
+          "type": type,
+          "progress": (parseInt($scope.gantt_data_raw.data[i].progress,10)/100)
         }
         $scope.gantt_data.data.push(dataNode);
       }
@@ -558,42 +577,49 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         $scope.gantt_data.links.push(link);
       }
       console.log('ganta data');
-      console.log($scope.gantt_data)
+      console.log($scope.gantt_data);
       gantt.parse($scope.gantt_data);
-
       gantt_data = $scope.gantt_data.data;
     });
 
     gantt.attachEvent("onAfterTaskUpdate", function(id,item){
-      $scope.updateProgressGantt();
-      $scope.updatingProjectGantt = true;
-    });
-    gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
-      $scope.updateProgressGantt();
-      $scope.updatingProjectGantt = true;
+      var updatedNode = {}
+      console.log(id,item);
+      updatedNode.id = item.id;
+      updatedNode.name = item.text;
+      updatedNode.duration = item.duration;
+      updatedNode.progress = ''+(item.progress * 100);
+      updatedNode.start_date = moment(item.start_date).format("YYYY-MM-DD 00:00:00");
+      updatedNode.end_date = moment(item.end_date).format("YYYY-MM-DD 00:00:00");
+      Node.update(updatedNode,function(u, putResponseHeaders) {
+        toaster.pop('success', 'Saved', updatedNode.name);
+      });
     });
     gantt.attachEvent("onAfterTaskDelete", function(id,item){
-      $scope.updateProgressGantt();
-      $scope.updatingProjectGantt = true;
+      console.log(id,item);
+      Node.delete({id:item.id},function(u, putResponseHeaders) {
+        toaster.pop('success', 'Deleted', item.text);
+      });
     });
     gantt.attachEvent("onAfterTaskAdd", function(id,item){
+        console.log(id,item);
       $scope.updateProgressGantt();
-      $scope.updatingProjectGantt = true;
     });
     gantt.attachEvent("onAfterLinkUpdate", function(id,item){
+        console.log(id,item);
       $scope.updateProgressGantt();
-      $scope.updatingProjectGantt = true;
     });
     gantt.attachEvent("onAfterLinkDelete", function(id,item){
-      $scope.updateProgressGantt();
-      $scope.updatingProjectGantt = true;
+      console.log(id,item);
+      NodeDependencies.delete({"id":item.id},function(u,r){
+        toaster.pop('success', 'Deleted', '.');
+      });
     });
     gantt.attachEvent("onAfterLinkAdd", function(id,item){
+        console.log(id,item);
       $scope.updateProgressGantt();
-      $scope.updatingProjectGantt = true;
     });
 
-    $scope.updatingProjectGantt = false;
 
     $scope.updateProgressGantt = function(){
       // if (!$scope.updatingProjectGantt){
