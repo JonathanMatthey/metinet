@@ -22,7 +22,9 @@ var app = angular.module('app', [
     'app.directives',
     'app.controllers',
     'angularMoment',
-    'toaster'
+    'toaster',
+    'truncate',
+    'ui.select'
   ])
 .run(
   [          '$rootScope', '$state', '$stateParams','$cookieStore','$http',
@@ -189,7 +191,6 @@ var app = angular.module('app', [
                     }]
                 }
             })
-
             // mail
             .state('app.mail', {
                 abstract: true,

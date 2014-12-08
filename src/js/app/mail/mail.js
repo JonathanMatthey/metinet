@@ -1,4 +1,4 @@
-app.controller('MailCtrl', ['$scope', function($scope) {
+app.controller('MailCtrl', ['$scope','$http','Conversations', function($scope, $http, Conversations) {
   $scope.folds = [
     {name: 'Inbox', filter:''},
     {name: 'Starred', filter:'starred'},
@@ -14,6 +14,26 @@ app.controller('MailCtrl', ['$scope', function($scope) {
     {name: 'Client', filter:'client', color:'#fad733'},
     {name: 'Work', filter:'work', color:'#27c24c'}
   ];
+
+  $scope.conversations = {};
+
+  $scope.init = function(){
+    $scope.getConversations();
+
+    $http.get('http://178.62.117.241/conversations/latest').then(function (resp) {
+      console.log('resp ')
+      console.log(resp )
+    });
+
+    $http.get('http://178.62.117.241/conversations/recipients').then(function (resp) {
+      console.log('resp ')
+      console.log(resp )
+    });
+  }
+
+  $scope.getConversations = function(){
+    $scope.conversations = Conversations.query();
+  }
 
   $scope.addLabel = function(){
     $scope.labels.push(
@@ -31,7 +51,7 @@ app.controller('MailCtrl', ['$scope', function($scope) {
       'b-l-info': angular.lowercase(label) === 'angular',
       'b-l-primary': angular.lowercase(label) === 'bootstrap',
       'b-l-warning': angular.lowercase(label) === 'client',
-      'b-l-success': angular.lowercase(label) === 'work'      
+      'b-l-success': angular.lowercase(label) === 'work'
     };
   };
 
@@ -50,17 +70,24 @@ app.controller('MailDetailCtrl', ['$scope', 'mails', '$stateParams', function($s
   })
 }]);
 
-app.controller('MailNewCtrl', ['$scope', function($scope) {
+app.controller('MailNewCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.mail = {
     to: '',
     subject: '',
     content: ''
   }
-  $scope.tolist = [
-    {name: 'James', email:'james@gmail.com'},
-    {name: 'Luoris Kiso', email:'luoris.kiso@hotmail.com'},
-    {name: 'Lucy Yokes', email:'lucy.yokes@gmail.com'}
-  ];
+
+  $scope.tolist = [];
+
+  $http.get('http://178.62.117.241/conversations/recipients').then(function (resp) {
+    $scope.tolist = resp.data.data;
+    console.log('$scope.tolist');
+    console.log($scope.tolist);
+    // this is a bad hack... needs resolved correctly with angular / ui-jq and chosen dependencies but prob take a good 5 - 6 hours to figure out
+    setTimeout(function(){
+      $("#new-msg-to").chosen();
+    },500)
+  });
 }]);
 
 angular.module('app').directive('labelColor', function(){

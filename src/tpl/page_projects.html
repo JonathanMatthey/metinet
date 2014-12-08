@@ -1,65 +1,65 @@
 <div class="bg-light lter b-b wrapper-md">
-    <div class="row">
-        <div class="col-sm-6 col-xs-12">
-            <h1 class="m-n font-thin h3 text-black">Projects</h1>
-        </div>
-        <div class="col-sm-6 col-xs-12">
-            <a ui-sref="app.page.newproject" class="btn btn-primary btn-addon btn-sm pull-right">
-                <i class="fa fa-plus"></i>Add New Project
-            </a>
-        </div>
+  <div class="row">
+    <div class="col-sm-6 col-xs-12">
+      <h1 class="m-n font-thin h3 text-black">Projects</h1>
     </div>
+    <div class="col-sm-6 col-xs-12">
+      <a ui-sref="app.page.newproject" class="btn btn-primary btn-addon btn-sm pull-right">
+        <i class="fa fa-plus"></i>Add New Project
+      </a>
+    </div>
+  </div>
 </div>
 <div class="wrapper-md">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="table-responsive">
-                    <table class="table table-striped b-t b-light">
-                        <thead>
-                            <tr>
-                                <th>Project</th>
-                                <th>Country</th>
-                                <th>Progress</th>
-                                <th>Start Date</th>
-                                <th>Last Updated</th>
-                                <th>Contract End Date</th>
-                                <th>Calculated End Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="project in projects">
-                                <td>
-                                    <a ng-href="#/app/page/projects/{{project.id}}">
-                                    {{project.name}}
-                                </a>
-                                </td>
-                                <td>{{project.country_id}}</td>
-                                <td>
-                                    <div class="progress progress-xs m-t-xs m-b-none">
-                                        <div class="progress-bar bg-info" data-toggle="tooltip" data-original-title="{{project.progress}}%" style="width: {{project.progress}}%"></div>
-                                    </div>
-                                </td>
-                                <td>{{project.start_date | formatFullDate }}</td>
-                                <td>{{project.updated_at | formatFullDate }}</td>
-                                <td>{{project.end_date_contract | formatFullDate }}</td>
-                                <td>{{project.end_date_calculated | formatFullDate }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <footer class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-4 hidden-xs">
-                        </div>
-                        <div class="col-sm-4 text-center">
-                            <small class="text-muted inline m-t-sm m-b-sm">{{projects.length}} projects</small>
-                        </div>
-                        <div class="col-sm-4 text-right text-center-xs">
-                        </div>
-                    </div>
-                </footer>
-            </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="table-responsive">
+          <table class="table table-striped b-t b-light">
+            <thead>
+              <tr>
+                <th>Project</th>
+                <th>Country</th>
+                <th>Progress</th>
+                <th>Start Date</th>
+                <th>Last Updated</th>
+                <th>Contract End Date</th>
+                <th>Calculated End Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="project in projects">
+                <td>
+                  <a ng-href="#/app/page/projects/{{project.id}}">
+                {{project.name}}
+            </a>
+                </td>
+                <td>{{project.country_id}}</td>
+                <td>
+                  <div class="progress progress-xs m-t-xs m-b-none">
+                    <div class="progress-bar bg-info" data-toggle="tooltip" data-original-title="{{project.progress}}%" style="width: {{project.progress}}%"></div>
+                  </div>
+                </td>
+                <td>{{project.start_date | formatFullDate }}</td>
+                <td>{{project.updated_at | formatFullDate }}</td>
+                <td>{{project.end_date_contract | formatFullDate }}</td>
+                <td>{{project.end_date_calculated | formatFullDate }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        <footer class="panel-footer">
+          <div class="row">
+            <div class="col-sm-4 hidden-xs">
+            </div>
+            <div class="col-sm-4 text-center">
+              <small class="text-muted inline m-t-sm m-b-sm">{{projects.length}} projects</small>
+            </div>
+            <div class="col-sm-4 text-right text-center-xs">
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
+  </div>
 </div>

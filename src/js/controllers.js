@@ -75,6 +75,30 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
       }])
   // -- Projects Controllers -- START
+  .controller('MessagesListController', ['$scope', '$state', '$window', '$http', 'Auth', 'Conversations', function($scope,$state,$window,$http,Auth,Conversations) {
+    $scope.conversations = {}
+
+    $scope.init = function(){
+      $scope.getConversations();
+
+      $http.get('http://178.62.117.241/conversations/latest').then(function (resp) {
+        console.log('resp ')
+        console.log(resp )
+      });
+
+      $http.get('http://178.62.117.241/conversations/recipients').then(function (resp) {
+        console.log('resp ')
+        console.log(resp )
+      });
+    }
+
+    $scope.getConversations = function(){
+      $scope.conversations = Conversations.query();
+    }
+
+  }])
+
+  // -- Projects Controllers -- START
   .controller('ProjectListController', ['$scope', '$state', '$window', 'Auth', 'Project', function($scope,$state,$window,Auth,Project) {
     $scope.projects = Project.query();
   }])
