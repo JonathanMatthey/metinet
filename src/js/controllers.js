@@ -214,16 +214,22 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         });
     }
 
-    $scope.deleteUser = function (userId) {
-      console.log('deleteUser',userId);
-      ProjectUsers.delete({
-        id:$stateParams.id,
-        userId: userId
-      })
-      .$promise.then(function(res) {
-        toaster.pop('success', 'User deleted', '.');
-        $scope.getProjectUsers();
-      });
+    $scope.deleteUser = function (userIndex) {
+      console.log(userIndex)
+      var user = $scope.projectUsers[userIndex];
+      var r = confirm("Are you sure you want to delete " + user.fullname + "?");
+      if (r == true) {
+        ProjectUsers.delete({
+          id:$stateParams.id,
+          userId: user.id
+        })
+        .$promise.then(function(res) {
+          toaster.pop('success', 'User deleted', '.');
+          $scope.getProjectUsers();
+        });
+      }
+
+
     }
 
     $scope.getProjectAudit = function(){

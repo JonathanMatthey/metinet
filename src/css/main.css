@@ -54,3 +54,7 @@
 .modal-body dl dd{
   margin-bottom: 20px;
 }
+
+.thumb-sm{
+  vertical-align: top;
+}
