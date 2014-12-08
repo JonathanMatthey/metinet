@@ -23,8 +23,7 @@ var app = angular.module('app', [
     'app.controllers',
     'angularMoment',
     'toaster',
-    'truncate',
-    'ui.select'
+    'truncate'
   ])
 .run(
   [          '$rootScope', '$state', '$stateParams','$cookieStore','$http',
