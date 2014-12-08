@@ -53,14 +53,15 @@
         //excludes overtaking the target task by the source task
         //in case of creating "finish_to_start" links
         gantt.attachEvent("onBeforeLinkAdd", function(id, link){
-          if (link.type == 0){
-              var sourceTask = gantt.getTask(link.source);
-              var targetTask = gantt.getTask(link.target);
-              if (sourceTask.type === "project" || targetTask.type === "project"){
-                  alert("Can't link a folder")
-                  return false;
-              }
-          }
+          // if (link.type == 0){
+            var sourceTask = gantt.getTask(link.source);
+            var targetTask = gantt.getTask(link.target);
+            console.log(sourceTask.type, targetTask.type )
+            if (sourceTask.type === "project" || targetTask.type === "project"){
+              alert("Can't link to or from a Project Folder")
+              return false;
+            }
+          // }
         });
 
         function goToToday(){
