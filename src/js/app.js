@@ -23,7 +23,8 @@ var app = angular.module('app', [
     'app.controllers',
     'angularMoment',
     'toaster',
-    'truncate'
+    'truncate',
+    'angular-lodash'
   ])
 .run(
   [          '$rootScope', '$state', '$stateParams','$cookieStore','$http',

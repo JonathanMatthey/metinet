@@ -59,15 +59,23 @@ app.controller('MailCtrl', ['$scope','$http','Conversations', function($scope, $
 
 app.controller('MailListCtrl', ['$scope', 'mails', '$stateParams', function($scope, mails, $stateParams) {
   $scope.fold = $stateParams.fold;
-  mails.all().then(function(mails){
-    $scope.mails = mails;
-  });
+  // mails.all().then(function(mails){
+  //   $scope.mails = mails;
+  // });
 }]);
 
-app.controller('MailDetailCtrl', ['$scope', 'mails', '$stateParams', function($scope, mails, $stateParams) {
-  mails.get($stateParams.mailId).then(function(mail){
-    $scope.mail = mail;
+app.controller('MailDetailCtrl', ['$scope', 'mails', '$stateParams', 'Conversations', function($scope, mails, $stateParams, Conversations) {
+  $scope.conversation = {};
+  Conversations.get({
+    id:$stateParams.mailId
   })
+  .$promise.then(function(res) {
+    // success handler
+    $scope.conversation = res.data;
+    console.log('$scope.mail');
+    console.log($scope.mail);
+  });
+
 }]);
 
 app.controller('MailNewCtrl', ['$scope', '$http', function($scope, $http) {

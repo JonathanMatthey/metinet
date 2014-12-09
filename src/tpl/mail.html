@@ -8,9 +8,8 @@
       <ul class="nav nav-pills nav-stacked nav-sm">
         <li ng-repeat="conversation in conversations" ui-sref-active="active">
           <a href="#/app/mail/{{conversation.id}}">
-            <div class="font-bold">{{ conversation.users | pluck:'fullname' | join:', '  }}</div>
-            <div class="text-underline">>{{conversation.subject | words:5 }}</div>
-            <div>{{conversation.messages[0].message | words:5 }}</div>
+            <div class="font-bold" ng-bind="conversation.updater.fullname"></div>
+            <div>{{conversation.subject | words:5 }}</div>
           </a>
         </li>
       </ul>

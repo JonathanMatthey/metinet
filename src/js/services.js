@@ -78,8 +78,8 @@ angular.module('app.services',[])
     });
 }])
 .factory('Conversations', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/conversations',{
-      id:'@_id'
+    return $resource('http://178.62.117.241/conversations/:id',{
+      id:'@id'
     },{
         query: {
             method: 'GET',
