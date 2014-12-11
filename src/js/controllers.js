@@ -81,12 +81,12 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.init = function(){
       $scope.getConversations();
 
-      $http.get('http://178.62.117.241/conversations/latest').then(function (resp) {
+      $http.get('http://178.62.102.108/conversations/latest').then(function (resp) {
         console.log('resp ')
         console.log(resp )
       });
 
-      $http.get('http://178.62.117.241/conversations/recipients').then(function (resp) {
+      $http.get('http://178.62.102.108/conversations/recipients').then(function (resp) {
         console.log('resp ')
         console.log(resp )
       });
@@ -121,14 +121,14 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.project.cost_management = true;
     $scope.project.terms = true;
 
-    $http.get('http://178.62.117.241/countries').then(function (resp) {
+    $http.get('http://178.62.102.108/countries').then(function (resp) {
       $scope.countries = resp.data.data;
       console.log('$scope.countries ')
       console.log($scope.countries )
       $scope.projectCountry = $scope.countries[1];
     });
 
-    $http.get('http://178.62.117.241/currencies').then(function (resp) {
+    $http.get('http://178.62.102.108/currencies').then(function (resp) {
       $scope.currencies = resp.data.data;
       console.log('$scope.currencies' )
       console.log($scope.currencies )
@@ -366,7 +366,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       });
     }
     $scope.openAddUserToNetworkModal = function () {
-      $http.get('http://178.62.117.241/projects/'+ $stateParams.id +'/potential-users')
+      $http.get('http://178.62.102.108/projects/'+ $stateParams.id +'/potential-users')
       .then(function(resp){
         $scope.potentialUsers = resp.data.data;
         var modalInstance = $modal.open({
@@ -392,7 +392,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     $scope.openViewLongLeadModal = function (longleadIndex) {
       var longleadId = $scope.projectLongLeads[longleadIndex].id;
-      $http.get('http://178.62.117.241/long-leads/'+longleadId+'/audit').then(function (resp) {
+      $http.get('http://178.62.102.108/long-leads/'+longleadId+'/audit').then(function (resp) {
         $scope.longleadAudit = resp.data.data;
         var modalInstance = $modal.open({
           templateUrl: 'tpl/modal_longlead.html',
@@ -411,7 +411,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     $scope.openViewPermitModal = function (permitIndex) {
       var permitId = $scope.projectPermits[permitIndex].id;
-      $http.get('http://178.62.117.241/permits/'+permitId+'/audit').then(function (resp) {
+      $http.get('http://178.62.102.108/permits/'+permitId+'/audit').then(function (resp) {
         console.log(resp )
         $scope.permitAudit = resp.data.data;
         var modalInstance = $modal.open({
@@ -1348,7 +1348,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.login = function() {
       $scope.authError = null;
       // Try to login
-      $http.post('http://178.62.117.241/auth', {
+      $http.post('http://178.62.102.108/auth', {
         headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
         email: $scope.user.email,
         password: $scope.user.password})
