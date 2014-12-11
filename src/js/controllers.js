@@ -97,6 +97,15 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }
 
   }])
+  // -- Projects Controllers -- START
+  .controller('HeaderController', ['$scope', '$state', '$window', '$http', 'Auth', function($scope,$state,$window,$http,Auth) {
+    $scope.currentUsername = Auth.getCurrentUsername();
+    // $scope.currentUsername = "";
+    console.log($scope.currentUsername)
+    $scope.init = function(){
+    }
+
+  }])
 
   // -- Projects Controllers -- START
   .controller('ProjectListController', ['$scope', '$state', '$window', 'Auth', 'Project', function($scope,$state,$window,Auth,Project) {

@@ -391,9 +391,13 @@ angular.module('app.services',[])
     }
 
     return {
+        getCurrentUsername: function () {
+            return $cookieStore.get('username');
+        },
         setCredentials: function (username, password) {
             var encoded = Base64.encode(username + ':' + password);
             $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
+            $cookieStore.put('username', username);
             $cookieStore.put('authdata', encoded);
         },
         clearCredentials: function () {
