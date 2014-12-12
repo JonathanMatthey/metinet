@@ -78,6 +78,11 @@ var app = angular.module('app', [
                 url: '/profile',
                 templateUrl: 'tpl/page_profile.html'
             })
+            .state('app.page.settings', {
+                url: '/settings',
+                templateUrl: 'tpl/page_settings.html',
+                controller:'ProjectSettingsController'
+            })
             .state('app.page.projects', {
                 url: '/projects',
                 templateUrl: 'tpl/page_projects.html',

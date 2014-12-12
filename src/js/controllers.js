@@ -97,7 +97,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }
 
   }])
-  // -- Projects Controllers -- START
   .controller('HeaderController', ['$scope', '$state', '$window', '$http', 'Auth', function($scope,$state,$window,$http,Auth) {
     $scope.currentUsername = Auth.getCurrentUsername();
     // $scope.currentUsername = "";
@@ -107,7 +106,24 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
   }])
 
-  // -- Projects Controllers -- START
+  .controller('ProjectSettingsController', ['$scope', '$state', '$window', 'Auth', '$http',  function($scope,$state,$window,Auth,$http) {
+    $scope.profile = {};
+
+    $http.get('http://178.62.102.108/profiles/1').then(function (resp) {
+      $scope.profile = resp.data.data;
+    });
+
+    $scope.saveProfile = function(){
+      var newProf = {};
+      newProf.firstname = $scope.profile.firstname;
+      newProf.id = $scope.profile.id;
+
+      $http.put('http://178.62.102.108/profiles',newProf,function (resp) {
+        console.log(resp);
+      });
+    };
+  }])
+
   .controller('ProjectListController', ['$scope', '$state', '$window', 'Auth', 'Project', function($scope,$state,$window,Auth,Project) {
     $scope.projects = Project.query();
   }])
@@ -1286,7 +1302,14 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }])
 
   // Flot Chart controller
-  .controller('HomepageController', ['$scope', 'UserHomepage', function($scope, UserHomepage) {
+  .controller('HomepageController', ['$scope', 'UserHomepage', '$http', function($scope, UserHomepage, $http) {
+
+    $scope.newsfeed = [];
+    $scope.newsfeedSkip = 0;
+
+    $scope.upcoming_tasks = [];
+    $scope.current_tasks = [];
+    $scope.network_rfis = [];
 
     $scope.init = function(){
       console.log('qwe');
@@ -1296,8 +1319,32 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .$promise.then(function(res) {
         console.log(res);
         $scope.homepageData = res.data
+        $scope.upcoming_tasks = $scope.homepageData.upcoming_tasks.slice(0,10);
+        $scope.current_tasks = $scope.homepageData.current_tasks.slice(0,10);
+        $scope.network_rfis = $scope.homepageData.network_rfis.slice(0,10);
       });
 
+      $scope.getNewsfeed();
+    }
+
+    $scope.showAllUpcomingTasks = function(){
+      $scope.upcoming_tasks = $scope.homepageData.upcoming_tasks;
+    }
+
+    $scope.showAllCurrentTasks = function(){
+      $scope.current_tasks = $scope.homepageData.current_tasks;
+    }
+
+    $scope.showAllNetworkRFIS = function(){
+      $scope.network_rfis = $scope.homepageData.network_rfis;
+    }
+
+    $scope.getNewsfeed = function(){
+      $http.get('http://178.62.102.108/user/newsfeed/'+$scope.newsfeedSkip).then(function (resp) {
+        $.merge($scope.newsfeed, resp.data.data);
+        console.log($scope.newsfeed)
+        $scope.newsfeedSkip++;
+      });
     }
 
   }])
