@@ -68,6 +68,11 @@ app.controller('MailDetailCtrl', ['$scope', 'mails', '$stateParams', 'Conversati
   $scope.conversation = {};
   $scope.messageBody = "";
 
+  var conv_channel = pusher.subscribe('Conversation_'+$stateParams.mailId);
+  conv_channel.bind('message-stored', function(data) {
+    $scope.getConversation();
+  });
+
   $scope.init = function(){
     $scope.getConversation();
   }
@@ -84,6 +89,7 @@ app.controller('MailDetailCtrl', ['$scope', 'mails', '$stateParams', 'Conversati
     });
   }
 
+
   $scope.sendMessage = function(){
     $http.post('http://178.62.102.108/conversations/' + $stateParams.mailId + '/message', {
       message: $scope.messageBody
@@ -96,11 +102,11 @@ app.controller('MailDetailCtrl', ['$scope', 'mails', '$stateParams', 'Conversati
 
 }]);
 
-app.controller('MailNewCtrl', ['$scope', '$http', function($scope, $http) {
+app.controller('MailNewCtrl', ['$scope', '$http','Conversations', '$location', function($scope, $http,Conversations, $location) {
   $scope.mail = {
-    to: '',
+    recipients: '',
     subject: '',
-    content: ''
+    message: ''
   }
 
   $scope.tolist = [];
@@ -114,6 +120,19 @@ app.controller('MailNewCtrl', ['$scope', '$http', function($scope, $http) {
       $("#new-msg-to").chosen();
     },500)
   });
+
+  $scope.startConversation = function(){
+    Conversations.save($scope.mail,function(u, putResponseHeaders) {
+      $scope.mail = {
+        recipients: '',
+        subject: '',
+        message: ''
+      };
+
+      var newConvoId = u.data[0].id;
+      $location.path('app/mail/' + newConvoId);
+    });
+  }
 }]);
 
 angular.module('app').directive('labelColor', function(){

@@ -39,18 +39,15 @@
 
   <script src="//js.pusher.com/2.2/pusher.min.js" type="text/javascript"></script>
   <script type="text/javascript">
-    // // Enable pusher logging - don't include this in production
-    // Pusher.log = function(message) {
-    //   if (window.console && window.console.log) {
-    //     window.console.log(message);
-    //   }
-    // };
+    // Enable pusher logging - don't include this in production
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) {
+        window.console.log(message);
+      }
+    };
 
-    // var pusher = new Pusher('6b5abd6806ff36f34495');
-    // var channel = pusher.subscribe('test_channel');
-    // channel.bind('my_event', function(data) {
-    //   alert(data.message);
-    // });
+    var pusher = new Pusher('6b5abd6806ff36f34495');
+
   </script>
 
   <script src="http://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/0.4.4/toaster.js"></script>
