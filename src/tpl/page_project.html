@@ -1,7 +1,10 @@
 <div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="init()">
   <!-- main -->
   <div class="col">
-    <div class="wrapper-sm">
+    <div class="loading-gantt">
+      <span>Loading Project</span>
+    </div>
+    <div class="wrapper-sm" ng-show="projectTodo">
       <div class="row">
         <div class="col-sm-12">
           <div class="wrapper-lg bg-white b-b ">
@@ -110,11 +113,11 @@
                     <tr>
                       <td>Long Leads
                       </td>
-                      <td class="text-right text-success" ng-bind="projectTodo.long_leads.ok">
+                      <td class="text-right text-success" ng-bind="projectTodo.long_lead.ok">
                       </td>
-                      <td class="text-right text-info" ng-bind="projectTodo.long_leads.attention">
+                      <td class="text-right text-info" ng-bind="projectTodo.long_lead.attention">
                       </td>
-                      <td class="text-right text-danger" ng-bind="projectTodo.long_leads.critical">
+                      <td class="text-right text-danger" ng-bind="projectTodo.long_lead.critical">
                       </td>
                     </tr>
                     <tr>
@@ -370,7 +373,7 @@
 </div>
 <!-- / main -->
 <!-- right col -->
-<div class="col w-md bg-light lter b-l bg-auto no-border-xs">
+<div class="col w-md bg-light lter b-l bg-auto no-border-xs"  ng-show="projectTodo">
   <div class="padder-md m-t-md">
     <!-- streamline -->
     <a href="#/app/page/projects/{{project.id}}/gantt" class="btn btn-sm btn-primary">OPEN GANTT CHART</a>
