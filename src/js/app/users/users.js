@@ -1,5 +1,5 @@
 app.controller('UserCtrl', ['$scope', '$http', '$filter', 'Auth', function($scope, $http, $filter, Auth) {
-  Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
+  // Auth.setCredentials('jemima.scott@fakeremail.com','test1234');
 
   $http.get('js/app/users/users.json').then(function (resp) {
     $scope.items = resp.data.items;
@@ -7,7 +7,7 @@ app.controller('UserCtrl', ['$scope', '$http', '$filter', 'Auth', function($scop
     $scope.item.selected = true;
   });
 
-  $http.get('http://178.62.117.241/users',{ headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'}}    ).then(function (res) {
+  $http.get('http://178.62.102.108/users',{ headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'}}    ).then(function (res) {
     console.log('-- users');
     console.log(res)
   });

@@ -1,0 +1,40 @@
+<div class="bg-light lter b-b wrapper-md" ng-init="init()">
+  <div class="row">
+    <div class="col-sm-6 col-xs-12">
+      <h1 class="m-n font-thin h3 text-black">Messages</h1>
+    </div>
+    <div class="col-sm-6 col-xs-12">
+      <a ui-sref="app.page.newproject" class="btn btn-primary btn-addon btn-sm pull-right">
+        <i class="fa fa-plus"></i>Add New Project
+      </a>
+    </div>
+  </div>
+</div>
+<div class="wrapper-md">
+  <div class="row">
+    <div class="col-sm-12">
+    <div class="panel panel-default row">
+        <div class="col-sm-2 no-padder">
+          <ul class="list-group list-group-lg no-radius m-b-none m-t-n-xxs">
+            <li ng-repeat="conversation in conversations" class="list-group-item clearfix b-l-3x">
+              <a ui-sref="app.page.profile" class="avatar thumb pull-left m-r">
+                <img ng-src="img/a9.jpg">
+              </a>
+              <div class="pull-right text-sm text-muted">
+                <span class="hidden-xs">{{ conversation.updated_at | fromNow }}</span>
+              </div>
+              <div class="clear">
+                <div><a ui-sref="app.conversation.detail({conversationId:conversation.id})" class="text-md">{{conversation.subject}}</a><span class="label bg-light m-l-sm">{{conversation.label}}</span>
+                </div>
+                <div class="text-ellipsis m-t-xs">{{conversation.content | limitTo:100}}</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-sm-10 no-padder">
+          MAIN !!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

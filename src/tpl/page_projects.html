@@ -1,112 +1,65 @@
 <div class="bg-light lter b-b wrapper-md">
-    <div class="row">
-        <div class="col-sm-6 col-xs-12">
-            <h1 class="m-n font-thin h3 text-black">Projects</h1>
-        </div>
-        <div class="col-sm-6 col-xs-12">
-            <a ui-sref="app.page.newproject" class="btn btn-primary btn-addon btn-sm pull-right">
-                <i class="fa fa-plus"></i>Add New Project
-            </a>
-        </div>
+  <div class="row">
+    <div class="col-sm-6 col-xs-12">
+      <h1 class="m-n font-thin h3 text-black">Projects</h1>
     </div>
+    <div class="col-sm-6 col-xs-12">
+      <a ui-sref="app.page.newproject" class="btn btn-primary btn-addon btn-sm pull-right">
+        <i class="fa fa-plus"></i>Add New Project
+      </a>
+    </div>
+  </div>
 </div>
 <div class="wrapper-md">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-default">
-                <!--                 <div class="row wrapper">
-                    <div class="col-sm-5 m-b-xs">
-                    </div>
-                    <div class="col-sm-4">
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="input-group">
-                            <input type="text" class="input-sm form-control" placeholder="Search">
-                            <span class="input-group-btn">
-                              <button class="btn btn-sm btn-default" type="button">Go!</button>
-                            </span>
-                        </div>
-                    </div>
-                </div> -->
-                <div class="table-responsive">
-                    <table class="table table-striped b-t b-light">
-                        <thead>
-                            <tr>
-                                <!-- <th style="width:20px;">
-                                    <label class="i-checks m-b-none">
-                                        <input type="checkbox"><i></i>
-                                    </label>
-                                </th> -->
-                                <th>Project</th>
-                                <th>Country</th>
-                                <th>Progress</th>
-                                <th>Start Date</th>
-                                <th>Last Updated</th>
-                                <th>Contract End Date</th>
-                                <th>Calculated End Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="project in projects">
-                                <!--                                 <td>
-                                  <label class="i-checks m-b-none">
-                                      <input type="checkbox" name="post[]"><i></i>
-                                  </label>
-                              </td> -->
-                                <td>
-                                    <a ng-href="#/app/page/projects/{{project.id}}">
-                                    {{project.name}}
-                                </a>
-                                </td>
-                                <td>{{project.country_id}}</td>
-                                <td>
-                                    <div class="progress progress-xs m-t-xs m-b-none">
-                                        <div class="progress-bar bg-info" data-toggle="tooltip" data-original-title="{{project.progress}}%" style="width: {{project.progress}}%"></div>
-                                    </div>
-                                </td>
-                                <td>{{project.start_date | formatFullDate }}</td>
-                                <td>{{project.updated_at | formatFullDate }}</td>
-                                <td>{{project.end_date_contract | formatFullDate }}</td>
-                                <td>{{project.end_date_calculated | formatFullDate }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <footer class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-4 hidden-xs">
-                            <!--                     <select class="input-sm form-control w-sm inline v-middle">
-                        <option value="0">Bulk action</option>
-                        <option value="1">Delete selected</option>
-                        <option value="2">Bulk edit</option>
-                        <option value="3">Export</option>
-                    </select>
-                    <button class="btn btn-sm btn-default">Apply</button> -->
-                        </div>
-                        <div class="col-sm-4 text-center">
-                            <small class="text-muted inline m-t-sm m-b-sm">{{projects.length}} projects</small>
-                        </div>
-                        <div class="col-sm-4 text-right text-center-xs">
-                            <!--                     <ul class="pagination pagination-sm m-t-none m-b-none">
-                        <li><a href=""><i class="fa fa-chevron-left"></i></a>
-                        </li>
-                        <li><a href="">1</a>
-                        </li>
-                        <li><a href="">2</a>
-                        </li>
-                        <li><a href="">3</a>
-                        </li>
-                        <li><a href="">4</a>
-                        </li>
-                        <li><a href="">5</a>
-                        </li>
-                        <li><a href=""><i class="fa fa-chevron-right"></i></a>
-                        </li>
-                    </ul> -->
-                        </div>
-                    </div>
-                </footer>
-            </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="table-responsive">
+          <table class="table table-striped b-t b-light">
+            <thead>
+              <tr>
+                <th>Project</th>
+                <th>Country</th>
+                <th>Progress</th>
+                <th>Start Date</th>
+                <th>Last Updated</th>
+                <th>Contract End Date</th>
+                <th>Calculated End Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="project in projects">
+                <td>
+                  <a ng-href="#/app/page/projects/{{project.id}}">
+                {{project.name}}
+            </a>
+                </td>
+                <td>{{project.country_id}}</td>
+                <td>
+                  <div class="progress progress-xs m-t-xs m-b-none">
+                    <div class="progress-bar bg-info" data-toggle="tooltip" data-original-title="{{project.progress}}%" style="width: {{project.progress}}%"></div>
+                  </div>
+                </td>
+                <td>{{project.start_date | formatFullDate }}</td>
+                <td>{{project.updated_at | formatFullDate }}</td>
+                <td>{{project.end_date_contract | formatFullDate }}</td>
+                <td>{{project.end_date_calculated | formatFullDate }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        <footer class="panel-footer">
+          <div class="row">
+            <div class="col-sm-4 hidden-xs">
+            </div>
+            <div class="col-sm-4 text-center">
+              <small class="text-muted inline m-t-sm m-b-sm">{{projects.length}} projects</small>
+            </div>
+            <div class="col-sm-4 text-right text-center-xs">
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
+  </div>
 </div>

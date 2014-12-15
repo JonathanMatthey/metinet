@@ -1,0 +1,50 @@
+<div class="modal-header">
+  <h3 class="m-t-none m-b font-thin">New RFI</h3>
+</div>
+<div class="modal-body">
+  <form role="form">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="from">From</label>
+          <input type="text" ng-model="requestingNetwork" typeahead="network as network.name for network in networks | filter:{name:$viewValue} | limitTo:8" class="form-control ng-valid ng-dirty" aria-autocomplete="list" aria-expanded="false" style="-webkit-transition-timing-function: initial, initial; transition-timing-function: initial, initial; -webkit-transition-delay: initial, initial; transition-delay: initial, initial;">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="to">To</label>
+          <input type="text" ng-model="respondingNetwork" typeahead="network as network.name for network in networks | filter:{name:$viewValue} | limitTo:8" class="form-control ng-valid ng-dirty" aria-autocomplete="list" aria-expanded="false" style="-webkit-transition-timing-function: initial, initial; transition-timing-function: initial, initial; -webkit-transition-delay: initial, initial; transition-delay: initial, initial;">
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="request_body">Request Body</label>
+      <textarea id="request_body" name="request_body" ng-model="newRFI.request_body" class="form-control" rows="3" placeholder="Details"></textarea>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <div ng-controller="DatepickerDemoCtrl" class="m-b-lg">
+            <label for="deadline">Deadline</label>
+            <p class="input-group">
+              <input ng-model="newRFI.response_deadline" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="associated_files">Associated Files</label>
+          <input id="associated_files" name="associated_files" type="text" class="form-control" placeholder="How do you want to send?" >
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+</div>

@@ -10,18 +10,24 @@
           </div>
           <div class="list-group list-group-sm">
             <div class="list-group-item">
-              <input placeholder="Name" class="form-control no-border" ng-model="user.name" required>
+              <input placeholder="First Name" class="form-control no-border" ng-model="signUpUser.firstname" required>
             </div>
             <div class="list-group-item">
-              <input type="email" placeholder="Email" class="form-control no-border" ng-model="user.email" required>
+              <input placeholder="Last Name" class="form-control no-border" ng-model="signUpUser.lastname" required>
             </div>
             <div class="list-group-item">
-               <input type="password" placeholder="Password" class="form-control no-border" ng-model="user.password" required>
+              <input type="email" placeholder="Email" class="form-control no-border" ng-model="signUpUser.email" required>
+            </div>
+            <div class="list-group-item">
+               <input type="password" placeholder="Password" class="form-control no-border" ng-model="signUpUser.password" required>
+            </div>
+            <div class="list-group-item">
+               <input type="password" placeholder="Confirm Password" class="form-control no-border" ng-model="signUpUser.password_confirm" required>
             </div>
           </div>
           <div class="checkbox m-b-md m-t-none">
             <label class="i-checks">
-              <input type="checkbox" ng-model="agree" required><i></i> Agree the <a href>terms and policy</a>
+              <input type="checkbox" ng-model="agree" required  ng-model="signUpUser.terms"><i></i> Agree the <a href>terms and policy</a>
             </label>
           </div>
           <button type="submit" class="btn btn-lg btn-primary btn-block" ng-click="signup()" ng-disabled='form.$invalid'>Sign up</button>

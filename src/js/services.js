@@ -4,7 +4,7 @@
 
 angular.module('app.services',[])
 .factory('Project', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/projects/:id',{
+    return $resource('http://178.62.102.108/projects/:id',{
       id:'@_id'
     },{
         query: {
@@ -23,7 +23,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectProgressPlot', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/projects/:id/progress-plot',{
+    return $resource('http://178.62.102.108/projects/:id/progress-plot',{
       id:'@_id'
     },{
         query: {
@@ -41,8 +41,9 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectUsers', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/projects/:id/users',{
-      id:'@_id'
+    return $resource('http://178.62.102.108/projects/:id/users/:userId',{
+      id:'@_id',
+      userId:'@userId'
     },{
         query: {
             method: 'GET',
@@ -59,7 +60,43 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectNetworks', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/projects/:id/networks',{
+    return $resource('http://178.62.102.108/projects/:id/networks',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('Conversations', ['$resource', function($resource) {
+    return $resource('http://178.62.102.108/conversations/:id',{
+      id:'@id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('Networks', ['$resource', function($resource) {
+    return $resource('http://178.62.102.108/networks/:id',{
       id:'@_id'
     },{
         query: {
@@ -77,7 +114,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectGantt', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/projects/:id/gantt',{
+    return $resource('http://178.62.102.108/projects/:id/gantt',{
       id:'@_id'
     },{
         query: {
@@ -95,7 +132,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectRFIs', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/projects/:id/rfis',{
+    return $resource('http://178.62.102.108/projects/:id/rfis',{
       id:'@_id'
     },{
         query: {
@@ -113,7 +150,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectLongLeads', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/projects/:id/long-leads',{
+    return $resource('http://178.62.102.108/projects/:id/long-leads',{
       id:'@_id'
     },{
         query: {
@@ -130,8 +167,44 @@ angular.module('app.services',[])
         }
     });
 }])
+.factory('LongLeads', ['$resource', function($resource) {
+    return $resource('http://178.62.102.108/long-leads/:id',{
+      id:'@id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('Permits', ['$resource', function($resource) {
+    return $resource('http://178.62.102.108/permits/:id',{
+      id:'@id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
 .factory('ProjectAudit', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/projects/:id/audit',{
+    return $resource('http://178.62.102.108/projects/:id/audit',{
       id:'@_id'
     },{
         query: {
@@ -149,7 +222,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectPermits', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/projects/:id/permits',{
+    return $resource('http://178.62.102.108/projects/:id/permits',{
       id:'@_id'
     },{
         query: {
@@ -167,7 +240,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectLeaves', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/projects/:id/leaves',{
+    return $resource('http://178.62.102.108/projects/:id/leaves',{
       id:'@_id'
     },{
         query: {
@@ -185,7 +258,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('NodePermits', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/nodes/:id/permits',{
+    return $resource('http://178.62.102.108/nodes/:id/permits',{
       id:'@_id'
     },{
         query: {
@@ -203,7 +276,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('NodeAudit', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/nodes/:id/audit',{
+    return $resource('http://178.62.102.108/nodes/:id/audit',{
       id:'@_id'
     },{
         query: {
@@ -221,7 +294,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('NodeLongLeads', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/nodes/:id/long-leads',{
+    return $resource('http://178.62.102.108/nodes/:id/long-leads',{
       id:'@_id'
     },{
         query: {
@@ -238,8 +311,25 @@ angular.module('app.services',[])
         }
     });
 }])
+.factory('NodeDependencies', ['$resource', function($resource) {
+    return $resource('http://178.62.102.108/nodes/:id/dependencies',{
+      id:'@id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
 .factory('NodeUsers', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/nodes/:id/users',{
+    return $resource('http://178.62.102.108/nodes/:id/users',{
       id:'@_id'
     },{
         query: {
@@ -257,8 +347,8 @@ angular.module('app.services',[])
     });
 }])
 .factory('Node', ['$resource', function($resource) {
-    return $resource('http://178.62.117.241/nodes/:id',{
-      id:'@_id'
+    return $resource('http://178.62.102.108/nodes/:id',{
+      id:'@id'
     },{
         query: {
             method: 'GET',
@@ -274,15 +364,44 @@ angular.module('app.services',[])
         }
     });
 }])
-.factory('Auth', ['Base64', '$cookieStore', '$http', function (Base64, $cookieStore, $http) {
+.factory('UserHomepage', ['$resource', function($resource) {
+    return $resource('http://178.62.102.108/user/homepage',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                console.log(res.data);
+                return res.data;
+            },
+            isArray: true
+        },
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('Auth', ['Base64', '$cookieStore', '$http', '$state', function (Base64, $cookieStore, $http, $state) {
     // initialize to whatever is in the cookie, if anything
     $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
 
+    if(typeof($cookieStore.get('authdata'))=="undefined"){
+      $state.go('access.signin');
+    }
+
     return {
-        setCredentials: function (username, password) {
+        getCredential: function(credentialField){
+            return $cookieStore.get(credentialField);
+        },
+        setCredentials: function (username, password, userData) {
             var encoded = Base64.encode(username + ':' + password);
             $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
             $cookieStore.put('authdata', encoded);
+            $cookieStore.put('username', userData.username);
+            $cookieStore.put('fullname', userData.fullname);
+            $cookieStore.put('userid', userData.id);
+            $cookieStore.put('networkid', userData.network.id);
         },
         clearCredentials: function () {
             document.execCommand("ClearAuthenticationCache");

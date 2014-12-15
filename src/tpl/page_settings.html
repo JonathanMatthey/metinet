@@ -1,0 +1,67 @@
+<div class="bg-light lter b-b wrapper-md hidden-print">
+  <!-- <a href class="btn btn-sm btn-info pull-right">Print</a> -->
+  <h1 class="m-n font-thin h3">Settings</h1>
+</div>
+<div class="wrapper-md">
+  <div>
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+        <div class="panel panel-default">
+          <div class="panel-heading font-bold">Account</div>
+          <div class="panel-body">
+            <form role="form" class="ng-pristine ng-valid">
+              <div class="row">
+                <div class="form-group col-sm-6">
+                  <label>First Name</label>
+                  <input ng-model="profile.firstname" type="text" class="form-control" placeholder="">
+                </div>
+                <div class="form-group col-sm-6">
+                  <label>Last Name</label>
+                  <input ng-model="profile.lastname" type="text" class="form-control" placeholder="">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-6">
+                  <label>Email address</label>
+                  <input ng-model="profile.email" type="email" class="form-control" placeholder="Enter email">
+                </div>
+                <div class="form-group col-sm-6">
+                  <label>Tel</label>
+                  <input ng-model="profile.tel" type="text" class="form-control" placeholder="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Headline</label>
+                <input ng-model="profile.headline" type="text" class="form-control" placeholder="">
+              </div>
+              <div class="form-group">
+                <label>Bio</label>
+                <textarea ng-model="profile.bio" type="text" class="form-control" style="min-height:150px;"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Notifications ???</label>
+              </div>
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" placeholder="Password">
+              </div>
+              <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" class="form-control" placeholder="Enter Password Again">
+              </div>
+              <div class="form-group">
+                <label>Social Settings ??? </label>
+                <div class="checkbox">
+                  <label class="i-checks">
+                    <input type="checkbox" checked="" disabled=""><i></i> ???
+                  </label>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-sm btn-primary" ng-click="saveProfile()">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

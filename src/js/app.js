@@ -22,7 +22,9 @@ var app = angular.module('app', [
     'app.directives',
     'app.controllers',
     'angularMoment',
-    'toaster'
+    'toaster',
+    'truncate',
+    'angular-lodash'
   ])
 .run(
   [          '$rootScope', '$state', '$stateParams','$cookieStore','$http',
@@ -56,6 +58,7 @@ var app = angular.module('app', [
             })
             .state('app.dashboard-v1', {
                 url: '/dashboard-v1',
+                controller:'HomepageController',
                 templateUrl: 'tpl/app_dashboard_v1.html'
             })
             .state('app.dashboard-v2', {
@@ -74,6 +77,16 @@ var app = angular.module('app', [
             .state('app.page.profile', {
                 url: '/profile',
                 templateUrl: 'tpl/page_profile.html'
+            })
+            .state('app.page.company', {
+                url: '/company',
+                controller:'NetworkViewController',
+                templateUrl: 'tpl/page_company.html'
+            })
+            .state('app.page.settings', {
+                url: '/settings',
+                templateUrl: 'tpl/page_settings.html',
+                controller:'ProjectSettingsController'
             })
             .state('app.page.projects', {
                 url: '/projects',
@@ -188,7 +201,6 @@ var app = angular.module('app', [
                     }]
                 }
             })
-
             // mail
             .state('app.mail', {
                 abstract: true,

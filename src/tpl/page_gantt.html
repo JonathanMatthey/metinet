@@ -2,11 +2,11 @@
   <div class="bg-light lter b-b wrapper-md ng-scope clear">
     <h1 class="pull-left m-n font-thin h3" >{{project.name}} - Gantt Chart</h1>
     <button  class="btn btn-primary pull-right m-l">Save</button>
-    <button  onclick="updateCriticalPath(this)" class="btn btn-info pull-right">Show Critical Path</button>
+    <button  onclick="updateCriticalPath(this)" class="btn btn-info pull-right m-l">Show Critical Path</button>
+    <button  onclick="goToToday(this)" class="btn btn-info pull-right m-l">Today</button>
   </div>
-  <section class=" col-xs-12 ng-scope">
-    <div class="wrapper b-b">
-
+  <section class=" ng-scope">
+    <div class="">
       <style type="text/css">
         html, body{ height:100%; padding:0px; margin:0px; overflow: hidden;}
         .gantt_task_cell.week_end{
@@ -16,10 +16,14 @@
           background-color: #f0e493;
         }
       </style>
-      <div style="text-align: center;" class="m-b">
+      <div id="gantt_here" style='width:100%; height:600px;' ng-show="gantt_data.data.length > 0">
       </div>
-      <div id="gantt_here" style='width:100%; height:600px;'></div>
+      <div class="loading-gantt" ng-show="gantt_data.data.length == 0">
+        <span>Loading Gantt Chart</span>
+      </div>
       <script type="text/javascript">
+        var gantt_data;
+
         function updateCriticalPath(toggle){
           toggle.enabled = !toggle.enabled;
           if(toggle.enabled){
@@ -31,6 +35,48 @@
           }
           gantt.render();
         }
+
+        gantt.config.autofit = true;
+
+        gantt.config.buttons_left=["dhx_save_btn","dhx_cancel_btn","details_btn"];
+        gantt.locale.labels["details_btn"] = "Full Details";
+
+        gantt.attachEvent("onLightboxButton", function(button_id, node, e){
+          if(button_id == "details_btn"){
+            var id = gantt.getState().lightbox;
+            console.log('id',id);
+            window.location.href="#/app/page/nodes/"+id;
+            gantt.hideLightbox();
+          }
+        });
+
+        //excludes overtaking the target task by the source task
+        //in case of creating "finish_to_start" links
+        gantt.attachEvent("onBeforeLinkAdd", function(id, link){
+          // if (link.type == 0){
+            var sourceTask = gantt.getTask(link.source);
+            var targetTask = gantt.getTask(link.target);
+            console.log(sourceTask.type, targetTask.type )
+            if (sourceTask.type === "project" || targetTask.type === "project"){
+              alert("Can't link to or from a Project Folder")
+              return false;
+            }
+          // }
+        });
+
+        function goToToday(){
+          $(".gantt_task").animate({ scrollLeft: $(".gantt_marker.today").position().left-200}, 1000)
+        }
+
+        var date_to_str = gantt.date.date_to_str(gantt.config.task_date);
+
+        var id = gantt.addMarker({ start_date: new Date(), css: "today", title:date_to_str( new Date())});
+        setInterval(function(){
+            var today = gantt.getMarker(id);
+            today.start_date = new Date();
+            today.title = date_to_str(today.start_date);
+            gantt.updateMarker(id);
+        }, 1000*60);
           //also possible
           /*gantt.templates.task_class = function(start, end, task){
            if(gantt.isCriticalTask(task))
@@ -45,53 +91,19 @@
          };*/
          var demo_tasks = {
           data: [
-          { "id": 1, "text": "Office itinerancy", open:true, type:"project" },
-          { "id": 2, "text": "Office facing", "start_date": "21-07-2014", "duration": "20", "parent": "1" },
-          { "id": 3, "text": "Furniture installation", "start_date": "21-07-2014", "duration": "5", "parent": "1" },
-          { "id": 4, "text": "The employee relocation", "start_date": "28-07-2014", "duration": "15", "parent": "1" },
-          { "id": 5, "text": "Interior office", "start_date": "28-07-2014", "duration": "15", "parent": "1" },
-          { "id": 6, "text": "Air conditioners installation", "start_date": "18-08-2014", "duration": "2", "parent": "1" },
-          { "id": 7, "text": "Workplaces preparation", "start_date": "20-08-2014", "duration": "2", "parent": "1" },
-          { "id": 8, "text": "Preparing workplaces for us", "start_date": "21-07-2014", "duration": "10", "parent": "1" },
-          { "id": 9, "text": "Workplaces importation", "start_date": "22-08-2014", "duration": "1", "parent": "1" },
-          { "id": 10, "text": "Analysis" , open:true, type:"project"},
-          { "id": 11, "text": "Documentation creation", "start_date": "25-08-2014", "duration": "14", "parent": "10" },
-          { "id": 12, "text": "Software design", "start_date": "25-08-2014", "duration": "10", "parent": "10" },
-          { "id": 13, "text": "Interface setup", "start_date": "12-09-2014", "duration": "1", "parent": "10" },
-          { "id": 14, "text": "Development" , open:true, type:"project"},
-          { "id": 15, "text": "Develop System", "start_date": "15-09-2014", "duration": "5", "parent": "14" },
-          { "id": 16, "text": "Integrate System", "start_date": "15-09-2014", "duration": "15", "parent": "14" },
-          { "id": 17, "text": "Test", "start_date": "06-10-2014", "duration": "1", "parent": "14" }
-
-
           ],
           links: [
-          { id: "1", source: "3", target: "4", type: "0" },
-          { id: "2", source: "3", target: "5", type: "0" },
-          { id: "3", source: "2", target: "6", type: "0" },
-          { id: "4", source: "4", target: "6", type: "0" },
-          { id: "5", source: "5", target: "6", type: "0" },
-          { id: "6", source: "6", target: "7", type: "0" },
-          { id: "7", source: "7", target: "9", type: "0" },
-          { id: "8", source: "8", target: "9", type: "0" },
-          { id: "9", source: "9", target: "10", type: "0" },
-          { id: "10", source: "9", target: "11", type: "0" },
-          { id: "11", source: "9", target: "12", type: "0" },
-          { id: "12", source: "11", target: "13", type: "0" },
-          { id: "13", source: "12", target: "13", type: "0" },
-          { id: "14", source: "13", target: "14", type: "0" },
-          { id: "15", source: "13", target: "15", type: "0" },
-          { id: "16", source: "15", target: "17", type: "0" },
-          { id: "17", source: "16", target: "17", type: "0" }
           ]
         };
 
         gantt.config.work_time = true;
         gantt.config.details_on_create = false;
-        gantt.config.scale_unit = "day";
+        gantt.config.scale_unit = "month";
         gantt.config.duration_unit = "day";
         gantt.config.row_height = 30;
         gantt.config.min_column_width = 40;
+        gantt.config.step = 1;
+
         gantt.init("gantt_here");
         gantt.templates.task_cell_class = function(task, date){
           if(!gantt.isWorkTime(date))
