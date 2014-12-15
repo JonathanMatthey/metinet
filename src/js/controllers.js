@@ -1358,6 +1358,19 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }
 
   }])
+  .controller('NetworkViewController', ['$scope', 'Auth', 'Networks', function($scope, Auth, Networks) {
+    $scope.network = {};
+
+    $scope.init = function(){
+      console.log(Auth.getCredential('networkid'))
+      Networks.get({id:Auth.getCredential('networkid')})
+      .$promise.then(function(res) {
+        $scope.network = res.data;
+        console.log('-- project project');
+        console.log($scope.network);
+      });
+    }
+  }])
   // Flot Chart controller
   .controller('FlotChartDemoCtrl', ['$scope', function($scope) {
 

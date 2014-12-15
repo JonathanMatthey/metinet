@@ -96,7 +96,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('Networks', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/networks',{
+    return $resource('http://178.62.102.108/networks/:id',{
       id:'@_id'
     },{
         query: {
@@ -401,6 +401,7 @@ angular.module('app.services',[])
             $cookieStore.put('username', userData.username);
             $cookieStore.put('fullname', userData.fullname);
             $cookieStore.put('userid', userData.id);
+            $cookieStore.put('networkid', userData.network.id);
         },
         clearCredentials: function () {
             document.execCommand("ClearAuthenticationCache");

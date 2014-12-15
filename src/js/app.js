@@ -80,6 +80,7 @@ var app = angular.module('app', [
             })
             .state('app.page.company', {
                 url: '/company',
+                controller:'NetworkViewController',
                 templateUrl: 'tpl/page_company.html'
             })
             .state('app.page.settings', {
