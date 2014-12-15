@@ -1411,6 +1411,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     Auth.clearCredentials();
     console.log(Auth.clearCredentials());
 
+    $scope.signUpUser = {};
+
     $scope.login = function() {
       $scope.authError = null;
       // Try to login
@@ -1438,21 +1440,34 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
   // signup controller
   .controller('SignupFormController', ['$scope', '$http', '$state', function($scope, $http, $state) {
-    $scope.user = {};
+    $scope.signUpUser = {};
     $scope.authError = null;
+
     $scope.signup = function() {
-      alert("signup!");
       $scope.authError = null;
-      // Try to create
-      $http.post('api/signup', {name: $scope.user.name, email: $scope.user.email, password: $scope.user.password})
+      // Try to login
+      $http.post('http://178.62.102.108/user', {
+        headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
+          email: $scope.signUpUser.email,
+          password: $scope.signUpUser.password,
+          firstname: $scope.signUpUser.firstname,
+          lastname: $scope.signUpUser.lastname,
+          terms: $scope.signUpUser.terms
+        })
       .then(function(response) {
-        if ( !response.data.user ) {
-          $scope.authError = response;
-        }else{
+        if ( response.status === 200 ) {
+          // user logged in
+          Auth.setCredentials($scope.signUpUser.email,$scope.signUpUser.password,response.data.user_data);
           $state.go('app.dashboard-v1');
+        }else{
+          $scope.authError = 'Email or Password not right';
         }
-      }, function(x) {
-        $scope.authError = 'Server Error';
+      }, function(response) {
+        if ( response.status === 403 ) {
+          $scope.authError = 'Email or Password not right';
+        } else {
+          $scope.authError = 'Server Error';
+        }
       });
     };
   }])
