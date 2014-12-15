@@ -391,14 +391,16 @@ angular.module('app.services',[])
     }
 
     return {
-        getCurrentUsername: function () {
-            return $cookieStore.get('username');
+        getCredential: function(credentialField){
+            return $cookieStore.get(credentialField);
         },
-        setCredentials: function (username, password) {
+        setCredentials: function (username, password, userData) {
             var encoded = Base64.encode(username + ':' + password);
             $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
-            $cookieStore.put('username', username);
             $cookieStore.put('authdata', encoded);
+            $cookieStore.put('username', userData.username);
+            $cookieStore.put('fullname', userData.fullname);
+            $cookieStore.put('userid', userData.id);
         },
         clearCredentials: function () {
             document.execCommand("ClearAuthenticationCache");

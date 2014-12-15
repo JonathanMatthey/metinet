@@ -98,28 +98,29 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
   }])
   .controller('HeaderController', ['$scope', '$state', '$window', '$http', 'Auth', function($scope,$state,$window,$http,Auth) {
-    $scope.currentUsername = Auth.getCurrentUsername();
-    // $scope.currentUsername = "";
-    console.log($scope.currentUsername)
+    $scope.currentFullname = Auth.getCredential('fullname');
+    // $scope.currentFullname = "";
+    console.log($scope.currentFullname)
     $scope.init = function(){
     }
 
   }])
 
-  .controller('ProjectSettingsController', ['$scope', '$state', '$window', 'Auth', '$http',  function($scope,$state,$window,Auth,$http) {
+  .controller('ProjectSettingsController', ['$scope', '$state', '$window', 'Auth', '$http', 'toaster', function($scope,$state,$window,Auth,$http,toaster) {
     $scope.profile = {};
 
-    $http.get('http://178.62.102.108/profiles/1').then(function (resp) {
+    $scope.currentUserId = Auth.getCredential("userid");
+
+    $http.get('http://178.62.102.108/profiles/' + $scope.currentUserId).then(function (resp) {
       $scope.profile = resp.data.data;
     });
 
     $scope.saveProfile = function(){
-      var newProf = {};
-      newProf.firstname = $scope.profile.firstname;
-      newProf.id = $scope.profile.id;
-
-      $http.put('http://178.62.102.108/profiles',newProf,function (resp) {
-        console.log(resp);
+      toaster.pop('wait', 'Saving Profile', 'Shouldn\'t take long...');
+      $http.put('http://178.62.102.108/profiles',$scope.profile)
+      .then(function(response) {
+        console.log('qweqweqwe');
+        toaster.pop('success', 'Success', '');
       });
     };
   }])
@@ -240,6 +241,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       $scope.getProjectPermits();
       $scope.getProjectLeaves();
       $scope.getProjectProgressPlot();
+      $scope.getProjectTodos();
     }
 
     $scope.getProject = function(){
@@ -256,11 +258,11 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         id:$stateParams.id
       })
       .$promise.then(function(res) {
-          // success handler
-          $scope.projectUsers = res.data
-          console.log('-- projectUsers');
-          console.log(res.data);
-        });
+        // success handler
+        $scope.projectUsers = res.data
+        console.log('-- projectUsers');
+        console.log(res.data);
+      });
     }
 
     $scope.deleteUser = function (userIndex) {
@@ -284,11 +286,11 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         id:$stateParams.id
       })
       .$promise.then(function(res) {
-          // success handler
-          $scope.projectAudit = res.data
-          console.log('-- projectAudit');
-          console.log(res.data);
-        });
+        // success handler
+        $scope.projectAudit = res.data
+        console.log('-- projectAudit');
+        console.log(res.data);
+      });
     }
 
     $scope.getProjectRFIs = function(){
@@ -296,11 +298,11 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         id:$stateParams.id
       })
       .$promise.then(function(res) {
-          // success handler
-          $scope.projectRFIs = res.data;
-          console.log('-- projectRFIs');
-          console.log(res.data);
-        });
+        // success handler
+        $scope.projectRFIs = res.data;
+        console.log('-- projectRFIs');
+        console.log(res.data);
+      });
     }
 
     $scope.getProjectNetworks = function(){
@@ -308,11 +310,19 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         id:$stateParams.id
       })
       .$promise.then(function(res) {
-          // success handler
-          $scope.projectNetworks = res.data
-          console.log('-- projectNetworks');
-          console.log(res.data);
-        });
+        // success handler
+        $scope.projectNetworks = res.data
+        console.log('-- projectNetworks');
+        console.log(res.data);
+      });
+    }
+
+    $scope.getProjectTodos = function(){
+      $http.get('http://178.62.102.108/projects/'+$stateParams.id+"/to-do").then(function (resp) {
+        console.log('-- getProjectTodos');
+        console.log(resp.data.data )
+        $scope.projectTodo = resp.data.data;
+      });
     }
 
     $scope.getProjectLongLeads = function(){
@@ -320,11 +330,11 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         id:$stateParams.id
       })
       .$promise.then(function(res) {
-          // success handler
-          $scope.projectLongLeads = res.data
-          console.log('-- projectLongLeads');
-          console.log(res.data);
-        });
+        // success handler
+        $scope.projectLongLeads = res.data
+        console.log('-- projectLongLeads');
+        console.log(res.data);
+      });
     }
 
     $scope.getProjectPermits = function(){
@@ -332,11 +342,11 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         id:$stateParams.id
       })
       .$promise.then(function(res) {
-          // success handler
-          $scope.projectPermits = res.data
-          console.log('-- projectPermits');
-          console.log(res.data);
-        });
+        // success handler
+        $scope.projectPermits = res.data
+        console.log('-- projectPermits');
+        console.log(res.data);
+      });
     }
 
     $scope.getProjectLeaves = function(){
@@ -344,11 +354,11 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         id:$stateParams.id
       })
       .$promise.then(function(res) {
-          // success handler
-          $scope.projectLeaves = res.data
-          console.log('-- projectLeaves');
-          console.log(res.data);
-        });
+        // success handler
+        $scope.projectLeaves = res.data
+        console.log('-- projectLeaves');
+        console.log(res.data);
+      });
     }
 
     $scope.getProjectProgressPlot = function(){
@@ -356,13 +366,13 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         id:$stateParams.id
       })
       .$promise.then(function(res) {
-          // success handler
-          $scope.projectProgressPlot = res.data
-          console.log('-- projectProgressPlot');
-          console.log(res.data);
-          $scope.d0_1 = res.data.actual_plot;
-          $scope.d0_2 = res.data.calculated_plot;
-        });
+        // success handler
+        $scope.projectProgressPlot = res.data
+        console.log('-- projectProgressPlot');
+        console.log(res.data);
+        $scope.d0_1 = res.data.actual_plot;
+        $scope.d0_2 = res.data.calculated_plot;
+      });
     }
 
     $scope.openAddRFIToNetworkModal = function(){
@@ -1411,7 +1421,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .then(function(response) {
         if ( response.status === 200 ) {
           // user logged in
-          Auth.setCredentials($scope.user.email,$scope.user.password);
+          Auth.setCredentials($scope.user.email,$scope.user.password,response.data.user_data);
           $state.go('app.dashboard-v1');
         }else{
           $scope.authError = 'Email or Password not right';

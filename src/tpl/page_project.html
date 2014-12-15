@@ -85,27 +85,62 @@
               </div>
             </div>
             <div class="col-md-6 bg-dark dk">
-              <h4 class="font-thin m-t-none m-b">To Do List</h4>
+              <!-- <h4 class="font-thin m-t-none m-b">To Do</h4> -->
               <div class="col-md-11 m-l-n">
-                <div class="m-b-xs">
-                  <span class="col-xs-9">QA Status:</span>
-                  <span class="col-xs-3 text-right text-danger">5</span>
-                </div>
-                <div class="m-b-xs">
-                  <span class="col-xs-9">RFIs:</span>
-                  <span class="col-xs-3 text-right text-info">3</span>
-                </div>
-                <div class="m-b-xs">
-                  <span class="col-xs-9">Long Leads:</span>
-                  <span class="col-xs-3 text-right text-danger">4</span>
-                </div>
-                <div class="m-b-xs">
-                  <span class="col-xs-9">Permit:</span>
-                  <span class="col-xs-3 text-right text-success">1</span>
-                </div>
+                <table class="table table-striped m-b-none">
+                  <thead>
+                    <tr>
+                      <th style="" class="text-center">To Dos</th>
+                      <th class="text-right">Ok</th>
+                      <th class="text-right">Attention</th>
+                      <th class="text-right">Critical</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>RFIs
+                      </td>
+                      <td class="text-right text-success" ng-bind="projectTodo.rfis.ok">
+                      </td>
+                      <td class="text-right text-info" ng-bind="projectTodo.rfis.attention">
+                      </td>
+                      <td class="text-right text-danger" ng-bind="projectTodo.rfis.critical">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Long Leads
+                      </td>
+                      <td class="text-right text-success" ng-bind="projectTodo.long_leads.ok">
+                      </td>
+                      <td class="text-right text-info" ng-bind="projectTodo.long_leads.attention">
+                      </td>
+                      <td class="text-right text-danger" ng-bind="projectTodo.long_leads.critical">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Permits
+                      </td>
+                      <td class="text-right text-success" ng-bind="projectTodo.permits.ok">
+                      </td>
+                      <td class="text-right text-info" ng-bind="projectTodo.permits.attention">
+                      </td>
+                      <td class="text-right text-danger" ng-bind="projectTodo.permits.critical">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Leaf Nodes
+                      </td>
+                      <td class="text-right text-success" ng-bind="projectTodo.leaf_nodes.ok">
+                      </td>
+                      <td class="text-right text-info" ng-bind="projectTodo.leaf_nodes.attention">
+                      </td>
+                      <td class="text-right text-danger" ng-bind="projectTodo.leaf_nodes.critical">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
-            <a href="#/app/page/projects/{{project.id}}/gantt" class="m btn btn-sm btn-primary">OPEN GANTT CHART</a>
           </div>
         </tab>
         <tab>
@@ -247,14 +282,14 @@
                       <td class="text-center">
                         <div class="checkbox m-n">
                           <label class="i-checks">
-                            <input type="checkbox" checked=""><i></i>
+                            <input type="checkbox" ng-checked="permit.applied_data"><i></i>
                           </label>
                         </div>
                       </td>
                       <td class="text-center">
                         <div class="checkbox m-n">
                           <label class="i-checks">
-                            <input type="checkbox" checked=""><i></i>
+                            <input type="checkbox" ng-checked="permit.received_data"><i></i>
                           </label>
                         </div>
                       </td>
@@ -298,21 +333,21 @@
                   <td class="text-center">
                     <div class="checkbox m-n">
                       <label class="i-checks">
-                        <input type="checkbox" checked=""><i></i>
+                        <input type="checkbox" ng-checked="longLead.ordered_data"><i></i>
                       </label>
                     </div>
                   </td>
                   <td class="text-center">
                     <div class="checkbox m-n">
                       <label class="i-checks">
-                        <input type="checkbox" checked=""><i></i>
+                        <input type="checkbox" ng-checked="longLead.received_data"><i></i>
                       </label>
                     </div>
                   </td>
                   <td class="text-center">
                     <div class="checkbox m-n">
                       <label class="i-checks">
-                        <input type="checkbox" checked=""><i></i>
+                        <input type="checkbox" ng-checked="longLead.approved_data"><i></i>
                       </label>
                     </div>
                   </td>
@@ -338,6 +373,8 @@
 <div class="col w-md bg-light lter b-l bg-auto no-border-xs">
   <div class="padder-md m-t-md">
     <!-- streamline -->
+    <a href="#/app/page/projects/{{project.id}}/gantt" class="btn btn-sm btn-primary">OPEN GANTT CHART</a>
+
     <div class="m-b text-md m-t-md">Recent Activity</div>
     <div class="streamline b-l m-b">
       <div class="sl-item" ng-repeat="activity in projectAudit">
