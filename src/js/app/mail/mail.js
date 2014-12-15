@@ -1,21 +1,11 @@
-app.controller('MailCtrl', ['$scope','$http','Conversations', function($scope, $http, Conversations) {
-  $scope.folds = [
-    {name: 'Inbox', filter:''},
-    {name: 'Starred', filter:'starred'},
-    {name: 'Sent', filter:'sent'},
-    {name: 'Important', filter:'important'},
-    {name: 'Draft', filter:'draft'},
-    {name: 'Trash', filter:'trash'}
-  ];
-
-  $scope.labels = [
-    {name: 'Angular', filter:'angular', color:'#23b7e5'},
-    {name: 'Bootstrap', filter:'bootstrap', color:'#7266ba'},
-    {name: 'Client', filter:'client', color:'#fad733'},
-    {name: 'Work', filter:'work', color:'#27c24c'}
-  ];
-
+app.controller('MailCtrl', ['$scope','$http','Conversations','Auth','$location', function($scope, $http, Conversations,Auth,$location) {
+  $scope.userid = Auth.getCredential("userid");
   $scope.conversations = {};
+
+  var inbox_channel = pusher.subscribe('Inbox_'+$scope.userid);
+  inbox_channel.bind('conversation-stored', function(data) {
+    $scope.getConversations();
+  });
 
   $scope.init = function(){
     $scope.getConversations();
@@ -33,6 +23,9 @@ app.controller('MailCtrl', ['$scope','$http','Conversations', function($scope, $
 
   $scope.getConversations = function(){
     $scope.conversations = Conversations.query();
+    $scope.conversations.$promise.then(function () {
+      $location.path('app/mail/'+$scope.conversations[0].id);
+    });
   }
 
   $scope.addLabel = function(){
@@ -64,17 +57,23 @@ app.controller('MailListCtrl', ['$scope', 'mails', '$stateParams', function($sco
   // });
 }]);
 
-app.controller('MailDetailCtrl', ['$scope', 'mails', '$stateParams', 'Conversations', '$http', function($scope, mails, $stateParams, Conversations,$http) {
+app.controller('MailDetailCtrl', ['$scope', 'mails', '$stateParams', 'Conversations', '$http', 'Auth',  function($scope, mails, $stateParams, Conversations,$http, Auth) {
   $scope.conversation = {};
   $scope.messageBody = "";
+  $scope.userid = Auth.getCredential("userid");
 
   var conv_channel = pusher.subscribe('Conversation_'+$stateParams.mailId);
   conv_channel.bind('message-stored', function(data) {
     $scope.getConversation();
   });
 
+
   $scope.init = function(){
     $scope.getConversation();
+  }
+
+  $scope.getConversations = function(){
+    $scope.conversations = Conversations.query();
   }
 
   $scope.getConversation = function(){
@@ -84,11 +83,8 @@ app.controller('MailDetailCtrl', ['$scope', 'mails', '$stateParams', 'Conversati
     .$promise.then(function(res) {
       // success handler
       $scope.conversation = res.data;
-      console.log('$scope.mail');
-      console.log($scope.mail);
     });
   }
-
 
   $scope.sendMessage = function(){
     $http.post('http://178.62.102.108/conversations/' + $stateParams.mailId + '/message', {
@@ -102,7 +98,7 @@ app.controller('MailDetailCtrl', ['$scope', 'mails', '$stateParams', 'Conversati
 
 }]);
 
-app.controller('MailNewCtrl', ['$scope', '$http','Conversations', '$location', function($scope, $http,Conversations, $location) {
+app.controller('MailNewCtrl', ['$scope', '$http','Conversations', '$location', 'Auth', function($scope, $http,Conversations, $location, Auth) {
   $scope.mail = {
     recipients: '',
     subject: '',
@@ -121,6 +117,8 @@ app.controller('MailNewCtrl', ['$scope', '$http','Conversations', '$location', f
     },500)
   });
 
+  $scope.userid = Auth.getCredential("userid");
+
   $scope.startConversation = function(){
     Conversations.save($scope.mail,function(u, putResponseHeaders) {
       $scope.mail = {
@@ -130,7 +128,7 @@ app.controller('MailNewCtrl', ['$scope', '$http','Conversations', '$location', f
       };
 
       var newConvoId = u.data[0].id;
-      $location.path('app/mail/' + newConvoId);
+      $location.path('app/mail/inbox/');
     });
   }
 }]);
