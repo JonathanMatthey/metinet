@@ -1,5 +1,8 @@
-<div class="hbox hbox-auto-xs hbox-auto-sm" ng-controller="MailCtrl" ng-init="init()">
-  <div class="col w-xl bg-light dk b-r bg-auto">
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-controller="MailCtrl" ng-init="init()" >
+  <div class="loading-gantt" ng-hide="ready">
+    <span>Loading Conversations</span>
+  </div>
+  <div class="col w-xl bg-light dk b-r bg-auto"  ng-show="ready">
     <div class="wrapper b-b bg">
       <button class="btn btn-sm btn-default pull-right visible-sm visible-xs" ui-toggle-class="show" target="#email-menu"><i class="fa fa-bars"></i></button>
       <a ui-sref="app.mail.compose" class="btn btn-sm btn-danger w-xs font-bold">Compose</a>
@@ -13,30 +16,11 @@
           </a>
         </li>
       </ul>
-<!--       <div class="wrapper">Labels</div>
-      <ul class="nav nav-pills nav-stacked nav-sm">
-        <li ng-repeat="label in labels" ui-sref-active="active">
-          <a ui-sref="app.mail.list({fold:label.filter})">
-            <i class="fa fa-fw fa-circle text-muted" color="{{label.color}}" label-color ></i>
-            {{label.name}}
-          </a>
-        </li>
-      </ul>
-      <div class="wrapper">
-        <form name="label">
-          <div class="input-group">
-            <input type="text" class="form-control input-sm" ng-model="newLabel.name" placeholder="New label" required>
-            <span class="input-group-btn">
-              <button class="btn btn-sm btn-default" type="button" ng-click="addLabel()" ng-disabled="label.$invalid">Add</button>
-            </span>
-          </div>
-        </form>
-      </div> -->
     </div>
   </div>
-  <div class="col">
+  <div class="col"  ng-show="ready">
     <div ui-view ></div>
   </div>
-  <div class="col w-xl bg-light dk bg-auto b-l">
+  <div class="col w-xl bg-light dk bg-auto b-l"  ng-show="ready">
   </div>
 </div>

@@ -638,7 +638,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       console.log('ganta data');
       console.log($scope.gantt_data);
       gantt.parse($scope.gantt_data);
-      gantt_data = $scope.gantt_data.data;
+      gantt_data = $scope.gantt_data;
     });
 
     gantt.attachEvent("onAfterTaskUpdate", function(id,item){
