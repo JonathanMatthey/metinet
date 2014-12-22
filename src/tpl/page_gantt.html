@@ -4,6 +4,22 @@
     <button  class="btn btn-primary pull-right m-l">Save</button>
     <button  onclick="updateCriticalPath(this)" class="btn btn-info pull-right m-l">Show Critical Path</button>
     <button  onclick="goToToday(this)" class="btn btn-info pull-right m-l">Today</button>
+    <div class="pull-right " style="background:#eee;">
+      <button  onclick="loadDemoData(this)" class="btn btn-danger">Load Demo Data</button>
+      <strong class="m-l"> Zooming: &nbsp; </strong>
+      <label>
+        <input name="scales" onclick="zoom_tasks(this)" type="radio" value="week">
+        <span>Hours</span>
+      </label>
+      <label>
+        <input name="scales" onclick="zoom_tasks(this)" type="radio" value="trplweek" checked="true">
+        <span>Days</span>
+      </label>
+      <label class="m-r">
+        <input name="scales" onclick="zoom_tasks(this)" type="radio" value="year">
+        <span>Months</span>
+      </label>
+    </div>
   </div>
   <section class=" ng-scope">
     <div class="">
@@ -22,6 +38,60 @@
         <span>Loading Gantt Chart</span>
       </div> -->
       <script type="text/javascript">
+        var demo_tasks = {
+          "data":[
+            {"id":11, "text":"Project #1", "start_date":"28-03-2013", "duration":"11", "progress": 0.6, "open": true},
+            {"id":1, "text":"Project #2", "start_date":"01-04-2013", "duration":"18", "progress": 0.4, "open": true},
+
+            {"id":2, "text":"Task #1", "start_date":"02-04-2013", "duration":"8", "parent":"1", "progress":0.5, "open": true},
+            {"id":3, "text":"Task #2", "start_date":"11-04-2013", "duration":"8", "parent":"1", "progress": 0.6, "open": true},
+            {"id":4, "text":"Task #3", "start_date":"13-04-2013", "duration":"6", "parent":"1", "progress": 0.5, "open": true},
+            {"id":5, "text":"Task #1.1", "start_date":"02-04-2013", "duration":"7", "parent":"2", "progress": 0.6, "open": true},
+            {"id":6, "text":"Task #1.2", "start_date":"03-04-2013", "duration":"7", "parent":"2", "progress": 0.6, "open": true},
+            {"id":7, "text":"Task #2.1", "start_date":"11-04-2013", "duration":"8", "parent":"3", "progress": 0.6, "open": true},
+            {"id":8, "text":"Task #3.1", "start_date":"14-04-2013", "duration":"5", "parent":"4", "progress": 0.5, "open": true},
+            {"id":9, "text":"Task #3.2", "start_date":"14-04-2013", "duration":"4", "parent":"4", "progress": 0.5, "open": true},
+            {"id":10, "text":"Task #3.3", "start_date":"14-04-2013", "duration":"3", "parent":"4", "progress": 0.5, "open": true},
+
+            {"id":12, "text":"Task #1", "start_date":"03-04-2013", "duration":"5", "parent":"11", "progress": 1, "open": true},
+            {"id":13, "text":"Task #2", "start_date":"02-04-2013", "duration":"7", "parent":"11", "progress": 0.5, "open": true},
+            {"id":14, "text":"Task #3", "start_date":"02-04-2013", "duration":"6", "parent":"11", "progress": 0.8, "open": true},
+            {"id":15, "text":"Task #4", "start_date":"02-04-2013", "duration":"5", "parent":"11", "progress": 0.2, "open": true},
+            {"id":16, "text":"Task #5", "start_date":"02-04-2013", "duration":"7", "parent":"11", "progress": 0, "open": true},
+
+            {"id":17, "text":"Task #2.1", "start_date":"03-04-2013", "duration":"2", "parent":"13", "progress": 1, "open": true},
+            {"id":18, "text":"Task #2.2", "start_date":"06-04-2013", "duration":"3", "parent":"13", "progress": 0.8, "open": true},
+            {"id":19, "text":"Task #2.3", "start_date":"10-04-2013", "duration":"4", "parent":"13", "progress": 0.2, "open": true},
+            {"id":20, "text":"Task #2.4", "start_date":"10-04-2013", "duration":"4", "parent":"13", "progress": 0, "open": true},
+            {"id":21, "text":"Task #4.1", "start_date":"03-04-2013", "duration":"4", "parent":"15", "progress": 0.5, "open": true},
+            {"id":22, "text":"Task #4.2", "start_date":"03-04-2013", "duration":"4", "parent":"15", "progress": 0.1, "open": true},
+            {"id":23, "text":"Task #4.3", "start_date":"03-04-2013", "duration":"5", "parent":"15", "progress": 0, "open": true}
+          ],
+          "links":[
+            {"id":"1","source":"1","target":"2","type":"1"},
+            {"id":"2","source":"2","target":"3","type":"0"},
+            {"id":"3","source":"3","target":"4","type":"0"},
+            {"id":"4","source":"2","target":"5","type":"2"},
+            {"id":"5","source":"2","target":"6","type":"2"},
+            {"id":"6","source":"3","target":"7","type":"2"},
+            {"id":"7","source":"4","target":"8","type":"2"},
+            {"id":"8","source":"4","target":"9","type":"2"},
+            {"id":"9","source":"4","target":"10","type":"2"},
+            {"id":"10","source":"11","target":"12","type":"1"},
+            {"id":"11","source":"11","target":"13","type":"1"},
+            {"id":"12","source":"11","target":"14","type":"1"},
+            {"id":"13","source":"11","target":"15","type":"1"},
+            {"id":"14","source":"11","target":"16","type":"1"},
+            {"id":"15","source":"13","target":"17","type":"1"},
+            {"id":"16","source":"17","target":"18","type":"0"},
+            {"id":"17","source":"18","target":"19","type":"0"},
+            {"id":"18","source":"19","target":"20","type":"0"},
+            {"id":"19","source":"15","target":"21","type":"2"},
+            {"id":"20","source":"15","target":"22","type":"2"},
+            {"id":"21","source":"15","target":"23","type":"2"}
+          ]
+        };
+
         var gantt_data;
 
         function updateCriticalPath(toggle){
@@ -36,7 +106,7 @@
           gantt.render();
         }
 
-        // gantt.config.autofit = true;
+        gantt.config.autofit = true;
 
         gantt.config.buttons_left=["dhx_save_btn","dhx_cancel_btn","details_btn"];
         gantt.locale.labels["details_btn"] = "Full Details";
@@ -68,6 +138,12 @@
           $(".gantt_task").animate({ scrollLeft: $(".gantt_marker.today").position().left-200}, 1000)
         }
 
+        function loadDemoData(){
+          gantt.clearAll();
+          gantt.parse(demo_tasks);
+          gantt.render();
+        }
+
         var date_to_str = gantt.date.date_to_str(gantt.config.task_date);
 
         var id = gantt.addMarker({ start_date: new Date(), css: "today", title:date_to_str( new Date())});
@@ -90,46 +166,6 @@
            return "";
          };*/
 
-        var demo_tasks = {
-          data: [
-            { "id": 3, "text": "Furniture installation", "start_date": "21-07-2014", "duration": "5", "parent": "1" },
-            { "id": 4, "text": "The employee relocation", "start_date": "28-07-2014", "duration": "15", "parent": "1" },
-            { "id": 5, "text": "Interior office", "start_date": "28-07-2014", "duration": "15", "parent": "1" },
-            { "id": 6, "text": "Air conditioners installation", "start_date": "18-08-2014", "duration": "2", "parent": "1" },
-            { "id": 7, "text": "Workplaces preparation", "start_date": "20-08-2014", "duration": "2", "parent": "1" },
-            { "id": 8, "text": "Preparing workplaces for us", "start_date": "21-07-2014", "duration": "10", "parent": "1" },
-            { "id": 9, "text": "Workplaces importation", "start_date": "22-08-2014", "duration": "1", "parent": "1" },
-            { "id": 10, "text": "Analysis" , open:true, type:"project"},
-            { "id": 11, "text": "Documentation creation", "start_date": "25-08-2014", "duration": "14", "parent": "10" },
-            { "id": 12, "text": "Software design", "start_date": "25-08-2014", "duration": "10", "parent": "10" },
-            { "id": 13, "text": "Interface setup", "start_date": "12-09-2014", "duration": "1", "parent": "10" },
-            { "id": 14, "text": "Development" , open:true, type:"project"},
-            { "id": 15, "text": "Develop System", "start_date": "15-09-2014", "duration": "5", "parent": "14" },
-            { "id": 16, "text": "Integrate System", "start_date": "15-09-2014", "duration": "15", "parent": "14" },
-            { "id": 17, "text": "Test", "start_date": "06-10-2014", "duration": "1", "parent": "14" }
-          ],
-          links: [
-            { id: "1", source: "3", target: "4", type: "0" },
-            { id: "2", source: "3", target: "5", type: "0" },
-            { id: "3", source: "2", target: "6", type: "0" },
-            { id: "4", source: "4", target: "6", type: "0" },
-            { id: "5", source: "5", target: "6", type: "0" },
-            { id: "6", source: "6", target: "7", type: "0" },
-            { id: "7", source: "7", target: "9", type: "0" },
-            { id: "8", source: "8", target: "9", type: "0" },
-            { id: "9", source: "9", target: "10", type: "0" },
-            { id: "10", source: "9", target: "11", type: "0" },
-            { id: "11", source: "9", target: "12", type: "0" },
-            { id: "12", source: "11", target: "13", type: "0" },
-            { id: "13", source: "12", target: "13", type: "0" },
-            { id: "14", source: "13", target: "14", type: "0" },
-            { id: "15", source: "13", target: "15", type: "0" },
-            { id: "16", source: "15", target: "17", type: "0" },
-            { id: "17", source: "16", target: "17", type: "0" }
-          ]
-        };
-
-
         gantt.config.work_time = true;
         gantt.config.details_on_create = false;
         gantt.config.scale_unit = "month";
@@ -145,7 +181,97 @@
           return "";
         };
 
-        gantt.parse(demo_tasks);
+
+        function zoom_tasks(node){
+          switch(node.value){
+            case "week":
+              gantt.config.scale_unit = "day";
+              gantt.config.date_scale = "%d %M";
+
+              gantt.config.scale_height = 60;
+              gantt.config.min_column_width = 30;
+              gantt.config.subscales = [
+                    {unit:"hour", step:1, date:"%H"}
+              ];
+              console.log('week ? ');
+              // show_scale_options("hour");
+            break;
+            case "trplweek":
+              gantt.config.min_column_width = 70;
+              gantt.config.scale_unit = "day";
+              gantt.config.date_scale = "%d %M";
+              gantt.config.subscales = [ ];
+              gantt.config.scale_height = 35;
+              // show_scale_options("day");
+            break;
+            case "month":
+              console.log('month ? ');
+              gantt.config.min_column_width = 70;
+              gantt.config.scale_unit = "week";
+              gantt.config.date_scale = "Week #%W";
+              gantt.config.subscales = [
+                    {unit:"day", step:1, date:"%D"}
+              ];
+              // show_scale_options();
+              gantt.config.scale_height = 60;
+            break;
+            case "year":
+              gantt.config.min_column_width = 70;
+              gantt.config.scale_unit = "month";
+              gantt.config.date_scale = "%M";
+              gantt.config.scale_height = 60;
+              // show_scale_options();
+              gantt.config.subscales = [
+                    {unit:"week", step:1, date:"#%W"}
+              ];
+            break;
+          }
+          // set_scale_units();
+          gantt.render();
+        }
+
+        function set_scale_units(mode){
+          if(mode && mode.getAttribute){
+            mode = mode.getAttribute("value");
+          }
+
+          switch (mode){
+            case "work_hours":
+              gantt.config.subscales = [
+                {unit:"hour", step:1, date:"%H"}
+              ];
+              gantt.ignore_time = function(date){
+                if(date.getHours() < 9 || date.getHours() > 16){
+                  return true;
+                }else{
+                  return false;
+                }
+              };
+
+              break;
+            case "full_day":
+              gantt.config.subscales = [
+                {unit:"hour", step:3, date:"%H"}
+              ];
+              gantt.ignore_time = null;
+              break;
+            case "work_week":
+              gantt.ignore_time = function(date){
+                if(date.getDay() == 0 || date.getDay() == 6){
+                  return true;
+                }else{
+                  return false;
+                }
+              };
+
+              break;
+            default:
+              gantt.ignore_time = null;
+              break;
+          }
+          gantt.render();
+        }
+
       </script>
     </div>
   </section>

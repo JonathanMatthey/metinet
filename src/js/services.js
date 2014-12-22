@@ -312,7 +312,8 @@ angular.module('app.services',[])
     });
 }])
 .factory('NodeDependencies', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/nodes/:id/dependencies',{
+    return $resource('http://178.62.102.108/nodes/:node_id/dependencies/:id',{
+      node_id:'@node_id',
       id:'@id'
     },{
         query: {
