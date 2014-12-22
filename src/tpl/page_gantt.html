@@ -6,18 +6,18 @@
     <button  onclick="goToToday(this)" class="btn btn-info pull-right m-l">Today</button>
     <div class="pull-right " style="background:#eee;">
       <button  onclick="loadDemoData(this)" class="btn btn-danger">Load Demo Data</button>
-      <strong class="m-l"> Zooming: &nbsp; </strong>
-      <label>
-        <input name="scales" onclick="zoom_tasks(this)" type="radio" value="week">
-        <span>Hours</span>
-      </label>
-      <label>
+      <strong class="m-l m-r"> Zooming: &nbsp; </strong>
+      <label class="m-r">
         <input name="scales" onclick="zoom_tasks(this)" type="radio" value="trplweek" checked="true">
         <span>Days</span>
       </label>
       <label class="m-r">
         <input name="scales" onclick="zoom_tasks(this)" type="radio" value="year">
         <span>Months</span>
+      </label>
+      <label class="m-r">
+        <input name="scales" onclick="zoom_tasks(this)" type="radio" value="decade">
+        <span>Years</span>
       </label>
     </div>
   </div>
@@ -223,6 +223,16 @@
               // show_scale_options();
               gantt.config.subscales = [
                     {unit:"week", step:1, date:"#%W"}
+              ];
+            break;
+            case "decade":
+              gantt.config.min_column_width = 70;
+              gantt.config.scale_unit = "year";
+              gantt.config.date_scale = "%Y";
+              gantt.config.scale_height = 60;
+              // show_scale_options();
+              gantt.config.subscales = [
+                    // {unit:"month", step:3, date:"#%M"}
               ];
             break;
           }
