@@ -658,11 +658,18 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         toaster.pop('success', 'Saved', updatedNode.name);
       });
     });
-    gantt.attachEvent("onAfterTaskDelete", function(id,item){
+    gantt.attachEvent("onBeforeTaskDelete", function(id,item){
       console.log(id,item);
-      Node.delete({id:item.id},function(u, putResponseHeaders) {
-        toaster.pop('success', 'Deleted', item.text);
-      });
+      var r = confirm("Deleting this task will delete all its Permits and Long Lead items, continue ?");
+      if (r == true) {
+        Node.delete({id:item.id},function(u, putResponseHeaders) {
+          toaster.pop('success', 'Deleted', item.text);
+          return true;
+        });
+      }
+      else{
+        return false;
+      }
     });
     gantt.attachEvent("onTaskOpened", function(id){
       console.log(id);
