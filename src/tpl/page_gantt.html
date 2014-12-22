@@ -2,6 +2,8 @@
   <div class="bg-light lter b-b wrapper-md ng-scope clear">
     <h1 class="pull-left m-n font-thin h3" >{{project.name}} - Gantt Chart</h1>
     <button  class="btn btn-primary pull-right m-l">Save</button>
+    <button id="btn-expand-all" onclick="expandAll()" class="btn pull-right btn-info m-l">Expand All</button>
+    <button id="btn-collapse-all" onclick="collapseAll()" style="display:none;" class="btn pull-right btn-info m-l">Collapse All</button>
     <button  onclick="updateCriticalPath(this)" class="btn btn-info pull-right m-l">Show Critical Path</button>
     <button  onclick="goToToday(this)" class="btn btn-info pull-right m-l">Today</button>
     <div class="pull-right " style="background:#eee;">
@@ -142,6 +144,28 @@
           gantt.clearAll();
           gantt.parse(demo_tasks);
           gantt.render();
+        }
+
+        function expandAll(){
+          $("#btn-collapse-all").show();
+          $("#btn-expand-all").hide();
+          var data = gantt.serialize();
+          _.each(data.data, function(obj,i){
+            obj.open = true;
+            console.log(i,obj);
+          });
+          gantt.parse(data);
+        }
+
+        function collapseAll(){
+          $("#btn-collapse-all").hide();
+          $("#btn-expand-all").show();
+          var data = gantt.serialize();
+          _.each(data.data, function(obj,i){
+            obj.open = false;
+            console.log(i,obj);
+          });
+          gantt.parse(data);
         }
 
         var date_to_str = gantt.date.date_to_str(gantt.config.task_date);
