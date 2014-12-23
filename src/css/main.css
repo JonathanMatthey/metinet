@@ -134,5 +134,12 @@ background-color: #ccc!important;
   min-height:61px;
 }
 
+.zoom-controls{
+  background:#eee;
+  line-height: 34px;
+}
+.zoom-controls label{
+  margin-bottom:0;
+}
 
 

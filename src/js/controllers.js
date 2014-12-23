@@ -4,7 +4,7 @@
 
 angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window',
-  function(              $scope,   $translate,   $localStorage,   $window ) {
+  function(   $scope,   $translate,   $localStorage,   $window ) {
       // add 'ie' classes to html
       var isIE = !!navigator.userAgent.match(/MSIE/i);
       isIE && angular.element($window.document.body).addClass('ie');
@@ -81,12 +81,12 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.init = function(){
       $scope.getConversations();
 
-      $http.get('http://178.62.102.108/conversations/latest').then(function (resp) {
+      $http.get('http://178.62.123.90/conversations/latest').then(function (resp) {
         console.log('resp ')
         console.log(resp )
       });
 
-      $http.get('http://178.62.102.108/conversations/recipients').then(function (resp) {
+      $http.get('http://178.62.123.90/conversations/recipients').then(function (resp) {
         console.log('resp ')
         console.log(resp )
       });
@@ -111,13 +111,13 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     $scope.currentUserId = Auth.getCredential("userid");
 
-    $http.get('http://178.62.102.108/profiles/' + $scope.currentUserId).then(function (resp) {
+    $http.get('http://178.62.123.90/profiles/' + $scope.currentUserId).then(function (resp) {
       $scope.profile = resp.data.data;
     });
 
     $scope.saveProfile = function(){
       toaster.pop('wait', 'Saving Profile', 'Shouldn\'t take long...');
-      $http.put('http://178.62.102.108/profiles',$scope.profile)
+      $http.put('http://178.62.123.90/profiles',$scope.profile)
       .then(function(response) {
         console.log('qweqweqwe');
         toaster.pop('success', 'Success', '');
@@ -147,14 +147,14 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.project.cost_management = true;
     $scope.project.terms = true;
 
-    $http.get('http://178.62.102.108/countries').then(function (resp) {
+    $http.get('http://178.62.123.90/countries').then(function (resp) {
       $scope.countries = resp.data.data;
       console.log('$scope.countries ')
       console.log($scope.countries )
       $scope.projectCountry = $scope.countries[1];
     });
 
-    $http.get('http://178.62.102.108/currencies').then(function (resp) {
+    $http.get('http://178.62.123.90/currencies').then(function (resp) {
       $scope.currencies = resp.data.data;
       console.log('$scope.currencies' )
       console.log($scope.currencies )
@@ -318,7 +318,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }
 
     $scope.getProjectTodos = function(){
-      $http.get('http://178.62.102.108/projects/'+$stateParams.id+"/to-do").then(function (resp) {
+      $http.get('http://178.62.123.90/projects/'+$stateParams.id+"/to-do").then(function (resp) {
         console.log('-- getProjectTodos');
         console.log(resp.data.data )
         $scope.projectTodo = resp.data.data;
@@ -401,7 +401,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       });
     }
     $scope.openAddUserToNetworkModal = function () {
-      $http.get('http://178.62.102.108/projects/'+ $stateParams.id +'/potential-users')
+      $http.get('http://178.62.123.90/projects/'+ $stateParams.id +'/potential-users')
       .then(function(resp){
         $scope.potentialUsers = resp.data.data;
         var modalInstance = $modal.open({
@@ -427,7 +427,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     $scope.openViewLongLeadModal = function (longleadIndex) {
       var longleadId = $scope.projectLongLeads[longleadIndex].id;
-      $http.get('http://178.62.102.108/long-leads/'+longleadId+'/audit').then(function (resp) {
+      $http.get('http://178.62.123.90/long-leads/'+longleadId+'/audit').then(function (resp) {
         $scope.longleadAudit = resp.data.data;
         var modalInstance = $modal.open({
           templateUrl: 'tpl/modal_longlead.html',
@@ -446,7 +446,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     $scope.openViewPermitModal = function (permitIndex) {
       var permitId = $scope.projectPermits[permitIndex].id;
-      $http.get('http://178.62.102.108/permits/'+permitId+'/audit').then(function (resp) {
+      $http.get('http://178.62.123.90/permits/'+permitId+'/audit').then(function (resp) {
         console.log(resp )
         $scope.permitAudit = resp.data.data;
         var modalInstance = $modal.open({
@@ -579,6 +579,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   'Node',
   'toaster',
   'NodeDependencies',
+  '$http',
   function(
     $scope,
     $stateParams,
@@ -587,7 +588,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     ProjectGantt,
     Node,
     toaster,
-    NodeDependencies
+    NodeDependencies,
+    $http
   ) {
 
     $scope.gantt_data = {
@@ -595,8 +597,10 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       'links':[]
     };
 
+    $scope.projectId = $stateParams.id;
+
     var link, dataNode;
-    ProjectGantt.get({id:$stateParams.id})
+    ProjectGantt.get({id:$scope.projectId})
     .$promise.then(function(res) {
       $scope.project = res.data.project;
       $scope.gantt_data_raw = res.data;
@@ -682,30 +686,61 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       task.open = false;
     });
     gantt.attachEvent("onBeforeTaskAdd", function(id,item){
-      console.log(id,item);
       var newNode = item;
       var parentId = newNode.parent;
       var parentNodeIndex = _.findIndex($scope.gantt_data.data,{"id":parseInt(newNode.parent,10)});
       var parentNode = $scope.gantt_data.data[parentNodeIndex];
-      newNode.duration = 200;
+
+      if (parentNode.type === "task"){
+        var r = confirm("Creating a new task will convert " + parentNode.text + " into a folder, and lose all links, permits and long leads - continue ?");
+        if (r == false) {
+          return false;
+        }
+      }
+
+      parentNode.open = true;
+      newNode.duration = 100;
       newNode.parent_id = parseInt(parentId,10);
       newNode.name  = newNode.text;
-      parentNode.duration = 200;
+      parentNode.duration = 100;
       parentNode.type = "project";
       newNode.start_date = parentNode.start_date;
-      console.log('------- parentNode: ',parentNode);
-      console.log('------- newNode: ',newNode);
 
       // save new node
-      console.log(id,newNode);
       delete(newNode.id);
       delete(newNode.end_date);
       delete(newNode.text);
       delete(newNode.parent);
-      console.log('------- saving newNode: ',newNode);
-      Node.save(newNode,function(u, putResponseHeaders) {
-        toaster.pop('success', 'Updated link', '.');
-        $scope.refreshProgressGantt();
+
+      $http.post('http://178.62.123.90/projects/' + $scope.projectId + '/nodes', {
+        headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
+        name: newNode.name,
+        start_date: newNode.start_date,
+        duration: newNode.duration,
+        parent_id: newNode.parent_id
+      })
+      .then(function(response) {
+        var dataNode = {
+          "id": response.data.data.id,
+          "text": response.data.data.name,
+          "start_date": response.data.data.gantt_start_date,
+          "duration": response.data.data.duration,
+          "parent": response.data.data.parent,
+          "type": "task",
+          "progress": (parseInt(response.data.data.progress,10)/100)
+        };
+        $scope.gantt_data.data.push(dataNode);
+        gantt.parse($scope.gantt_data);
+        console.log('resp',response);
+        toaster.pop('success', 'Created new Task', '.');
+        if ( response.status === 200 ) {
+          // user logged in
+        }else{
+        }
+      }, function(response) {
+        if ( response.status === 403 ) {
+        } else {
+        }
       });
 
       // loop through links, find links on previous node and delete those
@@ -1428,7 +1463,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }
 
     $scope.getNewsfeed = function(){
-      $http.get('http://178.62.102.108/user/newsfeed/'+$scope.newsfeedSkip).then(function (resp) {
+      $http.get('http://178.62.123.90/user/newsfeed/'+$scope.newsfeedSkip).then(function (resp) {
         $.merge($scope.newsfeed, resp.data.data);
         console.log($scope.newsfeed)
         $scope.newsfeedSkip++;
@@ -1507,7 +1542,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.login = function() {
       $scope.authError = null;
       // Try to login
-      $http.post('http://178.62.102.108/auth', {
+      $http.post('http://178.62.123.90/auth', {
         headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
         email: $scope.user.email,
         password: $scope.user.password})
@@ -1537,7 +1572,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.signup = function() {
       $scope.authError = null;
       // Try to login
-      $http.post('http://178.62.102.108/user', {
+      $http.post('http://178.62.123.90/user', {
         headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
           email: $scope.signUpUser.email,
           password: $scope.signUpUser.password,

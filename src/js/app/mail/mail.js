@@ -10,12 +10,12 @@ app.controller('MailCtrl', ['$scope','$http','Conversations','Auth','$location',
 
   $scope.init = function(){
     $scope.getConversations();
-    // $http.get('http://178.62.102.108/conversations/latest').then(function (resp) {
+    // $http.get('http://178.62.123.90/conversations/latest').then(function (resp) {
     //   console.log('resp ')
     //   console.log(resp )
     // });
 
-    // $http.get('http://178.62.102.108/conversations/recipients').then(function (resp) {
+    // $http.get('http://178.62.123.90/conversations/recipients').then(function (resp) {
     //   console.log('resp ')
     //   console.log(resp )
     // });
@@ -90,7 +90,7 @@ app.controller('MailDetailCtrl', ['$scope', 'mails', '$stateParams', 'Conversati
   }
 
   $scope.sendMessage = function(){
-    $http.post('http://178.62.102.108/conversations/' + $stateParams.mailId + '/message', {
+    $http.post('http://178.62.123.90/conversations/' + $stateParams.mailId + '/message', {
       message: $scope.messageBody
     })
     .then(function(response) {
@@ -110,7 +110,7 @@ app.controller('MailNewCtrl', ['$scope', '$http','Conversations', '$location', '
 
   $scope.tolist = [];
 
-  $http.get('http://178.62.102.108/conversations/recipients').then(function (resp) {
+  $http.get('http://178.62.123.90/conversations/recipients').then(function (resp) {
     $scope.tolist = resp.data.data;
     console.log('$scope.tolist');
     console.log($scope.tolist);
