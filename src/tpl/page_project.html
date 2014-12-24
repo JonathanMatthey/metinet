@@ -34,39 +34,28 @@
                   " style="height:246px" >
                 </div>
               </div>
-            </div>
-            <div class="row m-t">
-              <div class="col-md-12 ">
-                <div class="m-b">
-                  <div class="col-md-6">
-                    <dl class="m-b-n">
-                      <dt>Description</dt>
-                      <dd class="m-b-xs">{{project.desc}}</dd>
-                      <dt>Country</dt>
-                      <dd class="m-b-xs">{{project.country_id}}</dd>
-                      <dt>Start Date</dt>
-                      <dd class="m-b-xs">{{project.start_date}}</dd>
-                      <dt>Contract End Date</dt>
-                      <dd class="m-b-xs">{{project.end_date_contract}}</dd>
-                    </dl>
+              <div class="col-md-12 wrapper-md bg-white-only b-b">
+                <div class="row text-center">
+                  <div class="col-sm-3 col-xs-6">
+                    <div>Start Date</div>
+                    <div class="h2 m-b-sm">{{ project.start_date | formatFullDate }}</div>
                   </div>
-                  <div class="col-md-6">
-                    <dl class="m-b-n">
-                      <dt>Budget Contract</dt>
-                      <dd class="m-b-xs">{{project.budget_contract}}</dd>
-                      <dt>Approval Time</dt>
-                      <dd class="m-b-xs">{{project.approval_time}}</dd>
-                      <dt>Alert Threshold</dt>
-                      <dd class="m-b-xs">{{project.alert_threshold}}</dd>
-                      <dt>Calculate End Date</dt>
-                      <dd class="m-b-xs">{{project.end_date_calculated}}</dd>
-                    </dl>
+                  <div class="col-sm-3 col-xs-6">
+                    <div>Contract End Date</div>
+                    <div class="h2 m-b-sm">{{ project.end_date_contract | formatFullDate }}</div>
                   </div>
-                </div>
+                  <div class="col-sm-3 col-xs-6">
+                    <div>Projected End Date</div>
+                    <div class="h2 m-b-sm text-{{ project.status.colour }}">{{ project.end_date_calculated | formatFullDate }}</div>
+                  </div>
+                  <div class="col-sm-3 col-xs-6">
+                    <div>Visits</div>
+                    <div class="h2 m-b-sm">2,300</div>
+                  </div>
+                </div>                
               </div>
             </div>
           </div>
-          <hr/>
           <div class="row m-t">
             <div class="col-md-6 bg-dark dk">
               <h4 class="font-thin m-t-none m-b">Reports</h4>
