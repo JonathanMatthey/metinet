@@ -5964,6 +5964,9 @@ button.close {
 .pull-left {
   float: left !important;
 }
+.center {
+  text-align: center!important;
+}
 .hide {
   display: none !important;
 }

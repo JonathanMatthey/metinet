@@ -22,31 +22,32 @@
             <thead>
               <tr>
                 <th>Project</th>
-                <th>Country</th>
-                <th>Progress</th>
-                <th>Start Date</th>
-                <th>Last Updated</th>
-                <th>Contract End Date</th>
-                <th>Calculated End Date</th>
+                <th class="center">Progress</th>
+                <th class="center">Start Date</th>
+                <th class="center">Contract End Date</th>
+                <th class="center">Calculated End Date</th>
+                <th colspan="2" class="center">Last Updated</th>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="project in projects">
                 <td>
                   <a ng-href="#/app/page/projects/{{project.id}}">
-                {{project.name}}
-            </a>
+                    {{project.name}}
+                  </a>
                 </td>
-                <td>{{project.country_id}}</td>
                 <td>
                   <div class="progress progress-xs m-t-xs m-b-none">
-                    <div class="progress-bar bg-info" data-toggle="tooltip" data-original-title="{{project.progress}}%" style="width: {{project.progress}}%"></div>
+                    <div class="progress-bar bg-{{ project.status.colour }}" data-toggle="tooltip" data-original-title="{{project.progress}}%" style="width: {{project.progress}}%"></div>
                   </div>
                 </td>
-                <td>{{project.start_date | formatFullDate }}</td>
-                <td>{{project.updated_at | formatFullDate }}</td>
-                <td>{{project.end_date_contract | formatFullDate }}</td>
-                <td>{{project.end_date_calculated | formatFullDate }}</td>
+                <td class="center">{{ project.start_date | formatFullDate }}</td>
+                <td class="center">{{ project.end_date_contract | formatFullDate }}</td>
+                <td class="center text-{{ project.status.colour }}">
+                  {{ project.end_date_calculated | formatFullDate }}
+                </td>
+                <td class="center"><i class="fa fa-user"></i>&nbsp;&nbsp;{{ project.updated_data.user.fullname }}</td>
+                <td class="center"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{ project.updated_data.time | fromNow }}</td>
               </tr>
             </tbody>
           </table>
