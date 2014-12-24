@@ -5964,9 +5964,13 @@ button.close {
 .pull-left {
   float: left !important;
 }
-.center {
+.text-center {
   text-align: center!important;
 }
+.text-right {
+  text-align: right!important;
+}
+
 .hide {
   display: none !important;
 }
