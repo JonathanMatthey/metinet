@@ -81,12 +81,12 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.init = function(){
       $scope.getConversations();
 
-      $http.get('http://178.62.102.108/conversations/latest').then(function (resp) {
+      $http.get('http://178.62.123.90/conversations/latest').then(function (resp) {
         console.log('resp ')
         console.log(resp )
       });
 
-      $http.get('http://178.62.102.108/conversations/recipients').then(function (resp) {
+      $http.get('http://178.62.123.90/conversations/recipients').then(function (resp) {
         console.log('resp ')
         console.log(resp )
       });
@@ -97,6 +97,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }
 
   }])
+
   .controller('HeaderController', ['$scope', '$state', '$window', '$http', 'Auth', function($scope,$state,$window,$http,Auth) {
     $scope.currentFullname = Auth.getCredential('fullname');
     // $scope.currentFullname = "";
@@ -111,13 +112,13 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     $scope.currentUserId = Auth.getCredential("userid");
 
-    $http.get('http://178.62.102.108/profiles/' + $scope.currentUserId).then(function (resp) {
+    $http.get('http://178.62.123.90/profiles/' + $scope.currentUserId).then(function (resp) {
       $scope.profile = resp.data.data;
     });
 
     $scope.saveProfile = function(){
       toaster.pop('wait', 'Saving Profile', 'Shouldn\'t take long...');
-      $http.put('http://178.62.102.108/profiles',$scope.profile)
+      $http.put('http://178.62.123.90/profiles',$scope.profile)
       .then(function(response) {
         console.log('qweqweqwe');
         toaster.pop('success', 'Success', '');
@@ -147,14 +148,14 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.project.cost_management = true;
     $scope.project.terms = true;
 
-    $http.get('http://178.62.102.108/countries').then(function (resp) {
+    $http.get('http://178.62.123.90/countries').then(function (resp) {
       $scope.countries = resp.data.data;
       console.log('$scope.countries ')
       console.log($scope.countries )
       $scope.projectCountry = $scope.countries[1];
     });
 
-    $http.get('http://178.62.102.108/currencies').then(function (resp) {
+    $http.get('http://178.62.123.90/currencies').then(function (resp) {
       $scope.currencies = resp.data.data;
       console.log('$scope.currencies' )
       console.log($scope.currencies )
@@ -198,7 +199,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   'ProjectRFIs',
   'ProjectLongLeads',
   'ProjectNetworks',
-  'ProjectLeaves',
   'ProjectPermits',
   'ProjectProgressPlot',
   'ProjectAudit',
@@ -217,7 +217,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     ProjectRFIs,
     ProjectLongLeads,
     ProjectNetworks,
-    ProjectLeaves,
     ProjectPermits,
     ProjectProgressPlot,
     ProjectAudit,
@@ -239,7 +238,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       $scope.getProjectNetworks();
       $scope.getProjectLongLeads();
       $scope.getProjectPermits();
-      $scope.getProjectLeaves();
       $scope.getProjectProgressPlot();
       $scope.getProjectTodos();
     }
@@ -318,7 +316,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }
 
     $scope.getProjectTodos = function(){
-      $http.get('http://178.62.102.108/projects/'+$stateParams.id+"/to-do").then(function (resp) {
+      $http.get('http://178.62.123.90/projects/'+$stateParams.id+"/to-do").then(function (resp) {
         console.log('-- getProjectTodos');
         console.log(resp.data.data )
         $scope.projectTodo = resp.data.data;
@@ -345,18 +343,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         // success handler
         $scope.projectPermits = res.data
         console.log('-- projectPermits');
-        console.log(res.data);
-      });
-    }
-
-    $scope.getProjectLeaves = function(){
-      ProjectLeaves.get({
-        id:$stateParams.id
-      })
-      .$promise.then(function(res) {
-        // success handler
-        $scope.projectLeaves = res.data
-        console.log('-- projectLeaves');
         console.log(res.data);
       });
     }
@@ -401,7 +387,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       });
     }
     $scope.openAddUserToNetworkModal = function () {
-      $http.get('http://178.62.102.108/projects/'+ $stateParams.id +'/potential-users')
+      $http.get('http://178.62.123.90/projects/'+ $stateParams.id +'/potential-users')
       .then(function(resp){
         $scope.potentialUsers = resp.data.data;
         var modalInstance = $modal.open({
@@ -427,7 +413,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     $scope.openViewLongLeadModal = function (longleadIndex) {
       var longleadId = $scope.projectLongLeads[longleadIndex].id;
-      $http.get('http://178.62.102.108/long-leads/'+longleadId+'/audit').then(function (resp) {
+      $http.get('http://178.62.123.90/long-leads/'+longleadId+'/audit').then(function (resp) {
         $scope.longleadAudit = resp.data.data;
         var modalInstance = $modal.open({
           templateUrl: 'tpl/modal_longlead.html',
@@ -446,7 +432,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     $scope.openViewPermitModal = function (permitIndex) {
       var permitId = $scope.projectPermits[permitIndex].id;
-      $http.get('http://178.62.102.108/permits/'+permitId+'/audit').then(function (resp) {
+      $http.get('http://178.62.123.90/permits/'+permitId+'/audit').then(function (resp) {
         console.log(resp )
         $scope.permitAudit = resp.data.data;
         var modalInstance = $modal.open({
@@ -1428,7 +1414,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }
 
     $scope.getNewsfeed = function(){
-      $http.get('http://178.62.102.108/user/newsfeed/'+$scope.newsfeedSkip).then(function (resp) {
+      $http.get('http://178.62.123.90/user/newsfeed/'+$scope.newsfeedSkip).then(function (resp) {
         $.merge($scope.newsfeed, resp.data.data);
         console.log($scope.newsfeed)
         $scope.newsfeedSkip++;
@@ -1507,7 +1493,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.login = function() {
       $scope.authError = null;
       // Try to login
-      $http.post('http://178.62.102.108/auth', {
+      $http.post('http://178.62.123.90/auth', {
         headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
         email: $scope.user.email,
         password: $scope.user.password})
@@ -1537,7 +1523,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.signup = function() {
       $scope.authError = null;
       // Try to login
-      $http.post('http://178.62.102.108/user', {
+      $http.post('http://178.62.123.90/user', {
         headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
           email: $scope.signUpUser.email,
           password: $scope.signUpUser.password,

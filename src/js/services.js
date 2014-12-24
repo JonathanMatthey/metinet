@@ -4,7 +4,7 @@
 
 angular.module('app.services',[])
 .factory('Project', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/projects/:id',{
+    return $resource('http://178.62.123.90/projects/:id',{
       id:'@_id'
     },{
         query: {
@@ -23,7 +23,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectProgressPlot', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/projects/:id/progress-plot',{
+    return $resource('http://178.62.123.90/projects/:id/progress-plot',{
       id:'@_id'
     },{
         query: {
@@ -41,7 +41,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectUsers', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/projects/:id/users/:userId',{
+    return $resource('http://178.62.123.90/projects/:id/users/:userId',{
       id:'@_id',
       userId:'@userId'
     },{
@@ -60,7 +60,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectNetworks', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/projects/:id/networks',{
+    return $resource('http://178.62.123.90/projects/:id/networks',{
       id:'@_id'
     },{
         query: {
@@ -78,7 +78,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('Conversations', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/conversations/:id',{
+    return $resource('http://178.62.123.90/conversations/:id',{
       id:'@id'
     },{
         query: {
@@ -96,7 +96,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('Networks', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/networks/:id',{
+    return $resource('http://178.62.123.90/networks/:id',{
       id:'@_id'
     },{
         query: {
@@ -114,7 +114,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectGantt', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/projects/:id/gantt',{
+    return $resource('http://178.62.123.90/projects/:id/gantt',{
       id:'@_id'
     },{
         query: {
@@ -132,7 +132,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectRFIs', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/projects/:id/rfis',{
+    return $resource('http://178.62.123.90/projects/:id/rfis',{
       id:'@_id'
     },{
         query: {
@@ -150,7 +150,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectLongLeads', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/projects/:id/long-leads',{
+    return $resource('http://178.62.123.90/projects/:id/long-leads',{
       id:'@_id'
     },{
         query: {
@@ -168,7 +168,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('LongLeads', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/long-leads/:id',{
+    return $resource('http://178.62.123.90/long-leads/:id',{
       id:'@id'
     },{
         query: {
@@ -186,7 +186,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('Permits', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/permits/:id',{
+    return $resource('http://178.62.123.90/permits/:id',{
       id:'@id'
     },{
         query: {
@@ -204,7 +204,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectAudit', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/projects/:id/audit',{
+    return $resource('http://178.62.123.90/projects/:id/audit',{
       id:'@_id'
     },{
         query: {
@@ -222,7 +222,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectPermits', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/projects/:id/permits',{
+    return $resource('http://178.62.123.90/projects/:id/permits',{
       id:'@_id'
     },{
         query: {
@@ -240,7 +240,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('ProjectLeaves', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/projects/:id/leaves',{
+    return $resource('http://178.62.123.90/projects/:id/leaves',{
       id:'@_id'
     },{
         query: {
@@ -258,7 +258,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('NodePermits', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/nodes/:id/permits',{
+    return $resource('http://178.62.123.90/nodes/:id/permits',{
       id:'@_id'
     },{
         query: {
@@ -276,7 +276,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('NodeAudit', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/nodes/:id/audit',{
+    return $resource('http://178.62.123.90/nodes/:id/audit',{
       id:'@_id'
     },{
         query: {
@@ -294,7 +294,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('NodeLongLeads', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/nodes/:id/long-leads',{
+    return $resource('http://178.62.123.90/nodes/:id/long-leads',{
       id:'@_id'
     },{
         query: {
@@ -312,7 +312,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('NodeDependencies', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/nodes/:node_id/dependencies/:id',{
+    return $resource('http://178.62.123.90/nodes/:node_id/dependencies/:id',{
       node_id:'@node_id',
       id:'@id'
     },{
@@ -330,7 +330,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('NodeUsers', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/nodes/:id/users',{
+    return $resource('http://178.62.123.90/nodes/:id/users',{
       id:'@_id'
     },{
         query: {
@@ -348,7 +348,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('Node', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/nodes/:id',{
+    return $resource('http://178.62.123.90/nodes/:id',{
       id:'@id'
     },{
         query: {
@@ -366,7 +366,7 @@ angular.module('app.services',[])
     });
 }])
 .factory('UserHomepage', ['$resource', function($resource) {
-    return $resource('http://178.62.102.108/user/homepage',{
+    return $resource('http://178.62.123.90/user/homepage',{
       id:'@_id'
     },{
         query: {
