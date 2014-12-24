@@ -600,28 +600,32 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     .$promise.then(function(res) {
       $scope.project = res.data.project;
       $scope.gantt_data_raw = res.data;
-      console.log('-- gantt data:');
+      console.log('gantt data');
       console.log($scope.gantt_data_raw);
 
       for (var i = 0; i < $scope.gantt_data_raw.data.length; i++){
         var type;
-        // "2012-10-20 00:00:00"
-        var start_date = $scope.gantt_data_raw.data[i].start_date.substring(8,10) + "-" +
-            $scope.gantt_data_raw.data[i].start_date.substring(5,7) + "-" +
-            $scope.gantt_data_raw.data[i].start_date.substring(0,4);
+        // var start_date = $scope.gantt_data_raw.data[i].start_date.substring(8,10) + "-" +
+            // $scope.gantt_data_raw.data[i].start_date.substring(5,7) + "-" +
+            // $scope.gantt_data_raw.data[i].start_date.substring(0,4);
         if($scope.gantt_data_raw.data[i].is_leaf){
           type = gantt.config.types.task;
         } else {
           type = gantt.config.types.project;
         }
+
         dataNode = {
           "id": $scope.gantt_data_raw.data[i].id,
           "text": $scope.gantt_data_raw.data[i].name,
-          "start_date": start_date,
+          "start_date": $scope.gantt_data_raw.data[i].gantt_start_date,
           "duration": $scope.gantt_data_raw.data[i].duration,
-          "parent":  $scope.gantt_data_raw.data[i].parent_id,
+          "parent": $scope.gantt_data_raw.data[i].parent,
           "type": type,
           "progress": (parseInt($scope.gantt_data_raw.data[i].progress,10)/100)
+        }
+        // if parent node doesnt exist, clear parent field
+        if($scope.gantt_data_raw.data[i].parent === null || $scope.gantt_data_raw.data[i].parent === 0){
+          delete (dataNode.parent);
         }
         $scope.gantt_data.data.push(dataNode);
       }
@@ -637,8 +641,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       }
       console.log('ganta data');
       console.log($scope.gantt_data);
-      gantt.parse($scope.gantt_data);
-      gantt_data = $scope.gantt_data.data;
+      $scope.refreshProgressGantt();
+      gantt_data = $scope.gantt_data;
     });
 
     gantt.attachEvent("onAfterTaskUpdate", function(id,item){
@@ -654,47 +658,121 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         toaster.pop('success', 'Saved', updatedNode.name);
       });
     });
-    gantt.attachEvent("onAfterTaskDelete", function(id,item){
+    gantt.attachEvent("onBeforeTaskDelete", function(id,item){
       console.log(id,item);
-      Node.delete({id:item.id},function(u, putResponseHeaders) {
-        toaster.pop('success', 'Deleted', item.text);
-      });
+      var r = confirm("Deleting this task will delete all its Permits and Long Lead items, continue ?");
+      if (r == true) {
+        Node.delete({id:item.id},function(u, putResponseHeaders) {
+          toaster.pop('success', 'Deleted', item.text);
+          return true;
+        });
+      }
+      else{
+        return false;
+      }
     });
-    gantt.attachEvent("onAfterTaskAdd", function(id,item){
-        console.log(id,item);
-      $scope.updateProgressGantt();
+    gantt.attachEvent("onTaskOpened", function(id){
+      console.log(id);
+      var task = _.find($scope.gantt_data.data,{"id":parseInt(id,10)});
+      task.open = true;
+    });
+    gantt.attachEvent("onTaskClosed", function(id){
+      console.log(id);
+      var task = _.find($scope.gantt_data.data,{"id":parseInt(id,10)});
+      task.open = false;
+    });
+    gantt.attachEvent("onBeforeTaskAdd", function(id,item){
+      console.log(id,item);
+      var newNode = item;
+      var parentId = newNode.parent;
+      var parentNodeIndex = _.findIndex($scope.gantt_data.data,{"id":parseInt(newNode.parent,10)});
+      var parentNode = $scope.gantt_data.data[parentNodeIndex];
+      newNode.duration = 200;
+      newNode.parent_id = parseInt(parentId,10);
+      newNode.name  = newNode.text;
+      parentNode.duration = 200;
+      parentNode.type = "project";
+      newNode.start_date = parentNode.start_date;
+      console.log('------- parentNode: ',parentNode);
+      console.log('------- newNode: ',newNode);
+
+      // save new node
+      console.log(id,newNode);
+      delete(newNode.id);
+      delete(newNode.end_date);
+      delete(newNode.text);
+      delete(newNode.parent);
+      console.log('------- saving newNode: ',newNode);
+      Node.save(newNode,function(u, putResponseHeaders) {
+        toaster.pop('success', 'Updated link', '.');
+        $scope.refreshProgressGantt();
+      });
+
+      // loop through links, find links on previous node and delete those
+      _.each($scope.gantt_data.links,function(obj, i){
+        if(typeof obj !== "undefined" && (obj.source === parseInt(parentId,10) || obj.target === parseInt(newNode.parent,10))){
+          delete($scope.gantt_data.links[i]);
+          console.log('== start_date', moment(parentNode.start_date).format("DD-MM-YYYY"));
+          console.log('== end_date', moment(parentNode.start_date).add(200, 'day').format("DD-MM-YYYY"));
+          // var updatedNode = {};
+          // updatedNode.id = parentNode.id;
+          // updatedNode.type = "project";
+          // Node.update(updatedNode,function(u, putResponseHeaders) {
+          //   toaster.pop('success', 'Saved', updatedNode.name);
+          // });
+          // }
+        }
+      });
+      $scope.refreshProgressGantt();
+      return true;
+      // $scope.refreshProgressGantt();
     });
     gantt.attachEvent("onAfterLinkUpdate", function(id,item){
-        console.log(id,item);
-      $scope.updateProgressGantt();
+      console.log(id,item);
+      item.node_id = item.source;
+      delete(item.id);
+      NodeDependencies.save(item,function(u, putResponseHeaders) {
+        toaster.pop('success', 'Updated link', '.');
+        $scope.refreshProgressGantt();
+      });
     });
     gantt.attachEvent("onAfterLinkDelete", function(id,item){
       console.log(id,item);
-      NodeDependencies.delete({"id":item.id},function(u,r){
-        toaster.pop('success', 'Deleted', '.');
+      NodeDependencies.delete({node_id:item.source,id:item.id},function(u, putResponseHeaders) {
+        toaster.pop('success', 'Deleted link', '.');
+        $scope.refreshProgressGantt();
       });
     });
     gantt.attachEvent("onAfterLinkAdd", function(id,item){
-        console.log(id,item);
-      $scope.updateProgressGantt();
+      console.log(id,item);
+      delete(item.id);
+      item.node_id = item.source;
+      NodeDependencies.save(item,function(u, putResponseHeaders) {
+        toaster.pop('success', 'Saved new link', '.');
+        $scope.refreshProgressGantt();
+      });
     });
 
-
-    $scope.updateProgressGantt = function(){
-      // if (!$scope.updatingProjectGantt){
-      //   var data = gantt.serialize();
-      //   console.log($stateParams.id);
-      //   ProjectGantt.save({_id:$stateParams.id, data: data.data, links: data.links},function(u, putResponseHeaders) {
-      //     $scope.updatingProjectGantt = false;
-      //     toaster.pop('success', 'Gantt update', '');
-      //     console.log('updated!');
-      //   });
-      //   // in case POST failed, enable it again
-      //   setTimeout(function(){
-      //     $scope.updatingProjectGantt = false;
-      //   },3000);
-      // }
+    $scope.refreshProgressGantt = function(){
+      gantt.parse($scope.gantt_data);
     }
+
+    // $scope.refreshProgressGantt = function(){
+    //   console.log('updating ? !');
+    //   if (!$scope.updatingProjectGantt){
+    //     $scope.gantt_data = gantt.serialize();
+    //     console.log($stateParams.id);
+    //     ProjectGantt.save({_id:$stateParams.id, data: $scope.gantt_data.data, links: $scope.gantt_data.links},function(u, putResponseHeaders) {
+    //       $scope.updatingProjectGantt = false;
+    //       toaster.pop('success', 'Gantt update', '');
+    //       console.log('updated!');
+    //     });
+    //     // in case POST failed, enable it again
+    //     setTimeout(function(){
+    //       $scope.updatingProjectGantt = false;
+    //     },3000);
+    //   }
+    // }
 }])
 .controller('NodeViewController', [
   '$scope',

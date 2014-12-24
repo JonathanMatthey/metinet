@@ -1,5 +1,8 @@
 <div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="init()">
-  <div class="col">
+  <div class="loading-gantt"  ng-hide="network.id">
+  <span>Loading Company</span>
+  </div>
+  <div class="col" ng-show="network.id">
     <div style="background:url({{network.logo}}) center center; background-size:cover">
       <div class="wrapper-lg bg-white-opacity">
         <div class="row m-t">
@@ -61,7 +64,7 @@
       </div>
     </div>
   </div>
-  <div class="col w-lg bg-light lter b-l bg-auto">
+  <div class="col w-lg bg-light lter b-l bg-auto" ng-show="network.id">
     <div class="wrapper">
       <div class="">
         <h4 class="m-t-xs m-b-xs">Users In This Network</h4>

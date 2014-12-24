@@ -38,7 +38,6 @@
 				parents.push(parentId);
 			}
 		}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     		// loop through links
 		for (var i; i < data.links.length; i++){
 			if (parents.indexOf(data.links[i].source) > -1 || parents.indexOf(data.links[i].target) > -1){
 				delete data.links[i];

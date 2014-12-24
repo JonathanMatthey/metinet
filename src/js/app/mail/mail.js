@@ -1,6 +1,7 @@
 app.controller('MailCtrl', ['$scope','$http','Conversations','Auth','$location', function($scope, $http, Conversations,Auth,$location) {
   $scope.userid = Auth.getCredential("userid");
   $scope.conversations = {};
+  $scope.ready = false;
 
   var inbox_channel = pusher.subscribe('Inbox_'+$scope.userid);
   inbox_channel.bind('conversation-stored', function(data) {
@@ -9,22 +10,22 @@ app.controller('MailCtrl', ['$scope','$http','Conversations','Auth','$location',
 
   $scope.init = function(){
     $scope.getConversations();
+    // $http.get('http://178.62.102.108/conversations/latest').then(function (resp) {
+    //   console.log('resp ')
+    //   console.log(resp )
+    // });
 
-    $http.get('http://178.62.102.108/conversations/latest').then(function (resp) {
-      console.log('resp ')
-      console.log(resp )
-    });
-
-    $http.get('http://178.62.102.108/conversations/recipients').then(function (resp) {
-      console.log('resp ')
-      console.log(resp )
-    });
+    // $http.get('http://178.62.102.108/conversations/recipients').then(function (resp) {
+    //   console.log('resp ')
+    //   console.log(resp )
+    // });
   }
 
   $scope.getConversations = function(){
     $scope.conversations = Conversations.query();
     $scope.conversations.$promise.then(function () {
       $location.path('app/mail/'+$scope.conversations[0].id);
+      $scope.ready = true;
     });
   }
 
@@ -61,6 +62,7 @@ app.controller('MailDetailCtrl', ['$scope', 'mails', '$stateParams', 'Conversati
   $scope.conversation = {};
   $scope.messageBody = "";
   $scope.userid = Auth.getCredential("userid");
+  $scope.ready=false;
 
   var conv_channel = pusher.subscribe('Conversation_'+$stateParams.mailId);
   conv_channel.bind('message-stored', function(data) {
@@ -83,6 +85,7 @@ app.controller('MailDetailCtrl', ['$scope', 'mails', '$stateParams', 'Conversati
     .$promise.then(function(res) {
       // success handler
       $scope.conversation = res.data;
+      $scope.ready=true;
     });
   }
 

@@ -11,7 +11,10 @@
   </div>
 </div>
 <div class="wrapper-md">
-  <div class="row">
+  <div class="loading-gantt" ng-hide="projects.length">
+    <span>Loading Projects</span>
+  </div>
+  <div class="row" ng-show="projects.length">
     <div class="col-sm-12">
       <div class="panel panel-default">
         <div class="table-responsive">
