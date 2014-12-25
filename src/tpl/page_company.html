@@ -13,7 +13,7 @@
             <div class="clear m-b">
               <div class="m-b m-t-sm">
                 <span class="h3 text-black" ng-bind="network.name"></span>
-                <small class="m-l" ng-bind="network.default_loc.name"></small>
+                <small class="m-l" ng-bind="network.desc"></small>
               </div>
               <p class="m-b">
                 <a href class="btn btn-sm btn-bg btn-rounded btn-default btn-icon"><i class="fa fa-twitter"></i></a>
@@ -27,6 +27,7 @@
       </div>
     </div>
     <div class="wrapper-md">
+
       <div class="panel">
         <div class="wrapper-lg">
           <div>
@@ -38,30 +39,38 @@
               </div>
               <div class="col-sm-4">
                 <h5 class="font-bold">Industry</h5>
-                <p ng-bind="network.industry"></p>
-              </div>
-              <div class="col-sm-4">
-                <h5 class="font-bold">Type</h5>
-                <p ng-bind="network.desc"></p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-4">
+                <p ng-bind="network.industry.name"></p>
                 <h5 class="font-bold">Company Size</h5>
                 <p ng-bind="network.company_size.name"></p>
               </div>
               <div class="col-sm-4">
                 <h5 class="font-bold">Headquarters</h5>
-                <p ng-bind="network.default_loc.name"></p>
+                <p ng-if="network.default_loc.name" ng-bind="network.default_loc.name"></p>
+                <p ng-if="network.default_loc.streetNumber" ng-bind="network.default_loc.streetNumber"></p>
+                <p ng-if="network.default_loc.streetName" ng-bind="network.default_loc.streetName"></p>
+                <p ng-if="network.default_loc.city" ng-bind="network.default_loc.city"></p>
+                <p ng-if="network.default_loc.post_code" ng-bind="network.default_loc.post_code"></p>
+                <p ng-if="network.default_loc.country.nicename" ng-bind="network.default_loc.country.nicename"></p>
               </div>
             </div>
           </div>
-          <div class="line line-lg b-b b-light"></div>
-          <div class="text-muted">
-            <i class="fa fa-clock-o text-muted"></i> {{network.updated_at | formatFullDate}}
+        </div>
+      </div>
+
+      <div class="panel col-md-6">
+        <h3>Current Projects</h2>
+        <div>
+          <div class="list-group bg-white">
+            <a href="" class="list-group-item bg-warning" ng-show="network.projects.length == 0">
+              <i class="fa fa-fw fa-globe"></i> No Current Projects
+            </a>            
+            <a href="" class="list-group-item" ng-repeat="project in network.projects" ng-show="network.projects.length > 0">
+              <i class="fa fa-fw fa-globe"></i> {{ project.name }}
+            </a>
           </div>
         </div>
       </div>
+
     </div>
   </div>
   <div class="col w-lg bg-light lter b-l bg-auto" ng-show="network.id">
@@ -70,12 +79,14 @@
         <h4 class="m-t-xs m-b-xs">Users In This Network</h4>
         <ul class="list-group no-bg no-borders pull-in">
           <li class="list-group-item" ng-repeat="user in network.users">
-            <a herf="" class="pull-left thumb-sm avatar m-r">
+            <a href="" class="pull-left thumb-sm avatar m-r">
               <img src="{{user.image}}" alt="..." class="img-circle">
               <i class="on b-white bottom"></i>
             </a>
             <div class="clear">
-              <div><a href="" ng-bind='user.fullname'></a></div>
+              <div>
+                <a href="#/app/page/profile/{{ user.id }}" ng-bind='user.fullname'></a>
+              </div>
               <small class="text-muted" ng-bind='user.email'></small>
             </div>
           </li>

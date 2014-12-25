@@ -9,18 +9,24 @@
             </a>
             <div class="clear m-b">
               <div class="m-b m-t-sm">
-                <span class="h3 text-black" ng-bind='profile.fullname'>John.Smith</span>
-                <small class="m-l">London, UK</small>
+                <span class="h3 text-black" ng-bind='profile.fullname'></span>
+                <small class="m-l">
+                  <i class="fa fa-map-marker" ng-show="profile.location_current"></i>&nbsp;
+                  {{ profile.location_current }}
+                </small>
               </div>
               <p class="m-b">
-                <a href class="btn btn-sm btn-bg btn-rounded btn-default btn-icon"><i class="fa fa-twitter"></i></a>
-                <a href class="btn btn-sm btn-bg btn-rounded btn-default btn-icon"><i class="fa fa-facebook"></i></a>
-                <a href class="btn btn-sm btn-bg btn-rounded btn-default btn-icon"><i class="fa fa-google-plus"></i></a>
+                <span class="h4 text-black" ng-show="profile.headline">
+                  {{ profile.headline }}
+                  <span ng-show="profile.network">
+                    @ <a href="#/app/page/company/{{ profile.network.id }}">{{ profile.network.name }}</a>
+                  </span>
+                </span>
               </p>
               <!-- <a href class="btn btn-sm btn-success btn-rounded">Follow</a> -->
             </div>
           </div>
-<!--           <div class="col-sm-5">
+          <div class="col-sm-5">
             <div class="pull-right pull-none-xs text-center">
               <a href class="m-b-md inline m">
                 <span class="h3 block font-bold">2k</span>
@@ -31,145 +37,96 @@
                 <small>Following</small>
               </a>
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
     <div class="wrapper bg-white b-b">
       <ul class="nav nav-pills nav-sm">
-        <li class="active"><a href>Stream</a></li>
-        <li><a href>Profile</a></li>
+        <li class="active"><a href>Profile</a></li>
+        <li><a href>Stream</a></li>
       </ul>
     </div>
-<!--     <div class="padder">
-      <div class="streamline b-l b-info m-l-lg m-b padder-v">
-        <div>
-          <a class="pull-left thumb-sm avatar m-l-n-md">
-            <img src="img/a9.jpg" class="img-circle" alt="...">
-          </a>
-          <div class="m-l-lg">
-            <div class="m-b-xs">
-              <a href class="h4">John smith</a>
-              <span class="text-muted m-l-sm pull-right">
-                Just now
-              </span>
-            </div>
-            <div class="m-b">
-              <div>Lorem ipsum dolor sit amet, consecteter adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet. ullamcorper sodales nisi nec adipiscing elit. Morbi id neque quam. Aliquam sollicitudin </div>
-              <div class="m-t-sm">
-                <a href class="text-muted m-xs"><i class="icon-action-redo"></i></a>
-                <a href class="text-muted m-xs"><i class="icon-star"></i></a>
-                <a href class="text-muted m-xs"><i class="icon-refresh"></i> 13</a>
+
+    <div class="wrapper">
+      <div class="row">
+          <div class="col-sm-3">
+            <div class="panel panel-default">
+              <div class="list-group no-radius alt">
+                <a class="list-group-item" href="">
+                  <span class="pull-right" ng-bind="profile.projects.length"></span>
+                  <i class="fa fa-globe fa-fw text-muted"></i>&nbsp;
+                  Projects
+                </a>
+                <a class="list-group-item" href="">
+                  <span class="pull-right" ng-bind="profile.connections.length"></span>
+                  <i class="fa fa-users fa-fw text-muted"></i>&nbsp; 
+                  Connections
+                </a>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="m-l-lg">
-          <a class="pull-left thumb-sm avatar">
-            <img src="img/a5.jpg" alt="...">
-          </a>
-          <div class="m-l-xxl panel b-a">
-            <div class="panel-heading pos-rlt">
-              <span class="arrow left pull-up"></span>
-              <span class="text-muted m-l-sm pull-right">
-                10m ago
-              </span>
-              <a href>Mika Sam</a>
-              Report this comment is helpful
-            </div>
-          </div>
-        </div>
-        <div>
-          <a class="pull-left thumb-sm avatar m-l-n-md">
-            <img src="img/a3.jpg" alt="...">
-          </a>
-          <div class="m-l-lg m-b-lg panel b-a bg-light lt">
-            <div class="panel-heading pos-rlt b-light">
-              <span class="arrow arrow-light left"></span>
-              <a href>By me</a>
-              <span class="text-muted m-l-sm pull-right">
-                1h ago
-              </span>
-            </div>
-            <div class="panel-body">
-              <div>This comment was posted by you.</div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <a class="pull-left thumb-sm avatar m-l-n-md">
-            <img src="img/a6.jpg" class="img-circle" alt="...">
-          </a>
-          <div class="m-l-lg m-b-lg">
-            <div class="m-b-xs">
-              <a href class="h4">Jessica</a>
-              <span class="text-muted m-l-sm pull-right">
-                3h ago
-              </span>
-            </div>
-            <div class="m-b">
-              <div class="m-b">Cecteter adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet. ullamcorper sodales nisi nec adipiscing elit. Morbi id neque quam. Aliquam sollicitudin </div>
-              <img src="img/c5.jpg" class="b b-a wrapper-xs bg-white img-responsive">
-              <div class="m-t-sm">
-                <a href class="text-muted m-xs"><i class="icon-action-redo"></i></a>
-                <a href class="text-muted m-xs"><i class="icon-star"></i></a>
-                <a href class="text-muted m-xs"><i class="icon-refresh"></i> 13</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <a class="pull-left thumb-sm avatar m-l-n-md">
-            <img src="img/a4.jpg" class="img-circle" alt="...">
-          </a>
-          <div class="m-l-lg m-b-lg">
-            <div class="m-b-xs">
-              <a href class="h4">Fisio</a>
-              <span class="text-muted m-l-sm pull-right">
-                4h ago
-              </span>
-            </div>
-            <div>
-              <div class="m-b">Diam nonummy nibh euismod tincidunt ut laoreet. ullamcorper sodales nisi nec adipiscing elit. Morbi id neque quam. Aliquam sollicitudin </div>
-              <div class="panel panel-default m-t-md m-b-n-sm pos-rlt">
-                <form>
-                  <textarea class="form-control no-border" rows="3" placeholder="Your comment..."></textarea>
-                </form>
-                <div class="panel-footer bg-light lter">
-                  <button class="btn btn-info pull-right btn-sm">Comment</button>
-                  <ul class="nav nav-pills nav-sm">
-                    <li><a href><i class="fa fa-camera text-muted"></i></a></li>
-                    <li><a href><i class="fa fa-video-camera text-muted"></i></a></li>
-                  </ul>
+            <div class="panel panel-info">
+              <div class="panel-body">
+                <div class="clear">
+                  <a href="" class="btn btn-addon btn-sm btn-info m-t-xs"><i class="fa fa-plus"></i> Add Connection</a>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div>
-          <a class="pull-left thumb-sm avatar m-l-n-md">
-            <img src="img/a2.jpg" alt="...">
-          </a>
-          <div class="m-l-lg panel b-a">
-            <div class="panel-heading pos-rlt b-b b-light">
-              <span class="arrow left"></span>
-              <a href>Peter</a>
-              <label class="label bg-light m-l-xs">VIP</label>
-              <span class="text-muted m-l-sm pull-right">
-                9h ago
-              </span>
-            </div>
-            <div class="panel-body">
-              <blockquote>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
-              </blockquote>
-              <div>Lorem ipsum dolor sit amet, consecteter adipiscing elit...</div>
+          <div class="col-sm-9">
+            <div class="panel panel-default">
+              <a href="" class="m-t-sm m-l inline" ng-click="data=[40, 40, 20]">
+                <i class="icon-info"></i>&nbsp;&nbsp;Bio
+              </a>
+              <div class="wrapper m-b-sm">              
+                {{ profile.bio }}
+              </div>
+              <ul class="list-group no-radius">
+
+                <!-- Experience -->
+                <li class="list-group-item" ng-show="profile.experience.length > 0">
+                  <h3><i class="fa fa-fw fa-building-o"></i>&nbsp;&nbsp;Experience</h3>
+                </li>                
+                <li class="list-group-item" ng-repeat="experience in profile.experience">
+                  <span class="pull-right" ng-show="experience.current">
+                    Current Job
+                  </span>
+                  <span class="pull-right" ng-show="!experience.current">
+                    {{ experience.start_date | formatFullDate }} - {{ experience.end_date | formatFullDate }}
+                  </span>
+                  {{ experience.title }} @ {{ experience.company }}
+                  <hr>
+                  <p>{{ experience.desc }}</p>
+                </li>
+
+                <!-- Educations -->
+                <li class="list-group-item" ng-show="profile.education.length > 0">
+                  <h3><i class="fa fa-fw fa-graduation-cap"></i>&nbsp;&nbsp;Education</h3>
+                </li>
+                <li class="list-group-item" ng-repeat="education in profile.education">
+                  <span class="pull-right">
+                    {{ education.start_date | formatFullDate }} - {{ education.end_date | formatFullDate }}
+                  </span>
+                  {{ education.title }} @ {{ education.institute }}
+                  <hr>
+                  <p>{{ education.desc }}</p>                  
+                </li>
+
+                <!-- Awards -->
+                <li class="list-group-item" ng-show="profile.awards.length > 0">
+                  <h3><i class="fa fa-fw fa-trophy"></i>&nbsp;&nbsp;Awards</h3>
+                </li>                
+                <li class="list-group-item" ng-repeat="award in profile.awards">
+                  <span class="pull-right">{{ education.date | formatFullDate }}</span>
+                  {{ award.title }}<br>
+                  <small>{{ award.institute }}</small>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
-    </div> -->
+ 
   </div>
   <div class="col w-lg bg-light lter b-l bg-auto">
     <div class="wrapper">

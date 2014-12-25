@@ -1,383 +1,97 @@
-<div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="init()">
+<div class="hbox hbox-auto-xs hbox-auto-sm app-aside-folded" ng-init="init()">
   <!-- main -->
-  <div class="col">
-    <div class="loading-gantt" ng-hide="projectTodo">
-      <span>Loading Project</span>
-    </div>
-    <div class="wrapper-sm" ng-show="projectTodo">
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="wrapper-lg bg-white b-b ">
-            <h1 class="m-b-sm font-thin h3 " ng-bind="project.name"></h1>
-            <tabset class="nav-tabs-alt" justified="true">
-              <tab>
-                <tab-heading>
-                Overview
-              </tab-heading>
-              <div class="wrapper-xs">
-                <div class="row m-t">
-                  <div class="col-md-12 no-border-xs">
-                    <div ui-jq="plot" ui-refresh="d0_1" ui-options="
-                    [
-                    { data: [{{d0_1}}], label:'Actual', points: { show: true, radius: 1}, splines: { show: true, tension: 0.4, lineWidth: 1, fill: 0.8 } },
-                    { data: [{{d0_2}}], label:'Calculated', points: { show: true, radius: 1}, splines: { show: true, tension: 0.4, lineWidth: 1, fill: 0.8 } }
-                    ],
-                    {
-                    colors: ['{{app.color.info}}', '#aaa'],
-                    series: { shadowSize: 3 },
-                    xaxis:{ mode:'time', timeformat: '%Y/%m/%d', font: { color: '#a1a7ac' } },
-                    yaxis:{ font: { color: '#666' }, max:100 },
-                    grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#dce5ec' },
-                    tooltip: true,
-                    tooltipOpts: { content: '%y.4 on %x',  defaultTheme: false, shifts: { x: 10, y: -25 } }
-                  }
-                  " style="height:246px" >
-                </div>
-              </div>
-              <div class="col-md-12 wrapper-md bg-white-only b-b">
-                <div class="row text-center">
-                  <div class="col-sm-3 col-xs-6">
-                    <div>Start Date</div>
-                    <div class="h2 m-b-sm">{{ project.start_date | formatFullDate }}</div>
-                  </div>
-                  <div class="col-sm-3 col-xs-6">
-                    <div>Contract End Date</div>
-                    <div class="h2 m-b-sm">{{ project.end_date_contract | formatFullDate }}</div>
-                  </div>
-                  <div class="col-sm-3 col-xs-6">
-                    <div>Projected End Date</div>
-                    <div class="h2 m-b-sm text-{{ project.status.colour }}">{{ project.end_date_calculated | formatFullDate }}</div>
-                  </div>
-                  <div class="col-sm-3 col-xs-6">
-                    <div>Visits</div>
-                    <div class="h2 m-b-sm">2,300</div>
-                  </div>
-                </div>                
-              </div>
-            </div>
-          </div>
-          <div class="row m-t">
-            <div class="col-md-6 bg-dark dk">
-              <h4 class="font-thin m-t-none m-b">Reports</h4>
-              <div class="row">
-                <div class="col-md-12 m-l-n">
-                  <div ng-repeat="package in project.packages">
-                    <div>
-                      <span class="col-md-9" ng-bind="package.name"></span>
-                      <div class="col-md-3" style="padding:0;">
-                        <a href="#/app/page/nodes/{{package.id}}" class="pull-right m-l-xs"><i class="fa fa-fw m-r-xs fa-search"></i></a>
-                        <span class="pull-right text-info">{{package.progress}}%</span>
-                      </div>
-                    </div>
-                    <div class="col-xs-12 progress-xs m-t-sm  progress ng-isolate-scope" value="35" animate="true" type="info">
-                      <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{package.progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width: package.progress + '%'}" aria-valuetext="{{package.progress}}%" style="width: {{package.progress}}%;"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 bg-dark dk">
-              <!-- <h4 class="font-thin m-t-none m-b">To Do</h4> -->
-              <div class="col-md-11 m-l-n">
-                <table class="table table-striped m-b-none">
-                  <thead>
-                    <tr>
-                      <th style="" class="text-center">To Dos</th>
-                      <th class="text-right">Ok</th>
-                      <th class="text-right">Attention</th>
-                      <th class="text-right">Critical</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>RFIs
-                      </td>
-                      <td class="text-right text-success" ng-bind="projectTodo.rfis.ok">
-                      </td>
-                      <td class="text-right text-info" ng-bind="projectTodo.rfis.attention">
-                      </td>
-                      <td class="text-right text-danger" ng-bind="projectTodo.rfis.critical">
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Long Leads
-                      </td>
-                      <td class="text-right text-success" ng-bind="projectTodo.long_lead.ok">
-                      </td>
-                      <td class="text-right text-info" ng-bind="projectTodo.long_lead.attention">
-                      </td>
-                      <td class="text-right text-danger" ng-bind="projectTodo.long_lead.critical">
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Permits
-                      </td>
-                      <td class="text-right text-success" ng-bind="projectTodo.permits.ok">
-                      </td>
-                      <td class="text-right text-info" ng-bind="projectTodo.permits.attention">
-                      </td>
-                      <td class="text-right text-danger" ng-bind="projectTodo.permits.critical">
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Leaf Nodes
-                      </td>
-                      <td class="text-right text-success" ng-bind="projectTodo.leaf_nodes.ok">
-                      </td>
-                      <td class="text-right text-info" ng-bind="projectTodo.leaf_nodes.attention">
-                      </td>
-                      <td class="text-right text-danger" ng-bind="projectTodo.leaf_nodes.critical">
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </tab>
-        <tab>
-          <tab-heading>
-          Networks
-        </tab-heading>
-        <div class="wrapper-xs">
-          <div class="panel no-border no-shadow m-b-none">
-            <ul class="list-group list-group-sm list-group-sp list-group-alt auto m-t">
-              <li class="list-group-item row" ng-repeat="projectNetwork in projectNetworks">
-                <a href="" class="thumb-sm m-r col-sm-1">
-                  <img src="img/f3.png" class="r r-2x">
-                </a>
-                <div class="col-sm-8">
-                  <span class="" ng-bind=projectNetwork.name></span>
-                  <span class="block text-md" ng-bind=projectNetwork.desc></span>
-                </div>
-              </li>
-            </ul>
-            <div class="panel-footer row m-t">
-              <div class="col-sm-3">
-              </div>
-              <div class="col-sm-6 ">
-              </div>
-              <div class="col-sm-3">
-                <!-- <a class="btn btn-primary btn-addon btn-sm pull-right" ng-href="#/app/page/projects/{{project.id}}/network/create"><i class="fa fa-plus"></i>Add Network to Project</a> -->
-              </div>
-              <!-- <span class="pull-right badge badge-bg m-t-xs">32</span> -->
-            </div>
-          </div>
-        </div>
-      </tab>
-      <tab>
-        <tab-heading>
-        Users
-      </tab-heading>
-      <div class="wrapper-xs">
-        <div class="panel no-border no-shadow m-b-none">
-                    <!-- <div class="panel-heading wrapper b-b b-light no-gutter row no-gutter">
-                  </div> -->
-                  <ul class="list-group list-group-lg m-b-none">
-                    <li class="list-group-item" ng-repeat="projectUser in projectUsers">
-                      <a href="" class="thumb-sm m-r">
-                        <img src="img/a1.jpg" class="r r-2x">
-                      </a>
-                      <a class="pull-right m m-t-xs" ng-click="deleteUser($index)" style="line-height:26px"><i class="fa fa-trash"></i></a>
-                      <span class="pull-right label bg-info inline m-t-sm">{{projectUser.network.name}}</span>
-                      <div style="display:inline-block;">
-                        <a href="" ng-bind=projectUser.fullname></a><br/>
-                        <a class="small text-muted " href="" ng-bind=projectUser.email></a>
-                      </div>
-                    </li>
-                  </ul>
-                  <div class="panel-footer row m-t">
-                    <div class="col-sm-3">
-                    </div>
-                    <div class="col-sm-6 ">
-                    </div>
-                    <div class="col-sm-3">
-                      <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="openAddUserToNetworkModal()"><i class="fa fa-plus"></i>Add User to Project</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </tab>
-            <tab>
-              <tab-heading>
-              RFIs
-            </tab-heading>
-            <div class="wrapper-xs">
-              <div class="panel-body">
-                <div ng-controller="ModalRFICtrl" class="ng-scope">
-                  <script type="text/ng-template" id="rfiViewModalContent.html">
-                    <div ng-include="'tpl/modal_rfi.html'"></div>
-                  </script>
-                  <table class="table table-striped m-b-none">
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Response Stage</th>
-                        <th class="text-center">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr ng-repeat="rfi in projectRFIs">
-                        <td data-ng-bind="rfi.specific_id"></td>
-                        <td data-ng-bind="rfi.requesting_network"></td>
-                        <td data-ng-bind="rfi.responding_network"></td>
-                        <td data-ng-bind="rfi.response_body"></td>
-                        <td class="text-center">
-                          <span class="label bg-{{rfi.status.colour}}" data-ng-bind="rfi.status.text"></span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div class="panel-footer wrapper row no-gutter no-border">
-                <div class="col-sm-3">
-                  <div class="input-group">
-                  </div>
-                </div>
-                <div class="col-sm-6 ">
-                </div>
-                <div class="col-sm-3">
-                  <button class="btn btn-primary btn-addon btn-sm pull-right" ng-click="openAddRFIToNetworkModal()"><i class="fa fa-plus"></i>Add New RFI</button>
-                </div>
-              </div>
-            </div>
-          </tab>
-          <tab>
-            <tab-heading>
-            Permits
-          </tab-heading>
-          <div class="wrapper-xs">
-            <div class="panel-body">
-              <div ng-controller="ModalPermitCtrl" class="ng-scope">
-                <script type="text/ng-template" id="permitViewModalContent.html">
-                  <div ng-include="'tpl/modal_permit.html'"></div>
-                </script>
-                <table class="table table-striped m-b-none">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th class="text-center">Status</th>
-                      <th class="text-center">Applied</th>
-                      <th class="text-center">Received</th>
-                      <th class="text-center">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr ng-repeat="permit in projectPermits">
-                      <td data-ng-bind="permit.name"></td>
-                      <td class="text-center">
-                        <span class="label bg-{{permit.status.status_colour}}" data-ng-bind="permit.status.status"></span>
-                      </td>
-                      <td class="text-center">
-                        <div class="checkbox m-n">
-                          <label class="i-checks">
-                            <input type="checkbox" ng-checked="permit.applied_data"><i></i>
-                          </label>
-                        </div>
-                      </td>
-                      <td class="text-center">
-                        <div class="checkbox m-n">
-                          <label class="i-checks">
-                            <input type="checkbox" ng-checked="permit.received_data"><i></i>
-                          </label>
-                        </div>
-                      </td>
-                      <td class="text-center">
-                        <a href="" ng-click="openViewPermitModal($index)"><i class="fa fa-fw m-r-xs fa-search"></i></a>
-                        <a href="" ng-click="openEditPermitModal($index)"><i class="fa fa-fw m-r-xs fa-pencil"></i></a>
-                        <a href="" ng-click="deletePermit(permit.id,permit.name)"><i class="fa fa-fw fa-trash"></i></a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </tab>
-        <tab>
-          <tab-heading>
-          LongLeadTimes
-        </tab-heading>
-        <div class="wrapper-xs">
-          <div class="panel-body">
-            <table class="table table-striped m-b-none">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th class="text-center">Quantity</th>
-                  <th class="text-center">Status</th>
-                  <th class="text-center">Ordered</th>
-                  <th class="text-center">Received</th>
-                  <th class="text-center">Approved</th>
-                  <th class="text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="longLead in projectLongLeads">
-                  <td data-ng-bind="longLead.name"></td>
-                  <td class="text-center" data-ng-bind="longLead.quantity"></td>
-                  <td class="text-center">
-                    <span class="label bg-danger" data-ng-bind="longLead.status.status"></span>
-                  </td>
-                  <td class="text-center">
-                    <div class="checkbox m-n">
-                      <label class="i-checks">
-                        <input type="checkbox" ng-checked="longLead.ordered_data"><i></i>
-                      </label>
-                    </div>
-                  </td>
-                  <td class="text-center">
-                    <div class="checkbox m-n">
-                      <label class="i-checks">
-                        <input type="checkbox" ng-checked="longLead.received_data"><i></i>
-                      </label>
-                    </div>
-                  </td>
-                  <td class="text-center">
-                    <div class="checkbox m-n">
-                      <label class="i-checks">
-                        <input type="checkbox" ng-checked="longLead.approved_data"><i></i>
-                      </label>
-                    </div>
-                  </td>
-                  <td class="text-center">
-                    <a href="" ng-click="openViewLongLeadModal($index)"><i class="fa fa-fw m-r-xs fa-search"></i></a>
-                    <a href="" ng-click="openEditLongLeadModal($index)"><i class="fa fa-fw m-r-xs fa-pencil"></i></a>
-                    <a href="" ng-click="deleteLongLead(longLead.id,longLead.name)"><i class="fa fa-fw fa-trash"></i></a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </tab>
-    </tabset>
-  </div>
-</div>
-</div>
-</div>
-</div>
-<!-- / main -->
-<!-- right col -->
-<div class="col w-md bg-light lter b-l bg-auto no-border-xs"  ng-show="projectTodo">
-  <div class="padder-md m-t-md">
-    <!-- streamline -->
-    <a href="#/app/page/projects/{{project.id}}/gantt" class="btn btn-sm btn-primary">OPEN GANTT CHART</a>
+  <div class="col app-aside">
 
-    <div class="m-b text-md m-t-md">Recent Activity</div>
-    <div class="streamline b-l m-b">
-      <div class="sl-item" ng-repeat="activity in projectAudit">
-        <div class="m-l">
-          <div class="text-muted">{{ activity.time | fromNow }}</div>
-          <p ng-bind="activity.text"></p>
+    <!-- Start Menu -->
+      <nav ui-nav="" class="navi ng-scope">
+        <!-- list -->
+        <ul class="nav ng-scope">
+
+          <li ng-class="{ active: user_action == 'overview' }">
+            <a ng-click="changeAction('overview')">
+              <i class="fa fa-globe text-dark"></i>
+              <span class="ng-scope">Overview</span>
+            </a>
+          </li>
+
+          <li ng-class="{ active: user_action == 'networks' }">
+            <a ng-click="changeAction('networks')">
+              <i class="fa fa-building-o"></i>
+              <span class="ng-scope">Networks</span>
+            </a>
+          </li>
+
+          <li ng-class="{ active: user_action == 'users' }">
+            <a ng-click="changeAction('users')">
+              <i class="fa fa-users"></i>
+              <span class="ng-scope">Users</span>
+            </a>
+          </li>
+
+          <li ng-class="{ active: user_action == 'permits' }" ng-show="project.permit_assessment">
+            <a ng-click="changeAction('permits')">
+              <i class="fa fa-certificate"></i>
+              <span class="ng-scope">Permits</span>
+            </a>
+          </li>
+
+          <li ng-class="{ active: user_action == 'long-leads' }" ng-show="project.permit_assessment">
+            <a ng-click="changeAction('long-leads')">
+              <i class="fa fa-tags"></i>
+              <span class="ng-scope">Long Lead Items</span>
+            </a>
+          </li>
+
+          <li ng-class="{ active: user_action == 'rfis' }">
+            <a ng-click="changeAction('rfis')">
+              <i class="fa fa-edit"></i>
+              <span class="ng-scope">RFIs</span>
+            </a>
+          </li>
+
+          <li ng-class="{ active: user_action == 'gantt' }">
+            <a ng-click="changeAction('gantt')">
+              <i class="fa fa-tasks"></i>
+              <span class="ng-scope">Gantt Chart</span>
+            </a>
+          </li>
+
+          <li ng-class="{ active: user_action == 'settings' }">
+            <a ng-click="changeAction('settings')">
+              <i class="fa fa-cogs"></i>
+              <span class="ng-scope">Settings</span>
+            </a>
+          </li>
+
+        </ul>
+        <!-- / list -->
+      </nav>
+    <!-- End Menu -->    
+
+    <!-- START TEMPLATE -->
+      <ng-include src="'tpl/project/page_project_overview.html'" ng-show="user_action == 'overview'"></ng-include>
+      <ng-include src="'tpl/project/page_project_networks.html'" ng-show="user_action == 'networks'"></ng-include>
+      <ng-include src="'tpl/project/page_project_users.html'" ng-show="user_action == 'users'"></ng-include>
+      <ng-include src="'tpl/project/page_project_permits.html'" ng-show="user_action == 'permits'"></ng-include>
+      <ng-include src="'tpl/project/page_project_long_leads.html'" ng-show="user_action == 'long-leads'"></ng-include>
+      <ng-include src="'tpl/project/page_project_rfis.html'" ng-show="user_action == 'rfis'"></ng-include>
+      <ng-include src="'tpl/project/page_project_settings.html'" ng-show="user_action == 'settings'"></ng-include>
+    <!-- END TEMPLATE -->    
+
+  </div>
+  <!-- / main -->
+  <!-- right col -->
+  <div class="col w-md bg-black dk bg-auto">
+    <div class="wrapper padder-top-none">
+      <div class="streamline b-l m-b">
+        <div class="sl-item" ng-repeat="activity in projectAudit">
+          <div class="m-l">
+            <div class="text-white">{{ activity.time | fromNow }}</div>
+            <p ng-bind="activity.text"></p>
+          </div>
         </div>
       </div>
     </div>
-    <!-- / streamline -->
   </div>
-</div>
-<!-- / right col -->
+  <!-- / right col -->
 </div>
