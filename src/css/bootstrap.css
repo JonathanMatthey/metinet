@@ -3691,9 +3691,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-pills > li {
   float: left;
 }
-.nav-pills > li > a {
-  border-radius: 4px;
-}
 .nav-pills > li + li {
   margin-left: 2px;
 }

@@ -7,9 +7,9 @@
       <button class="btn btn-sm btn-default pull-right visible-sm visible-xs" ui-toggle-class="show" target="#email-menu"><i class="fa fa-bars"></i></button>
       <a ui-sref="app.mail.compose" class="btn btn-sm btn-danger w-xs font-bold">Compose</a>
     </div>
-    <div class="wrapper hidden-sm hidden-xs" id="email-menu">
+    <div class="hidden-sm hidden-xs" id="email-menu">
       <ul class="nav nav-pills nav-stacked nav-sm">
-        <li ng-repeat="conversation in conversations" ui-sref-active="active">
+        <li ng-repeat="conversation in conversations" class="inbox-item" ng-class="{ 'active': !conversation.pivot.read }">
           <a href="#/app/mail/{{conversation.id}}">
             <div class="font-bold" ng-bind="conversation.updater.fullname"></div>
             <div>{{conversation.subject | words:5 }}</div>
