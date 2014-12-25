@@ -21,7 +21,7 @@
   <!-- link and dropdown -->
   <ul class="nav navbar-nav hidden-sm">
     <li class="dropdown">
-      <a ui-sref="app.page.projects" href>
+      <a ui-sref="app.page.projects" ng-show="user_data.network">
         <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
         <span>Projects</span>
       </a>
@@ -33,9 +33,9 @@
       </a>
     </li>
     <li class="dropdown">
-      <a href="#/app/page/company/{{ currentNetworkId }}" href>
+      <a href="#/app/page/company/{{ user_data.network.id }}" href>
         <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
-        <span>My Network</span>
+        <span>{{ user_data.network.name }}</span>
       </a>
     </li>
   </ul>
@@ -47,7 +47,7 @@
           <img src="img/a0.jpg" alt="...">
           <i class="on md b-white bottom"></i>
         </span>
-        <span class="hidden-sm hidden-md" ng-bind="currentFullname"></span> <b class="caret"></b>
+        <span class="hidden-sm hidden-md" ng-bind="user_data.fullname"></span> <b class="caret"></b>
       </a>
       <!-- dropdown -->
       <ul class="dropdown-menu w">
@@ -57,7 +57,7 @@
           </a>
         </li>
         <li>
-          <a href="#/app/page/profile/{{ currentUserId }}">Profile</a>
+          <a href="#/app/page/profile/{{ user_data.id }}">Profile</a>
         </li>
         <li>
           <a ui-sref="app.docs">

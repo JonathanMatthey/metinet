@@ -99,9 +99,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   }])
 
   .controller('HeaderController', ['$scope', '$state', '$window', '$http', 'Auth', function($scope,$state,$window,$http,Auth) {
-    $scope.currentUserId      = Auth.getCredential('userid');
-    $scope.currentFullname    = Auth.getCredential('fullname');
-    $scope.currentNetworkId   = Auth.getCredential('networkid');
+    $scope.user_data = Auth.getCredential('user_data');    
     $scope.init = function(){
     }
 
@@ -1449,7 +1447,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.network_rfis = [];
 
     $scope.init = function(){
-      console.log('qwe');
 
       UserHomepage.get({
       })
