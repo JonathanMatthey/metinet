@@ -3,7 +3,6 @@
 // routes avail at
 // https://bitbucket.org/stevchenks/fixing_metinet_api/src/7f82ee9db72b3c2160859c7dedd54c04a09d1474/app/routes.php?at=master
 
-
 // Declare app level module which depends on filters, and services
 var app = angular.module('app', [
     'ngAnimate',
@@ -24,7 +23,8 @@ var app = angular.module('app', [
     'angularMoment',
     'toaster',
     'truncate',
-    'angular-lodash'
+    'angular-lodash',
+    'ngMap'
   ])
 .run(
   [          '$rootScope', '$state', '$stateParams','$cookieStore','$http',
@@ -75,11 +75,12 @@ var app = angular.module('app', [
                 template: '<div class="hbox hbox-auto-xs bg-light " ng-init="" ui-view></div>'
             })
             .state('app.page.profile', {
-                url: '/profile',
+                url: '/profile/:id',
+                controller:'ProfileViewController',                
                 templateUrl: 'tpl/page_profile.html'
             })
             .state('app.page.company', {
-                url: '/company',
+                url: '/company/:id',
                 controller:'NetworkViewController',
                 templateUrl: 'tpl/page_company.html'
             })
@@ -132,9 +133,18 @@ var app = angular.module('app', [
                 }
             })
             .state('app.page.project',{
-                url:'/projects/:id',
+                url:'/projects/:id/:action',
                 templateUrl: 'tpl/page_project.html',
-                controller:'ProjectViewController'
+                controller: 'ProjectViewController',
+                resolve: {
+                    deps: ['uiLoad',
+                      function( uiLoad ){
+                        return uiLoad.load([
+                            '//rawgit.com/allenhwkim/angularjs-google-maps/master/build/scripts/ng-map.min.js',
+                            '//maps.googleapis.com/maps/api/js?sensor=false'
+                        ]);
+                    }]
+                }                
             })
             // .state('editProject',{
             //     url:'/projects/:id/edit',
@@ -407,5 +417,4 @@ var app = angular.module('app', [
             }
         ]
     });
-}])
-;
+}]);

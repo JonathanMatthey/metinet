@@ -113,6 +113,20 @@ angular.module('app.services',[])
         }
     });
 }])
+.factory('NetworkProjects', ['$resource', function($resource) {
+    return $resource('http://178.62.123.90/networks/:id/projects',{
+      id:'@_id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                return res.data;
+            },
+            isArray: true
+        }
+    });
+}])
 .factory('ProjectGantt', ['$resource', function($resource) {
     return $resource('http://178.62.123.90/projects/:id/gantt',{
       id:'@_id'
@@ -380,6 +394,47 @@ angular.module('app.services',[])
         },
         update: {
             method: 'PUT'
+        }
+    });
+}])
+.factory('UserConnections', ['$resource', function($resource) {
+    return $resource('http://178.62.123.90/user/:id/connections',{
+      id:'@id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                return res.data;
+            },
+            isArray: true
+        }
+    });
+}])
+.factory('UserProjects', ['$resource', function($resource) {
+    return $resource('http://178.62.123.90/user/:id/projects',{
+      id:'@id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                return res.data;
+            },
+            isArray: true
+        }
+    });
+}])
+.factory('Profile', ['$resource', function($resource) {
+    return $resource('http://178.62.123.90/profiles/:id',{
+      id:'@id'
+    },{
+        query: {
+            method: 'GET',
+            transformResponse: function (res) {
+                var res = JSON.parse(res);
+                return res.data;
+            }
         }
     });
 }])

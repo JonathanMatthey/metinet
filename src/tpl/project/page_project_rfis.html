@@ -1,0 +1,46 @@
+<div class="panel panel-default">
+  <div class="panel-body b-b b-light">
+    Search: <input id="filter" type="text" class="form-control input-sm w-sm inline m-r"/>
+  </div>
+  <div>
+    <table class="table m-b-none" ui-jq="footable" data-filter="#filter" data-page-size="5">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Response Stage</th>
+          <th class="text-center">Status</th>
+        </tr>
+      </thead>
+      <tbody ng-hide="project_rfis_returned">
+        <tr ng-hide="projectRFIs.length > 0">
+            <td colspan="7" class="text-center">
+              <i class="fa fa-refresh fa-spin"></i>&nbsp;&nbsp;Loading...
+            </td>
+        </tr>
+      </tbody>
+      <tbody ng-show="project_rfis_returned">
+        <tr ng-hide="projectRFIs.length > 0">
+            <td colspan="7" class="bg-warning text-center">This Project Has No RFIs</td>           
+        </tr>
+        <tr ng-repeat="rfi in projectRFIs">
+          <td data-ng-bind="rfi.specific_id"></td>
+          <td data-ng-bind="rfi.requesting_network"></td>
+          <td data-ng-bind="rfi.responding_network"></td>
+          <td data-ng-bind="rfi.response_body"></td>
+          <td class="text-center">
+            <span class="label bg-{{rfi.status.colour}}" data-ng-bind="rfi.status.text"></span>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot class="hide-if-no-paging">
+        <tr>
+            <td colspan="5" class="text-center">
+                <ul class="pagination"></ul>
+            </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

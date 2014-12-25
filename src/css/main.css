@@ -25,6 +25,8 @@
   font-weight:bold;
 }
 
+.angular-google-map-container { height: 400px; }
+
 .complete_button{
   margin-top: 1px;
   background-image:url("common/v_complete.png");

@@ -28,7 +28,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         settings: {
           themeID: 1,
           navbarHeaderColor: 'bg-metinet',
-          navbarCollapseColor: 'bg-metinet',//'bg-white-only',
+          navbarCollapseColor: 'bg-white',
           asideColor: 'bg-black',
           headerFixed: true,
           asideFixed: false,
@@ -99,9 +99,9 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   }])
 
   .controller('HeaderController', ['$scope', '$state', '$window', '$http', 'Auth', function($scope,$state,$window,$http,Auth) {
-    $scope.currentFullname = Auth.getCredential('fullname');
-    // $scope.currentFullname = "";
-    console.log($scope.currentFullname)
+    $scope.currentUserId      = Auth.getCredential('userid');
+    $scope.currentFullname    = Auth.getCredential('fullname');
+    $scope.currentNetworkId   = Auth.getCredential('networkid');
     $scope.init = function(){
     }
 
@@ -228,26 +228,62 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     Permits
     ) {
 
-    $scope.newProjectRFI = ProjectRFIs();
+    $scope.project_id       = $stateParams.id;
+    $scope.user_action      = $stateParams.action;
+    $scope.settings_action  = 'location';
+    $scope.newProjectRFI    = ProjectRFIs();
 
-    $scope.init = function(){
+    $scope.project_general  = {};
+    $scope.map              = { center: { latitude: 45, longitude: -73 }, zoom: 8 };    
+
+    $scope.project_audit_returned         = false;
+    $scope.project_returned               = false;    
+    $scope.project_to_do_returned         = false;    
+    $scope.project_progress_plot_returned = false;    
+    $scope.project_networks_returned      = false;    
+    $scope.project_users_returned         = false;    
+    $scope.project_rfis_returned          = false;    
+    $scope.project_long_leads_returned    = false;    
+    $scope.project_permits_returned       = false;    
+
+    $scope.init = function() {
       $scope.getProject();
-      $scope.getProjectUsers();
       $scope.getProjectAudit();
-      $scope.getProjectRFIs();
-      $scope.getProjectNetworks();
-      $scope.getProjectLongLeads();
-      $scope.getProjectPermits();
-      $scope.getProjectProgressPlot();
       $scope.getProjectTodos();
+      $scope.getProjectProgressPlot();
+      $scope.getProjectNetworks();
+      $scope.getProjectUsers();
+      $scope.getProjectRFIs();
+      if ($scope.project.long_lead_items) {
+        $scope.getProjectLongLeads();        
+      }
+      if ($scope.project.permit_assessment) {
+        $scope.getProjectPermits();
+      }
+    }
+
+    $scope.changeAction = function(value) {
+      $scope.user_action = value;
+    }
+
+    $scope.changeSettingsAction = function(value) {
+      $scope.settings_action = value;
     }
 
     $scope.getProject = function(){
       Project.get({id:$stateParams.id})
       .$promise.then(function(res) {
         $scope.project = res.data;
-        console.log('-- project project');
-        console.log($scope.project);
+
+        $scope.project_general.name                 = res.data.name;
+        $scope.project_general.desc                 = res.data.desc;
+        $scope.project_general.start_date           = res.data.start_date;
+        $scope.project_general.end_date_contract    = res.data.end_date_contract;
+        $scope.project_general.client_id            = res.data.client.id;
+        $scope.project_general.contractor_id        = res.data.contractor.id;
+        $scope.project_general.consultant_id        = res.data.consultant.id;
+
+        $scope.project_returned = true;
       });
     }
 
@@ -258,8 +294,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .$promise.then(function(res) {
         // success handler
         $scope.projectUsers = res.data
-        console.log('-- projectUsers');
-        console.log(res.data);
+        $scope.project_users_returned = true;
       });
     }
 
@@ -286,8 +321,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .$promise.then(function(res) {
         // success handler
         $scope.projectAudit = res.data
-        console.log('-- projectAudit');
-        console.log(res.data);
+        $scope.project_audit_returned = true;
       });
     }
 
@@ -298,8 +332,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .$promise.then(function(res) {
         // success handler
         $scope.projectRFIs = res.data;
-        console.log('-- projectRFIs');
-        console.log(res.data);
+        $scope.project_rfis_returned = true;        
       });
     }
 
@@ -310,16 +343,14 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .$promise.then(function(res) {
         // success handler
         $scope.projectNetworks = res.data
-        console.log('-- projectNetworks');
-        console.log(res.data);
+        $scope.project_networks_returned = true;
       });
     }
 
     $scope.getProjectTodos = function(){
       $http.get('http://178.62.123.90/projects/'+$stateParams.id+"/to-do").then(function (resp) {
-        console.log('-- getProjectTodos');
-        console.log(resp.data.data )
         $scope.projectTodo = resp.data.data;
+        $scope.project_to_do_returned = true;        
       });
     }
 
@@ -330,8 +361,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .$promise.then(function(res) {
         // success handler
         $scope.projectLongLeads = res.data
-        console.log('-- projectLongLeads');
-        console.log(res.data);
+        $scope.project_long_leads_returned = true;
       });
     }
 
@@ -342,8 +372,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .$promise.then(function(res) {
         // success handler
         $scope.projectPermits = res.data
-        console.log('-- projectPermits');
-        console.log(res.data);
+        $scope.project_permits_returned = true;
       });
     }
 
@@ -353,11 +382,10 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       })
       .$promise.then(function(res) {
         // success handler
-        $scope.projectProgressPlot = res.data
-        console.log('-- projectProgressPlot');
-        console.log(res.data);
+        $scope.projectProgressPlot = res.data;
         $scope.d0_1 = res.data.actual_plot;
         $scope.d0_2 = res.data.calculated_plot;
+        $scope.project_progress_plot_returned = true;        
       });
     }
 
@@ -1422,19 +1450,54 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }
 
   }])
-  .controller('NetworkViewController', ['$scope', 'Auth', 'Networks', function($scope, Auth, Networks) {
+  .controller('NetworkViewController', ['$scope', '$stateParams', 'Auth', 'Networks', 'NetworkProjects', function($scope, $stateParams, Auth, Networks, NetworkProjects) {
+
     $scope.network = {};
 
     $scope.init = function(){
-      console.log(Auth.getCredential('networkid'))
-      Networks.get({id:Auth.getCredential('networkid')})
+      Networks.get({id:$stateParams.id})
       .$promise.then(function(res) {
         $scope.network = res.data;
-        console.log('-- project project');
-        console.log($scope.network);
+      });
+    
+      NetworkProjects.query({id:$stateParams.id})
+      .$promise.then(function(data) {
+        $scope.network.projects = data;
       });
     }
+
   }])
+  .controller('ProfileViewController', [  '$scope', 
+                                          '$stateParams', 
+                                          'Profile', 
+                                          'UserConnections', 
+                                          'UserProjects', function(   $scope, 
+                                                                      $stateParams, 
+                                                                      Profile,
+                                                                      UserConnections,
+                                                                      UserProjects ) {
+
+    $scope.profile = {};    
+
+    Profile.query({id:$stateParams.id})
+    .$promise.then(function(data) {
+      console.log(data);
+      $scope.profile = data;
+    });
+
+    UserConnections.query({id:$stateParams.id})
+    .$promise.then(function(data) {
+      console.log(data);
+      $scope.profile.connections = data;
+    });
+
+    UserProjects.query({id:$stateParams.id})
+    .$promise.then(function(data) {
+      console.log(data);
+      $scope.profile.projects = data;
+    });
+
+  }])  
   // Flot Chart controller
   .controller('FlotChartDemoCtrl', ['$scope', function($scope) {
 

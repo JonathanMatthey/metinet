@@ -33,7 +33,7 @@
             <tbody>
               <tr ng-repeat="project in projects">
                 <td>
-                  <a ng-href="#/app/page/projects/{{project.id}}">
+                  <a ng-href="#/app/page/projects/{{project.id}}/overview">
                     {{project.name}}
                   </a>
                 </td>
@@ -51,7 +51,9 @@
                 <td class="text-center"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{ project.updated_data.time | fromNow }}</td>
                 <td class="text-right">
                   <div class="btn-group btn-group-xs">
-                    <a ng-href="#/app/page/projects/{{project.id}}" class="btn btn-default"><i class="fa fa-chevron-right"></i></a>
+                    <a ng-href="#/app/page/projects/{{project.id}}/overview" class="btn btn-default">
+                      <i class="fa fa-chevron-right"></i>
+                    </a>
                   </div>                  
                 </td>
               </tr>

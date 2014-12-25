@@ -1,0 +1,111 @@
+<div class="panel panel-default b-0">
+  <div class="panel-heading">
+    <span class="h4">General Information</span>
+  </div>
+  <div class="panel-body">
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-6">
+          <label>Project Name</label>
+          <input  type="text" 
+                  class="form-control"
+                  ng-model="project_general.name">
+        </div>
+        <div class="col-sm-6">
+          <label>Description</label>
+          <input  type="text" 
+                  class="form-control"
+                  ng-model="project_general.desc">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-6">
+          <label>Contract Start Date</label>
+          <div ng-controller="DatepickerDemoCtrl">
+            <div class="input-group">
+              <input  type="text" 
+                      class="form-control"
+                      datepicker-popup="{{ format }}"
+                      ng-model="project_general.start_date"
+                      is-open="opened"
+                      datepicker-options="dateOptions"
+                      ng-required="true"
+                      close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label>Contract End Date</label>
+          <div ng-controller="DatepickerDemoCtrl">
+            <div class="input-group">
+              <input  type="text" 
+                      class="form-control"
+                      datepicker-popup="{{ format }}"
+                      ng-model="project_general.end_date_contract"
+                      is-open="opened"
+                      datepicker-options="dateOptions"
+                      ng-required="true"
+                      close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-6">
+          <label>Client</label>
+          <select class="form-control">
+              <option ng-repeat="network in projectNetworks"
+                      ng-selected="(network.id == project.client.id)" 
+                      value="{{ network.id }}"
+                      ng-model="project_general.client_id">
+                      {{ network.name }}
+              </option>
+          </select>  
+        </div>
+        <div class="col-sm-6">
+          <label>Contractor</label>
+          <select class="form-control">
+              <option ng-repeat="network in projectNetworks"
+                      ng-selected="(network.id == project.contractor.id)" 
+                      value="{{ network.id }}"
+                      ng-model="project_general.contractor_id">
+                {{ network.name }}
+              </option>
+          </select>  
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-6">
+          <label>Consultant</label>
+          <select class="form-control" ng-model="projectNetworks[1]" ng-options="network.name for network in projectNetworks track by network.id"></select>  
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <footer class="panel-footer text-right bg-light lter">
+    <button type="submit" class="btn btn-success">Save</button>
+  </footer>
+</div>
