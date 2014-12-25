@@ -6,11 +6,11 @@
     <button id="btn-collapse-all" onclick="collapseAll()" style="display:none;" class="btn pull-right btn-info m-l">Collapse All</button>
     <button  onclick="updateCriticalPath(this)" class="btn btn-info pull-right m-l">Show Critical Path</button>
     <button  onclick="goToToday(this)" class="btn btn-info pull-right m-l">Today</button>
-    <div class="pull-right " style="background:#eee;">
-      <button  onclick="loadDemoData(this)" class="btn btn-danger">Load Demo Data</button>
-      <strong class="m-l m-r"> Zooming: &nbsp; </strong>
+    <div class="pull-right zoom-controls">
+      <!-- <button  onclick="loadDemoData(this)" class="btn btn-danger">Load Demo Data</button> -->
+      <strong class="m-l m-r"> Time Scale in: &nbsp; </strong>
       <label class="m-r">
-        <input name="scales" onclick="zoom_tasks(this)" type="radio" value="trplweek" checked="true">
+        <input name="scales" onclick="zoom_tasks(this)" type="radio" value="trplweek">
         <span>Days</span>
       </label>
       <label class="m-r">
@@ -305,6 +305,10 @@
           }
           gantt.render();
         }
+
+
+
+        pusher.subscribe('_Gantt');
 
       </script>
     </div>
