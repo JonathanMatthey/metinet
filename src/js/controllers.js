@@ -4,7 +4,7 @@
 
 angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window',
-  function(              $scope,   $translate,   $localStorage,   $window ) {
+  function(   $scope,   $translate,   $localStorage,   $window ) {
       // add 'ie' classes to html
       var isIE = !!navigator.userAgent.match(/MSIE/i);
       isIE && angular.element($window.document.body).addClass('ie');
@@ -565,6 +565,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   'Node',
   'toaster',
   'NodeDependencies',
+  '$http',
   function(
     $scope,
     $stateParams,
@@ -573,7 +574,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     ProjectGantt,
     Node,
     toaster,
-    NodeDependencies
+    NodeDependencies,
+    $http
   ) {
 
     $scope.gantt_data = {
@@ -581,8 +583,10 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       'links':[]
     };
 
+    $scope.projectId = $stateParams.id;
+
     var link, dataNode;
-    ProjectGantt.get({id:$stateParams.id})
+    ProjectGantt.get({id:$scope.projectId})
     .$promise.then(function(res) {
       $scope.project = res.data.project;
       $scope.gantt_data_raw = res.data;
@@ -668,30 +672,61 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       task.open = false;
     });
     gantt.attachEvent("onBeforeTaskAdd", function(id,item){
-      console.log(id,item);
       var newNode = item;
       var parentId = newNode.parent;
       var parentNodeIndex = _.findIndex($scope.gantt_data.data,{"id":parseInt(newNode.parent,10)});
       var parentNode = $scope.gantt_data.data[parentNodeIndex];
-      newNode.duration = 200;
+
+      if (parentNode.type === "task"){
+        var r = confirm("Creating a new task will convert " + parentNode.text + " into a folder, and lose all links, permits and long leads - continue ?");
+        if (r == false) {
+          return false;
+        }
+      }
+
+      parentNode.open = true;
+      newNode.duration = 100;
       newNode.parent_id = parseInt(parentId,10);
       newNode.name  = newNode.text;
-      parentNode.duration = 200;
+      parentNode.duration = 100;
       parentNode.type = "project";
       newNode.start_date = parentNode.start_date;
-      console.log('------- parentNode: ',parentNode);
-      console.log('------- newNode: ',newNode);
 
       // save new node
-      console.log(id,newNode);
       delete(newNode.id);
       delete(newNode.end_date);
       delete(newNode.text);
       delete(newNode.parent);
-      console.log('------- saving newNode: ',newNode);
-      Node.save(newNode,function(u, putResponseHeaders) {
-        toaster.pop('success', 'Updated link', '.');
-        $scope.refreshProgressGantt();
+
+      $http.post('http://178.62.123.90/projects/' + $scope.projectId + '/nodes', {
+        headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
+        name: newNode.name,
+        start_date: newNode.start_date,
+        duration: newNode.duration,
+        parent_id: newNode.parent_id
+      })
+      .then(function(response) {
+        var dataNode = {
+          "id": response.data.data.id,
+          "text": response.data.data.name,
+          "start_date": response.data.data.gantt_start_date,
+          "duration": response.data.data.duration,
+          "parent": response.data.data.parent,
+          "type": "task",
+          "progress": (parseInt(response.data.data.progress,10)/100)
+        };
+        $scope.gantt_data.data.push(dataNode);
+        gantt.parse($scope.gantt_data);
+        console.log('resp',response);
+        toaster.pop('success', 'Created new Task', '.');
+        if ( response.status === 200 ) {
+          // user logged in
+        }else{
+        }
+      }, function(response) {
+        if ( response.status === 403 ) {
+        } else {
+        }
       });
 
       // loop through links, find links on previous node and delete those
