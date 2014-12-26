@@ -10,8 +10,6 @@ angular.module('app.services',[])
 	            method: 'GET',
 	            transformResponse: function (res) {
 	                var res = JSON.parse(res);
-	                console.log('==project');
-	                console.log(res);
 	                return res.data;
 	            },
 	            isArray: true

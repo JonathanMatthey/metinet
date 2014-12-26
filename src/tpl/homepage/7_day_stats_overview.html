@@ -1,0 +1,113 @@
+<div class="panel no-border">
+	<div class="panel-heading bg-black">
+		<div class="m-sm">
+			<span class="pull-right"><i class="fa fa-caret-up text-warning text-lg"></i></span>
+			<span class="h4 text-white">7 Day Stats</span>
+		</div>              
+		<div class="text-center m-t-md">
+		    <div ui-jq="plot" ui-refresh="seven_day.progress_plot" ui-options="
+		      [
+		        { 
+		          data: [ {{ seven_day.projected_progress_plot }} ], 
+		          label: 'Calculated', 
+		          points: { show: true, radius: 1 }, 
+		          splines: { show: true, tension: 0.4, lineWidth: 1 } 
+		        },
+		        { 
+		          data: [ {{ seven_day.progress_plot }} ],
+		          label: 'Actual',
+		          points: { show: true, radius: 2 },
+		          splines: { show: true, tension: 0.4, lineWidth: 1}
+		        }
+		      ],
+		      {
+		        colors: [
+		          '#314554',
+		          '{{ app.color.info }}'
+		        ],
+		        series: { 
+		          shadowSize: 3 
+		        },
+		        xaxis: { 
+		          mode:'time',
+		          minTickSize: [1, 'day'],
+		          timeformat: '%d-%m-%Y',
+		          font: { color: '#507b9b' }
+		        },
+		        yaxis: {
+		          font: { color: '#507b9b' }, 
+		          max:100
+		        },
+		        grid: { 
+		          hoverable: true,
+		          clickable: true,
+		          borderWidth: 0,
+		          color: '#1c2b36'
+		        },
+		        tooltip: true,
+		        tooltipOpts: { 
+		          content: '%y% on %x',  
+		          defaultTheme: false, 
+		          shifts: { 
+		            x: 10,
+		            y: -25 
+		          } 
+		        }
+		      }
+		      " style="min-height:360px" >
+		    </div>
+		</div>
+	</div>
+	<div class="b-t b-light bg-white row text-center no-gutter">
+		<div class="col-xs-4">
+			<div class="wrapper">
+				<span>Overall Progress Change</span>
+				<div class="h1 text-muted font-thin ng-binding" ng-hide="seven_day">
+					<i class="fa fa-spin fa-refresh"></i>
+				</div>				
+				<div class="h1 text-info font-thin ng-binding" ng-show="seven_day">
+					{{ seven_day.overall_change }}%
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-4">
+			<div class="wrapper">
+				<span>Projected Overall Progress Change</span>
+				<div class="h1 text-muted font-thin ng-binding" ng-hide="seven_day">
+					<i class="fa fa-spin fa-refresh"></i>
+				</div>
+				<div class="h1 text-info font-thin ng-binding" ng-show="seven_day">
+					{{ seven_day.overall_projected_change }}%
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-4">
+			<div class="wrapper">
+				<span>Active Tasks</span>
+				<div class="h1 text-muted font-thin ng-binding" ng-hide="current_tasks">
+					<i class="fa fa-spin fa-refresh"></i>
+				</div>				
+				<div class="h1 text-info font-thin ng-binding" ng-show="current_tasks">
+					{{ current_tasks.length }}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel-footer bg-light lter wrapper">
+		<div class="row">
+			<div class="col-xs-4 text-center">
+				<small class="text-muted block">Active Tasks</small>
+				<span class="text-md" ng-hide="current_tasks"><i class="fa fa-spin fa-refresh"></i></span>
+				<span class="text-md" ng-show="current_tasks">{{ current_tasks.length }}</span>
+			</div>
+			<div class="col-xs-4 text-center">
+				<small class="text-muted block">Upcoming Tasks</small>
+				<span class="text-md">{{ upcoming_tasks.length }}</span>
+			</div>
+			<div class="col-xs-4 text-center">
+				<small class="text-muted block">Sleeping</small>
+				<span class="text-md">400</span>
+			</div>
+		</div>
+	</div>
+</div>

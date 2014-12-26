@@ -1,0 +1,45 @@
+<div class="panel panel-default b-0">
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-search"></i></span>
+					<input id="user_projects_filter" type="text" class="form-control input-sm w-sm inline m-r" placeholder="Search...">
+				</div>
+			</div>
+			<div class="col-md-8 wrapper-xs">
+				<div class="text-right">{{ user_projects.length }} Projects Shown</div>
+			</div>
+		</div>
+	</div>
+	<div>
+		<table class="table m-b-none" ui-jq="footable" data-filter="#user_projects_filter" data-page-size="10">
+			<thead>
+				<tr>
+					<th>Project</th>
+					<th>Progress</th>
+					<th>Contract End Date</th>
+					<th>Projected End Date</th>
+					<th colspan="2">Last Updated</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="project in user_projects">
+					<td>{{ project.name }}</td>
+					<td>{{ project.display_progress }}</td>
+					<td>{{ project.end_date_contract | formatFullDate }}</td>
+					<td>{{ project.end_date_calculated | formatFullDate}}</td>
+					<td class="text-center"><i class="fa fa-user"></i>&nbsp;&nbsp;{{ project.updated_data.user.fullname }}</td>
+					<td class="text-center"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{ project.updated_data.time | fromNow }}</td>					
+				</tr>
+			</tbody>
+			<tfoot class="hide-if-no-paging">
+				<tr>
+					<td colspan="6" class="text-center">
+						<ul class="pagination"></ul>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>

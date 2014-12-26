@@ -1,100 +1,128 @@
 <div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="init()">
-  <!-- main -->
-  <div class="col">
-    <!-- main header -->
-    <div class="bg-light lter b-b wrapper-md">
-      <div class="row">
-        <div class="col-sm-6 col-xs-12">
-          <h1 class="m-n font-thin h3 text-black">HOME</h1>
-        </div>
-      </div>
-    </div>
-    <div class="bg-light lter b-b wrapper-md">
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="wrapper bg-white b-b ">
-            <div class="col">
-              <div class="wrapper">
-                <ul class="timeline">
-                  <li class="tl-header">
-                    <div class="btn btn-info">Now</div>
-                  </li>
-                  <li class="tl-item" ng-repeat="newsItem in newsfeed">
-                    <div class="tl-wrap b-{{newsItem.colour}}">
-                      <span class="tl-date" ng-bind="newsItem.time | formatFullDate">04.2014</span>
-                      <div class="tl-content panel padder b-a w-auto-xs">
-                        <span class="arrow left pull-up"></span>
-                        <div class="text-lt m-b-sm" ng-bind="newsItem.project_name"></div>
-                        <div class="panel-body pull-in b-t b-light">
-                          <div class="clear">
-                            <a href="" class="text-primary block m-b-xs" ng-bind="newsItem.text"><i class="icon-twitter"></i></a>
-                            <!-- <a href="" class="btn btn-addon btn-sm btn-primary m-t-xs"><i class="fa fa-eye"></i> Follow</a> -->
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="tl-header">
-                    <div class="btn btn-sm btn-default btn-rounded" ng-click="getNewsfeed()">more</div>
-                  </li>
-                </ul>
-              </div>
-            </div>
+	<!-- main -->
+	<div class="col" id="main_body">
+		<!-- main header -->
+		<div class="bg-light lter b-b wrapper-md">
+			<div class="row">
+				<div class="col-sm-6 col-xs-12">
+					<h1 class="m-n font-thin h3 text-black">Welcome {{ user_data.firstname }}</h1>
+				</div>
+			</div>
+		</div>
+		<!-- / main header -->
 
-            <div class="row m-t">
-              <div class="col-md-4 bg-dark dk">
-                <h4 class="font-thin m-t-none m-b">Current Tasks</h4>
-                <div class="list-group no-radius alt">
-                  <a class="list-group-item" href=""  ng-repeat="task in current_tasks">
-                    <span class="badge bg-success">{{task.progress}}%</span>
-                    <i class="fa fa-comment fa-fw text-muted"></i>
-                    {{task.name}}
-                    <div class="progress-xs m-t-sm progress ng-isolate-scope m-b-xs" value="35" animate="true" type="info">
-                      <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{task.progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width: task.progress + '%'}" aria-valuetext="{{task.progress}}%" style="width: {{task.progress}}%;"></div>
-                    </div>
-                  </a>
-                  <div style="text-align:center;" ng-show="current_tasks.length > 9">
-                    <div class="btn btn-sm btn-default btn-rounded m-t" ng-click="showAllCurrentTasks()">more</div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4 bg-dark dk">
-                <h4 class="font-thin m-t-none m-b">Upcoming Tasks</h4>
-                <div class="list-group no-radius alt">
-                  <a class="list-group-item" href=""  ng-repeat="task in upcoming_tasks">
-                    <span class="badge bg-success">{{task.progress}}%</span>
-                    <i class="fa fa-comment fa-fw text-muted"></i>
-                    {{task.name}}
-                  </a>
-                  <div style="text-align:center;" ng-show="upcoming_tasks.length > 9">
-                    <div class="btn btn-sm btn-default btn-rounded m-t" ng-click="showAllUpcomingTasks()">more</div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4 bg-dark dk">
-                <h4 class="font-thin m-t-none m-b">Network RFIs</h4>
-                <div class="list-group no-radius alt">
-                  <a class="list-group-item" href=""  ng-repeat="rfi in network_rfis">
-                    <span class="badge bg-{{rfi.status.colour}}">{{rfi.specific_id}}%</span>
-                    <i class="fa fa-comment fa-fw text-muted"></i>
-                    {{rfi.status.text}}
-                  </a>
-                  <div style="text-align:center;" ng-show="network_rfis.length > 9">
-                    <div class="btn btn-sm btn-default btn-rounded m-t" ng-click="showAllNetworkRFIS()">more</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- / main header -->
-  </div>
+		<!-- main body -->
+		<div class="bg-black lter b-b">
+
+			<!-- info column -->
+			<div class="col-md-3 b-r">
+				<div class="row">
+					<div class="hbox bg-primary bg">
+						<div class="wrapper bg-black pointer" ng-click="changeAction('overview')">
+							<span class="text-white">Your Overview</span>
+						</div>
+						<div class="wrapper pointer" ng-click="changeAction('projects')">
+							<span>Active Projects</span>
+							<div class="h1 text-muted font-thin" ng-hide="user_projects">
+								<i class="fa fa-spin fa-refresh"></i>
+							</div>
+							<div class="h1 text-info font-thin" ng-show="user_projects">
+								{{ user_projects.length }}
+							</div>
+						</div>
+						<div class="wrapper bg-info pointer" ng-click="changeAction('current_tasks')">
+							<span>Active Tasks</span>
+							<div class="h1 text-muted font-thin" ng-hide="current_tasks">
+								<i class="fa fa-spin fa-refresh"></i>
+							</div>
+							<div class="h1 text-warning font-thin" ng-show="current_tasks">
+								{{ current_tasks.length }}
+							</div>
+						</div>
+						<div class="wrapper pointer" ng-click="changeAction('upcoming_tasks')">
+							<span>Upcoming Tasks</span>
+							<div class="h1 text-muted font-thin" ng-hide="upcoming_tasks">
+								<i class="fa fa-spin fa-refresh"></i>
+							</div>
+							<div class="h1 text-info font-thin" ng-show="upcoming_tasks">
+								{{ upcoming_tasks.length }}
+							</div>
+						</div>
+						<div class="wrapper bg-info pointer" ng-click="changeAction('rfis')">
+							<span>Network RFIs</span>
+							<div class="h1 text-muted font-thin" ng-hide="network_rfis">
+								<i class="fa fa-spin fa-refresh"></i>
+							</div>							
+							<div class="h1 text-warning font-thin" ng-show="network_rfis">
+								{{ network_rfis.length }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- / info column -->
+
+			<!-- main column -->
+			<div class="col-md-9">
+	    		<div class="row">
+
+					<ng-include	src="'tpl/homepage/7_day_stats_overview.html'" 
+								ng-show="homepage_action == 'overview'"></ng-include>
+
+					<ng-include	src="'tpl/homepage/projects_overview.html'" 
+								ng-show="homepage_action == 'projects'"></ng-include>
+
+					<ng-include	src="'tpl/homepage/current_tasks_overview.html'" 
+								ng-show="homepage_action == 'current_tasks'"></ng-include>
+
+					<ng-include	src="'tpl/homepage/upcoming_tasks_overview.html'" 
+								ng-show="homepage_action == 'upcoming_tasks'"></ng-include>
+
+					<ng-include	src="'tpl/homepage/network_rfis_overview.html'" 
+								ng-show="homepage_action == 'rfis'"></ng-include>
+
+				</div>				
+			</div>
+			<!-- / main column -->				
+
+		</div>
+		<!-- / main body -->
+	</div>
   <!-- / main -->
   <!-- right col -->
-  <div class="col w-md bg-white-only b-l bg-auto no-border-xs">
+  <div class="col w-md bg-white-only b-l bg-auto no-border-xs" id="sidebar">
+  	<div class="sidebar_inner">
 
+		<ul class="timeline">
+			<li class="tl-item" ng-repeat="newsItem in newsfeed">
+				<div class="tl-wrap b-{{newsItem.colour}} m-l-0">
+					<div class="tl-content panel padder b-t b-b w-auto-xs b-radius-0 b-r-0">
+						<div class="text-lt m-b-sm">
+							{{ newsItem.project_name }}
+							<span class="pull-right" ng-bind="newsItem.time | fromNow"></span>
+						</div>
+						<div class="panel-body pull-in b-t b-light">
+							<div class="clear">
+								<a href="" class="text-dark block m-b-xs" ng-bind="newsItem.text"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="tl-header">
+				<div class="btn btn-sm btn-default btn-rounded" ng-click="getNewsfeed()">more</div>
+			</li>
+		</ul>
+
+	</div>
   </div>
   <!-- / right col -->
 </div>
+
+<script type="text/javascript">
+	$('document').ready(function() {
+		var main_body_height = $('#main_body').height();
+		console.log(main_body_height);
+		$('#sidebar .sidebar_inner').height(main_body_height);
+	});
+</script>

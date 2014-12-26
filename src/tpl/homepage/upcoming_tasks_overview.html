@@ -1,0 +1,50 @@
+<div class="panel panel-default b-0">
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-search"></i></span>
+					<input id="upcoming_tasks_filter" type="text" class="form-control input-sm w-sm inline m-r" placeholder="Search...">
+				</div>
+			</div>
+			<div class="col-md-8 wrapper-xs">
+				<div class="text-right">{{ upcoming_tasks.length }} Tasks Shown</div>
+			</div>
+		</div>
+	</div>
+	<div>
+		<table id="upcoming_tasks_table" class="table m-b-none" ui-jq="footable" data-filter="#upcoming_tasks_filter" data-page-size="10">
+			<thead>
+				<tr>
+					<th>Task Name</th>
+					<th>Associated User</th>
+					<th>Associated Network</th>
+					<th>Progress</th>
+					<th>Status</th>
+					<td>Actions</td>					
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="task in upcoming_tasks">
+					<td>{{ task.name }}</td>
+					<td>{{ task.associated_user.fullname }}</td>
+					<td>{{ task.associated_user.network.name }}</td>
+					<td>{{ task.progress }}% Complete</td>
+					<td class='text-{{ task.status.colour }}' ng-bind="task.status.text"></td>
+					<td class="text-right">
+						<div class="btn-group btn-group-xs" role="group" aria-label="...">
+							<a href="#/page/nodes/{{ task.id }}" class="btn btn-default"><i class="fa fa-fw fa-eye"></i></a>
+						</div>
+					</td>					
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="5" class="text-center">
+						<ul class="pagination"></ul>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>

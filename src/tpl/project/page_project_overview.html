@@ -4,56 +4,56 @@
       <li><a href ng-click="refreshData()">Week</a></li>
       <li><a href ng-click="refreshData()">Month</a></li>
     </ul>       
-    <div ui-jq="plot" ui-refresh="d0_1" ui-options="
-      [
-        { 
-          data: [ {{ d0_2 }} ], 
-          label: 'Calculated', 
-          points: { show: true, radius: 1, opactity: 0.5 }, 
-          splines: { show: true, tension: 0.4, lineWidth: 1, opactity: 0.5 } 
-        },
-        { 
-          data: [ {{ d0_1 }} ],
-          label: 'Actual',
-          points: { show: true, radius: 2 },
-          splines: { show: true, tension: 0.4, lineWidth: 1}
-        }
-      ],
-      {
-        colors: [
-          '#314554',
-          '{{ app.color.info }}'
-        ],
-        series: { 
-          shadowSize: 3 
-        },
-        xaxis: { 
-          mode:'time',
-          timeformat: '%d-%m-%Y',
-          font: { color: '#507b9b' }
-        },
-        yaxis: {
-          font: { color: '#507b9b' }, 
-          max:100
-        },
-        grid: { 
-          hoverable: true,
-          clickable: true,
-          borderWidth: 0,
-          color: '#1c2b36'
-        },
-        tooltip: true,
-        tooltipOpts: { 
-          content: '%y% on %x',  
-          defaultTheme: false, 
-          shifts: { 
-            x: 10,
-            y: -25 
-          } 
-        }
-      }
-      " style="min-height:360px" >
-    </div>
+	<div ui-jq="plot" ui-refresh="d0_1" ui-options="
+	      [
+	        { 
+	          data: [ {{ d0_2 }} ], 
+	          label: 'Calculated', 
+	          points: { show: true, radius: 1 }, 
+	          splines: { show: true, tension: 0.4, lineWidth: 1 } 
+	        },
+	        { 
+	          data: [ {{ d0_1 }} ],
+	          label: 'Actual',
+	          points: { show: true, radius: 2 },
+	          splines: { show: true, tension: 0.4, lineWidth: 1 }
+	        }
+	      ],
+	      {
+	        colors: [
+	          '#314554',
+	          '{{ app.color.info }}'
+	        ],
+	        series: { 
+	          shadowSize: 3 
+	        },
+	        xaxis: { 
+	          mode:'time',
+	          timeformat: '%d-%m-%Y',
+	          font: { color: '#507b9b' }
+	        },
+	        yaxis: {
+	          font: { color: '#507b9b' }, 
+	          max:100
+	        },
+	        grid: { 
+	          hoverable: true,
+	          clickable: true,
+	          borderWidth: 0,
+	          color: '#1c2b36'
+	        },
+	        tooltip: true,
+	        tooltipOpts: { 
+	          content: '%y% on %x',  
+	          defaultTheme: false, 
+	          shifts: { 
+	            x: 10,
+	            y: -25 
+	          } 
+	        }
+	      }
+	      " style="min-height:360px" >
+	    </div>
 </div>
 <div class="wrapper-md bg-white-only b-b">
   <div class="row text-center">

@@ -124,27 +124,38 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     };
   }])
 
-  .controller('ProjectListController', ['$scope', '$state', '$window', 'Auth', 'Project', function($scope,$state,$window,Auth,Project) {
-    $scope.projects = Project.query();
-  }])
+	.controller('ProjectListController', [	'$scope',
+											'$document', 
+											'$state',
+											'$window',
+											'Project', 	function(	$scope,
+																	$document,
+																	$state,
+																	$window,
+																	Project 	) {
+		Project.query().$promise
+			.then(function(res) {
+				$scope.projects = res;				
+			});
+	}])
 
   .controller('ProjectCreateController', ['$scope', '$state', '$window', '$http', 'Auth', 'Project', 'moment', 'toaster', function($scope,$state,$window,$http,Auth,Project,moment,toaster) {
-    $scope.project = new Project();
-    $scope.projectCountry = {};
-    $scope.project.name = "Big New Project";
-    $scope.project.lat = 1.1;
-    $scope.project.lng = 2.2;
-    $scope.project.client_name = "JCB";
-    $scope.project.contractor_name = "Mr Contractor";
-    $scope.project.consultant_name = "Mrs Consultant";
-    $scope.project.start_date = new moment().format("DD-MMMM-YYYY");//new moment().format("YYYY-MM-DD 00:00:00");
-    $scope.project.end_date_contract = new moment().add(6, 'M').format("DD-MMMM-YYYY");
-    $scope.project.progress_reports = true;
-    $scope.project.long_lead_items = true;
-    $scope.project.risk_assessment = true;
-    $scope.project.permit_assessment = true;
-    $scope.project.cost_management = true;
-    $scope.project.terms = true;
+    $scope.project 						= new Project();
+    $scope.projectCountry 				= {};
+    $scope.project.name 				= "Big New Project";
+    $scope.project.lat 					= 1.1;
+    $scope.project.lng 					= 2.2;
+    $scope.project.client_name 			= "JCB";
+    $scope.project.contractor_name 		= "Mr Contractor";
+    $scope.project.consultant_name 		= "Mrs Consultant";
+    $scope.project.start_date 			= new moment().format("DD-MMMM-YYYY");//new moment().format("YYYY-MM-DD 00:00:00");
+    $scope.project.end_date_contract 	= new moment().add(6, 'M').format("DD-MMMM-YYYY");
+    $scope.project.progress_reports 	= true;
+    $scope.project.long_lead_items 		= true;
+    $scope.project.risk_assessment 		= true;
+    $scope.project.permit_assessment 	= true;
+    $scope.project.cost_management 		= true;
+    $scope.project.terms 				= true;
 
     $http.get('http://178.62.123.90/countries').then(function (resp) {
       $scope.countries = resp.data.data;
@@ -245,44 +256,51 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.project_permits_returned       = false;    
 
     $scope.init = function() {
-      $scope.getProject();
-      $scope.getProjectAudit();
-      $scope.getProjectTodos();
-      $scope.getProjectProgressPlot();
-      $scope.getProjectNetworks();
-      $scope.getProjectUsers();
-      $scope.getProjectRFIs();
-      if ($scope.project.long_lead_items) {
-        $scope.getProjectLongLeads();        
-      }
-      if ($scope.project.permit_assessment) {
-        $scope.getProjectPermits();
-      }
+		$scope.getProject();
+		$scope.getProjectAudit();
+		$scope.getProjectTodos();
+		$scope.getProjectProgressPlot();
+		$scope.getProjectNetworks();
+		$scope.getProjectUsers();
+		$scope.getProjectRFIs();
+		if ($scope.project.long_lead_items) {
+			$scope.getProjectLongLeads();        
+		}
+		if ($scope.project.permit_assessment) {
+			$scope.getProjectPermits();
+		}
     }
 
     $scope.changeAction = function(value) {
-      $scope.user_action = value;
+		$scope.user_action = value;
+		if (value == 'overview') {
+			$scope.refreshOverviewFlot();
+		}
     }
 
     $scope.changeSettingsAction = function(value) {
       $scope.settings_action = value;
     }
 
+	$scope.refreshOverviewFlot = function(){
+		console.log("refreshing_plot");
+	}
+
     $scope.getProject = function(){
-      Project.get({id:$stateParams.id})
-      .$promise.then(function(res) {
-        $scope.project = res.data;
+		Project.get({id:$stateParams.id})
+			.$promise.then(function(res) {
+				$scope.project 								= res.data;
 
-        $scope.project_general.name                 = res.data.name;
-        $scope.project_general.desc                 = res.data.desc;
-        $scope.project_general.start_date           = res.data.start_date;
-        $scope.project_general.end_date_contract    = res.data.end_date_contract;
-        $scope.project_general.client_id            = res.data.client.id;
-        $scope.project_general.contractor_id        = res.data.contractor.id;
-        $scope.project_general.consultant_id        = res.data.consultant.id;
+				$scope.project_general.name 				= res.data.name;
+				$scope.project_general.desc 				= res.data.desc;
+				$scope.project_general.start_date 			= res.data.start_date;
+				$scope.project_general.end_date_contract 	= res.data.end_date_contract;
+				$scope.project_general.client_id 			= res.data.client.id;
+				$scope.project_general.contractor_id 		= res.data.contractor.id;
+				$scope.project_general.consultant_id 		= res.data.consultant.id;
 
-        $scope.project_returned = true;
-      });
+				$scope.project_returned 					= true;
+			});
     }
 
     $scope.getProjectUsers = function(){
@@ -383,7 +401,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         $scope.projectProgressPlot = res.data;
         $scope.d0_1 = res.data.actual_plot;
         $scope.d0_2 = res.data.calculated_plot;
-        $scope.project_progress_plot_returned = true;        
+        $scope.project_progress_plot_returned = true;
       });
     }
 
@@ -1437,49 +1455,116 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }])
 
   // Flot Chart controller
-  .controller('HomepageController', ['$scope', 'UserHomepage', '$http', function($scope, UserHomepage, $http) {
+  .controller('HomepageController', [	'$scope',
+  										'UserHomepage',
+  										'UserProjects',  										
+  										'$http', 
+  										'Auth', function(	$scope,
+															UserHomepage,
+															UserProjects,
+															$http,
+															Auth	) {
+    var plot;
 
-    $scope.newsfeed = [];
-    $scope.newsfeedSkip = 0;
+    $scope.newsfeed 		= [];
+    $scope.newsfeedSkip 	= 0;
 
-    $scope.upcoming_tasks = [];
-    $scope.current_tasks = [];
-    $scope.network_rfis = [];
+    $scope.upcoming_tasks 	= [];
+    $scope.current_tasks 	= [];
+    $scope.network_rfis 	= [];
+
+    $scope.homepage_action	= 'overview';
+
+    $scope.user_data		= Auth.getCredential('user_data');
 
     $scope.init = function(){
 
-      UserHomepage.get({
-      })
-      .$promise.then(function(res) {
-        console.log(res);
-        $scope.homepageData = res.data
-        $scope.upcoming_tasks = $scope.homepageData.upcoming_tasks.slice(0,10);
-        $scope.current_tasks = $scope.homepageData.current_tasks.slice(0,10);
-        $scope.network_rfis = $scope.homepageData.network_rfis.slice(0,10);
-      });
+		UserProjects.query({id:$scope.user_data.id})
+			.$promise.then(function(data) {
+				$scope.user_projects	= data;
+			});
 
-      $scope.getNewsfeed();
+		UserHomepage.get({})
+			.$promise.then(function(res) {
+				$scope.current_tasks	= res.data.current_tasks;
+				$scope.upcoming_tasks	= res.data.upcoming_tasks;
+				$scope.network_rfis		= res.data.network_rfis;
+				console.log(res.data.seven_day);
+				$scope.seven_day		= res.data.seven_day;
+
+				$('#current_tasks_table').trigger('footable_redraw');
+				$('#upcoming_tasks_table').trigger('footable_redraw');
+
+				$.plot(	'#plot',
+					[
+						{ label: "Actual", data: [ res.data.seven_day.progress_plot ], },
+							{ label: "Calculated", data: [ res.data.seven_day.projected_progress_plot ] }
+					], 
+					{
+						colors: [
+							'#314554',
+							'{{ app.color.info }}'
+						],
+						series: { 
+							shadowSize: 3 
+						},
+						xaxis: { 
+							mode:'time',
+							minTickSize: [1, 'day'],
+							timeformat: '%d-%m-%Y',
+							font: { color: '#507b9b' }
+						},
+						yaxis: {
+							font: { color: '#507b9b' }, 
+							max:100
+						},
+						grid: { 
+							hoverable: true,
+							clickable: true,
+							borderWidth: 0,
+							color: '#1c2b36'
+						},
+						tooltip: true,
+						tooltipOpts: { 
+							content: '%y% on %x',  
+							defaultTheme: false, 
+							shifts: { 
+								x: 10,
+								y: -25 
+							} 
+						}
+					});
+
+			});
+
+		  $scope.getNewsfeed();
+
     }
 
-    $scope.showAllUpcomingTasks = function(){
-      $scope.upcoming_tasks = $scope.homepageData.upcoming_tasks;
+    $scope.changeAction = function(value) {
+    	$scope.homepage_action = value;
+    	if (value == 'overview') {
+    		$scope.refreshOverviewFlot();
+    	}
+		if (value == 'current_tasks') {
+			$('#current_tasks_table').trigger('footable_redraw');
+		}
+		if (value == 'upcoming_tasks') {
+			$('#upcoming_tasks_table').trigger('footable_redraw');
+		}
+
     }
 
-    $scope.showAllCurrentTasks = function(){
-      $scope.current_tasks = $scope.homepageData.current_tasks;
-    }
+  	$scope.getNewsfeed = function(){
+  		$http.get('http://178.62.123.90/user/newsfeed/'+$scope.newsfeedSkip).then(function (resp) {
+  			$.merge($scope.newsfeed, resp.data.data);
+  			$scope.newsfeedSkip++;
+  		});
+  	}
 
-    $scope.showAllNetworkRFIS = function(){
-      $scope.network_rfis = $scope.homepageData.network_rfis;
-    }
-
-    $scope.getNewsfeed = function(){
-      $http.get('http://178.62.123.90/user/newsfeed/'+$scope.newsfeedSkip).then(function (resp) {
-        $.merge($scope.newsfeed, resp.data.data);
-        console.log($scope.newsfeed)
-        $scope.newsfeedSkip++;
-      });
-    }
+  	$scope.refreshOverviewFlot = function(){
+  		$.plot.draw();
+  	}	
 
   }])
   .controller('NetworkViewController', ['$scope', '$stateParams', 'Auth', 'Networks', 'NetworkProjects', function($scope, $stateParams, Auth, Networks, NetworkProjects) {

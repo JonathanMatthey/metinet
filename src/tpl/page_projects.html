@@ -34,7 +34,7 @@
               <tr ng-repeat="project in projects">
                 <td>
                   <a ng-href="#/app/page/projects/{{project.id}}/overview">
-                    {{project.name}}
+                    {{ project.name }}                    
                   </a>
                 </td>
                 <td>
@@ -75,3 +75,4 @@
     </div>
   </div>
 </div>
+<div ng-init="fireSparklines()"></div>

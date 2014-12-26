@@ -144,4 +144,11 @@ background-color: #ccc!important;
   margin-bottom:0;
 }
 
+.sidebar_inner {
+  position: relative;
+  overflow-y: auto;
+}
 
+.pointer {
+  cursor: pointer;
+}
