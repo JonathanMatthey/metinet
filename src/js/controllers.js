@@ -99,7 +99,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   }])
 
   .controller('HeaderController', ['$scope', '$state', '$window', '$http', 'Auth', function($scope,$state,$window,$http,Auth) {
-    $scope.user_data = Auth.getCredential('user_data');    
+    $scope.user_data = Auth.getCredential('user_data');
     $scope.init = function(){
     }
 
@@ -125,7 +125,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   }])
 
 	.controller('ProjectListController', [	'$scope',
-											'$document', 
+											'$document',
 											'$state',
 											'$window',
 											'Project', 	function(	$scope,
@@ -135,7 +135,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 																	Project 	) {
 		Project.query().$promise
 			.then(function(res) {
-				$scope.projects = res;				
+				$scope.projects = res;
 			});
 	}])
 
@@ -243,17 +243,17 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.newProjectRFI    = ProjectRFIs();
 
     $scope.project_general  = {};
-    $scope.map              = { center: { latitude: 45, longitude: -73 }, zoom: 8 };    
+    $scope.map              = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
 
     $scope.project_audit_returned         = false;
-    $scope.project_returned               = false;    
-    $scope.project_to_do_returned         = false;    
-    $scope.project_progress_plot_returned = false;    
-    $scope.project_networks_returned      = false;    
-    $scope.project_users_returned         = false;    
-    $scope.project_rfis_returned          = false;    
-    $scope.project_long_leads_returned    = false;    
-    $scope.project_permits_returned       = false;    
+    $scope.project_returned               = false;
+    $scope.project_to_do_returned         = false;
+    $scope.project_progress_plot_returned = false;
+    $scope.project_networks_returned      = false;
+    $scope.project_users_returned         = false;
+    $scope.project_rfis_returned          = false;
+    $scope.project_long_leads_returned    = false;
+    $scope.project_permits_returned       = false;
 
     $scope.init = function() {
 		$scope.getProject();
@@ -264,7 +264,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		$scope.getProjectUsers();
 		$scope.getProjectRFIs();
 		if ($scope.project.long_lead_items) {
-			$scope.getProjectLongLeads();        
+			$scope.getProjectLongLeads();
 		}
 		if ($scope.project.permit_assessment) {
 			$scope.getProjectPermits();
@@ -282,9 +282,9 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       $scope.settings_action = value;
     }
 
-	$scope.refreshOverviewFlot = function(){
-		console.log("refreshing_plot");
-	}
+  	$scope.refreshOverviewFlot = function(){
+  		console.log("refreshing_plot");
+  	}
 
     $scope.getProject = function(){
 		Project.get({id:$stateParams.id})
@@ -348,7 +348,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .$promise.then(function(res) {
         // success handler
         $scope.projectRFIs = res.data;
-        $scope.project_rfis_returned = true;        
+        $scope.project_rfis_returned = true;
       });
     }
 
@@ -366,7 +366,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.getProjectTodos = function(){
       $http.get('http://178.62.123.90/projects/'+$stateParams.id+"/to-do").then(function (resp) {
         $scope.projectTodo = resp.data.data;
-        $scope.project_to_do_returned = true;        
+        $scope.project_to_do_returned = true;
       });
     }
 
@@ -507,23 +507,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         }
       });
 
-      // var currentPermit = {};
-      // currentPermit.id = $scope.projectPermits[permitIndex].id;
-      // currentPermit.name = $scope.projectPermits[permitIndex].name;
-      // currentPermit.quantity = $scope.projectPermits[permitIndex].quantity;
-      // currentPermit.application_time = $scope.projectPermits[permitIndex].application_time;
-      // currentPermit.cost = $scope.projectPermits[permitIndex].cost;
-
-      // var modalInstance = $modal.open({
-      //   templateUrl: 'tpl/modal_permit.form.html',
-      //   controller: 'EditPermitModal',
-      //   resolve: {
-      //     permit: function () {
-      //       return currentPermit;
-      //     }
-      //   }
-      // });
-
       modalInstance.result.then(function (permit) {
         // permit._id = $stateParams.id;
         console.log(permit);
@@ -547,23 +530,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
           }
         }
       });
-
-      // var currentLongLead = {};
-      // currentLongLead.id = $scope.projectLongLeads[longleadIndex].id;
-      // currentLongLead.name = $scope.projectLongLeads[longleadIndex].name;
-      // currentLongLead.quantity = $scope.projectLongLeads[longleadIndex].quantity;
-      // currentLongLead.application_time = $scope.projectLongLeads[longleadIndex].application_time;
-      // currentLongLead.cost = $scope.projectLongLeads[longleadIndex].cost;
-
-      // var modalInstance = $modal.open({
-      //   templateUrl: 'tpl/modal_longlead.form.html',
-      //   controller: 'EditLongLeadModal',
-      //   resolve: {
-      //     longlead: function () {
-      //       return currentLongLead;
-      //     }
-      //   }
-      // });
 
       modalInstance.result.then(function (longlead) {
         // longlead._id = $stateParams.id;
@@ -822,22 +788,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       gantt.parse($scope.gantt_data);
     }
 
-    // $scope.refreshProgressGantt = function(){
-    //   console.log('updating ? !');
-    //   if (!$scope.updatingProjectGantt){
-    //     $scope.gantt_data = gantt.serialize();
-    //     console.log($stateParams.id);
-    //     ProjectGantt.save({_id:$stateParams.id, data: $scope.gantt_data.data, links: $scope.gantt_data.links},function(u, putResponseHeaders) {
-    //       $scope.updatingProjectGantt = false;
-    //       toaster.pop('success', 'Gantt update', '');
-    //       console.log('updated!');
-    //     });
-    //     // in case POST failed, enable it again
-    //     setTimeout(function(){
-    //       $scope.updatingProjectGantt = false;
-    //     },3000);
-    //   }
-    // }
 }])
 .controller('NodeViewController', [
   '$scope',
@@ -1034,95 +984,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }
 
   }])
-  // -- Projects Controllers -- END
-
-  // bootstrap controller
-  .controller('AccordionDemoCtrl', ['$scope', function($scope) {
-    $scope.oneAtATime = true;
-
-    $scope.groups = [
-    {
-      title: 'Accordion group header - #1',
-      content: 'Dynamic group body - #1'
-    },
-    {
-      title: 'Accordion group header - #2',
-      content: 'Dynamic group body - #2'
-    }
-    ];
-
-    $scope.items = ['Item 1', 'Item 2', 'Item 3'];
-
-    $scope.addItem = function() {
-      var newItemNo = $scope.items.length + 1;
-      $scope.items.push('Item ' + newItemNo);
-    };
-
-    $scope.status = {
-      isFirstOpen: true,
-      isFirstDisabled: false
-    };
-  }])
-  .controller('AlertDemoCtrl', ['$scope', function($scope) {
-    $scope.alerts = [
-    { type: 'success', msg: 'Well done! You successfully read this important alert message.' },
-    { type: 'info', msg: 'Heads up! This alert needs your attention, but it is not super important.' },
-    { type: 'warning', msg: 'Warning! Best check yo self, you are not looking too good...' }
-    ];
-
-    $scope.addAlert = function() {
-      $scope.alerts.push({type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.'});
-    };
-
-    $scope.closeAlert = function(index) {
-      $scope.alerts.splice(index, 1);
-    };
-  }])
-  .controller('ButtonsDemoCtrl', ['$scope', function($scope) {
-    $scope.singleModel = 1;
-
-    $scope.radioModel = 'Middle';
-
-    $scope.checkModel = {
-      left: false,
-      middle: true,
-      right: false
-    };
-  }])
-  .controller('CarouselDemoCtrl', ['$scope', function($scope) {
-    $scope.myInterval = 5000;
-    var slides = $scope.slides = [];
-    $scope.addSlide = function() {
-      slides.push({
-        image: 'img/c' + slides.length + '.jpg',
-        text: ['Carousel text #0','Carousel text #1','Carousel text #2','Carousel text #3'][slides.length % 4]
-      });
-    };
-    for (var i=0; i<4; i++) {
-      $scope.addSlide();
-    }
-  }])
-  .controller('DropdownDemoCtrl', ['$scope', function($scope) {
-    $scope.items = [
-    'The first choice!',
-    'And another choice for you.',
-    'but wait! A third!'
-    ];
-
-    $scope.status = {
-      isopen: false
-    };
-
-    $scope.toggled = function(open) {
-      //console.log('Dropdown is now: ', open);
-    };
-
-    $scope.toggleDropdown = function($event) {
-      $event.preventDefault();
-      $event.stopPropagation();
-      $scope.status.isopen = !$scope.status.isopen;
-    };
-  }])
   .controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
     $scope.items = items;
     $scope.selected = {
@@ -1295,172 +1156,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         });
     };
   }])
-.controller('PaginationDemoCtrl', ['$scope', '$log', function($scope, $log) {
-  $scope.totalItems = 64;
-  $scope.currentPage = 4;
-
-  $scope.setPage = function (pageNo) {
-    $scope.currentPage = pageNo;
-  };
-
-  $scope.pageChanged = function() {
-    $log.info('Page changed to: ' + $scope.currentPage);
-  };
-
-  $scope.maxSize = 5;
-  $scope.bigTotalItems = 175;
-  $scope.bigCurrentPage = 1;
-}])
-.controller('PopoverDemoCtrl', ['$scope', function($scope) {
-  $scope.dynamicPopover = 'Hello, World!';
-  $scope.dynamicPopoverTitle = 'Title';
-}])
-.controller('ProgressDemoCtrl', ['$scope', function($scope) {
-  $scope.max = 200;
-
-  $scope.random = function() {
-    var value = Math.floor((Math.random() * 100) + 1);
-    var type;
-
-    if (value < 25) {
-      type = 'success';
-    } else if (value < 50) {
-      type = 'info';
-    } else if (value < 75) {
-      type = 'warning';
-    } else {
-      type = 'danger';
-    }
-
-    $scope.showWarning = (type === 'danger' || type === 'warning');
-
-    $scope.dynamic = value;
-    $scope.type = type;
-  };
-  $scope.random();
-
-  $scope.randomStacked = function() {
-    $scope.stacked = [];
-    var types = ['success', 'info', 'warning', 'danger'];
-
-    for (var i = 0, n = Math.floor((Math.random() * 4) + 1); i < n; i++) {
-      var index = Math.floor((Math.random() * 4));
-      $scope.stacked.push({
-        value: Math.floor((Math.random() * 30) + 1),
-        type: types[index]
-      });
-    }
-  };
-  $scope.randomStacked();
-}])
-.controller('TabsDemoCtrl', ['$scope', function($scope) {
-  $scope.tabs = [
-  { title:'Dynamic Title 1', content:'Dynamic content 1' },
-  { title:'Dynamic Title 2', content:'Dynamic content 2', disabled: true }
-  ];
-}])
-.controller('RatingDemoCtrl', ['$scope', function($scope) {
-  $scope.rate = 7;
-  $scope.max = 10;
-  $scope.isReadonly = false;
-
-  $scope.hoveringOver = function(value) {
-    $scope.overStar = value;
-    $scope.percent = 100 * (value / $scope.max);
-  };
-}])
-.controller('TooltipDemoCtrl', ['$scope', function($scope) {
-  $scope.dynamicTooltip = 'Hello, World!';
-  $scope.dynamicTooltipText = 'dynamic';
-  $scope.htmlTooltip = 'I\'ve been made <b>bold</b>!';
-}])
-.controller('TypeaheadDemoCtrl', ['$scope', '$http', function($scope, $http) {
-  $scope.selected = undefined;
-  $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
-    // Any function returning a promise object can be used to load values asynchronously
-    $scope.getLocation = function(val) {
-      return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
-        params: {
-          address: val,
-          sensor: false
-        }
-      }).then(function(res){
-        var addresses = [];
-        angular.forEach(res.data.results, function(item){
-          addresses.push(item.formatted_address);
-        });
-        return addresses;
-      });
-    };
-  }])
-.controller('DatepickerDemoCtrl', ['$scope', function($scope) {
-  $scope.today = function() {
-    $scope.dt = new Date();
-  };
-  $scope.today();
-
-  $scope.clear = function () {
-    $scope.dt = null;
-  };
-
-    // Disable weekend selection
-    $scope.disabled = function(date, mode) {
-      return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-    };
-
-    $scope.toggleMin = function() {
-      $scope.minDate = $scope.minDate ? null : new Date();
-    };
-    $scope.toggleMin();
-
-    $scope.open = function($event) {
-      $event.preventDefault();
-      $event.stopPropagation();
-
-      $scope.opened = true;
-    };
-
-    $scope.dateOptions = {
-      formatYear: 'yy',
-      startingDay: 1,
-      class: 'datepicker'
-    };
-
-    $scope.initDate = new Date('2016-15-20');
-    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-    $scope.format = $scope.formats[0];
-  }])
-.controller('TimepickerDemoCtrl', ['$scope', function($scope) {
-  $scope.mytime = new Date();
-
-  $scope.hstep = 1;
-  $scope.mstep = 15;
-
-  $scope.options = {
-    hstep: [1, 2, 3],
-    mstep: [1, 5, 10, 15, 25, 30]
-  };
-
-  $scope.ismeridian = true;
-  $scope.toggleMode = function() {
-    $scope.ismeridian = ! $scope.ismeridian;
-  };
-
-  $scope.update = function() {
-    var d = new Date();
-    d.setHours( 14 );
-    d.setMinutes( 0 );
-    $scope.mytime = d;
-  };
-
-  $scope.changed = function () {
-      //console.log('Time changed to: ' + $scope.mytime);
-    };
-
-    $scope.clear = function() {
-      $scope.mytime = null;
-    };
-  }])
 
   // Form controller
   .controller('FormDemoCtrl', ['$scope', function($scope) {
@@ -1497,8 +1192,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   // Flot Chart controller
   .controller('HomepageController', [	'$scope',
   										'UserHomepage',
-  										'UserProjects',  										
-  										'$http', 
+  										'UserProjects',
+  										'$http',
   										'Auth', function(	$scope,
 															UserHomepage,
 															UserProjects,
@@ -1539,39 +1234,39 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 					[
 						{ label: "Actual", data: [ res.data.seven_day.progress_plot ], },
 							{ label: "Calculated", data: [ res.data.seven_day.projected_progress_plot ] }
-					], 
+					],
 					{
 						colors: [
 							'#314554',
 							'{{ app.color.info }}'
 						],
-						series: { 
-							shadowSize: 3 
+						series: {
+							shadowSize: 3
 						},
-						xaxis: { 
+						xaxis: {
 							mode:'time',
 							minTickSize: [1, 'day'],
 							timeformat: '%d-%m-%Y',
 							font: { color: '#507b9b' }
 						},
 						yaxis: {
-							font: { color: '#507b9b' }, 
+							font: { color: '#507b9b' },
 							max:100
 						},
-						grid: { 
+						grid: {
 							hoverable: true,
 							clickable: true,
 							borderWidth: 0,
 							color: '#1c2b36'
 						},
 						tooltip: true,
-						tooltipOpts: { 
-							content: '%y% on %x',  
-							defaultTheme: false, 
-							shifts: { 
+						tooltipOpts: {
+							content: '%y% on %x',
+							defaultTheme: false,
+							shifts: {
 								x: 10,
-								y: -25 
-							} 
+								y: -25
+							}
 						}
 					});
 
@@ -1604,7 +1299,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
   	$scope.refreshOverviewFlot = function(){
   		$.plot.draw();
-  	}	
+  	}
 
   }])
   .controller('NetworkViewController', ['$scope', '$stateParams', 'Auth', 'Networks', 'NetworkProjects', function($scope, $stateParams, Auth, Networks, NetworkProjects) {
@@ -1616,7 +1311,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .$promise.then(function(res) {
         $scope.network = res.data;
       });
-    
+
       NetworkProjects.query({id:$stateParams.id})
       .$promise.then(function(data) {
         $scope.network.projects = data;
@@ -1624,17 +1319,17 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }
 
   }])
-  .controller('ProfileViewController', [  '$scope', 
-                                          '$stateParams', 
-                                          'Profile', 
-                                          'UserConnections', 
-                                          'UserProjects', function(   $scope, 
-                                                                      $stateParams, 
+  .controller('ProfileViewController', [  '$scope',
+                                          '$stateParams',
+                                          'Profile',
+                                          'UserConnections',
+                                          'UserProjects', function(   $scope,
+                                                                      $stateParams,
                                                                       Profile,
                                                                       UserConnections,
                                                                       UserProjects ) {
 
-    $scope.profile = {};    
+    $scope.profile = {};
 
     Profile.query({id:$stateParams.id})
     .$promise.then(function(data) {
@@ -1654,7 +1349,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       $scope.profile.projects = data;
     });
 
-  }])  
+  }])
   // Flot Chart controller
   .controller('FlotChartDemoCtrl', ['$scope', function($scope) {
 
@@ -1767,15 +1462,5 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         }
       });
     };
-  }])
-  // tab controller
-  .controller('CustomTabController', ['$scope', function($scope) {
-    $scope.tabs = [true, false, false];
-    $scope.tab = function(index){
-      angular.forEach($scope.tabs, function(i, v) {
-        $scope.tabs[v] = false;
-      });
-      $scope.tabs[index] = true;
-    }
   }])
   ;
