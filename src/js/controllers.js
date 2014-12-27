@@ -893,6 +893,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 				$scope.progress 	= res.data.progress;
 
 				$scope.percent.progress = res.data.progress;
+				$scope.percent.projected = res.data.projected_progress;
 
         var i;
         var sparkline_plot = [];
