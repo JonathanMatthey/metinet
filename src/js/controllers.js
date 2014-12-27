@@ -864,19 +864,58 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     toaster
     ) {
 
+  	$scope.percent = {
+  		progress: 0,
+  		projected: 0
+  	}
+
+    $scope.options = {
+        animate:{
+            duration:1000,
+            enabled:true
+        },
+        size: 75,
+        barColor: $scope.app.color.black,
+        trackColor: $scope.app.color.primary,
+        scaleColor: $scope.app.color.black,
+        lineWidth: 2,
+        lineCap:'circle'
+    };
+
+	  $scope.range = {
+	    min: 30,
+	    max: 60
+	  };
+
     Node.get({id:$stateParams.id})
-    .$promise.then(function(res) {
-      $scope.node = res.data;
-      console.log('-- node:');
-      console.log($scope.node);
-      if ($scope.node.is_leaf){
-        // get users / permits / audit / longleads
-        $scope.getNodeAudit();
-        $scope.getNodePermits();
-        $scope.getNodeLongLeads();
-        $scope.getNodeUsers();
-      }
-    });
+      .$promise.then(function(res) {
+        $scope.node 			= res.data;
+				$scope.progress 	= res.data.progress;
+
+				$scope.percent.progress = res.data.progress;
+
+        var i;
+        var sparkline_plot = [];
+        for (i = 0; i < res.data.recent_progress.length; i++) {
+        	sparkline_plot.push(res.data.recent_progress[i].progress);
+        }
+
+        $scope.sparkline_plot = sparkline_plot;
+
+        $('#sparkline').sparkline(	sparkline_plot, {
+      																type:'line',
+      																barColor:'green',
+      																lineWidth: 5
+        													});
+
+        if ($scope.node.is_leaf){
+          // get users / permits / audit / longleads
+          $scope.getNodeAudit();
+          $scope.getNodePermits();
+          $scope.getNodeLongLeads();
+          $scope.getNodeUsers();
+        }
+      });
 
     $scope.getNodeAudit = function(){
       NodeAudit.get({

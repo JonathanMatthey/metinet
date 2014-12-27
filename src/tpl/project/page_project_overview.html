@@ -59,15 +59,30 @@
   <div class="row text-center">
     <div class="col-sm-3 col-xs-6">
       <div>Start Date</div>
-      <div class="h2 m-b-sm">{{ project.start_date | formatFullDate }}</div>
+      <div class="h2 m-b-sm text-muted" ng-hide="project">
+        <i class="fa fa-spin fa-refresh"></i>
+      </div>
+      <div class="h2 m-b-sm" ng-show="project">
+        {{ project.start_date | formatFullDate }}
+      </div>
     </div>
     <div class="col-sm-3 col-xs-6">
       <div>Contract End Date</div>
-      <div class="h2 m-b-sm">{{ project.end_date_contract | formatFullDate }}</div>
+      <div class="h2 m-b-sm text-muted" ng-hide="project">
+        <i class="fa fa-spin fa-refresh"></i>
+      </div>      
+      <div class="h2 m-b-sm" ng-show="project">
+        {{ project.end_date_contract | formatFullDate }}
+      </div>
     </div>
     <div class="col-sm-3 col-xs-6">
       <div>Projected End Date</div>
-      <div class="h2 m-b-sm text-{{ project.status.colour }}">{{ project.end_date_calculated | formatFullDate }}</div>
+      <div class="h2 m-b-sm text-muted" ng-hide="project">
+        <i class="fa fa-spin fa-refresh"></i>
+      </div>      
+      <div class="h2 m-b-sm text-{{ project.status.colour }}" ng-show="project">
+        {{ project.end_date_calculated | formatFullDate }}
+      </div>
     </div>
     <div class="col-sm-3 col-xs-6">
       <div>Visits</div>
@@ -81,23 +96,33 @@
     <div class="col-md-6">            
       <div class="wrapper">
 
-        <h4 class="m-b-lg">Packages</h4>
+        <h4 class="m-b-lg" ng-hide="project"><i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Loading Packages...</h4>
+        <h4 class="m-b-lg" ng-show="project">Packages</h4>
 
-        <div ng-repeat="package in project.packages">
+        <a href="#/app/page/nodes/{{ package.id }}" ng-repeat="package in project.packages">
           <div class="text-left">
             <span class="pull-right">{{package.display_progress}}%</span>
             <span ng-bind="package.name"></span>
           </div>
-          <div class="progress-xxs m-t-sm dk progress ng-isolate-scope" value="{{package.progress}}" type="info">
-            <div class="progress-bar progress-bar-info" ng-class="type &amp;&amp; 'progress-bar-' + type" role="progressbar" aria-valuenow="{{package.progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width: percent + '%'}" aria-valuetext="{{package.progress}}%" ng-transclude="" style="width: {{package.progress}}%;"></div>
+          <div class="progress-xxs m-t-sm dk progress ng-isolate-scope" value="{{ package.progress }}">
+            <div 	class="progress-bar progress-bar-info"
+									aria-valuenow="{{ package.progress }}"
+									aria-valuemin="0"
+									aria-valuemax="100"
+									aria-valuetext="{{package.progress}}%"
+									style="width: {{package.progress}}%;"></div>
           </div>              
-        </div>
+        </a>
 
       </div>
     </div>
     <!-- START TO DO -->
     <div class="col-md-6">
-      <div class="panel no-border">
+      <div class="wrapper" ng-hide="project">
+        <h4 class="m-b-lg"><i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Loading To Do List...</h4>
+      </div>
+
+      <div class="panel no-border" ng-show="project">
         <div class="panel-heading wrapper b-b b-light">
           <span class="text-xs text-muted pull-right">
             <i class="fa fa-circle text-success m-r-xs"></i> Ok

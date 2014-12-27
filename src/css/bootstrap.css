@@ -5010,7 +5010,6 @@ a.list-group-item-danger.active:focus {
 .panel-footer {
   padding: 10px 15px;
   background-color: #f5f5f5;
-  border-top: 1px solid #ddd;
 }
 .panel > .list-group {
   margin-bottom: 0;
