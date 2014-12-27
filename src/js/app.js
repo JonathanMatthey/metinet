@@ -11,6 +11,7 @@ var app = angular.module('app', [
     'ngStorage',
     'ui.router',
     'ui.bootstrap',
+    'easypiechart',
     'ui.load',
     'ui.jq',
     'ui.validate',
@@ -29,9 +30,9 @@ var app = angular.module('app', [
 .run(
   [          '$rootScope', '$state', '$stateParams','$cookieStore','$http',
     function ($rootScope,   $state,   $stateParams,$cookieStore,$http) {
-        $rootScope.$state = $state;
-        $rootScope.$stateParams = $stateParams;
-        $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
+        $rootScope.$state                               = $state;
+        $rootScope.$stateParams                         = $stateParams;
+        $http.defaults.headers.common['Authorization']  = 'Basic ' + $cookieStore.get('authdata');
     }
   ]
 )
@@ -139,7 +140,11 @@ var app = angular.module('app', [
                 resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
-                        return uiLoad.load( ['js/libs/moment.min.js'] );
+                        return uiLoad.load([
+                            'js/libs/moment.min.js',
+                            'js/jquery/charts/sparkline/jquery.sparkline.min.js',
+                            'js/jquery/slider/slider.css'
+                        ]);
                     }]
                 }
             })

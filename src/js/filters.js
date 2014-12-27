@@ -10,7 +10,7 @@ angular.module('app.filters', [])
   })
   .filter('formatFullDate', function() {
     return function(date) {
-      return moment(date).format("D MMM YY");
+      return moment(date).format("D MMM YYYY");
     }
   })
   .filter('join', function() {

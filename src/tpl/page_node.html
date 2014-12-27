@@ -1,8 +1,74 @@
 <div class="col w-md bg-light lter b-r bg-auto no-border-xs">
-  <div class="wrapper-md b-b">
-    <h1 class="h4" ng-bind="node.name"></h1>
-  </div>
-  <div class=" wrapper-md">
+  <div class="panel no-border bg-black m-b-none">
+    <div class="panel-heading lt">
+      <div class="m-sm">
+        <span class="pull-right"><i class="fa fa-caret-up text-warning text-lg"></i></span>
+        <span class="h4 text-white" ng-bind="node.name"></span>
+      </div>              
+      <div class="text-center m-t-md">
+          <div id="sparkline"></div>
+      </div>
+    </div>
+    <div class="panel-footer bg-light lter wrapper">
+      <div class="row">
+        <div class="col-xs-6 text-center">
+          <small class="text-muted block">Start Date</small>
+          <span class="text-md">{{ node.start_date | formatFullDate }}</span>
+        </div>
+        <div class="col-xs-6 text-center">
+          <small class="text-muted block">End Date</small>
+          <span class="text-md">{{ node.end_date | formatFullDate }}</span>
+        </div>
+      </div>
+    </div>
+  </div>  
+  <ul class="list-group no-radius m-b-none">
+    <li class="list-group-item b-l-0 b-r-0">
+      <span class="pull-right">{{ node.duration }} Days</span>
+      Duration
+    </li>
+    <li class="list-group-item b-l-0 b-r-0">
+      <span class="pull-right">{{ node.end_date | formatFullDate }}</span>
+      Projected End Date
+    </li>
+    <a class="list-group-item b-l-0 b-r-0" ng-show="node.parent_node" href="#/app/page/nodes/{{node.parent_node.id}}">
+      <span class="pull-right" ng-bind="node.parent_node.name"></span>
+      Parent Node
+    </a>
+  </ul>
+  <div class="padder-v bg-light lter row text-center no-gutter">
+    <div class="col-xs-6">
+      <div>Actual</div>
+      <div class="inline m-t-sm">
+        <div easypiechart options="options" percent="percent.progress">
+           <span class="percent" style="position:absolute; top:57px; right:45px; text-align:center;">{{ node.display_progress }}%</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div>Projected</div>
+      <div class="inline m-t-sm">
+        <div easypiechart options="options" percent="percent.projected">
+           <span class="percent" style="position:absolute; top:57px; right:45px; text-align:center;">{{ node.display_projected_progress }}%</span>
+        </div>
+      </div>
+    </div>
+  </div>  
+
+  <input type="text" class="form-control" ng-model="node.display_projected_progress">
+
+  <div class="wrapper-md">
+
+    {{ node.progress }}
+    <br>
+    Start Slider<br>
+    <slider
+      ng-model="node.progress"
+      floor="0"
+      ceiling="100">
+    </slider>
+    End Slider
+
     <dl>
       <dt ng-show="node.parent_node.id">Parent Node</dt>
       <dd class="m-b-xs ng-binding"><a href="#/app/page/nodes/{{node.parent_node.id}}" ng-bind="node.parent_node.name"></a></dd>

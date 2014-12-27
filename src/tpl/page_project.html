@@ -82,7 +82,12 @@
 	<!-- / main -->
 	<!-- right col -->
 	<div class="col w-md bg-black dk bg-auto">
-		<div class="wrapper padder-top-none">
+		<div class="wrapper text-center" ng-hide="projectAudit">
+			<i class="fa fa-spin fa-refresh"></i>
+      		<div>Loading Recent Activity...</div>
+		</div>
+
+		<div class="wrapper padder-top-none" ng-show="projectAudit">
 			<div class="streamline b-l m-b">
 				<div class="sl-item" ng-repeat="activity in projectAudit">
 					<div class="m-l">
