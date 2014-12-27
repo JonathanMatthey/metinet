@@ -81,12 +81,12 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.init = function(){
       $scope.getConversations();
 
-      $http.get('http://178.62.123.90/conversations/latest').then(function (resp) {
+      $http.get('http://api.metinet.co/conversations/latest').then(function (resp) {
         console.log('resp ')
         console.log(resp )
       });
 
-      $http.get('http://178.62.123.90/conversations/recipients').then(function (resp) {
+      $http.get('http://api.metinet.co/conversations/recipients').then(function (resp) {
         console.log('resp ')
         console.log(resp )
       });
@@ -110,13 +110,13 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     $scope.currentUserId = Auth.getCredential("userid");
 
-    $http.get('http://178.62.123.90/profiles/' + $scope.currentUserId).then(function (resp) {
+    $http.get('http://api.metinet.co/profiles/' + $scope.currentUserId).then(function (resp) {
       $scope.profile = resp.data.data;
     });
 
     $scope.saveProfile = function(){
       toaster.pop('wait', 'Saving Profile', 'Shouldn\'t take long...');
-      $http.put('http://178.62.123.90/profiles',$scope.profile)
+      $http.put('http://api.metinet.co/profiles',$scope.profile)
       .then(function(response) {
         console.log('qweqweqwe');
         toaster.pop('success', 'Success', '');
@@ -157,14 +157,14 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.project.cost_management 		= true;
     $scope.project.terms 				= true;
 
-    $http.get('http://178.62.123.90/countries').then(function (resp) {
+    $http.get('http://api.metinet.co/countries').then(function (resp) {
       $scope.countries = resp.data.data;
       console.log('$scope.countries ')
       console.log($scope.countries )
       $scope.projectCountry = $scope.countries[1];
     });
 
-    $http.get('http://178.62.123.90/currencies').then(function (resp) {
+    $http.get('http://api.metinet.co/currencies').then(function (resp) {
       $scope.currencies = resp.data.data;
       console.log('$scope.currencies' )
       console.log($scope.currencies )
@@ -364,7 +364,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }
 
     $scope.getProjectTodos = function(){
-      $http.get('http://178.62.123.90/projects/'+$stateParams.id+"/to-do").then(function (resp) {
+      $http.get('http://api.metinet.co/projects/'+$stateParams.id+"/to-do").then(function (resp) {
         $scope.projectTodo = resp.data.data;
         $scope.project_to_do_returned = true;
       });
@@ -431,7 +431,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       });
     }
     $scope.openAddUserToNetworkModal = function () {
-      $http.get('http://178.62.123.90/projects/'+ $stateParams.id +'/potential-users')
+      $http.get('http://api.metinet.co/projects/'+ $stateParams.id +'/potential-users')
       .then(function(resp){
         $scope.potentialUsers = resp.data.data;
         var modalInstance = $modal.open({
@@ -457,7 +457,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     $scope.openViewLongLeadModal = function (longleadIndex) {
       var longleadId = $scope.projectLongLeads[longleadIndex].id;
-      $http.get('http://178.62.123.90/long-leads/'+longleadId+'/audit').then(function (resp) {
+      $http.get('http://api.metinet.co/long-leads/'+longleadId+'/audit').then(function (resp) {
         $scope.longleadAudit = resp.data.data;
         var modalInstance = $modal.open({
           templateUrl: 'tpl/modal_longlead.html',
@@ -476,7 +476,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     $scope.openViewPermitModal = function (permitIndex) {
       var permitId = $scope.projectPermits[permitIndex].id;
-      $http.get('http://178.62.123.90/permits/'+permitId+'/audit').then(function (resp) {
+      $http.get('http://api.metinet.co/permits/'+permitId+'/audit').then(function (resp) {
         console.log(resp )
         $scope.permitAudit = resp.data.data;
         var modalInstance = $modal.open({
@@ -708,7 +708,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       delete(newNode.text);
       delete(newNode.parent);
 
-      $http.post('http://178.62.123.90/projects/' + $scope.projectId + '/nodes', {
+      $http.post('http://api.metinet.co/projects/' + $scope.projectId + '/nodes', {
         headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
         name: newNode.name,
         start_date: newNode.start_date,
@@ -1291,7 +1291,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     }
 
   	$scope.getNewsfeed = function(){
-  		$http.get('http://178.62.123.90/user/newsfeed/'+$scope.newsfeedSkip).then(function (resp) {
+  		$http.get('http://api.metinet.co/user/newsfeed/'+$scope.newsfeedSkip).then(function (resp) {
   			$.merge($scope.newsfeed, resp.data.data);
   			$scope.newsfeedSkip++;
   		});
@@ -1408,7 +1408,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.login = function() {
       $scope.authError = null;
       // Try to login
-      $http.post('http://178.62.123.90/auth', {
+      $http.post('http://api.metinet.co/auth', {
         headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
         email: $scope.user.email,
         password: $scope.user.password})
@@ -1416,7 +1416,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         if ( response.status === 200 ) {
           // user logged in
           Auth.setCredentials($scope.user.email,$scope.user.password,response.data.user_data);
-          $state.go('app.dashboard-v1');
+          $state.go('app.home');
         }else{
           $scope.authError = 'Email or Password not right';
         }
@@ -1438,7 +1438,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.signup = function() {
       $scope.authError = null;
       // Try to login
-      $http.post('http://178.62.123.90/user', {
+      $http.post('http://api.metinet.co/user', {
         headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
           email: $scope.signUpUser.email,
           password: $scope.signUpUser.password,
@@ -1450,7 +1450,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         if ( response.status === 200 ) {
           // user logged in
           Auth.setCredentials($scope.signUpUser.email,$scope.signUpUser.password,response.data.user_data);
-          $state.go('app.dashboard-v1');
+          $state.go('app.home');
         }else{
           $scope.authError = 'Email or Password not right';
         }

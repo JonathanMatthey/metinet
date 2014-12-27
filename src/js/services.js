@@ -3,7 +3,7 @@
 /* Services */
 angular.module('app.services',[])
 	.factory('Project', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/projects/:id',{
+	    return $resource('http://api.metinet.co/projects/:id',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -20,7 +20,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectProgressPlot', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/projects/:id/progress-plot',{
+	    return $resource('http://api.metinet.co/projects/:id/progress-plot',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -38,7 +38,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectUsers', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/projects/:id/users/:userId',{
+	    return $resource('http://api.metinet.co/projects/:id/users/:userId',{
 	      id:'@_id',
 	      userId:'@userId'
 	    },{
@@ -57,7 +57,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectNetworks', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/projects/:id/networks',{
+	    return $resource('http://api.metinet.co/projects/:id/networks',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -75,7 +75,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('Conversations', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/conversations/:id',{
+	    return $resource('http://api.metinet.co/conversations/:id',{
 	      id:'@id'
 	    },{
 	        query: {
@@ -93,7 +93,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('Networks', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/networks/:id',{
+	    return $resource('http://api.metinet.co/networks/:id',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -111,7 +111,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('NetworkProjects', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/networks/:id/projects',{
+	    return $resource('http://api.metinet.co/networks/:id/projects',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -125,7 +125,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectGantt', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/projects/:id/gantt',{
+	    return $resource('http://api.metinet.co/projects/:id/gantt',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -143,7 +143,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectRFIs', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/projects/:id/rfis',{
+	    return $resource('http://api.metinet.co/projects/:id/rfis',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -161,7 +161,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectLongLeads', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/projects/:id/long-leads',{
+	    return $resource('http://api.metinet.co/projects/:id/long-leads',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -179,7 +179,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('LongLeads', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/long-leads/:id',{
+	    return $resource('http://api.metinet.co/long-leads/:id',{
 	      id:'@id'
 	    },{
 	        query: {
@@ -197,7 +197,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('Permits', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/permits/:id',{
+	    return $resource('http://api.metinet.co/permits/:id',{
 	      id:'@id'
 	    },{
 	        query: {
@@ -215,7 +215,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectAudit', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/projects/:id/audit',{
+	    return $resource('http://api.metinet.co/projects/:id/audit',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -233,7 +233,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectPermits', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/projects/:id/permits',{
+	    return $resource('http://api.metinet.co/projects/:id/permits',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -251,7 +251,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectLeaves', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/projects/:id/leaves',{
+	    return $resource('http://api.metinet.co/projects/:id/leaves',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -269,7 +269,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('NodePermits', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/nodes/:id/permits',{
+	    return $resource('http://api.metinet.co/nodes/:id/permits',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -287,7 +287,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('NodeAudit', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/nodes/:id/audit',{
+	    return $resource('http://api.metinet.co/nodes/:id/audit',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -305,7 +305,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('NodeLongLeads', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/nodes/:id/long-leads',{
+	    return $resource('http://api.metinet.co/nodes/:id/long-leads',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -323,7 +323,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('NodeDependencies', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/nodes/:node_id/dependencies/:id',{
+	    return $resource('http://api.metinet.co/nodes/:node_id/dependencies/:id',{
 	      node_id:'@node_id',
 	      id:'@id'
 	    },{
@@ -341,7 +341,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('NodeUsers', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/nodes/:id/users',{
+	    return $resource('http://api.metinet.co/nodes/:id/users',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -359,7 +359,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('Node', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/nodes/:id',{
+	    return $resource('http://api.metinet.co/nodes/:id',{
 	      id:'@id'
 	    },{
 	        query: {
@@ -377,7 +377,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('UserHomepage', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/user/homepage',{
+	    return $resource('http://api.metinet.co/user/homepage',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -395,7 +395,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('UserConnections', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/user/:id/connections',{
+	    return $resource('http://api.metinet.co/user/:id/connections',{
 	      id:'@id'
 	    },{
 	        query: {
@@ -409,7 +409,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('UserProjects', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/user/:id/projects',{
+	    return $resource('http://api.metinet.co/user/:id/projects',{
 	      id:'@id'
 	    },{
 	        query: {
@@ -423,7 +423,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('Profile', ['$resource', function($resource) {
-	    return $resource('http://178.62.123.90/profiles/:id',{
+	    return $resource('http://api.metinet.co/profiles/:id',{
 	      id:'@id'
 	    },{
 	        query: {
@@ -439,7 +439,7 @@ angular.module('app.services',[])
 	    // initialize to whatever is in the cookie, if anything
 	    $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
 
-	    if(typeof($cookieStore.get('authdata'))=="undefined"){
+	    if(typeof($cookieStore.get('authdata')) == "undefined") {
 	        $state.go('access.signin');
 	    }
 

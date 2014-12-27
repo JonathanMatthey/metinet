@@ -50,31 +50,25 @@ var app = angular.module('app', [
         app.value      = $provide.value;
 
         $urlRouterProvider
-            .otherwise('/app/dashboard-v1');
+            .otherwise('/app/home');
         $stateProvider
             .state('app', {
                 abstract: true,
                 url: '/app',
                 templateUrl: 'tpl/app.html'
             })
-            .state('app.dashboard-v1', {
-                url: '/dashboard-v1',
+            .state('app.home', {
+                url: '/home',
                 controller:'HomepageController',
                 templateUrl: 'tpl/page_homepage.html',
                 resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
-                        return uiLoad.load( ['js/libs/moment.min.js'] );
+                        return uiLoad.load([
+                            'js/libs/moment.min.js'
+                        ]);
                     }]
                 }                
-            })
-            .state('app.dashboard-v2', {
-                url: '/dashboard-v2',
-                templateUrl: 'tpl/app_dashboard_v2.html'
-            })
-            .state('app.ui', {
-                url: '/ui',
-                template: '<div ui-view></div>'
             })
             // pages
             .state('app.page', {
@@ -103,7 +97,7 @@ var app = angular.module('app', [
 				resolve: {
 					deps: ['uiLoad',
 						function( uiLoad ){
-							return uiLoad.load( [
+							return uiLoad.load([
 								'js/libs/moment.min.js',
 								'js/jquery/charts/sparkline/jquery.sparkline.min.js',
 								'js/jquery/charts/flot/jquery.flot.min.js',
@@ -129,7 +123,9 @@ var app = angular.module('app', [
                 resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
-                        return uiLoad.load( ['js/libs/moment.min.js'] );
+                        return uiLoad.load([
+                            'js/libs/moment.min.js'
+                        ]);
                     }]
                 }
             })
@@ -155,7 +151,7 @@ var app = angular.module('app', [
 				resolve: {
 					deps: ['uiLoad',
 						function( uiLoad ){
-							return uiLoad.load( [
+							return uiLoad.load([
 								'//rawgit.com/allenhwkim/angularjs-google-maps/master/build/scripts/ng-map.min.js',
 								'//maps.googleapis.com/maps/api/js?sensor=false',
 								'js/jquery/charts/flot/jquery.flot.min.js',
@@ -164,22 +160,9 @@ var app = angular.module('app', [
 						}]
 				}                                
             })
-            // .state('editProject',{
-            //     url:'/projects/:id/edit',
-            //     templateUrl:'partials/Project-edit.html',
-            //     controller:'ProjectEditController'
-            // })
             .state('app.page.search', {
                 url: '/search',
                 templateUrl: 'tpl/page_search.html'
-            })
-            .state('app.page.invoice', {
-                url: '/invoice',
-                templateUrl: 'tpl/page_invoice.html'
-            })
-            .state('app.page.price', {
-                url: '/price',
-                templateUrl: 'tpl/page_price.html'
             })
             .state('app.docs', {
                 url: '/docs',
@@ -210,25 +193,6 @@ var app = angular.module('app', [
                 url: '/404',
                 templateUrl: 'tpl/page_404.html'
             })
-
-            // fullCalendar
-            .state('app.calendar', {
-                url: '/calendar',
-                templateUrl: 'tpl/app_calendar.html',
-                // use resolve to load other dependences
-                resolve: {
-                    deps: ['uiLoad',
-                      function( uiLoad ){
-                        return uiLoad.load( ['js/jquery/fullcalendar/fullcalendar.css',
-                                             'js/jquery/fullcalendar/theme.css',
-                                             'js/jquery/jquery-ui-1.10.3.custom.min.js',
-                                             'js/libs/moment.min.js',
-                                             'js/jquery/fullcalendar/fullcalendar.min.js',
-                                             'js/modules/ui-calendar.js',
-                                             'js/app/calendar/calendar.js']);
-                    }]
-                }
-            })
             // mail
             .state('app.mail', {
                 abstract: true,
@@ -238,9 +202,11 @@ var app = angular.module('app', [
                 resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
-                        return uiLoad.load( ['js/app/mail/mail.js',
-                                             'js/app/mail/mail-service.js',
-                                             'js/libs/moment.min.js'] );
+                        return uiLoad.load([
+                            'js/app/mail/mail.js',
+                            'js/app/mail/mail-service.js',
+                            'js/libs/moment.min.js'
+                        ]);
                     }]
                 }
             })
@@ -256,60 +222,10 @@ var app = angular.module('app', [
                 url: '/compose',
                 templateUrl: 'tpl/mail.new.html'
             })
-
-            .state('layout', {
-                abstract: true,
-                url: '/layout',
-                templateUrl: 'tpl/layout.html'
-            })
-            .state('layout.fullwidth', {
-                url: '/fullwidth',
-                views: {
-                    '': {
-                        templateUrl: 'tpl/layout_fullwidth.html'
-                    },
-                    'footer': {
-                        templateUrl: 'tpl/layout_footer_fullwidth.html'
-                    }
-                }
-            })
-            .state('layout.mobile', {
-                url: '/mobile',
-                views: {
-                    '': {
-                        templateUrl: 'tpl/layout_mobile.html'
-                    },
-                    'footer': {
-                        templateUrl: 'tpl/layout_footer_mobile.html'
-                    }
-                }
-            })
-            .state('layout.app', {
-                url: '/app',
-                views: {
-                    '': {
-                        templateUrl: 'tpl/layout_app.html'
-                    },
-                    'footer': {
-                        templateUrl: 'tpl/layout_footer_fullwidth.html'
-                    }
-                }
-            })
             .state('apps', {
                 abstract: true,
                 url: '/apps',
                 templateUrl: 'tpl/layout.html'
-            })
-            .state('apps.note', {
-                url: '/note',
-                templateUrl: 'tpl/apps_note.html',
-                resolve: {
-                    deps: ['uiLoad',
-                      function( uiLoad ){
-                        return uiLoad.load( ['js/app/note/note.js',
-                                             'js/libs/moment.min.js'] );
-                    }]
-                }
             })
             .state('apps.users', {
                 url: '/users',
@@ -317,25 +233,9 @@ var app = angular.module('app', [
                 resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
-                        return uiLoad.load( ['js/app/users/users.js'] );
-                    }]
-                }
-            })
-            .state('app.weather', {
-                url: '/weather',
-                templateUrl: 'tpl/apps_weather.html',
-                resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad ){
-                        return $ocLazyLoad.load(
-                            {
-                                name: 'angular-skycons',
-                                files: ['js/app/weather/skycons.js',
-                                        'js/libs/moment.min.js',
-                                        'js/app/weather/angular-skycons.js',
-                                        'js/app/weather/ctrl.js' ]
-                            }
-                        );
+                        return uiLoad.load([
+                            'js/app/users/users.js'
+                        ]);
                     }]
                 }
             })

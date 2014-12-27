@@ -10,12 +10,15 @@
           <input type="email" placeholder="Email" ng-model="email" class="form-control no-border" required>
         </div>
       </div>
-      <button type="submit" ng-disabled="reset.$invalid" class="btn btn-lg btn-primary btn-block"  ng-click="isCollapsed = !isCollapsed" >Send</button>
-      <button type="" ng-disabled="reset.$invalid" class="btn btn-lg btn-default btn-block"  ng-click="isCollapsed = !isCollapsed" >Cancel</button>
+      <button type="submit" ng-disabled="reset.$invalid" class="btn btn-lg btn-primary btn-block"  ng-click="isCollapsed = !isCollapsed">Send</button>
+      <a ui-sref="access.signin" class="btn btn-lg btn-default btn-block">Cancel</a>
     </form>
     <div collapse="isCollapsed" class="m-t">
       <div class="alert alert-success">
-        <p>A reset link sent to your email address, please check it in 7 days. <a ui-sref="access.signin" class="btn btn-sm btn-success">Sign in</a></p>
+        <p class="text-center">
+          A reset link sent to your email address, please check your inbox.<br><br>
+          <a ui-sref="access.signin" class="btn btn-block btn-success">Sign in</a>
+        </p>
       </div>
     </div>
   </div>
