@@ -20,20 +20,20 @@
 <div class="collapse pos-rlt navbar-collapse box-shadow {{ app.settings.navbarCollapseColor }}" ng-controller="HeaderController">
   <!-- link and dropdown -->
   <ul class="nav navbar-nav hidden-sm">
-    <li class="dropdown">
-      <a ui-sref="app.page.projects" ng-show="user_data.network">
+    <li ng-show="user_data.network">
+      <a ui-sref="app.page.projects">
         <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
         <span>Projects</span>
       </a>
     </li>
-    <li class="dropdown">
-      <a href="#/app/mail/inbox/" href>
+    <li>
+      <a href="#/app/mail/inbox/">
         <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
         <span>Messages</span>
       </a>
     </li>
-    <li class="dropdown">
-      <a href="#/app/page/company/{{ user_data.network.id }}" href>
+    <li ng-show="user_data.network">
+      <a href="#/app/page/company/{{ user_data.network.id }}">
         <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
         <span>{{ user_data.network.name }}</span>
       </a>
@@ -52,19 +52,27 @@
       <!-- dropdown -->
       <ul class="dropdown-menu w">
         <li>
-          <a href>
-            <a ui-sref="app.page.settings">Settings</a>
-          </a>
-        </li>
-        <li>
           <a href="#/app/page/profile/{{ user_data.id }}">Profile</a>
         </li>
+        <li>
+          <a ui-sref="app.page.settings">Settings</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="#/app/page/company/{{ user_data.network.id }}">My Network</a>
+        </li>
+        <li ng-show="user_data.network.pivot.role < 3">
+          <a ui-sref="app.page.settings">
+            Network Settings
+            <span class="pull-right"><i class="fa fa-edit"></i></span>
+          </a>
+        </li>
+        <li class="divider"></li>
         <li>
           <a ui-sref="app.docs">
             Help
           </a>
         </li>
-        <li class="divider"></li>
         <li>
           <a ui-sref="access.signin">Logout</a>
         </li>

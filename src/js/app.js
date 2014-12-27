@@ -50,21 +50,23 @@ var app = angular.module('app', [
         app.value      = $provide.value;
 
         $urlRouterProvider
-            .otherwise('/app/dashboard-v1');
+            .otherwise('/app/home');
         $stateProvider
             .state('app', {
                 abstract: true,
                 url: '/app',
                 templateUrl: 'tpl/app.html'
             })
-            .state('app.dashboard-v1', {
-                url: '/dashboard-v1',
+            .state('app.home', {
+                url: '/home',
                 controller:'HomepageController',
                 templateUrl: 'tpl/page_homepage.html',
                 resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
-                        return uiLoad.load( ['js/libs/moment.min.js'] );
+                        return uiLoad.load([
+                            'js/libs/moment.min.js'
+                        ]);
                     }]
                 }                
             })
@@ -95,7 +97,7 @@ var app = angular.module('app', [
 				resolve: {
 					deps: ['uiLoad',
 						function( uiLoad ){
-							return uiLoad.load( [
+							return uiLoad.load([
 								'js/libs/moment.min.js',
 								'js/jquery/charts/sparkline/jquery.sparkline.min.js',
 								'js/jquery/charts/flot/jquery.flot.min.js',
@@ -121,7 +123,9 @@ var app = angular.module('app', [
                 resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
-                        return uiLoad.load( ['js/libs/moment.min.js'] );
+                        return uiLoad.load([
+                            'js/libs/moment.min.js'
+                        ]);
                     }]
                 }
             })
@@ -147,7 +151,7 @@ var app = angular.module('app', [
 				resolve: {
 					deps: ['uiLoad',
 						function( uiLoad ){
-							return uiLoad.load( [
+							return uiLoad.load([
 								'//rawgit.com/allenhwkim/angularjs-google-maps/master/build/scripts/ng-map.min.js',
 								'//maps.googleapis.com/maps/api/js?sensor=false',
 								'js/jquery/charts/flot/jquery.flot.min.js',
@@ -198,9 +202,11 @@ var app = angular.module('app', [
                 resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
-                        return uiLoad.load( ['js/app/mail/mail.js',
-                                             'js/app/mail/mail-service.js',
-                                             'js/libs/moment.min.js'] );
+                        return uiLoad.load([
+                            'js/app/mail/mail.js',
+                            'js/app/mail/mail-service.js',
+                            'js/libs/moment.min.js'
+                        ]);
                     }]
                 }
             })
@@ -227,7 +233,9 @@ var app = angular.module('app', [
                 resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
-                        return uiLoad.load( ['js/app/users/users.js'] );
+                        return uiLoad.load([
+                            'js/app/users/users.js'
+                        ]);
                     }]
                 }
             })
