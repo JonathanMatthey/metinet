@@ -3047,6 +3047,9 @@ i {
 	.topnav {
 		display: none;
 	}
+	.hide-when-mobile {
+		display: none;
+	}	
 	/* --------------------- */
 	/* No Fixed Top Bar
 	/* --------------------- */
@@ -3166,6 +3169,14 @@ i {
 	}
 }
 /* --------------------------------------------------------------------------------- */
+/* Desktop
+/* --------------------------------------------------------------------------------- */
+@media only screen and (min-width : 1224px) { 
+	.hide-when-desktop {
+		display: none!important;
+	}
+}
+/* --------------------------------------------------------------------------------- */
 /* Smartphones CSS
 /* --------------------------------------------------------------------------------- */
 @media only screen and (max-width: 767px) {
@@ -3210,6 +3221,9 @@ i {
 	/* Hide Desktop Navigation
 	/* --------------------- */
 	.topnav {
+		display: none;
+	}
+	.hide-when-mobile {
 		display: none;
 	}
 	/* --------------------- */
@@ -3264,7 +3278,7 @@ i {
 		margin-right: 0;
 		width: 100%;
 	}
-	.column-one-half, .column-one-third, .column-one-fourth, .column-one-fifth, .column-three-qtr {
+	.column-one-half, .column-one-third, .column-one-fourth, .column-two-fourth, .column-one-fifth, .column-three-qtr {
 		width: 100%;
 		margin-bottom: 40px !important;
 	}

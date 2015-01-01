@@ -146,7 +146,7 @@ var app = angular.module('app', [
             })
             .state('app.page.project',{
                 url:'/projects/:id/:action',
-                templateUrl: 'tpl/page_project.html',
+                templateUrl: 'tpl/page_project_2.html',
                 controller: 'ProjectViewController',
 				resolve: {
 					deps: ['uiLoad',

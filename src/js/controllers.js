@@ -245,16 +245,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.project_general  = {};
     $scope.map              = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
 
-    $scope.project_audit_returned         = false;
-    $scope.project_returned               = false;
-    $scope.project_to_do_returned         = false;
-    $scope.project_progress_plot_returned = false;
-    $scope.project_networks_returned      = false;
-    $scope.project_users_returned         = false;
-    $scope.project_rfis_returned          = false;
-    $scope.project_long_leads_returned    = false;
-    $scope.project_permits_returned       = false;
-
     $scope.init = function() {
 		$scope.getProject();
 		$scope.getProjectAudit();
@@ -289,17 +279,15 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.getProject = function(){
 		Project.get({id:$stateParams.id})
 			.$promise.then(function(res) {
-				$scope.project 								= res.data;
+				$scope.project 								            = res.data;
 
-				$scope.project_general.name 				= res.data.name;
-				$scope.project_general.desc 				= res.data.desc;
-				$scope.project_general.start_date 			= res.data.start_date;
+				$scope.project_general.name 				      = res.data.name;
+				$scope.project_general.desc 				      = res.data.desc;
+				$scope.project_general.start_date 			  = res.data.start_date;
 				$scope.project_general.end_date_contract 	= res.data.end_date_contract;
-				$scope.project_general.client_id 			= res.data.client.id;
-				$scope.project_general.contractor_id 		= res.data.contractor.id;
-				$scope.project_general.consultant_id 		= res.data.consultant.id;
-
-				$scope.project_returned 					= true;
+				$scope.project_general.client_id 			    = res.data.client.id;
+				$scope.project_general.contractor_id 		  = res.data.contractor.id;
+				$scope.project_general.consultant_id 		  = res.data.consultant.id;
 			});
     }
 
@@ -310,7 +298,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .$promise.then(function(res) {
         // success handler
         $scope.projectUsers = res.data
-        $scope.project_users_returned = true;
       });
     }
 
@@ -337,7 +324,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .$promise.then(function(res) {
         // success handler
         $scope.projectAudit = res.data
-        $scope.project_audit_returned = true;
       });
     }
 
@@ -348,7 +334,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .$promise.then(function(res) {
         // success handler
         $scope.projectRFIs = res.data;
-        $scope.project_rfis_returned = true;
       });
     }
 
@@ -359,14 +344,12 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .$promise.then(function(res) {
         // success handler
         $scope.projectNetworks = res.data
-        $scope.project_networks_returned = true;
       });
     }
 
     $scope.getProjectTodos = function(){
       $http.get('http://api.metinet.co/projects/'+$stateParams.id+"/to-do").then(function (resp) {
         $scope.projectTodo = resp.data.data;
-        $scope.project_to_do_returned = true;
       });
     }
 
@@ -377,7 +360,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .$promise.then(function(res) {
         // success handler
         $scope.projectLongLeads = res.data
-        $scope.project_long_leads_returned = true;
       });
     }
 
@@ -388,7 +370,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .$promise.then(function(res) {
         // success handler
         $scope.projectPermits = res.data
-        $scope.project_permits_returned = true;
       });
     }
 
@@ -401,7 +382,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         $scope.projectProgressPlot = res.data;
         $scope.d0_1 = res.data.actual_plot;
         $scope.d0_2 = res.data.calculated_plot;
-        $scope.project_progress_plot_returned = true;
       });
     }
 
@@ -1463,4 +1443,42 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       });
     };
   }])
-  ;
+
+  .controller('DatepickerDemoCtrl', ['$scope', function($scope) {
+    $scope.today = function() {
+      $scope.dt = new Date();
+    };
+    $scope.today();
+
+    $scope.clear = function () {
+      $scope.dt = null;
+    };
+
+    // Disable weekend selection
+    $scope.disabled = function(date, mode) {
+      return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+    };
+
+    $scope.toggleMin = function() {
+      $scope.minDate = $scope.minDate ? null : new Date();
+    };
+    $scope.toggleMin();
+
+    $scope.open = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+
+      $scope.opened = true;
+    };
+
+    $scope.dateOptions = {
+      formatYear: 'yy',
+      startingDay: 1,
+      class: 'datepicker'
+    };
+
+    $scope.initDate = new Date('2016-15-20');
+    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.format = $scope.formats[0];
+  }])
+;
