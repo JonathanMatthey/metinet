@@ -613,8 +613,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       for (var j = 0; j < $scope.gantt_data_raw.links.length; j++){
         link = {
           "id": j,
-          "source": $scope.gantt_data_raw.links[j].source,
-          "target":  $scope.gantt_data_raw.links[j].target,
+          "source": $scope.gantt_data_raw.links[j].target,
+          "target":  $scope.gantt_data_raw.links[j].source,
           "type":  $scope.gantt_data_raw.links[j].type
         }
         $scope.gantt_data.links.push(link);

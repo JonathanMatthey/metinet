@@ -541,6 +541,11 @@ body.home .topbar-outer.dark {
 .logo a:hover {
 	color: #fff!important;
 }
+.logo .slogan {
+	font-size: 14px;
+	color: #777!important;	
+	margin-left: 5px;
+}
 /* -------------------------------- */
 /* Top Bar Social Icons
 /* -------------------------------- */
@@ -3180,6 +3185,9 @@ i {
 /* Smartphones CSS
 /* --------------------------------------------------------------------------------- */
 @media only screen and (max-width: 767px) {
+	.logo .slogan {
+		display: none;
+	}	
 	body { /* --------------------- */
 		/* Stop iPhone increasing text size as it sees fit!
 		/* --------------------- */
