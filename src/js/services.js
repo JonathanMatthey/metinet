@@ -149,9 +149,8 @@ angular.module('app.services',[])
 	        query: {
 	            method: 'GET',
 	            transformResponse: function (res) {
-	                var res = JSON.parse(res);
-	                console.log(res.data);
-	                return res.data;
+					var res = JSON.parse(res);
+					return res.data;
 	            },
 	            isArray: true
 	        },
@@ -167,9 +166,8 @@ angular.module('app.services',[])
 	        query: {
 	            method: 'GET',
 	            transformResponse: function (res) {
-	                var res = JSON.parse(res);
-	                console.log(res.data);
-	                return res.data;
+					var res = JSON.parse(res);
+					return res.data;
 	            },
 	            isArray: true
 	        },
@@ -178,6 +176,16 @@ angular.module('app.services',[])
 	        }
 	    });
 	}])
+	.factory('ProjectNodes', ['$resource', function($resource) {
+		return $resource('http://api.metinet.co/projects/:id/nodes',{
+			id:'@_id'
+		},
+		{
+			store: {
+				method: 'POST'
+			}
+		});
+	}])	
 	.factory('LongLeads', ['$resource', function($resource) {
 	    return $resource('http://api.metinet.co/long-leads/:id',{
 	      id:'@id'
@@ -185,9 +193,8 @@ angular.module('app.services',[])
 	        query: {
 	            method: 'GET',
 	            transformResponse: function (res) {
-	                var res = JSON.parse(res);
-	                console.log(res.data);
-	                return res.data;
+					var res = JSON.parse(res);
+					return res.data;
 	            },
 	            isArray: true
 	        },
@@ -203,9 +210,8 @@ angular.module('app.services',[])
 	        query: {
 	            method: 'GET',
 	            transformResponse: function (res) {
-	                var res = JSON.parse(res);
-	                console.log(res.data);
-	                return res.data;
+					var res = JSON.parse(res);
+					return res.data;
 	            },
 	            isArray: true
 	        },
@@ -221,9 +227,8 @@ angular.module('app.services',[])
 	        query: {
 	            method: 'GET',
 	            transformResponse: function (res) {
-	                var res = JSON.parse(res);
-	                console.log(res.data);
-	                return res.data;
+					var res = JSON.parse(res);
+					return res.data;
 	            },
 	            isArray: true
 	        },
