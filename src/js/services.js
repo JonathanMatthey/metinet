@@ -93,23 +93,32 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('Networks', ['$resource', function($resource) {
-	    return $resource('http://api.metinet.co/networks/:id',{
-	      id:'@_id'
-	    },{
-	        query: {
-	            method: 'GET',
-	            transformResponse: function (res) {
-	                var res = JSON.parse(res);
-	                console.log(res.data);
-	                return res.data;
-	            },
-	            isArray: true
-	        },
-	        update: {
-	            method: 'PUT'
-	        }
-	    });
+		return $resource('http://api.metinet.co/networks/:id',{
+			id:'@_id'
+		}, {
+			query: {
+				method: 'GET',
+				transformResponse: function (res) {
+					var res = JSON.parse(res);
+					console.log(res.data);
+					return res.data;
+				},
+				isArray: true
+			},
+			update: {
+				method: 'PUT'
+			}
+		});
 	}])
+	.factory('User', ['$resource', function($resource) {
+		return $resource('http://api.meti.net/user/:user_id',{
+			user_id:'@_id'
+		}, {
+			store: {
+				method: 'POST'				
+			}
+		});
+	}])	
 	.factory('NetworkProjects', ['$resource', function($resource) {
 	    return $resource('http://api.metinet.co/networks/:id/projects',{
 	      id:'@_id'
@@ -452,7 +461,7 @@ angular.module('app.services',[])
 	        getCredential: function(credentialField){
 	            return $cookieStore.get(credentialField);
 	        },
-	        setCredentials: function (username, password, userData) {
+	        setCredentials: function(username, password, userData) {
 	            var encoded = Base64.encode(username + ':' + password);
 	            $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
 	            $cookieStore.put('authdata', encoded);
@@ -462,7 +471,7 @@ angular.module('app.services',[])
 	            $cookieStore.put('networkid', userData.network.id);
 	            $cookieStore.put('user_data', userData);
 	        },
-	        clearCredentials: function () {
+	        clearCredentials: function() {
 	            document.execCommand("ClearAuthenticationCache");
 	            $cookieStore.remove('authdata');
 	            $http.defaults.headers.common.Authorization = 'Basic ';
@@ -558,4 +567,5 @@ angular.module('app.services',[])
 	    this.showPopup=function(message){
 	        return $window.confirm(message);
 	    }
-	});
+	})
+;

@@ -69,4 +69,8 @@
   "RELEASE" : "Release"
 }
 
+"sign_up" {
+  "title": "Create an Account"
+}
+
 }

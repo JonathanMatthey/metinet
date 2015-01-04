@@ -178,12 +178,14 @@ var app = angular.module('app', [
                 template: '<div ui-view class="fade-in-right-big smooth"></div>'
             })
             .state('access.signin', {
-                url: '/signin',
-                templateUrl: 'tpl/page_signin.html'
+                url: '/sign-in',
+                templateUrl: 'tpl/page_signin.html',
+                controller: 'SignInController'
             })
             .state('access.signup', {
-                url: '/signup',
-                templateUrl: 'tpl/page_signup.html'
+                url: '/sign-up',
+                templateUrl: 'tpl/page_signup.html',
+                controller: 'SignUpController'
             })
             .state('access.forgotpwd', {
                 url: '/forgotpwd',
@@ -246,19 +248,19 @@ var app = angular.module('app', [
 // translate config
 .config(['$translateProvider', function($translateProvider){
 
-  // Register a loader for the static files
-  // So, the module will search missing translation tables under the specified urls.
-  // Those urls are [prefix][langKey][suffix].
-  $translateProvider.useStaticFilesLoader({
-    prefix: 'l10n/',
-    suffix: '.js'
-  });
+	// Register a loader for the static files
+	// So, the module will search missing translation tables under the specified urls.
+	// Those urls are [prefix][langKey][suffix].
+	$translateProvider.useStaticFilesLoader({
+		prefix: 'l10n/',
+		suffix: '.js'
+	});
 
-  // Tell the module what language to use by default
-  $translateProvider.preferredLanguage('en');
+	// Tell the module what language to use by default
+	$translateProvider.preferredLanguage('en');
 
-  // Tell the module to store the language in the local storage
-  $translateProvider.useLocalStorage();
+	// Tell the module to store the language in the local storage
+	$translateProvider.useLocalStorage();
 
 }])
 
