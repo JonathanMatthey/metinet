@@ -4079,12 +4079,17 @@ a.text-#000000:hover {
   padding-bottom: 15px;
 }
 
+.padder-v-xs {
+  padding-top: 5px!important;
+  padding-bottom: 5px!important;
+}
+
 .no-padder {
   padding: 0 !important;
 }
 
-.padder-top-none {
-  padding-top: 0 !important;
+.padder-top-10-n {
+  padding-top: -10px!important;
 }
 
 .pull-in {
