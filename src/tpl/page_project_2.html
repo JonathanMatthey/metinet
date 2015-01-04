@@ -1,10 +1,9 @@
-<div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="
-    app.settings.asideFolded = false; 
-    app.settings.asideDock = false;
-    init()
-  ">
+<div 	class="hbox hbox-auto-xs hbox-auto-sm" 
+		ng-init="	app.settings.asideFolded = false; 
+    				app.settings.asideDock = false;
+    				init()	">
   <!-- main -->
-  <div class="col">
+  <div class="col" id="main_col">
 
     <div class="btn-group btn-group-justified dker">
 		<a 	ng-click="changeAction('overview')"
@@ -72,112 +71,28 @@
   <!-- right col -->
   <div class="col w-md bg-black bg-auto no-border-xs">
     <tabset class="nav-tabs-alt" justified="true">
-      <tab>
-        <tab-heading>
-          <i class="glyphicon glyphicon-user text-md wrapper-sm"></i>
-        </tab-heading>
-        <div class="wrapper-sm">
-
-          <!-- START streamline -->
-
-          <div class="m-b text-md" ng-hide="projectAudit">
-            <i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;
-            Recent Activity
-          </div>
-
-          <div class="m-b text-md" ng-show="projectAudit">
-            <i class="fa fa-list-ul"></i>&nbsp;&nbsp;
-            Recent Activity
-          </div>
-
-          <div class="padder-top-none" ng-show="projectAudit">
-            <div class="streamline b-l m-b">
-              <div class="sl-item" ng-repeat="activity in projectAudit">
-                <div class="m-l">
-                  <div class="text-white">{{ activity.time | fromNow }}</div>
-                  <p ng-bind="activity.text"></p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- END streamline -->
-
-          <div class="text-center" ng-show="projectAudit">
-            <a href class="btn btn-sm btn-primary padder-md m-b">More</a>
-          </div>
-        </div>
-      </tab>
-      <tab>
-        <tab-heading>
-          <i class="glyphicon glyphicon-comment text-md wrapper-sm"></i>
-        </tab-heading>
-        <div class="wrapper-sm">
-          <div class="m-b-sm text-md">Chat</div>
-          <ul class="list-group no-borders pull-in auto">
-            <li class="list-group-item">
-              <span class="pull-left thumb-sm m-r"><img src="img/a1.jpg" alt="..." class="img-circle"></span>
-              <a href class="text-muted" ui-toggle-class="show" target=".app-aside-right"><i class="fa fa-comment-o pull-right m-t-sm text-sm"></i></a>
-              <div class="clear">
-                <div><a href="">Chris Fox</a></div>
-                <small class="text-muted">about 2 minutes ago</small>
-              </div>
-            </li>
-            <li class="list-group-item">
-              <span class="pull-left thumb-sm m-r"><img src="img/a2.jpg" alt="..." class="img-circle"></span>
-              <a href class="text-muted" ui-toggle-class="show" target=".app-aside-right"><i class="fa fa-comment-o pull-right m-t-sm text-sm"></i></a>
-              <div class="clear">
-                <div><a href="">Amanda Conlan</a></div>
-                <small class="text-muted">about 2 hours ago</small>
-              </div>
-            </li>
-            <li class="list-group-item">
-              <span class="pull-left thumb-sm m-r"><img src="img/a3.jpg" alt="..." class="img-circle"></span>
-              <a href class="text-muted" ui-toggle-class="show" target=".app-aside-right"><i class="fa fa-comment-o pull-right m-t-sm text-sm"></i></a>
-              <div class="clear">
-                <div><a href="">Dan Doorack</a></div>
-                <small class="text-muted">3 days ago</small>
-              </div>
-            </li>
-            <li class="list-group-item">
-              <span class="pull-left thumb-sm m-r"><img src="img/a4.jpg" alt="..." class="img-circle"></span>
-              <a href class="text-muted" ui-toggle-class="show" target=".app-aside-right"><i class="fa fa-comment-o pull-right m-t-sm text-sm"></i></a>
-              <div class="clear">
-                <div><a href="">Lauren Taylor</a></div>
-                <small class="text-muted">about 2 minutes ago</small>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </tab>
-      <tab>
-        <tab-heading>
-          <i class="glyphicon glyphicon-transfer text-md wrapper-sm"></i>
-        </tab-heading>
-        <div class="wrapper-sm">
-          <div class="m-b-sm text-md">Transaction</div>
-          <ul class="list-group list-group-sm list-group-sp list-group-alt auto m-t">
-            <li class="list-group-item">
-              <span class="text-muted">Transfer to Jacob at 3:00 pm</span>
-              <span class="block text-md text-info">B 15,000.00</span>
-            </li>
-            <li class="list-group-item">
-              <span class="text-muted">Got from Mike at 1:00 pm</span>
-              <span class="block text-md text-primary">B 23,000.00</span>
-            </li>
-            <li class="list-group-item">
-              <span class="text-muted">Sponsored ORG at 9:00 am</span>
-              <span class="block text-md text-warning">B 3,000.00</span>
-            </li>
-            <li class="list-group-item">
-              <span class="text-muted">Send to Jacob at 8:00 am</span>
-              <span class="block text-md">B 11,000.00</span>
-            </li>
-          </ul>
-        </div>
-      </tab>      
+		<tab>
+			<tab-heading>
+				<i class="fa fa-clock-o text-md wrapper-sm"></i>
+			</tab-heading>
+			<div class="wrapper-sm sidebar_inner" ng-include="'tpl/project/sidebar/recent_activity.html'"></div>
+		</tab>
+		<tab>
+			<tab-heading>
+				<i class="fa fa-users text-md wrapper-sm"></i>
+			</tab-heading>
+			<div ng-class="wrapper-sm: !projectUsers" ng-include="'tpl/project/sidebar/project_users.html'"></div>
+		</tab>     
     </tabset>
 
   </div>
   <!-- / right col -->
 </div>
+
+<script type="text/javascript">
+	$('document').ready(function() {
+		var main_col_height = $('#main_col').height();
+		console.log(main_col_height);
+		$('.tab-pane .sidebar_inner').height(main_col_height);
+	});
+</script>

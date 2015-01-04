@@ -1,189 +1,190 @@
 <div class="bg-black dker wrapper-lg" ng-controller="FlotChartDemoCtrl">
-    <ul class="nav nav-pills nav-xxs nav-rounded m-b-lg">
-      <li class="active"><a href>Day</a></li>
-      <li><a href ng-click="refreshData()">Week</a></li>
-      <li><a href ng-click="refreshData()">Month</a></li>
-    </ul>       
+	<ul class="nav nav-pills nav-xxs nav-rounded m-b-lg">
+		<li class="active">
+			<a href>Day</a>
+		</li>
+		<li>
+			<a href ng-click="refreshData()">Week</a>
+		</li>
+		<li>
+			<a href ng-click="refreshData()">Month</a>
+		</li>
+	</ul>       
 	<div ui-jq="plot" ui-refresh="d0_1" ui-options="
-	      [
-	        { 
-	          data: [ {{ d0_2 }} ], 
-	          label: 'Calculated', 
-	          points: { show: true, radius: 1 }, 
-	          splines: { show: true, tension: 0.4, lineWidth: 1 } 
-	        },
-	        { 
-	          data: [ {{ d0_1 }} ],
-	          label: 'Actual',
-	          points: { show: true, radius: 2 },
-	          splines: { show: true, tension: 0.4, lineWidth: 1 }
-	        }
-	      ],
-	      {
-	        colors: [
-	          '#314554',
-	          '{{ app.color.info }}'
-	        ],
-	        series: { 
-	          shadowSize: 3 
-	        },
-	        xaxis: { 
-	          mode:'time',
-	          timeformat: '%d-%m-%Y',
-	          font: { color: '#507b9b' }
-	        },
-	        yaxis: {
-	          font: { color: '#507b9b' }, 
-	          max:100
-	        },
-	        grid: { 
-	          hoverable: true,
-	          clickable: true,
-	          borderWidth: 0,
-	          color: '#1c2b36'
-	        },
-	        tooltip: true,
-	        tooltipOpts: { 
-	          content: '%y% on %x',  
-	          defaultTheme: false, 
-	          shifts: { 
-	            x: 10,
-	            y: -25 
-	          } 
-	        }
-	      }
-	      " style="min-height:360px" >
+		[
+			{ 
+			  data: [ {{ d0_2 }} ], 
+			  label: 'Calculated', 
+			  points: { show: true, radius: 1 }, 
+			  splines: { show: true, tension: 0.4, lineWidth: 1 } 
+			},
+			{ 
+			  data: [ {{ d0_1 }} ],
+			  label: 'Actual',
+			  points: { show: true, radius: 2 },
+			  splines: { show: true, tension: 0.4, lineWidth: 1 }
+			}
+		],
+		{
+			colors: [
+			  '#314554',
+			  '{{ app.color.info }}'
+			],
+			series: { 
+			  shadowSize: 3 
+			},
+			xaxis: { 
+			  mode:'time',
+			  timeformat: '%d-%m-%Y',
+			  font: { color: '#507b9b' }
+			},
+			yaxis: {
+			  font: { color: '#507b9b' }, 
+			  max:100
+			},
+			grid: { 
+			  hoverable: true,
+			  clickable: true,
+			  borderWidth: 0,
+			  color: '#1c2b36'
+			},
+			tooltip: true,
+			tooltipOpts: { 
+			  content: '%y% on %x',  
+			  defaultTheme: false, 
+			  shifts: { 
+			    x: 10,
+			    y: -25 
+			  } 
+			}
+		}
+		" style="min-height:360px" >
 	    </div>
 </div>
 <div class="wrapper-md bg-white-only b-b">
-  <div class="row text-center">
-    <div class="col-sm-3 col-xs-6">
-      <div>Start Date</div>
-      <div class="h2 m-b-sm text-muted" ng-hide="project">
-        <i class="fa fa-spin fa-refresh"></i>
-      </div>
-      <div class="h2 m-b-sm" ng-show="project">
-        {{ project.start_date | formatFullDate }}
-      </div>
-    </div>
-    <div class="col-sm-3 col-xs-6">
-      <div>Contract End Date</div>
-      <div class="h2 m-b-sm text-muted" ng-hide="project">
-        <i class="fa fa-spin fa-refresh"></i>
-      </div>      
-      <div class="h2 m-b-sm" ng-show="project">
-        {{ project.end_date_contract | formatFullDate }}
-      </div>
-    </div>
-    <div class="col-sm-3 col-xs-6">
-      <div>Projected End Date</div>
-      <div class="h2 m-b-sm text-muted" ng-hide="project">
-        <i class="fa fa-spin fa-refresh"></i>
-      </div>      
-      <div class="h2 m-b-sm text-{{ project.status.colour }}" ng-show="project">
-        {{ project.end_date_calculated | formatFullDate }}
-      </div>
-    </div>
-    <div class="col-sm-3 col-xs-6">
-      <div>Visits</div>
-      <div class="h2 m-b-sm">2,300</div>
-    </div>
-  </div>
+	<div class="row text-center">
+		<div class="col-sm-3 col-xs-6">
+			<div>
+				Start Date
+			</div>
+			<div class="h2 m-b-sm text-muted" ng-hide="project">
+				<i class="fa fa-spin fa-refresh"></i>
+			</div>
+			<div class="h2 m-b-sm" ng-show="project">
+				{{ project.start_date | formatFullDate }}
+			</div>
+		</div>
+		<div class="col-sm-3 col-xs-6">
+			<div>
+				Contract End Date
+			</div>
+			<div class="h2 m-b-sm text-muted" ng-hide="project">
+				<i class="fa fa-spin fa-refresh"></i>
+			</div>      
+			<div class="h2 m-b-sm" ng-show="project">
+				{{ project.end_date_contract | formatFullDate }}
+			</div>
+		</div>
+		<div class="col-sm-3 col-xs-6">
+			<div>Projected End Date</div>
+			<div class="h2 m-b-sm text-muted" ng-hide="project">
+				<i class="fa fa-spin fa-refresh"></i>
+			</div>      
+			<div class="h2 m-b-sm text-{{ project.status.colour }}" ng-show="project">
+				{{ project.end_date_calculated | formatFullDate }}
+			</div>
+		</div>
+		<div class="col-sm-3 col-xs-6">
+			<div>
+				Visits
+			</div>
+			<div class="h2 m-b-sm">
+				2,300
+			</div>
+		</div>
+	</div>
 </div>
 <div class="wrapper-md">
-  <!-- users -->
-  <div class="row">
-    <div class="col-md-6">            
-      <div class="wrapper">
+	<!-- users -->
+	<div class="row">
+		<div class="col-md-6">
+			<div class="wrapper">
 
-        <h4 class="m-b-lg" ng-hide="project"><i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Loading Packages...</h4>
-        <h4 class="m-b-lg" ng-show="project">Packages</h4>
+				<h4 class="m-b-lg" ng-hide="project">
+					<i class="fa fa-spin fa-refresh"></i>
+					&nbsp;&nbsp;Loading Packages...
+				</h4>
+				<h4 class="m-b-lg" ng-show="project">
+					Packages
+					<div class="pull-right">
+						<i class="fa fa-fw fa-plus"></i>
+						&nbsp;&nbsp;Add Package
+					</div>
+				</h4>
 
-        <a href="#/app/page/nodes/{{ package.id }}" ng-repeat="package in project.packages">
-          <div class="text-left">
-            <span class="pull-right">{{package.display_progress}}%</span>
-            <span ng-bind="package.name"></span>
-          </div>
-          <div class="progress-xxs m-t-sm dk progress ng-isolate-scope" value="{{ package.progress }}">
-            <div 	class="progress-bar progress-bar-info"
-									aria-valuenow="{{ package.progress }}"
-									aria-valuemin="0"
-									aria-valuemax="100"
-									aria-valuetext="{{package.progress}}%"
-									style="width: {{package.progress}}%;"></div>
-          </div>              
-        </a>
+				<a href="#/app/page/nodes/{{ package.id }}" ng-repeat="package in project.packages">
+					<div class="text-left">
+						<span class="pull-right">{{package.display_progress}}%</span>
+						<span ng-bind="package.name"></span>
+					</div>
+					<div class="progress-xxs m-t-sm dk progress ng-isolate-scope" value="{{ package.progress }}">
+						<div 	class="progress-bar progress-bar-info"
+								aria-valuenow="{{ package.progress }}"
+								aria-valuemin="0"
+								aria-valuemax="100"
+								aria-valuetext="{{package.progress}}%"
+								style="width: {{package.progress}}%;"></div>
+					</div>
+				</a>
 
-      </div>
-    </div>
-    <!-- START TO DO -->
-    <div class="col-md-6">
-      <div class="wrapper" ng-hide="project">
-        <h4 class="m-b-lg"><i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Loading To Do List...</h4>
-      </div>
+			</div>
+		</div>
+	    <!-- START TO DO -->
+	    <div class="col-md-6">
+			<div class="wrapper" ng-hide="project">
+				<h4 class="m-b-lg"><i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Loading To Do List...</h4>
+			</div>
 
-      <div class="panel no-border" ng-show="project">
-        <div class="panel-heading wrapper b-b b-light">
-          <span class="text-xs text-muted pull-right">
-            <i class="fa fa-circle text-success m-r-xs"></i> Ok
-            <i class="fa fa-circle text-warning m-r-xs m-l-sm"></i> Attention
-            <i class="fa fa-circle text-danger m-r-xs m-l-sm"></i> Critical
-          </span>
-          <h5 class="font-thin m-t-none m-b-none text-muted">Project Components Status</h5>              
-        </div>
-        <table class="table table-striped m-b-none">
-          <tbody>
-            <tr>
-              <td>RFIs</td>
-              <td class="text-center text-success" ng-bind="projectTodo.rfis.ok">
-              </td>
-              <td class="text-center text-info" ng-bind="projectTodo.rfis.attention">
-              </td>
-              <td class="text-center text-danger" ng-bind="projectTodo.rfis.critical">
-              </td>
-            </tr>
-            <tr ng-show="project.long_lead_items">
-              <td>Long Leads</td>
-              <td class="text-center text-success" ng-bind="projectTodo.long_lead.ok">
-              </td>
-              <td class="text-center text-info" ng-bind="projectTodo.long_lead.attention">
-              </td>
-              <td class="text-center text-danger" ng-bind="projectTodo.long_lead.critical">
-              </td>
-            </tr>
-            <tr ng-show="project.permit_assessment">
-              <td>Permits</td>
-              <td class="text-center text-success" ng-bind="projectTodo.permits.ok">
-              </td>
-              <td class="text-center text-info" ng-bind="projectTodo.permits.attention">
-              </td>
-              <td class="text-center text-danger" ng-bind="projectTodo.permits.critical">
-              </td>
-            </tr>
-            <tr>
-              <td>Leaf Nodes</td>
-              <td class="text-center text-success" ng-bind="projectTodo.leaf_nodes.ok">
-              </td>
-              <td class="text-center text-info" ng-bind="projectTodo.leaf_nodes.attention">
-              </td>
-              <td class="text-center text-danger" ng-bind="projectTodo.leaf_nodes.critical">
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <th style="" class="text-center"></th>
-              <th class="text-center">
-                {{ getTotalOk }}
-              </th>
-              <th class="text-center"><i class="fa fa-circle text-warning m-r-xs m-l-sm"></i></th>
-              <th class="text-center"><i class="fa fa-circle text-danger m-r-xs m-l-sm"></i></th>
-            </tr>
-          </tfoot>              
-        </table>
-      </div>
-    </div>
-    <!-- END TO DO -->
-  </div>
-  <!-- / users -->
+			<div class="panel no-border" ng-show="project">
+				<div class="panel-heading wrapper b-b b-light">
+					<span class="text-xs text-muted pull-right">
+						<i class="fa fa-circle text-success m-r-xs"></i> Ok
+						<i class="fa fa-circle text-warning m-r-xs m-l-sm"></i> Attention
+						<i class="fa fa-circle text-danger m-r-xs m-l-sm"></i> Critical
+					</span>
+					<h5 class="font-thin m-t-none m-b-none text-muted">Project Components Status</h5>              
+				</div>
+				<table class="table table-striped m-b-none">
+					<tbody>
+						<tr>
+							<td>RFIs</td>
+							<td class="text-center text-success" ng-bind="projectTodo.rfis.ok"></td>
+							<td class="text-center text-info" ng-bind="projectTodo.rfis.attention"></td>
+							<td class="text-center text-danger" ng-bind="projectTodo.rfis.critical"></td>
+						</tr>
+						<tr ng-show="project.long_lead_items">
+							<td>Long Leads</td>
+							<td class="text-center text-success" ng-bind="projectTodo.long_lead.ok"></td>
+							<td class="text-center text-info" ng-bind="projectTodo.long_lead.attention"></td>
+							<td class="text-center text-danger" ng-bind="projectTodo.long_lead.critical"></td>
+						</tr>
+						<tr ng-show="project.permit_assessment">
+							<td>Permits</td>
+							<td class="text-center text-success" ng-bind="projectTodo.permits.ok"></td>
+							<td class="text-center text-info" ng-bind="projectTodo.permits.attention"></td>
+							<td class="text-center text-danger" ng-bind="projectTodo.permits.critical"></td>
+						</tr>
+						<tr>
+							<td>Leaf Nodes</td>
+							<td class="text-center text-success" ng-bind="projectTodo.leaf_nodes.ok"></td>
+							<td class="text-center text-info" ng-bind="projectTodo.leaf_nodes.attention"></td>
+							<td class="text-center text-danger" ng-bind="projectTodo.leaf_nodes.critical"></td>
+						</tr>
+					</tbody>             
+				</table>
+			</div>
+    	</div>
+    	<!-- END TO DO -->
+	</div>
+  	<!-- / users -->
 </div>

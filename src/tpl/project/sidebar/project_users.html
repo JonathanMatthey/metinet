@@ -1,0 +1,18 @@
+<div class="m-b text-md" ng-hide="projectUsers">
+	<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;
+	Loading Users...
+</div>
+
+<ul class="list-group no-borders auto" ng-show="projectUsers">
+	<li class="list-group-item padder-v-xs" ng-repeat="user in projectUsers">
+		<a href class="text-muted" ui-toggle-class="show" target=".app-aside-right">
+			<i class="fa fa-comment-o pull-right m-t-sm text-sm" ng-class="text-success: user.online"></i>
+		</a>
+		<div class="clear">
+			<div>
+				<a href="">{{ user.fullname }}</a>
+			</div>
+			<small class="text-muted">{{ user.network.name }}</small>
+		</div>
+	</li>
+</ul>
