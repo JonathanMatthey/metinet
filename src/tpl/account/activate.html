@@ -1,0 +1,29 @@
+<div class="container w-xxl w-auto-xs" ng-init="activate()">
+	<a href class="navbar-brand block m-t">
+		{{app.name}}
+	</a>
+	<div class="m-b-lg">
+		<h3 class="wrapper text-center">
+			<strong>Account Activation</strong>
+		</h3>
+		<div class="well bg-black text-center" ng-show="process_engaged">
+			<h4 class="text-success"><i class="fa fa-fw fa-spin fa-refresh"></i>&nbsp;&nbsp;Activating Your Account</h4>
+			<p>Please wait while we contact our servers...</p>
+		</div>
+		<div class="well bg-black text-center" ng-hide="process_engaged">
+			<div ng-show="success">
+				<h4 class="text-success"><i class="fa fa-fw fa-check"></i>&nbsp;&nbsp;Welcome {{ user_fullname }}</h4>
+				<p>Your account has been successfully activated.  Please proceed to login...</p>
+				<a ui-sref="access.signin" class="btn btn-block btn-default">
+					Log In
+				</a>
+			</div>
+			<div ng-show="failed">
+				<h4 class="text-danger"><i class="fa fa-fw fa-exclamation"></i>&nbsp;&nbsp;Activating Your Account</h4>
+				<p>Your code was not recognised. Please use the code supplied in your email, and try again.</p>
+				<p>Alternatively, you can request a new one by clicking <a>here</a>.</p>
+			</div>
+		</div>		
+	</div>
+	<div class="text-center" ng-include="'tpl/blocks/page_footer.html'"></div>
+</div>

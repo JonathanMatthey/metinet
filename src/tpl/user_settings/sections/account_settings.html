@@ -1,0 +1,39 @@
+<div class="panel">
+	<div class="panel-heading b-b">
+		<h4 class="m-n font-thin h4">Account Settings</h4>
+	</div>
+	<div class="panel-body">
+		<form role="form" class="ng-pristine ng-valid">
+			<div class="row">			
+				<div class="form-group col-sm-6">
+					<label>First Name</label>
+					<input ng-model="user_data.firstname" type="text" class="form-control" placeholder="Joe">
+				</div>
+				<div class="form-group col-sm-6">
+					<label>Last Name</label>
+					<input ng-model="user_data.lastname" type="text" class="form-control" placeholder="Bloggs">
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label>Email</label>
+					<input ng-model="user_data.email" type="text" class="form-control" disabled="disabled">
+					<div class="help-block text-xs m-l-xs">
+						<i class="fa fa-info-circle"></i>&nbsp;&nbsp;You can't change this yet..
+					</div>
+				</div>
+				<div class="form-group col-sm-6">
+					<label>Username</label>
+					<input ng-model="user_data.username" type="text" class="form-control">
+				</div>				
+			</div>			
+		</form>
+	</div>
+	<div class="panel-footer b-t">
+		<div class="row">
+			<div class="col-md-12">			
+				<button type="submit" class="btn btn-primary pull-right account-submit-btn" ng-click="saveSettings('account')">Save</button>
+			</div>
+		</div>
+	</div>
+</div>

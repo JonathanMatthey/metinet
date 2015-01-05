@@ -97,13 +97,7 @@ angular.module('app.services',[])
 			id:'@_id'
 		}, {
 			query: {
-				method: 'GET',
-				transformResponse: function (res) {
-					var res = JSON.parse(res);
-					console.log(res.data);
-					return res.data;
-				},
-				isArray: true
+				method: 'GET'
 			},
 			update: {
 				method: 'PUT'
@@ -111,14 +105,27 @@ angular.module('app.services',[])
 		});
 	}])
 	.factory('User', ['$resource', function($resource) {
-		return $resource('http://api.meti.net/user/:user_id',{
-			user_id:'@_id'
+		return $resource('http://api.metinet.co/user/:userId', {
+			userId:'@user_id'
 		}, {
+			get: {
+				method: 'GET'
+			},
 			store: {
+				method: 'POST'
+			},
+			put: {
+				method: 'PUT'
+			}
+		});
+	}])
+	.factory('Activate', ['$resource', function($resource) {
+		return $resource('http://api.metinet.co/activate/:activation_code', {activation_code:'@code'}, {
+			execute: {
 				method: 'POST'				
 			}
 		});
-	}])	
+	}])		
 	.factory('NetworkProjects', ['$resource', function($resource) {
 	    return $resource('http://api.metinet.co/networks/:id/projects',{
 	      id:'@_id'
@@ -463,13 +470,9 @@ angular.module('app.services',[])
 	        },
 	        setCredentials: function(username, password, userData) {
 	            var encoded = Base64.encode(username + ':' + password);
-	            $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
-	            $cookieStore.put('authdata', encoded);
-	            $cookieStore.put('username', userData.username);
-	            $cookieStore.put('fullname', userData.fullname);
-	            $cookieStore.put('userid', userData.id);
-	            $cookieStore.put('networkid', userData.network.id);
-	            $cookieStore.put('user_data', userData);
+				$http.defaults.headers.common.Authorization = 'Basic ' + encoded;
+				$cookieStore.put('authdata', encoded);
+				$cookieStore.put('user_data', userData);
 	        },
 	        clearCredentials: function() {
 	            document.execCommand("ClearAuthenticationCache");

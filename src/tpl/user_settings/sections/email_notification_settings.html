@@ -1,0 +1,111 @@
+<div class="panel">
+	<div class="panel-heading b-b">
+		<h4 class="m-n font-thin h4">Email Notification Settings</h4>
+	</div>
+	<div class="panel-body">
+		<form role="form" class="ng-pristine ng-valid">
+			<div class="row">
+
+				<div class="form-group">
+					<label class="col-sm-10 control-label h4">Network Updates</label>
+					<div class="col-sm-10 col-md-offset-2">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="" ng-model="user_data.net_mail_new_connection">
+								Send me emails when I get a new connection requests.
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="" ng-model="user_data.net_mail_connections">
+								Send me emails with updates about my connections.
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="" ng-model="user_data.net_mail_network_updates">
+								Send me emails with updates about my network.
+							</label>
+						</div>						
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="" ng-model="user_data.net_mail_new_message">
+								Send me emails when I get new messages.
+							</label>
+						</div>
+					</div>
+					<label class="col-sm-10 control-label h4 m-t">Project Management Updates</label>
+					<div class="col-sm-10 col-md-offset-2">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="" ng-model="user_data.pm_mail_project_updates">
+								Send me emails with updates about my projects.
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="" ng-model="user_data.pm_mail_daily_report">
+								Send me daily reports.
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="" ng-model="user_data.pm_mail_daily_report_nothing_due">
+								Send me daily reports even when nothing is due.
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="" ng-model="user_data.pm_mail_weekend">
+								Send me reports on the weekends.
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="" ng-model="user_data.pm_mail_task_completion">
+								Send me emails when tasks complete.
+							</label>
+						</div>
+					</div>
+					<label class="col-sm-10 control-label h4 m-t">{{ app.metinet.brand_name }} Mail Updates</label>
+					<div class="col-sm-10 col-md-offset-2">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="" ng-model="user_data.metinet_mail_new_products">
+								Send me emails about new products by {{ app.metinet.brand_name }}.
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="" ng-model="user_data.metinet_mail_product_updates">
+								Send me emails with information when {{ app.metinet.brand_name }} updates current products.
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="" ng-model="user_data.metinet_mail_tips">
+								Send me emails with tips about how to get more out of {{ app.metinet.brand_name }} products.
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="" ng-model="user_data.metinet_mail_tutorials">
+								Send me emails with tutorials about how to use {{ app.metinet.brand_name }} products.
+							</label>
+						</div>
+					</div>					
+				</div>
+
+			</div>			
+		</form>
+	</div>
+	<div class="panel-footer b-t">
+		<div class="row">
+			<div class="col-md-12">			
+				<button type="submit" class="btn btn-primary pull-right email-notifications-submit-btn" ng-click="saveSettings('email-notifications')">
+					Save
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

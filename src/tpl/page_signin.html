@@ -13,11 +13,6 @@
 			<div class="alert alert-danger text-center" ng-show="authError">
 				{{ authError }}
 			</div>
-			<div class="text-danger text-center" ng-show="validation_errors">
-				<ul class="list-group list-group-sm">
-					<li class="list-group-item" ng-repeat="error in validation_errors">{{ error[0] }}</li>
-				</ul>
-			</div>
 			<div class="list-group list-group-sm">
 				<div class="list-group-item">
 					<input type="email" placeholder="Email" class="form-control no-border" ng-model="user.email" required>

@@ -18,6 +18,9 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		// config
 		$scope.app = {
 			name: 'Metinet',
+			metinet: {
+				brand_name: "MetiNet"
+			},
 			version: '0.0.2',
 			// for chart colors
 			color: {
@@ -98,22 +101,135 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		}
 	}])
 
-	.controller('ProjectSettingsController', ['$scope', '$state', '$window', 'Auth', '$http', 'toaster', function($scope,$state,$window,Auth,$http,toaster) {
-		$scope.profile = {};
+	.controller('UserSettingsController', [	'$scope',
+											'$state',
+											'$window',
+											'Auth',
+											'User',
+											'Networks',											
+											'$http',
+											'toaster', function(	$scope,
+																	$state,
+																	$window,
+																	Auth,
+																	User,
+																	Networks,
+																	$http,
+																	toaster 	) {
+		var current_user_data 			= Auth.getCredential("user_data");
+		$scope.password_data			= {};
+		$scope.settings_action			= 'account';
+		$scope.network_request_status	= '';
+		$scope.request_error			= null;
+		var template_directory			= 'tpl/user_settings/sections/';
 
-		$scope.currentUserId = Auth.getCredential("userid");
+		$scope.settings_menu	= [
+			{
+				action: 'account',
+				name: 	'Account Settings',
+				icon: 	'fa-globe',
+				tpl: 	template_directory+'account_settings.html'
+			},
+			{
+				action: 'profile',
+				name: 	'Profile Settings',
+				icon: 	'fa-user',
+				tpl: 	template_directory+'profile_settings.html'				
+			},
+			{
+				action: 'network',
+				name: 	'Network Settings',
+				icon: 	'fa-lock',
+				tpl: 	template_directory+'network_settings.html'				
+			},
+			{
+				action: 'email-notifications',
+				name: 	'Email Notification Settings',
+				icon: 	'fa-envelope-o',
+				tpl: 	template_directory+'email_notification_settings.html'				
+			},
+			{
+				action: 'password',
+				name: 	'Password Settings',
+				icon: 	'fa-lock',
+				tpl: 	template_directory+'change_password.html'				
+			},
+			{
+				action: 'privacy',
+				name: 	'Privacy Settings',
+				icon: 	'fa-lock',
+				tpl: 	template_directory+'privacy_settings.html'				
+			}						
+		];
 
-		$http.get('http://api.metinet.co/profiles/' + $scope.currentUserId).then(function (resp) {
-			$scope.profile = resp.data.data;
-		});
+		User.get({userId:current_user_data.id})
+			.$promise
+			.then(function(response) {
+				$scope.user_data = response.data;
+				if (response.data.network) {
+					var status = (response.data.network.pivot.network_confirm) ? 'Confirmed' : 'Pending';
+					$scope.network_request_status = status;
+				} else {
+					$scope.network_request_status = 'Not Part of a Network.'
+				}
+				$scope.network_request_status
+			}, function(response) {
 
-		$scope.saveProfile = function() {
-			toaster.pop('wait', 'Saving Profile', 'Shouldn\'t take long...');
-			$http.put('http://api.metinet.co/profiles',$scope.profile)
+			});
+
+		Networks.query()
+			.$promise
+			.then(function(response) {
+				$scope.networks = response.data;
+				console.log($scope.networks);
+			}, function(response) {
+
+			});
+
+		$scope.saveSettings = function(action_value) {
+			$scope.request_error = null;			
+			$('.'+action_value+'-submit-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving..');
+			$('.'+action_value+'-submit-btn').removeClass('btn-success btn-danger btn-primary');
+			$('.'+action_value+'-submit-btn').addClass('btn-info');
+			User.put({}, $scope.user_data)
+				.$promise
 				.then(function(response) {
-					toaster.pop('success', 'Success', '');
+					$('.'+action_value+'-submit-btn').html('<i class="fa fa-fw fa-check"></i>&nbsp;&nbsp;Saved');
+					$('.'+action_value+'-submit-btn').removeClass('btn-info');
+					$('.'+action_value+'-submit-btn').addClass('btn-success');
+				}, function(response) {
+					$('.'+action_value+'-submit-btn').html('<i class="fa fa-fw fa-times"></i>&nbsp;&nbsp;Failed');
+					$('.'+action_value+'-submit-btn').removeClass('btn-info');
+					$('.'+action_value+'-submit-btn').addClass('btn-danger');
+					$scope.request_error = response.data.msg.text;
 				});
 		};
+
+		$scope.savePassword = function() {
+			$scope.request_error = null;
+			$('.password-submit-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving..');
+			$('.password-submit-btn').removeClass('btn-success btn-danger btn-primary');
+			$('.password-submit-btn').addClass('btn-info');
+			var use = User.put({userId:'password'}, $scope.password_data)
+				.$promise
+				.then(function(response) {
+					$('.password-submit-btn').html('<i class="fa fa-fw fa-check"></i>&nbsp;&nbsp;Saved');
+					$('.password-submit-btn').removeClass('btn-info');
+					$('.password-submit-btn').addClass('btn-success');
+					//	Reset Credentials, otherwise all routes will fail.
+					Auth.setCredentials($scope.user_data.email, $scope.password_data.password_new, response.data);					
+				}, function(response) {
+					console.log(response);
+					$('.password-submit-btn').html('<i class="fa fa-fw fa-times"></i>&nbsp;&nbsp;Failed');
+					$('.password-submit-btn').removeClass('btn-info');
+					$('.password-submit-btn').addClass('btn-danger');
+					$scope.request_error = response.data.msg.text;					
+				});
+		};		
+
+		$scope.changeAction = function(value) {
+			$scope.settings_action	= value;			
+		}
 	}])
 
 	.controller('ProjectListController', [	'$scope',
@@ -1398,21 +1514,24 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 	}])
 	// signin controller
 	.controller('SignInController', ['$scope', '$http', '$state','Auth', function($scope, $http, $state, Auth) {
-		$scope.user = {};
-		$scope.authError = null;
+		$scope.user 			= {};
+		$scope.authError 		= null;
+		$scope.process_engaged 	= false;
 		Auth.clearCredentials();
 
 		$scope.signUpUser = {};
 
 		$scope.login = function() {
-			$scope.authError = null;
+			$scope.process_engaged 	= true;
+			$scope.authError 		= null;
 			// Try to login
 			$http.post('http://api.metinet.co/auth', {
 				headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
 					email: 		$scope.user.email,
 					password:  	$scope.user.password
 				}).then(function(response) {
-						if ( response.status === 200 ) {
+						$scope.process_engaged = false;					
+						if (response.status === 200) {
 							// user logged in
 							Auth.setCredentials($scope.user.email, $scope.user.password, response.data.user_data);
 							$state.go('app.home');
@@ -1420,6 +1539,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 							$scope.authError = 'Email or Password not right';
 						}
 					}, function(response) {
+						console.log(response);
+						$scope.process_engaged = false;
 						if (response.status === 403) {
 							$scope.authError = response.data.msg.text;
 						} else {
@@ -1446,7 +1567,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		});
 
 		$scope.user_data = {
-			email: 'stevchenks@gmail.com',
+			email: 'edward.stephenson@me.com',
 			password: 'teej0395',
 			password_confirm: 'teej0395',
 			firstname: 'Ed',
@@ -1481,6 +1602,43 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 										$scope.validation_errors	= data.data.data;
 									}
 								);
+		};
+	}])
+	// signup controller
+	.controller('ActivationController', [	'$scope', 
+											'$http', 
+											'$state',
+											'$stateParams',
+											'$translate',
+											'$location',
+											'Activate', function(	$scope, 
+																	$http,
+																	$state,
+																	$stateParams,
+																	$translate,
+																	$location,
+																	Activate 	) {
+
+		$scope.activate = function() {
+			$scope.process_engaged 	= true;
+			$scope.success 			= false;
+			$scope.failed 			= false;
+
+			var activate			= Activate.execute({code:$stateParams.activation_code})
+										.$promise.then(
+											// Success
+											function(response) {
+												$scope.success 			= true;
+												$scope.user_fullname 	= response.data.fullname;												
+												$scope.process_engaged 	= false;
+											}, 
+
+											// Fail
+											function (response) {
+												$scope.failed 			= true;
+												$scope.process_engaged 	= false;
+											}
+										);
 		};
 	}])
 	.controller('DatepickerDemoCtrl', ['$scope', function($scope) {

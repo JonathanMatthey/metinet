@@ -1,0 +1,28 @@
+<form name="step1" class="form-validation">
+
+	<div class="row">
+		<div class="col-md-6">
+			<h4>Request To Join A Network</h4>
+			<label>Last Name</label>			
+			<input 	type="text"
+					class="form-control"
+					ng-model="welcome.firstname"
+					required
+					ng-change="step1.firstname.$valid ? (steps.percent=30) : (steps.percent=20)">
+		</div>
+		<div class="col-md-6">
+			<h4>Create A Network</h4>
+			<label>Last Name</label>			
+			<input 	type="text"
+					class="form-control"
+					ng-model="welcome.lastname"
+					required
+					ng-change="step1.lastname.$valid ? (steps.percent=30) : (steps.percent=20)">
+		</div>		
+	</div>
+	<div class="m-t b-t padder-t">
+		<button type="submit" ng-disabled="step1.$invalid" class="btn btn-default" ng-click="steps.step2=true">
+			Next
+		</button>
+	</div>
+</form>

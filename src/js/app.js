@@ -63,10 +63,10 @@ var app = angular.module('app', [
                 templateUrl: 'tpl/page_homepage.html',
                 resolve: {
                     deps: ['uiLoad',
-                      function( uiLoad ){
-                        return uiLoad.load([
-                            'js/libs/moment.min.js'
-                        ]);
+						function( uiLoad ){
+							return uiLoad.load([
+								'js/libs/moment.min.js'
+							]);
                     }]
                 }                
             })
@@ -85,15 +85,25 @@ var app = angular.module('app', [
                 controller:'NetworkViewController',
                 templateUrl: 'tpl/page_company.html'
             })
-            .state('app.page.settings', {
-                url: '/settings',
-                templateUrl: 'tpl/page_settings.html',
-                controller:'ProjectSettingsController'
-            })
-            .state('app.page.projects', {
-                url: '/projects',
-                templateUrl: 'tpl/page_projects.html',
-                controller:'ProjectListController',
+			.state('app.page.settings', {
+				url: '/settings',
+				templateUrl: 'tpl/user_settings/main.html',
+				controller:'UserSettingsController',
+				resolve: {
+					deps: ['uiLoad',
+						function(uiLoad) {
+							return uiLoad.load([
+								'js/jquery/sticky/jquery.sticky.js',
+								'js/jquery/chosen/chosen.jquery.min.js',
+								'js/jquery/chosen/chosen.css'
+							]);
+					}]
+				}
+			})
+			.state('app.page.projects', {
+				url: '/projects',
+				templateUrl: 'tpl/page_projects.html',
+				controller:'ProjectListController',
 				resolve: {
 					deps: ['uiLoad',
 						function( uiLoad ){
@@ -105,12 +115,12 @@ var app = angular.module('app', [
 							]);
 						}]
 				}
-            })
-            .state('app.page.gantt', {
-                url: '/projects/:id/gantt',
-                templateUrl: 'tpl/page_gantt.html',
-                controller:'ProjectViewGanttController'
-            })
+			})
+			.state('app.page.gantt', {
+				url: '/projects/:id/gantt',
+				templateUrl: 'tpl/page_gantt.html',
+				controller:'ProjectViewGanttController'
+			})
             .state('app.page.network', {
                 url: '/projects/:id/network/create',
                 templateUrl: 'tpl/page_project_network_new.html',
@@ -187,6 +197,11 @@ var app = angular.module('app', [
                 templateUrl: 'tpl/page_signup.html',
                 controller: 'SignUpController'
             })
+            .state('access.activate', {
+                url: '/activate/:activation_code',
+                templateUrl: 'tpl/account/activate.html',
+                controller: 'ActivationController'
+            })            
             .state('access.forgotpwd', {
                 url: '/forgotpwd',
                 templateUrl: 'tpl/page_forgotpwd.html'
