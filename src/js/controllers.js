@@ -954,25 +954,40 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       });
     }
   }])
-.controller('ProjectNetworkCreateController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectNetworks',
-  function($scope,$stateParams,Auth,Project,ProjectNetworks){
+	.controller('NetworkCreateController', [	'$scope',
+												'$stateParams',
+												'Networks',
+												'AccountTypes',	function(	$scope,
+																			$stateParams,
+																			Networks,
+																			AccountTypes 	) {
 
-    Project.get({id:$stateParams.id})
-    .$promise.then(function(res) {
-      $scope.project = res.data;
-      console.log('-- project project');
-      console.log($scope.project);
-    });
+		$scope.request_error 	= false;
+		$scope.account_types 	= {};
+		$scope.network 			= {};
 
-    $scope.projectNetwork = new ProjectNetworks();
+		AccountTypes.get().$promise
+			.then(function(response) {
+				$scope.account_types 		= response.data;
+				$scope.network.subscription	= response.data[1].id;
+			}, function(response) {
 
-    $scope.addProjectNetwork=function() {
-      $scope.projectNetwork.$save(function() {
-        $state.go('projectNetwork');
-      });
-    }
+			});
 
-  }])
+		$scope.change_subscription = function(value) {
+			$scope.network.subscription = value;
+		}
+
+		$scope.submit = function() {
+			Network.store().$promise
+				.then(function() {
+
+				}, function() {
+					$scope.request_error = true;
+				});
+		}
+
+	}])
   .controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
     $scope.items = items;
     $scope.selected = {
@@ -1066,7 +1081,11 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 			$modalInstance.dismiss('cancel');
 		};
 	}])
-	.controller('AddRFIToNetworkModal', ['$scope', '$modalInstance', 'networks',  function($scope, $modalInstance, networks) {
+	.controller('AddRFIToNetworkModal', [	'$scope',
+											'$modalInstance',
+											'networks',  function(	$scope,
+																	$modalInstance,
+																	networks 	) {
 		$scope.networks = networks;
 		$scope.selectedUsers = [];
 		$scope.newRFI = {};
@@ -1158,7 +1177,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 			});
 		};
 	}])
-
 	// Form controller
 	.controller('FormDemoCtrl', ['$scope', function($scope) {
 		$scope.notBlackListed = function(value) {
@@ -1192,167 +1210,177 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
 	}])
 
-  // Flot Chart controller
-  .controller('HomepageController', [	'$scope',
-  										'UserHomepage',
-  										'UserProjects',
-  										'$http',
-  										'Auth', function(	$scope,
+	// Flot Chart controller
+	.controller('HomepageController', [	'$scope',
+											'UserHomepage',
+											'UserProjects',
+											'$http',
+											'Auth', function(	$scope,
 															UserHomepage,
 															UserProjects,
 															$http,
 															Auth	) {
-    var plot;
+		var plot;
 
-    $scope.newsfeed 		= [];
-    $scope.newsfeedSkip 	= 0;
+		$scope.newsfeed 		= [];
+		$scope.newsfeedSkip 	= 0;
 
-    $scope.upcoming_tasks 	= [];
-    $scope.current_tasks 	= [];
-    $scope.network_rfis 	= [];
+		$scope.upcoming_tasks 	= [];
+		$scope.current_tasks 	= [];
+		$scope.network_rfis 	= [];
 
-    $scope.homepage_action	= 'overview';
+		$scope.homepage_action	= 'overview';
 
-    $scope.user_data		= Auth.getCredential('user_data');
+		$scope.user_data		= Auth.getCredential('user_data');
 
-    $scope.init = function() {
+		$scope.init = function() {
 
-		UserProjects.query({id:$scope.user_data.id})
-			.$promise.then(function(data) {
-				$scope.user_projects	= data;
-			});
+			UserProjects.query({id:$scope.user_data.id})
+				.$promise.then(function(data) {
+					$scope.user_projects	= data;
+				});
 
-		UserHomepage.get({})
-			.$promise.then(function(res) {
-				$scope.current_tasks	= res.data.current_tasks;
-				$scope.upcoming_tasks	= res.data.upcoming_tasks;
-				$scope.network_rfis		= res.data.network_rfis;
-				console.log(res.data.seven_day);
-				$scope.seven_day		= res.data.seven_day;
+			UserHomepage.get({})
+				.$promise.then(function(res) {
+					$scope.current_tasks	= res.data.current_tasks;
+					$scope.upcoming_tasks	= res.data.upcoming_tasks;
+					$scope.network_rfis		= res.data.network_rfis;
+					console.log(res.data.seven_day);
+					$scope.seven_day		= res.data.seven_day;
 
-				$('#current_tasks_table').trigger('footable_redraw');
-				$('#upcoming_tasks_table').trigger('footable_redraw');
+					$('#current_tasks_table').trigger('footable_redraw');
+					$('#upcoming_tasks_table').trigger('footable_redraw');
 
-				$.plot(	'#plot',
-					[
-						{ label: "Actual", data: [ res.data.seven_day.progress_plot ], },
-							{ label: "Calculated", data: [ res.data.seven_day.projected_progress_plot ] }
-					],
-					{
-						colors: [
-							'#314554',
-							'{{ app.color.info }}'
+					$.plot(	'#plot',
+						[
+							{ label: "Actual", data: [ res.data.seven_day.progress_plot ], },
+								{ label: "Calculated", data: [ res.data.seven_day.projected_progress_plot ] }
 						],
-						series: {
-							shadowSize: 3
-						},
-						xaxis: {
-							mode:'time',
-							minTickSize: [1, 'day'],
-							timeformat: '%d-%m-%Y',
-							font: { color: '#507b9b' }
-						},
-						yaxis: {
-							font: { color: '#507b9b' },
-							max:100
-						},
-						grid: {
-							hoverable: true,
-							clickable: true,
-							borderWidth: 0,
-							color: '#1c2b36'
-						},
-						tooltip: true,
-						tooltipOpts: {
-							content: '%y% on %x',
-							defaultTheme: false,
-							shifts: {
-								x: 10,
-								y: -25
+						{
+							colors: [
+								'#314554',
+								'{{ app.color.info }}'
+							],
+							series: {
+								shadowSize: 3
+							},
+							xaxis: {
+								mode:'time',
+								minTickSize: [1, 'day'],
+								timeformat: '%d-%m-%Y',
+								font: { color: '#507b9b' }
+							},
+							yaxis: {
+								font: { color: '#507b9b' },
+								max:100
+							},
+							grid: {
+								hoverable: true,
+								clickable: true,
+								borderWidth: 0,
+								color: '#1c2b36'
+							},
+							tooltip: true,
+							tooltipOpts: {
+								content: '%y% on %x',
+								defaultTheme: false,
+								shifts: {
+									x: 10,
+									y: -25
+								}
 							}
-						}
-					});
+						});
 
+				});
+
+			$scope.getNewsfeed();
+
+		}
+
+		$scope.changeAction = function(value) {
+			$scope.homepage_action = value;
+			if (value == 'overview') {
+				$scope.refreshOverviewFlot();
+			}
+			if (value == 'current_tasks') {
+				$('#current_tasks_table').trigger('footable_redraw');
+			}
+			if (value == 'upcoming_tasks') {
+				$('#upcoming_tasks_table').trigger('footable_redraw');
+			}
+
+		}
+
+		$scope.getNewsfeed = function() {
+			$http.get('http://api.metinet.co/user/newsfeed/'+$scope.newsfeedSkip).then(function (resp) {
+				$.merge($scope.newsfeed, resp.data.data);
+				$scope.newsfeedSkip++;
+			});
+		}
+
+		$scope.refreshOverviewFlot = function() {
+			$.plot.draw();
+		}
+
+	}])
+  	.controller('NetworkViewController', [  '$scope',
+											'$stateParams', 
+											'Auth', 
+											'Networks', 
+											'NetworkProjects',	function(	$scope, 
+																			$stateParams, 
+																			Auth,
+																			Networks,
+																			NetworkProjects	) {
+
+		$scope.network = {};
+
+		$scope.init = function() {
+			Networks.get({id:$stateParams.id})
+				.$promise
+				.then(function(res) {
+					$scope.network = res.data;
+				});
+
+			NetworkProjects.query({id:$stateParams.id})
+				.$promise
+				.then(function(data) {
+					$scope.network.projects = data;
+				});
+		}
+
+  	}])
+	.controller('ProfileViewController', [  '$scope',
+											'$stateParams',
+											'Profile',
+											'UserConnections',
+											'UserProjects', function(   $scope,
+																		$stateParams,
+																		Profile,
+																		UserConnections,
+																		UserProjects ) {
+
+		$scope.profile = {};
+
+		Profile.query({id:$stateParams.id})
+			.$promise.then(function(data) {
+			  console.log(data);
+			  $scope.profile = data;
 			});
 
-		  $scope.getNewsfeed();
+		UserConnections.query({id:$stateParams.id})
+			.$promise.then(function(data) {
+			  console.log(data);
+			  $scope.profile.connections = data;
+			});
 
-    }
+		UserProjects.query({id:$stateParams.id})
+			.$promise.then(function(data) {
+			  console.log(data);
+			  $scope.profile.projects = data;
+			});
 
-    $scope.changeAction = function(value) {
-    	$scope.homepage_action = value;
-    	if (value == 'overview') {
-    		$scope.refreshOverviewFlot();
-    	}
-		if (value == 'current_tasks') {
-			$('#current_tasks_table').trigger('footable_redraw');
-		}
-		if (value == 'upcoming_tasks') {
-			$('#upcoming_tasks_table').trigger('footable_redraw');
-		}
-
-    }
-
-  	$scope.getNewsfeed = function() {
-  		$http.get('http://api.metinet.co/user/newsfeed/'+$scope.newsfeedSkip).then(function (resp) {
-  			$.merge($scope.newsfeed, resp.data.data);
-  			$scope.newsfeedSkip++;
-  		});
-  	}
-
-  	$scope.refreshOverviewFlot = function() {
-  		$.plot.draw();
-  	}
-
-  }])
-  .controller('NetworkViewController', ['$scope', '$stateParams', 'Auth', 'Networks', 'NetworkProjects', function($scope, $stateParams, Auth, Networks, NetworkProjects) {
-
-    $scope.network = {};
-
-    $scope.init = function() {
-      Networks.get({id:$stateParams.id})
-      .$promise.then(function(res) {
-        $scope.network = res.data;
-      });
-
-      NetworkProjects.query({id:$stateParams.id})
-      .$promise.then(function(data) {
-        $scope.network.projects = data;
-      });
-    }
-
-  }])
-  .controller('ProfileViewController', [  '$scope',
-                                          '$stateParams',
-                                          'Profile',
-                                          'UserConnections',
-                                          'UserProjects', function(   $scope,
-                                                                      $stateParams,
-                                                                      Profile,
-                                                                      UserConnections,
-                                                                      UserProjects ) {
-
-    $scope.profile = {};
-
-    Profile.query({id:$stateParams.id})
-    .$promise.then(function(data) {
-      console.log(data);
-      $scope.profile = data;
-    });
-
-    UserConnections.query({id:$stateParams.id})
-    .$promise.then(function(data) {
-      console.log(data);
-      $scope.profile.connections = data;
-    });
-
-    UserProjects.query({id:$stateParams.id})
-    .$promise.then(function(data) {
-      console.log(data);
-      $scope.profile.projects = data;
-    });
-
-  }])
+	}])
   // Flot Chart controller
   .controller('FlotChartDemoCtrl', ['$scope', function($scope) {
 

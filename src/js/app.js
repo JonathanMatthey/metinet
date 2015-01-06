@@ -80,11 +80,24 @@ var app = angular.module('app', [
                 controller:'ProfileViewController',                
                 templateUrl: 'tpl/page_profile.html'
             })
-            .state('app.page.company', {
-                url: '/company/:id',
-                controller:'NetworkViewController',
+            .state('app.page.create_network', {
+                url: '/network/create',
+                controller: 'NetworkCreateController',
+                templateUrl: 'tpl/networks/create.html',
+                resolve: {
+                    deps: ['uiLoad',
+                        function( uiLoad ){
+                            return uiLoad.load([
+                                'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places'
+                            ]);
+                        }]
+                }
+            })             
+            .state('app.page.network', {
+                url: '/network/:id',
+                controller: 'NetworkViewController',
                 templateUrl: 'tpl/page_company.html'
-            })
+            })           
             .state('app.page.settings', {
                 url: '/settings',
                 templateUrl: 'tpl/page_settings.html',
@@ -110,11 +123,6 @@ var app = angular.module('app', [
                 url: '/projects/:id/gantt',
                 templateUrl: 'tpl/page_gantt.html',
                 controller:'ProjectViewGanttController'
-            })
-            .state('app.page.network', {
-                url: '/projects/:id/network/create',
-                templateUrl: 'tpl/page_project_network_new.html',
-                controller:'ProjectNetworkCreateController'
             })
             .state('app.page.newproject',{
                 url:'/projects/new',

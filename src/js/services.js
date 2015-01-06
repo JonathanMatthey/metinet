@@ -2,6 +2,13 @@
 
 /* Services */
 angular.module('app.services',[])
+	.factory('AccountTypes', ['$resource', function($resource) {
+		return $resource('http://api.metinet.co/account-types', {}, {
+			query: {
+				method: 'GET'
+			}
+		});
+	}])
 	.factory('Project', ['$resource', function($resource) {
 	    return $resource('http://api.metinet.co/projects/:id',{
 	      id:'@_id'

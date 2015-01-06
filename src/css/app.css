@@ -1928,7 +1928,7 @@ fieldset[disabled] .btn-danger.active {
 }
 
 .btn-metinet {
-  color: #ffffff !important;
+  color: #2f3342 !important;
   background-color: #6CC3A0;
   border-color: #6CC3A0;
 }
@@ -1938,7 +1938,7 @@ fieldset[disabled] .btn-danger.active {
 .btn-metinet:active,
 .btn-metinet.active,
 .open .dropdown-toggle.btn-metinet {
-  color: #ffffff !important;
+  color: #6CC3A0 !important;
   background-color: #2f3342;
   border-color: #292d39;
 }

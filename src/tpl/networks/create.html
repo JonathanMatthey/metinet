@@ -1,0 +1,90 @@
+<div class="wrapper-md" ng-init="init()">
+	<div class="row">
+		<div class="col-sm-6 col-sm-offset-3">
+			<div class="alert alert-danger text-center" ng-show="request_error">
+				There was a problem with your request.  Please try again later.
+			</div>			
+			<form name="form" class="form-validation ng-pristine ng-invalid ng-invalid-required">
+				<div class="panel bg-black">
+					<div class="panel-heading">
+						<h4>Create New Network</h4>
+					</div>					
+					<div class="panel-body">
+						<div class="form-group pull-in clearfix">
+							<div class="col-sm-6">
+								<label>Company Name</label>
+								<input 	type="text"
+										class="form-control ng-pristine"
+										ng-model="network.name"
+										required="">
+							</div>
+							<div class="col-sm-6">
+								<label>Website</label>
+								<input 	type="text"
+										class="form-control ng-pristine"
+										ng-model="network.website"
+										required="">
+							</div>
+						</div>
+
+						<hr>
+
+						<div class="row no-gutter">
+
+							<div class="col-md-4 col-sm-6" ng-repeat="subscription in account_types">
+								<div class="panel b-a">
+									<div class="panel-heading wrapper-xs bg-primary no-border"></div>
+									<div class="wrapper text-center b-b b-light">
+										<h4 class="text-u-c m-b-none">{{ subscription.name }}</h4>
+										<h2 class="m-t-none">
+											<sup class="pos-rlt" style="top:-22px">£</sup>
+											<span class="text-2x text-lt">{{ subscription.cost / 100}}</span>
+											<span class="text-xs">/ {{ subscription.interval }}</span>
+										</h2>
+									</div>
+									<ul class="list-group text-center no-borders m-t-sm">
+										<li class="list-group-item">
+											<div ng-show="subscription.trial_period > 0">
+												<i class="icon-check text-success m-r-xs"></i>
+												Trial Period {{ subscription.trial_period }} Days
+											</div>
+											<div ng-hide="subscription.trial_period > 0">
+												<i class="icon-close text-danger m-r-xs"></i>
+												<span class="text-l-t">Trial Period {{ subscription.trial_period }} Days</span>
+											</div>
+										</li>
+										<li class="list-group-item">
+											<div ng-show="subscription.support">
+												<i class="icon-check text-success m-r-xs"></i>
+												Support Included
+											</div>
+											<div ng-hide="subscription.support">
+												<i class="icon-close text-danger m-r-xs"></i>
+												<span class="text-l-t">Support Included</span>
+											</div>
+										</li>
+									</ul>
+									<div class="panel-footer text-center">
+										<a 	ng-click="change_subscription(subscription.id)"
+											class="btn btn-metinet m account-{{ subscription.id }}"
+											ng-class="{ 'active': network.subscription == subscription.id }">
+											Select Subscription
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="panel-footer text-right lter">
+						<button type="submit" class="btn btn-metinet" ng-click="submit()">
+							Create Network
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{{ network.subscription }}
