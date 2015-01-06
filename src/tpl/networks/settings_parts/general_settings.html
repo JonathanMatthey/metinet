@@ -1,0 +1,38 @@
+<div class="panel">
+	<div class="panel-heading b-b">
+		<h4 class="m-n font-thin h4">General Settings</h4>
+	</div>
+	<div class="panel-body">
+		<form name="form" class="form-validation">
+			<div class="row">			
+				<div class="form-group col-sm-6">
+					<label>Network Name</label>
+					<input 	ng-model="network_data.name"
+							type="text"
+							class="form-control"
+							required>
+				</div>
+				<div class="form-group col-sm-6">
+					<label>Website</label>
+					<input 	ng-model="network_data.website"
+							type="url"
+							class="form-control"
+							placeholder="http://"
+							required>
+				</div>
+			</div>			
+		</form>
+	</div>
+	<div class="panel-footer b-t">
+		<div class="row">
+			<div class="col-md-12">			
+				<button type="submit"
+						class="btn btn-metinet pull-right account-submit-btn"
+						ng-click="saveSettings('account')"
+						ng-disabled="form.$invalid">
+						Save
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

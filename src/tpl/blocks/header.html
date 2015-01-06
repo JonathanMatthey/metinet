@@ -33,7 +33,7 @@
       </a>
     </li>
     <li ng-show="user_data.network">
-      <a href="#/app/page/company/{{ user_data.network.id }}">
+      <a href="#/app/page/network/{{ user_data.network.id }}">
         <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
         <span>{{ user_data.network.name }}</span>
       </a>
@@ -59,16 +59,16 @@
         </li>
         <li class="divider"></li>
         <li ng-show="user_data.network">
-          <a href="#/app/page/company/{{ user_data.network.id }}">My Network</a>
+          <a href="#/app/page/network/{{ user_data.network.id }}">My Network</a>
         </li>
         <li ng-show="user_data.network.pivot.role < 3">
-          <a ui-sref="app.page.settings">
+          <a href="#/app/page/network/settings">
             Network Settings
             <span class="pull-right"><i class="fa fa-edit"></i></span>
           </a>
         </li>
         <li>
-          <a href="#/page/network/create">
+          <a href="#/app/page/network/create">
             Create New Network
             <span class="pull-right"><i class="fa fa-pencil"></i></span>            
           </a>

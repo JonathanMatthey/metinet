@@ -19,9 +19,6 @@
   
 </head>
 <body ng-controller="AppCtrl">
-  <div class="alert" ng-show="flash.get().length">
-    {{ flash.get() }}
-  </div> 
   <div class="app" id="app" ng-class="{'app-header-fixed':app.settings.headerFixed, 'app-aside-fixed':app.settings.asideFixed, 'app-aside-dock':app.settings.asideDock, 'container':app.settings.container}" ui-view></div>
   <!-- jQuery -->
   <script src="js/jquery/jquery.min.js"></script>

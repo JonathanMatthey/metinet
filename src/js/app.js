@@ -4,101 +4,123 @@
 // https://bitbucket.org/stevchenks/fixing_metinet_api/src/7f82ee9db72b3c2160859c7dedd54c04a09d1474/app/routes.php?at=master
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('app', [
-    'ngAnimate',
-    'ngCookies',
-    'ngResource',
-    'ngStorage',
-    'ui.router',
-    'ui.bootstrap',
-    'easypiechart',
-    'ui.load',
-    'ui.jq',
-    'ui.validate',
-    'oc.lazyLoad',
-    'pascalprecht.translate',
-    'app.filters',
-    'app.services',
-    'app.directives',
-    'app.controllers',
-    'angularMoment',
-    'toaster',
-    'truncate',
-    'angular-lodash',
-    'ngMap'
-  ])
-.run(
-  [          '$rootScope', '$state', '$stateParams','$cookieStore','$http',
-    function ($rootScope,   $state,   $stateParams,$cookieStore,$http) {
-        $rootScope.$state                               = $state;
-        $rootScope.$stateParams                         = $stateParams;
-        $http.defaults.headers.common['Authorization']  = 'Basic ' + $cookieStore.get('authdata');
-    }
-  ]
-)
-.config(
-  [          '$stateProvider', '$urlRouterProvider', '$httpProvider', '$controllerProvider', '$compileProvider', '$filterProvider', '$provide',
-    function ($stateProvider,   $urlRouterProvider,  $httpProvider, $controllerProvider,   $compileProvider,   $filterProvider,   $provide) {
+var app = angular.module('app', [	'ngAnimate',
+									'ngCookies',
+									'ngResource',
+									'ngStorage',
+									'ui.router',
+									'ui.bootstrap',
+									'easypiechart',
+									'ui.load',
+									'ui.jq',
+									'ui.validate',
+									'oc.lazyLoad',
+									'pascalprecht.translate',
+									'app.filters',
+									'app.services',
+									'app.directives',
+									'app.controllers',
+									'angularMoment',
+									'toaster',
+									'truncate',
+									'angular-lodash',
+									'ngMap']).run([ '$rootScope',
+													'$state',
+													'$stateParams',
+													'$cookieStore',
+													'$http',	function(	$rootScope,
+																			$state,
+																			$stateParams,
+																			$cookieStore,
+																	$http 	) {
+		$rootScope.$state                               = $state;
+		$rootScope.$stateParams                         = $stateParams;
+		$http.defaults.headers.common['Authorization']  = 'Basic ' + $cookieStore.get('authdata');	
+	}])
+	.config([ 	'$stateProvider',
+				'$urlRouterProvider',
+				'$httpProvider',
+				'$controllerProvider',
+				'$compileProvider',
+				'$filterProvider',
+				'$provide',	function(	$stateProvider,
+										$urlRouterProvider,
+										$httpProvider,
+										$controllerProvider,
+										$compileProvider,
+										$filterProvider,
+										$provide 	) {
 
-        // lazy controller, directive and service
-        app.controller = $controllerProvider.register;
-        app.directive  = $compileProvider.directive;
-        app.filter     = $filterProvider.register;
-        app.factory    = $provide.factory;
-        app.service    = $provide.service;
-        app.constant   = $provide.constant;
-        app.value      = $provide.value;
+		// lazy controller, directive and service
+		app.controller = $controllerProvider.register;
+		app.directive  = $compileProvider.directive;
+		app.filter     = $filterProvider.register;
+		app.factory    = $provide.factory;
+		app.service    = $provide.service;
+		app.constant   = $provide.constant;
+		app.value      = $provide.value;
 
-        $urlRouterProvider
-            .otherwise('/app/home');
-        $stateProvider
-            .state('app', {
-                abstract: true,
-                url: '/app',
-                templateUrl: 'tpl/app.html'
-            })
-            .state('app.home', {
-                url: '/home',
-                controller:'HomepageController',
-                templateUrl: 'tpl/page_homepage.html',
-                resolve: {
-                    deps: ['uiLoad',
+		$urlRouterProvider
+			.otherwise('/app/home');
+		$stateProvider
+			.state('app', {
+				abstract: true,
+				url: '/app',
+				templateUrl: 'tpl/app.html'
+			})
+			.state('app.home', {
+				url: '/home',
+				controller:'HomepageController',
+				templateUrl: 'tpl/page_homepage.html',
+				resolve: {
+					deps: ['uiLoad',
 						function( uiLoad ){
 							return uiLoad.load([
 								'js/libs/moment.min.js'
 							]);
-                    }]
-                }                
-            })
-            // pages
-            .state('app.page', {
-                url: '/page',
-                template: '<div class="hbox hbox-auto-xs bg-light " ng-init="" ui-view></div>'
-            })
-            .state('app.page.profile', {
-                url: '/profile/:id',
-                controller:'ProfileViewController',                
-                templateUrl: 'tpl/page_profile.html'
-            })
-            .state('app.page.create_network', {
-                url: '/network/create',
-                controller: 'NetworkCreateController',
-                templateUrl: 'tpl/networks/create.html',
-                resolve: {
-                    deps: ['uiLoad',
-                        function( uiLoad ){
-                            return uiLoad.load([
-                                'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places'
-                            ]);
-                        }]
-                }
-            })             
-            .state('app.page.network', {
-                url: '/network/:id',
-                controller: 'NetworkViewController',
-                templateUrl: 'tpl/page_company.html'
-
-            })
+					}]
+				}
+			})
+			.state('app.page', {
+				url: '/page',
+				template: '<div class="hbox hbox-auto-xs bg-light " ng-init="" ui-view></div>'
+			})
+			.state('app.page.profile', {
+				url: '/profile/:id',
+				controller:'ProfileViewController',                
+				templateUrl: 'tpl/page_profile.html'
+			})
+			.state('app.page.create_network', {
+				url: '/network/create',
+				controller: 'NetworkCreateController',
+				templateUrl: 'tpl/networks/create.html',
+				resolve: {
+					deps: ['uiLoad',
+						function( uiLoad ){
+							return uiLoad.load([
+								'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places'
+							]);
+						}]
+				}
+			})
+			.state('app.page.network_settings', {
+				url: '/network/settings',
+				controller: 'NetworkSettingsController',
+				templateUrl: 'tpl/networks/settings.html',
+				resolve: {
+					deps: ['uiLoad',
+						function( uiLoad ){
+							return uiLoad.load([
+								'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places'
+							]);
+						}]
+				}
+			})
+			.state('app.page.network', {
+				url: '/network/:id',
+				controller: 'NetworkViewController',
+				templateUrl: 'tpl/page_company.html'
+			})
 			.state('app.page.settings', {
 				url: '/settings',
 				templateUrl: 'tpl/user_settings/main.html',
