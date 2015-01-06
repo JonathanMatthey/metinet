@@ -63,10 +63,10 @@ var app = angular.module('app', [
                 templateUrl: 'tpl/page_homepage.html',
                 resolve: {
                     deps: ['uiLoad',
-                      function( uiLoad ){
-                        return uiLoad.load([
-                            'js/libs/moment.min.js'
-                        ]);
+						function( uiLoad ){
+							return uiLoad.load([
+								'js/libs/moment.min.js'
+							]);
                     }]
                 }                
             })
@@ -97,16 +97,26 @@ var app = angular.module('app', [
                 url: '/network/:id',
                 controller: 'NetworkViewController',
                 templateUrl: 'tpl/page_company.html'
-            })           
-            .state('app.page.settings', {
-                url: '/settings',
-                templateUrl: 'tpl/page_settings.html',
-                controller:'ProjectSettingsController'
             })
-            .state('app.page.projects', {
-                url: '/projects',
-                templateUrl: 'tpl/page_projects.html',
-                controller:'ProjectListController',
+			.state('app.page.settings', {
+				url: '/settings',
+				templateUrl: 'tpl/user_settings/main.html',
+				controller:'UserSettingsController',
+				resolve: {
+					deps: ['uiLoad',
+						function(uiLoad) {
+							return uiLoad.load([
+								'js/jquery/sticky/jquery.sticky.js',
+								'js/jquery/chosen/chosen.jquery.min.js',
+								'js/jquery/chosen/chosen.css'
+							]);
+					}]
+				}
+			})
+			.state('app.page.projects', {
+				url: '/projects',
+				templateUrl: 'tpl/page_projects.html',
+				controller:'ProjectListController',
 				resolve: {
 					deps: ['uiLoad',
 						function( uiLoad ){
@@ -118,11 +128,16 @@ var app = angular.module('app', [
 							]);
 						}]
 				}
-            })
-            .state('app.page.gantt', {
-                url: '/projects/:id/gantt',
-                templateUrl: 'tpl/page_gantt.html',
-                controller:'ProjectViewGanttController'
+			})
+			.state('app.page.gantt', {
+				url: '/projects/:id/gantt',
+				templateUrl: 'tpl/page_gantt.html',
+				controller:'ProjectViewGanttController'
+			})
+            .state('app.page.network', {
+                url: '/projects/:id/network/create',
+                templateUrl: 'tpl/page_project_network_new.html',
+                controller:'ProjectNetworkCreateController'
             })
             .state('app.page.newproject',{
                 url:'/projects/new',
@@ -186,13 +201,20 @@ var app = angular.module('app', [
                 template: '<div ui-view class="fade-in-right-big smooth"></div>'
             })
             .state('access.signin', {
-                url: '/signin',
-                templateUrl: 'tpl/page_signin.html'
+                url: '/sign-in',
+                templateUrl: 'tpl/page_signin.html',
+                controller: 'SignInController'
             })
             .state('access.signup', {
-                url: '/signup',
-                templateUrl: 'tpl/page_signup.html'
+                url: '/sign-up',
+                templateUrl: 'tpl/page_signup.html',
+                controller: 'SignUpController'
             })
+            .state('access.activate', {
+                url: '/activate/:activation_code',
+                templateUrl: 'tpl/account/activate.html',
+                controller: 'ActivationController'
+            })            
             .state('access.forgotpwd', {
                 url: '/forgotpwd',
                 templateUrl: 'tpl/page_forgotpwd.html'
@@ -254,19 +276,19 @@ var app = angular.module('app', [
 // translate config
 .config(['$translateProvider', function($translateProvider){
 
-  // Register a loader for the static files
-  // So, the module will search missing translation tables under the specified urls.
-  // Those urls are [prefix][langKey][suffix].
-  $translateProvider.useStaticFilesLoader({
-    prefix: 'l10n/',
-    suffix: '.js'
-  });
+	// Register a loader for the static files
+	// So, the module will search missing translation tables under the specified urls.
+	// Those urls are [prefix][langKey][suffix].
+	$translateProvider.useStaticFilesLoader({
+		prefix: 'l10n/',
+		suffix: '.js'
+	});
 
-  // Tell the module what language to use by default
-  $translateProvider.preferredLanguage('en');
+	// Tell the module what language to use by default
+	$translateProvider.preferredLanguage('en');
 
-  // Tell the module to store the language in the local storage
-  $translateProvider.useLocalStorage();
+	// Tell the module to store the language in the local storage
+	$translateProvider.useLocalStorage();
 
 }])
 

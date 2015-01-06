@@ -1,0 +1,63 @@
+<form name="step1" class="form-validation">
+
+	<div class="row">
+		<div class="col-md-6">
+			<label>First Name</label>
+			<input 	type="text"
+					class="form-control"
+					ng-model="welcome.firstname"
+					required
+					ng-change="step1.firstname.$valid ? (steps.percent=30) : (steps.percent=20)">
+		</div>
+		<div class="col-md-6">
+			<label>Last Name</label>			
+			<input 	type="text"
+					class="form-control"
+					ng-model="welcome.lastname"
+					required
+					ng-change="step1.lastname.$valid ? (steps.percent=30) : (steps.percent=20)">
+		</div>		
+	</div>
+	
+	<br>
+
+	<div class="row">
+		<div class="col-md-6">
+			<label>Your Headline</label>			
+			<input 	type="text"
+					class="form-control"
+					ng-maxlength="50"
+					ng-model="welcome.headline"
+					ng-change="step1.headline.$valid ? (steps.percent=30) : (steps.percent=20)">
+			<div class="help-block text-sm"><i class="fa fa-info-circle"></i>
+				&nbsp;Quickly describe what you do.
+			</div>
+		</div>		
+		<div class="col-md-6">
+			<label>Your Current Location</label>
+			<input 	type="text"
+					class="form-control"
+					ng-model="welcome.current_location"
+					ng-change="step1.current_location.$valid ? (steps.percent=30) : (steps.percent=20)">
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<label>Your Bio</label>			
+			<textarea 	type="text"
+						class="form-control"
+						ng-model="welcome.bio"
+						ng-change="step1.bio.$valid ? (steps.percent=30) : (steps.percent=20)">
+			</textarea>
+			<div class="help-block text-sm"><i class="fa fa-info-circle"></i>
+				&nbsp;Tell people about yourself.
+			</div>
+		</div>
+	</div>
+	<div class="m-t b-t padder-t">
+		<button type="submit" ng-disabled="step1.$invalid" class="btn btn-default" ng-click="steps.step2=true">
+			Next
+		</button>
+	</div>
+</form>

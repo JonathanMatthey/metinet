@@ -2,7 +2,7 @@
 	<!-- main -->
 	<div class="col" id="main_body">
 		<!-- main header -->
-		<div class="bg-light lter b-b wrapper-md">
+		<div class="bg-light lter b-b wrapper-md" ng-show="newsfeed.length > 0">
 			<div class="row">
 				<div class="col-sm-6 col-xs-12">
 					<h1 class="m-n font-thin h3 text-black">Welcome {{ user_data.firstname }}</h1>
@@ -12,7 +12,38 @@
 		<!-- / main header -->
 
 		<!-- main body -->
-		<div class="bg-black lter b-b">
+		<div class="row" ng-hide="newsfeed.length > 0">
+			<div class="wrapper-lg">
+				<div class="row">						
+					<div class="col-md-offset-3 col-md-6">
+						<div class="panel bg-black">
+							<div class="panel-heading">
+								<h3 class="m-n font-thin h3 text-metinet">Welcome {{ user_data.firstname }}!</h3>
+							</div>
+							<div class="panel-body wrapper-md">
+								<p>Welcome to Metinet!</p>								
+								<p>We think this software will make your life a LOT easier, and we'll endeavour to increasingly improve the service as we develop.  So we hope you'll give us feedback to allow us to help you get more out of this software.</p>
+								<p>However, there are a few things we need to get done first, so let's get started!</p>
+
+								<br>
+
+								<h4 class="h4 text-black m-b-sm">First Step: Join A Network</h4>
+								<p>You need to join a company network before we can get you started with any project manangement.</p>
+							</div>
+							<div class="panel-body">								
+								<div class="btn-group btn-group-justified">
+									<a class="btn btn-default">Request To Join Network</a>
+									<a class="btn btn-default">Create A New Network</a>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="bg-black lter b-b" ng-show="newsfeed.length > 0">
 
 			<!-- info column -->
 			<div class="col-md-3 b-r">
@@ -64,7 +95,8 @@
 
 			<!-- main column -->
 			<div class="col-md-9">
-	    		<div class="row">
+
+				<div class="row">
 
 					<ng-include	src="'tpl/homepage/7_day_stats_overview.html'" 
 								ng-show="homepage_action == 'overview'"></ng-include>
@@ -90,10 +122,23 @@
 	</div>
   <!-- / main -->
   <!-- right col -->
-  <div class="col w-md bg-white-only b-l bg-auto no-border-xs" id="sidebar">
+  <div class="col w-md bg-black b-l bg-auto no-border-xs" id="sidebar">
   	<div class="sidebar_inner">
 
-		<ul class="timeline">
+		<div class="wrapper">
+			<div class="font-thin h4"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;Newsfeed</div>
+		</div>
+
+		<ul class="timeline" ng-hide="newsfeed.length > 0">
+			<li class="wrapper p-t-0">
+				<div class="bg-black">
+					<p>You have no news!</p>
+					<p>You must do something to create some news...</p>					
+				</div>
+			</li>
+		</ul>
+
+		<ul class="timeline" ng-show="newsfeed.length > 0">
 			<li class="tl-item" ng-repeat="newsItem in newsfeed">
 				<div class="tl-wrap b-{{newsItem.colour}} m-l-0">
 					<div class="tl-content panel padder b-t b-b w-auto-xs b-radius-0 b-r-0">

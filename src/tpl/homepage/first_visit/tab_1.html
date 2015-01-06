@@ -1,0 +1,12 @@
+<h4>Welcome to {{ app.metinet.brand_name }}!</h4>
+<form name="step1" class="form-validation">
+	
+	<p>We think this software will make your life a LOT easier, and we'll endeavour to increasingly make your life easier as we develop.  So we hpoe you'll give us feedback to allow us to help you get more out of this software.</p>
+	<p>However, there are a few things we need to get done first, so let's get started!</p>
+
+	<div class="m-t b-t padder-t">
+		<button type="submit" ng-disabled="step1.$invalid" class="btn btn-default" ng-click="steps.step2=true">
+			Next
+		</button>
+	</div>
+</form>
