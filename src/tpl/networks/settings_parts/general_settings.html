@@ -20,15 +20,41 @@
 							placeholder="http://"
 							required>
 				</div>
-			</div>			
+			</div>
+
+			<div class="row">			
+				<div class="form-group col-sm-6">
+					<label>Default Office</label>
+					<select ng-model="network_data.default_loc_id" class="form-control">
+						<option value="{{ location.id }}"
+								ng-repeat="location in network_data.locations"
+								ng-selected="location.id == network_data.default_loc_id">
+							{{ location.name }}
+						</option>
+					</select>
+				</div>
+
+				<div class="form-group col-sm-6">
+					<label>Company Representative</label>
+					<select ng-model="network_data.rep_id" class="form-control">
+						<option value="{{ user.id }}"
+								ng-repeat="user in network_data.users"
+								ng-selected="user.id == network_data.rep_id">
+							{{ user.fullname }}
+						</option>
+					</select>
+				</div>
+
+			</div>
+
 		</form>
 	</div>
 	<div class="panel-footer b-t">
 		<div class="row">
 			<div class="col-md-12">			
 				<button type="submit"
-						class="btn btn-metinet pull-right account-submit-btn"
-						ng-click="saveSettings('account')"
+						class="btn btn-metinet pull-right submit-btn"
+						ng-click="updateNetwork('account')"
 						ng-disabled="form.$invalid">
 						Save
 				</button>

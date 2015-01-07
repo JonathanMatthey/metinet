@@ -524,10 +524,10 @@ angular.module('app.services',[])
 	    }
 
 	    return {
-	        getCredential: function(credentialField){
-	            return $cookieStore.get(credentialField);
-	        },
-	        setCredentials: function(username, password, user_data) {
+			getCredential: function(credentialField){
+				return $cookieStore.get(credentialField);
+			},
+			setCredentials: function(username, password, user_data) {
 	            var encoded = Base64.encode(username + ':' + password);
 				$http.defaults.headers.common.Authorization = 'Basic ' + encoded;
 				$cookieStore.put('authdata', encoded);
@@ -541,15 +541,14 @@ angular.module('app.services',[])
 					$cookieStore.put('user_is_network_admin', user_is_network_admin);
 					$cookieStore.put('user_is_network_super_admin', user_is_network_super_admin);				
 				}
-	        },
-	        resetUserData: function(user_data) {
+			},
+			resetUserData: function(user_data) {
 				$cookieStore.remove('user_data');
 				$cookieStore.remove('user_has_network');
 				$cookieStore.remove('user_is_network_admin');
 				$cookieStore.remove('user_is_network_super_admin');
 
-	        	console.log(user_data);
-	        	$cookieStore.put('user_data', user_data);
+				$cookieStore.put('user_data', user_data);
 
 				var user_has_network 				= (user_data.network != null) ? true : false;
 				$cookieStore.put('user_has_network', user_has_network);					
@@ -558,13 +557,13 @@ angular.module('app.services',[])
 					var user_is_network_super_admin = (user_data.network.pivot.role == 1) ? true : false;
 					$cookieStore.put('user_is_network_admin', user_is_network_admin);
 					$cookieStore.put('user_is_network_super_admin', user_is_network_super_admin);				
-				}	        	
-	        },
-	        clearCredentials: function() {
-	            document.execCommand("ClearAuthenticationCache");
-	            $cookieStore.remove('authdata');
-	            $http.defaults.headers.common.Authorization = 'Basic ';
-	        }
+				}
+			},
+			clearCredentials: function() {
+				document.execCommand("ClearAuthenticationCache");
+				$cookieStore.remove('authdata');
+				$http.defaults.headers.common.Authorization = 'Basic ';
+			}
 	    };
 
 	}])

@@ -1234,6 +1234,26 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 				});
 		}
 
+		$scope.updateNetwork = function() {
+			$scope.request_error = null;			
+			$('.submit-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving...');
+			$('.submit-btn').removeClass('btn-success btn-danger btn-info btn-metinet');
+			$('.submit-btn').addClass('btn-info');
+			Networks.update({id:current_user_data.network.id}, $scope.network_data)
+				.$promise
+				.then(function(response) {
+					$('.submit-btn').html('<i class="fa fa-fw fa-check"></i>&nbsp;&nbsp;Saved');
+					$('.submit-btn').removeClass('btn-success btn-danger btn-info btn-metinet');
+					$('.submit-btn').addClass('btn-success');
+					Auth.resetUserData(response.user_data);
+				}, function(response) {
+					$('.submit-btn').html('<i class="fa fa-fw fa-times"></i>&nbsp;&nbsp;Failed');
+					$('.submit-btn').removeClass('btn-success btn-danger btn-info btn-metinet');
+					$('.submit-btn').addClass('btn-danger');
+					$scope.request_error = response.data.msg.text;
+				});			
+		}
+
 		$scope.deleteNetwork = function() {
 			$scope.request_error = null;			
 			$('.delete-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving...');
