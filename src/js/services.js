@@ -2,19 +2,17 @@
 
 /* Services */
 angular.module('app.services',[])
+	.factory('Countries', ['$resource', function($resource) {
+		return $resource('http://api.meti.net/countries', {}, {});
+	}])
+	.factory('Currencies', ['$resource', function($resource) {
+		return $resource('http://api.meti.net/currencies', {}, {});
+	}])	
 	.factory('AccountTypes', ['$resource', function($resource) {
-		return $resource('http://api.meti.net/account-types', {}, {
-			query: {
-				method: 'GET'
-			}
-		});
+		return $resource('http://api.meti.net/account-types', {}, {});
 	}])
 	.factory('Roles', ['$resource', function($resource) {
-		return $resource('http://api.meti.net/roles', {}, {
-			query: {
-				method: 'GET'
-			}
-		});
+		return $resource('http://api.meti.net/roles', {}, {});
 	}])	
 	.factory('Project', ['$resource', function($resource) {
 	    return $resource('http://api.meti.net/projects/:id',{
@@ -99,7 +97,6 @@ angular.module('app.services',[])
 	            method: 'GET',
 	            transformResponse: function (res) {
 	                var res = JSON.parse(res);
-	                console.log(res.data);
 	                return res.data;
 	            },
 	            isArray: true
