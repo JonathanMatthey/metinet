@@ -1144,12 +1144,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		$scope.settings_action				= 'general';
 		var template_directory				= 'tpl/networks/settings_parts/';		
 
-		$scope.items = [
-			{ id: 1, name: 'foo' },
-			{ id: 2, name: 'bar' },
-			{ id: 3, name: 'blah' }
-		];
-
 		$scope.settings_menu	= [
 			{
 				action: 'general',
@@ -1235,8 +1229,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 				});			
 		}
 
-		$scope.confirmUser = function(user_id) {
-			console.log('confirming');
+		$scope.confirmUser = function(user_index) {
+			var user_id = $scope.network_data.users[user_index].id;			
 			$('.btn-pending.user-'+user_id).attr('disabled','disabled');
 			$('.btn-pending.user-'+user_id).html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Confirming...');
 			$('.btn-pending.user-'+user_id).removeClass('btn-info btn-default btn-danger btn-success');
@@ -1244,6 +1238,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 			NetworkUsers.confirm({network_id:current_user_data.network.id, user_id:user_id})
 				.$promise
 				.then(function(response) {
+					console.log(response);
+					$scope.network_data.users[user_index] = response.data;					
 					$('.btn-pending.user-'+user_id).html('<i class="fa fa-fw fa-check"></i>&nbsp;&nbsp;Confirmed');
 					$('.btn-pending.user-'+user_id).removeClass('btn-info btn-default btn-danger btn-success');
 					$('.btn-pending.user-'+user_id).addClass('btn-success');

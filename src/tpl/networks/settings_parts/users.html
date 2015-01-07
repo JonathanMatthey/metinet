@@ -36,18 +36,24 @@
             <i class="fa fa-fw fa-check"></i>&nbsp;&nbsp;Confirmed
           </a>
           <a  class="btn btn-xs btn-default btn-pending user-{{ user.id }}"
-              ng-click="confirmUser(user.id)"
+              ng-click="confirmUser($index)"
               ng-hide="user.network.pivot.network_confirm">
             <i class="fa fa-fw fa-ellipsis-h"></i>&nbsp;&nbsp;Pending
           </a>          
 				</td>
 				<td class="text-right">
 					<div class="btn-group btn-group-xs">
-						<a href="#/app/page/profile/{{ user.id }}" class="btn btn-metinet"><i class="fa fa-eye"></i></a>
-						<a ng-click="openEditUserModal($index)" class="btn btn-info btn-update user-{{ user.id }}">
+						<a  href="#/app/page/profile/{{ user.id }}"
+                class="btn btn-metinet">
+              <i class="fa fa-eye"></i>
+            </a>
+						<a  ng-click="openEditUserModal($index)"
+                class="btn btn-info btn-update user-{{ user.id }}"
+                ng-disabled="!user.network.pivot.network_confirm">
               <i class="fa fa-edit"></i>
             </a>
-						<a ng-click="deleteUser($index)" class="btn btn-danger btn-delete user-{{ user.id }}">
+						<a  ng-click="deleteUser($index)"
+                class="btn btn-danger btn-delete user-{{ user.id }}">
               <i class="fa fa-trash-o"></i>
             </a>
 					</div>
