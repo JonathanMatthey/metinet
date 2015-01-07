@@ -1231,6 +1231,14 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 				});			
 		}
 
+		$scope.editLocation = function(location_index) {
+			console.log(location_index);
+		}
+
+		$scope.deleteLocation = function(location_index) {
+			console.log(location_index);
+		}
+
 		$scope.confirmUser = function(user_index) {
 			var user_id = $scope.network_data.users[user_index].id;			
 			$('.btn-pending.user-'+user_id).attr('disabled','disabled');

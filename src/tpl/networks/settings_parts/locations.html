@@ -30,9 +30,12 @@
 				<td>{{ location.city }}</td>
 				<td class="text-right">
 					<div class="btn-group btn-group-xs">
-						<a class="btn btn-metinet"><i class="fa fa-eye"></i></a>
-						<a class="btn btn-info"><i class="fa fa-edit"></i></a>
-						<a class="btn btn-danger"><i class="fa fa-times"></i></a>
+						<a class="btn btn-info" ng-click="editLocation($index)">
+              <i class="fa fa-edit"></i>
+            </a>
+						<a class="btn btn-danger" ng-click="deleteLocation($index)">
+              <i class="fa fa-times"></i>
+            </a>
 					</div>
 				</td>
 			</tr>
