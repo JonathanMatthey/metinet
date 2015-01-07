@@ -3,19 +3,19 @@
 /* Services */
 angular.module('app.services',[])
 	.factory('Countries', ['$resource', function($resource) {
-		return $resource('http://api.meti.net/countries', {}, {});
+		return $resource('http://api.metinet.co/countries', {}, {});
 	}])
 	.factory('Currencies', ['$resource', function($resource) {
-		return $resource('http://api.meti.net/currencies', {}, {});
+		return $resource('http://api.metinet.co/currencies', {}, {});
 	}])	
 	.factory('AccountTypes', ['$resource', function($resource) {
-		return $resource('http://api.meti.net/account-types', {}, {});
+		return $resource('http://api.metinet.co/account-types', {}, {});
 	}])
 	.factory('Roles', ['$resource', function($resource) {
-		return $resource('http://api.meti.net/roles', {}, {});
+		return $resource('http://api.metinet.co/roles', {}, {});
 	}])	
 	.factory('Project', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/projects/:id',{
+	    return $resource('http://api.metinet.co/projects/:id',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -35,7 +35,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectProgressPlot', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/projects/:id/progress-plot',{
+	    return $resource('http://api.metinet.co/projects/:id/progress-plot',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -53,7 +53,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectUsers', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/projects/:id/users/:userId',{
+	    return $resource('http://api.metinet.co/projects/:id/users/:userId',{
 	      id:'@_id',
 	      userId:'@userId'
 	    },{
@@ -72,7 +72,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectNetworks', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/projects/:id/networks',{
+	    return $resource('http://api.metinet.co/projects/:id/networks',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -90,7 +90,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('Conversations', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/conversations/:id',{
+	    return $resource('http://api.metinet.co/conversations/:id',{
 	      id:'@id'
 	    },{
 	        query: {
@@ -107,7 +107,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('Networks', ['$resource', function($resource) {
-		return $resource('http://api.meti.net/networks/:id',{
+		return $resource('http://api.metinet.co/networks/:id',{
 			id:'@_id'
 		}, {
 			query: {
@@ -125,7 +125,7 @@ angular.module('app.services',[])
 		});
 	}])
 	.factory('NetworkUsers', ['$resource', function($resource) {
-		return $resource('http://api.meti.net/networks/:network_id/users/:user_id',{
+		return $resource('http://api.metinet.co/networks/:network_id/users/:user_id',{
 			network_id:'@network_id',
 			user_id:'@user_id'
 		}, {
@@ -144,7 +144,7 @@ angular.module('app.services',[])
 		});
 	}])
 	.factory('NetworkLocations', ['$resource', function($resource) {
-		return $resource('http://api.meti.net/networks/:network_id/locations/:loc_id',{
+		return $resource('http://api.metinet.co/networks/:network_id/locations/:loc_id',{
 			network_id:'@network_id',
 			loc_id:'@loc_id'
 		}, {
@@ -157,7 +157,7 @@ angular.module('app.services',[])
 		});
 	}])	
 	.factory('User', ['$resource', function($resource) {
-		return $resource('http://api.meti.net/user/:userId', {
+		return $resource('http://api.metinet.co/user/:userId', {
 			userId:'@user_id'
 		}, {
 			get: {
@@ -172,14 +172,14 @@ angular.module('app.services',[])
 		});
 	}])
 	.factory('Activate', ['$resource', function($resource) {
-		return $resource('http://api.meti.net/activate/:activation_code', {activation_code:'@code'}, {
+		return $resource('http://api.metinet.co/activate/:activation_code', {activation_code:'@code'}, {
 			execute: {
 				method: 'POST'				
 			}
 		});
 	}])		
 	.factory('NetworkProjects', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/networks/:id/projects',{
+	    return $resource('http://api.metinet.co/networks/:id/projects',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -193,7 +193,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectGantt', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/projects/:id/gantt',{
+	    return $resource('http://api.metinet.co/projects/:id/gantt',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -211,7 +211,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectRFIs', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/projects/:id/rfis',{
+	    return $resource('http://api.metinet.co/projects/:id/rfis',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -228,7 +228,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectLongLeads', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/projects/:id/long-leads',{
+	    return $resource('http://api.metinet.co/projects/:id/long-leads',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -245,7 +245,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectNodes', ['$resource', function($resource) {
-		return $resource('http://api.meti.net/projects/:id/nodes',{
+		return $resource('http://api.metinet.co/projects/:id/nodes',{
 			id:'@_id'
 		},
 		{
@@ -255,7 +255,7 @@ angular.module('app.services',[])
 		});
 	}])	
 	.factory('LongLeads', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/long-leads/:id',{
+	    return $resource('http://api.metinet.co/long-leads/:id',{
 	      id:'@id'
 	    },{
 	        query: {
@@ -272,7 +272,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('Permits', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/permits/:id',{
+	    return $resource('http://api.metinet.co/permits/:id',{
 	      id:'@id'
 	    },{
 	        query: {
@@ -289,7 +289,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectAudit', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/projects/:id/audit',{
+	    return $resource('http://api.metinet.co/projects/:id/audit',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -306,7 +306,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectPermits', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/projects/:id/permits',{
+	    return $resource('http://api.metinet.co/projects/:id/permits',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -324,7 +324,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('ProjectLeaves', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/projects/:id/leaves',{
+	    return $resource('http://api.metinet.co/projects/:id/leaves',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -342,7 +342,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('NodePermits', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/nodes/:id/permits',{
+	    return $resource('http://api.metinet.co/nodes/:id/permits',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -360,7 +360,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('NodeAudit', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/nodes/:id/audit',{
+	    return $resource('http://api.metinet.co/nodes/:id/audit',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -378,7 +378,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('NodeLongLeads', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/nodes/:id/long-leads',{
+	    return $resource('http://api.metinet.co/nodes/:id/long-leads',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -396,7 +396,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('NodeDependencies', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/nodes/:node_id/dependencies/:id',{
+	    return $resource('http://api.metinet.co/nodes/:node_id/dependencies/:id',{
 	      node_id:'@node_id',
 	      id:'@id'
 	    },{
@@ -414,7 +414,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('NodeUsers', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/nodes/:id/users',{
+	    return $resource('http://api.metinet.co/nodes/:id/users',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -432,7 +432,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('Node', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/nodes/:id',{
+	    return $resource('http://api.metinet.co/nodes/:id',{
 	      id:'@id'
 	    },{
 	        query: {
@@ -450,7 +450,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('UserHomepage', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/user/homepage',{
+	    return $resource('http://api.metinet.co/user/homepage',{
 	      id:'@_id'
 	    },{
 	        query: {
@@ -468,7 +468,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('UserConnections', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/user/:id/connections',{
+	    return $resource('http://api.metinet.co/user/:id/connections',{
 	      id:'@id'
 	    },{
 	        query: {
@@ -482,7 +482,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('UserProjects', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/user/:id/projects',{
+	    return $resource('http://api.metinet.co/user/:id/projects',{
 	      id:'@id'
 	    },{
 	        query: {
@@ -496,7 +496,7 @@ angular.module('app.services',[])
 	    });
 	}])
 	.factory('Profile', ['$resource', function($resource) {
-	    return $resource('http://api.meti.net/profiles/:id',{
+	    return $resource('http://api.metinet.co/profiles/:id',{
 	      id:'@id'
 	    },{
 	        query: {
