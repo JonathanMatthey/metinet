@@ -104,6 +104,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 											'Auth',
 											'User',
 											'Networks',
+											'Roles',
 											'$http',
 											'toaster', function(	$scope,
 																	$state,
@@ -111,8 +112,10 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 																	Auth,
 																	User,
 																	Networks,
+																	Roles,
 																	$http,
 																	toaster 	) {
+
 		var current_user_data 			= Auth.getCredential("user_data");
 		$scope.password_data			= {};
 		$scope.settings_action			= 'account';
@@ -165,23 +168,40 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 				$scope.user_data = response.data;
 				if (response.data.network) {
 					var status = (response.data.network.pivot.network_confirm) ? 'Confirmed' : 'Pending';
-					$scope.network_request_status = status;
+					$scope.network_request_status = {
+						colour: (response.data.network.pivot.network_confirm) ? 'success' : 'info',
+						text: (response.data.network.pivot.network_confirm) ? 'Confirmed' : 'Pending'
+					}
 				} else {
-					$scope.network_request_status = 'Not Part of a Network.'
+					$scope.network_request_status = {
+						colour: 'warning',
+						text: 'Not Part of A Network'
+					}
 				}
 				$scope.network_request_status
 			}, function(response) {
 
 			});
 
-		Networks.query()
+		Networks.get()
 			.$promise
 			.then(function(response) {
 				$scope.networks = response.data;
-				console.log($scope.networks);
 			}, function(response) {
 
 			});
+
+		Roles.get()
+			.$promise
+			.then(function(response) {
+				$scope.roles = response.data;
+			}, function(response) {
+
+			});
+
+		$scope.changeNetworkRequest = function() {
+			alert($scope.user_data.network_id);
+		}
 
 		$scope.saveSettings = function(action_value) {
 			$scope.request_error = null;
@@ -1978,14 +1998,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 			$scope.sign_up = sign_up;
 		});
 
-		$scope.user_data = {
-			email: 'edward.stephenson@me.com',
-			password: 'teej0395',
-			password_confirm: 'teej0395',
-			firstname: 'Ed',
-			lastname: 'Stephenson',
-			terms: true
-		};
+		$scope.user_data = {};
 
 		// Reset Server Error
 		$scope.authError 		= null;
