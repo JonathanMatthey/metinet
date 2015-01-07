@@ -1928,7 +1928,7 @@ fieldset[disabled] .btn-danger.active {
 }
 
 .btn-metinet {
-  color: #ffffff !important;
+  color: #2f3342 !important;
   background-color: #6CC3A0;
   border-color: #6CC3A0;
 }
@@ -1938,7 +1938,7 @@ fieldset[disabled] .btn-danger.active {
 .btn-metinet:active,
 .btn-metinet.active,
 .open .dropdown-toggle.btn-metinet {
-  color: #ffffff !important;
+  color: #6CC3A0 !important;
   background-color: #2f3342;
   border-color: #292d39;
 }
@@ -2884,7 +2884,7 @@ fieldset[disabled] .i-checks input + i:before {
 }
 
 .bg-metinet a {
-  color: #bbc0cf;
+  color: #363f44;
 }
 
 .bg-metinet a:hover {
@@ -4073,6 +4073,11 @@ a.text-#000000:hover {
   padding-left: 15px;
 }
 
+.padder-sm {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
 .padder-v {
   padding-top: 15px;
   padding-bottom: 15px;
@@ -4093,6 +4098,11 @@ a.text-#000000:hover {
 
 .p-t-0 {
   padding-top: 0 !important;
+}
+
+.padder-v-0 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;  
 }
 
 .padder-top-10-n {

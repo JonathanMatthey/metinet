@@ -1,0 +1,49 @@
+<div class="panel">
+	<div class="panel-heading b-b">
+		<div class="row">
+			<div class="col-md-6">
+				<h4 class="m-n font-thin h4">Locations</h4>
+			</div>
+			<div class="col-md-6 text-right">
+				Search: <input id="location_search" type="text" class="form-control input-sm w-sm inline m-r"/>
+			</div>
+		</div>
+	</div>
+    <div>
+      <table class="table m-b-none" ui-jq="footable" data-filter="#location_search" data-page-size="10">
+        <thead>
+          <tr>
+              <th data-toggle="true">
+                  Office Name
+              </th>
+              <th>
+                  Location
+              </th>
+              <td class="text-right">
+                  Actions
+              </td>
+          </tr>
+        </thead>
+        <tbody>
+			<tr ng-repeat="location in network_data.locations">
+				<td>{{ location.name }}</td>
+				<td>{{ location.city }}</td>
+				<td class="text-right">
+					<div class="btn-group btn-group-xs">
+						<a class="btn btn-metinet"><i class="fa fa-eye"></i></a>
+						<a class="btn btn-info"><i class="fa fa-edit"></i></a>
+						<a class="btn btn-danger"><i class="fa fa-times"></i></a>
+					</div>
+				</td>
+			</tr>
+        </tbody>
+        <tfoot class="hide-if-no-paging">
+          <tr>
+              <td colspan="5" class="text-center">
+                  <ul class="pagination"></ul>
+              </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+</div>

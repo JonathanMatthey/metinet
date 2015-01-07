@@ -2,6 +2,20 @@
 
 /* Services */
 angular.module('app.services',[])
+	.factory('AccountTypes', ['$resource', function($resource) {
+		return $resource('http://api.metinet.co/account-types', {}, {
+			query: {
+				method: 'GET'
+			}
+		});
+	}])
+	.factory('Roles', ['$resource', function($resource) {
+		return $resource('http://api.metinet.co/roles', {}, {
+			query: {
+				method: 'GET'
+			}
+		});
+	}])	
 	.factory('Project', ['$resource', function($resource) {
 	    return $resource('http://api.metinet.co/projects/:id',{
 	      id:'@_id'
@@ -13,6 +27,9 @@ angular.module('app.services',[])
 	                return res.data;
 	            },
 	            isArray: true
+	        },
+	        store: {
+	            method: 'POST'
 	        },
 	        update: {
 	            method: 'PUT'
@@ -99,9 +116,34 @@ angular.module('app.services',[])
 			query: {
 				method: 'GET'
 			},
+			store: {
+				method: 'POST'
+			},
 			update: {
 				method: 'PUT'
+			},
+			delete: {
+				method: 'DELETE'
 			}
+		});
+	}])
+	.factory('NetworkUsers', ['$resource', function($resource) {
+		return $resource('http://api.metinet.co/networks/:network_id/users/:user_id',{
+			network_id:'@network_id',
+			user_id:'@user_id'
+		}, {
+			confirm: {
+				method: 'POST',
+				params: {
+					action: 'confirm'
+				}
+			},
+			update: {
+				method: 'PUT'
+			},
+			delete: {
+				method: 'DELETE'
+			}			
 		});
 	}])
 	.factory('User', ['$resource', function($resource) {
@@ -456,7 +498,14 @@ angular.module('app.services',[])
 	        }
 	    });
 	}])
-	.factory('Auth', ['Base64', '$cookieStore', '$http', '$state', function (Base64, $cookieStore, $http, $state) {
+	.factory('Auth', [	'Base64',
+						'$cookieStore',
+						'$http',
+						'$state', 	function(	Base64,
+												$cookieStore,
+												$http,
+												$state	) {
+
 	    // initialize to whatever is in the cookie, if anything
 	    $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
 
@@ -468,11 +517,38 @@ angular.module('app.services',[])
 	        getCredential: function(credentialField){
 	            return $cookieStore.get(credentialField);
 	        },
-	        setCredentials: function(username, password, userData) {
+	        setCredentials: function(username, password, user_data) {
 	            var encoded = Base64.encode(username + ':' + password);
 				$http.defaults.headers.common.Authorization = 'Basic ' + encoded;
 				$cookieStore.put('authdata', encoded);
-				$cookieStore.put('user_data', userData);
+				$cookieStore.put('user_data', user_data);
+				
+				var user_has_network 				= (user_data.network != null) ? true : false;
+				$cookieStore.put('user_has_network', user_has_network);					
+				if (user_has_network) {
+					var user_is_network_admin 		= (user_data.network.pivot.role < 3) ? true : false;
+					var user_is_network_super_admin = (user_data.network.pivot.role == 1) ? true : false;
+					$cookieStore.put('user_is_network_admin', user_is_network_admin);
+					$cookieStore.put('user_is_network_super_admin', user_is_network_super_admin);				
+				}
+	        },
+	        resetUserData: function(user_data) {
+				$cookieStore.remove('user_data');
+				$cookieStore.remove('user_has_network');
+				$cookieStore.remove('user_is_network_admin');
+				$cookieStore.remove('user_is_network_super_admin');
+
+	        	console.log(user_data);
+	        	$cookieStore.put('user_data', user_data);
+
+				var user_has_network 				= (user_data.network != null) ? true : false;
+				$cookieStore.put('user_has_network', user_has_network);					
+				if (user_has_network) {
+					var user_is_network_admin 		= (user_data.network.pivot.role < 3) ? true : false;
+					var user_is_network_super_admin = (user_data.network.pivot.role == 1) ? true : false;
+					$cookieStore.put('user_is_network_admin', user_is_network_admin);
+					$cookieStore.put('user_is_network_super_admin', user_is_network_super_admin);				
+				}	        	
 	        },
 	        clearCredentials: function() {
 	            document.execCommand("ClearAuthenticationCache");

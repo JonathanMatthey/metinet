@@ -1,0 +1,21 @@
+<div class="col-md-6 col-md-offset-2 m-t">
+	
+	<div class="panel-heading b-b">
+		<h4 class="m-n font-thin h4">Delete Network</h4>
+	</div>
+
+	<div class="panel-body">
+		<p>You are about to delete your network.</p>
+		<p>This action is irreversible, and upon doing this you are opting to cease access to all paid services for all of the members of your network.</p>
+		<p>Are you sure you want to proceed?</p>		
+	</div>
+
+	<div class="btn-group btn-group-justified">
+		<a class="btn btn-default" ng-click="changeAction('general')">
+			<i class="fa fa-fw fa-sign-in m-r-xs"></i> Cancel
+		</a>
+		<a class="btn btn-danger delete-btn" ng-click="deleteNetwork()">
+			<i class="fa fa-fw fa-times m-r-xs"></i> Delete Network
+		</a>
+	</div>
+</div>

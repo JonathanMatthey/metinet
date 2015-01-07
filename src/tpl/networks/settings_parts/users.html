@@ -1,0 +1,72 @@
+<div class="panel">
+	<div class="panel-heading b-b">
+		<div class="row">
+			<div class="col-md-6">
+				<h4 class="m-n font-thin h4">Users</h4>
+			</div>
+			<div class="col-md-6 text-right">
+				Search: <input id="user_search" type="text" class="form-control input-sm w-sm inline m-r"/>
+			</div>
+		</div>
+	</div>
+    <div>
+      <table class="table m-b-none" ui-jq="footable" data-filter="#user_search" data-page-size="10">
+        <thead>
+          <tr>
+              <th data-toggle="true">
+                  First Name
+              </th>
+              <th>
+                  Location
+              </th>
+              <th class="text-center" data-hide="phone,tablet">
+                  Request Confirmed
+              </th>
+              <td class="text-right">
+                  Actions
+              </td>
+          </tr>
+        </thead>
+        <tbody>
+			<tr ng-repeat="user in network_data.users">
+				<td>{{ user.fullname }}</td>
+				<td>{{ user.location.name }}</td>
+				<td class="text-center">
+          <a class="btn btn-xs btn-success" disabled ng-show="user.network.pivot.network_confirm">
+            <i class="fa fa-fw fa-check"></i>&nbsp;&nbsp;Confirmed
+          </a>
+          <a  class="btn btn-xs btn-default btn-pending user-{{ user.id }}"
+              ng-click="confirmUser($index)"
+              ng-hide="user.network.pivot.network_confirm">
+            <i class="fa fa-fw fa-ellipsis-h"></i>&nbsp;&nbsp;Pending
+          </a>          
+				</td>
+				<td class="text-right">
+					<div class="btn-group btn-group-xs">
+						<a  href="#/app/page/profile/{{ user.id }}"
+                class="btn btn-metinet">
+              <i class="fa fa-eye"></i>
+            </a>
+						<a  ng-click="openEditUserModal($index)"
+                class="btn btn-info btn-update user-{{ user.id }}"
+                ng-disabled="!user.network.pivot.network_confirm">
+              <i class="fa fa-edit"></i>
+            </a>
+						<a  ng-click="deleteUser($index)"
+                class="btn btn-danger btn-delete user-{{ user.id }}">
+              <i class="fa fa-trash-o"></i>
+            </a>
+					</div>
+				</td>
+			</tr>
+        </tbody>
+        <tfoot class="hide-if-no-paging">
+          <tr>
+              <td colspan="5" class="text-center">
+                  <ul class="pagination"></ul>
+              </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+</div>

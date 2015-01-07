@@ -81,7 +81,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		}
 
 	}])
-
 	.controller('MessagesListController', ['$scope', '$state', '$window', '$http', 'Auth', 'Conversations', function($scope,$state,$window,$http,Auth,Conversations) {
 		$scope.conversations = {}
 
@@ -94,13 +93,11 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		}
 
 	}])
-
 	.controller('HeaderController', ['$scope', '$state', '$window', '$http', 'Auth', function($scope,$state,$window,$http,Auth) {
 		$scope.user_data = Auth.getCredential('user_data');
 			$scope.init = function() {
 		}
 	}])
-
 	.controller('UserSettingsController', [	'$scope',
 											'$state',
 											'$window',
@@ -188,7 +185,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
 		$scope.saveSettings = function(action_value) {
 			$scope.request_error = null;			
-			$('.'+action_value+'-submit-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving..');
+			$('.'+action_value+'-submit-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving...');
 			$('.'+action_value+'-submit-btn').removeClass('btn-success btn-danger btn-primary');
 			$('.'+action_value+'-submit-btn').addClass('btn-info');
 			User.put({}, $scope.user_data)
@@ -207,7 +204,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
 		$scope.savePassword = function() {
 			$scope.request_error = null;
-			$('.password-submit-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving..');
+			$('.password-submit-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving...');
 			$('.password-submit-btn').removeClass('btn-success btn-danger btn-primary');
 			$('.password-submit-btn').addClass('btn-info');
 			var use = User.put({userId:'password'}, $scope.password_data)
@@ -231,7 +228,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 			$scope.settings_action	= value;			
 		}
 	}])
-
 	.controller('ProjectListController', [	'$scope',
 											'$document',
 											'$state',
@@ -246,7 +242,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 				$scope.projects = res;
 			});
 	}])
-
 	.controller('ProjectCreateController', [	'$scope',
 												'$state', 
 												'$window', 
@@ -318,7 +313,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 			});
 		};
 	}])
-
 	.controller('ProjectViewController', [	'$scope',
 										'$stateParams',
 										'Auth',
@@ -1071,23 +1065,291 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       });
     }
   }])
-	.controller('ProjectNetworkCreateController', ['$scope', '$stateParams','Auth', 'Project', 'ProjectNetworks',
-		function($scope,$stateParams,Auth,Project,ProjectNetworks){
+	.controller('NetworkCreateController', [	'$scope',
+												'$stateParams',
+												'Networks',
+												'AccountTypes',	function(	$scope,
+																			$stateParams,
+																			Networks,
+																			AccountTypes 	) {
 
-		Project.get({id:$stateParams.id})
-			.$promise.then(function(res) {
-				$scope.project = res.data;
-				console.log('-- project project');
-				console.log($scope.project);
+		$scope.request_error 	= false;
+		$scope.account_types 	= {};
+		$scope.network 			= {};
+
+		AccountTypes.get().$promise
+			.then(function(response) {
+				$scope.account_types 		= response.data;
+				$scope.network.subscription	= response.data[1].id;
+			}, function(response) {
+
 			});
 
-		$scope.projectNetwork = new ProjectNetworks();
-
-		$scope.addProjectNetwork=function() {
-			$scope.projectNetwork.$save(function() {
-				$state.go('projectNetwork');
-			});
+		$scope.change_subscription = function(value) {
+			$scope.network.subscription = value;
 		}
+
+		$scope.submit = function() {
+
+			$scope.request_error = null;			
+			$('.submit-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving...');
+			$('.submit-btn').removeClass('btn-success btn-danger');
+			$('.submit-btn').addClass('btn-metinet');
+			Networks.store()
+				.$promise
+				.then(function(response) {
+					$('.submit-btn').html('<i class="fa fa-fw fa-check"></i>&nbsp;&nbsp;Saved');
+					$('.submit-btn').removeClass('btn-metinet');
+					$('.submit-btn').addClass('btn-success');
+				}, function(response) {
+					$('.submit-btn').html('<i class="fa fa-fw fa-times"></i>&nbsp;&nbsp;Failed');
+					$('.submit-btn').removeClass('btn-metinet');
+					$('.submit-btn').addClass('btn-danger');
+					$scope.request_error = response.data.msg.text;
+				});
+
+		}
+
+	}])
+	.controller('NetworkSettingsController', [	'$scope',
+												'$location',
+												'$stateParams',
+												'$modal',
+												'toaster',
+												'Auth',
+												'AccountTypes',
+												'Roles',
+												'Networks',
+												'NetworkUsers', function(	$scope,
+																			$location,
+																			$stateParams,
+																			$modal,
+																			toaster,
+																			Auth,
+																			AccountTypes,
+																			Roles,
+																			Networks,
+																			NetworkUsers 	) {
+
+		var user_has_network 				= Auth.getCredential("user_has_network");
+		if (!user_has_network) {
+			$location.path('/');
+		}
+
+		var current_user_data 				= Auth.getCredential("user_data");
+		$scope.user_is_network_admin 		= Auth.getCredential("user_is_network_admin");
+		$scope.user_is_network_super_admin 	= Auth.getCredential("user_is_network_super_admin");
+		$scope.network_data					= {};
+		$scope.request_error				= null;
+		$scope.settings_action				= 'general';
+		var template_directory				= 'tpl/networks/settings_parts/';		
+
+		$scope.settings_menu	= [
+			{
+				action: 'general',
+				name: 	'General Settings',
+				icon: 	'fa-globe',
+				tpl: 	template_directory+'general_settings.html',
+				show: 	true
+			},
+			{
+				action: 'users',
+				name: 	'Users',
+				icon: 	'fa-group',
+				tpl: 	template_directory+'users.html',
+				show: 	true				
+			},
+			{
+				action: 'locations',
+				name: 	'Locations',
+				icon: 	'fa-map-marker',
+				tpl: 	template_directory+'locations.html',
+				show: 	true
+			},
+			{
+				action: 'subscription',
+				name: 	'Subscription Settings',
+				icon: 	'fa-credit-card',
+				tpl: 	template_directory+'subscription_settings.html',
+				show: 	$scope.user_is_network_super_admin
+			},
+			{
+				action: 'delete',
+				name: 	'Delete Network',
+				icon: 	'fa-times',
+				tpl: 	template_directory+'delete_network.html',
+				show: 	$scope.user_is_network_super_admin
+			}						
+		];
+
+		Networks.get({id:current_user_data.network.id})
+			.$promise
+			.then(function(response) {
+				$scope.network_data = response.data;
+			}, function(response) {
+
+			})
+
+		AccountTypes.get().$promise
+			.then(function(response) {
+				$scope.account_types = response.data;
+			}, function(response) {
+
+			});
+
+		Roles.get().$promise
+			.then(function(response) {
+				$scope.roles = response.data;
+			}, function(response) {
+
+			});
+
+		$scope.changeAction = function(value) {
+			$scope.settings_action = value;
+		}
+
+		$scope.deleteNetwork = function() {
+			$scope.request_error = null;			
+			$('.delete-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving...');
+			$('.delete-btn').removeClass('btn-success btn-danger');
+			$('.delete-btn').addClass('btn-danger');
+			Networks.delete({id:current_user_data.network.id})
+				.$promise
+				.then(function(response) {
+					$('.delete-btn').html('<i class="fa fa-fw fa-check"></i>&nbsp;&nbsp;Saved');
+					$('.delete-btn').removeClass('btn-danger');
+					$('.delete-btn').addClass('btn-success');
+					Auth.resetUserData(response.user_data);
+					$location.path('/');					
+				}, function(response) {
+					$('.delete-btn').html('<i class="fa fa-fw fa-times"></i>&nbsp;&nbsp;Failed');
+					$('.delete-btn').removeClass('btn-danger');
+					$('.delete-btn').addClass('btn-danger');
+					$scope.request_error = response.data.msg.text;
+				});			
+		}
+
+		$scope.confirmUser = function(user_index) {
+			var user_id = $scope.network_data.users[user_index].id;			
+			$('.btn-pending.user-'+user_id).attr('disabled','disabled');
+			$('.btn-pending.user-'+user_id).html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Confirming...');
+			$('.btn-pending.user-'+user_id).removeClass('btn-info btn-default btn-danger btn-success');
+			$('.btn-pending.user-'+user_id).addClass('btn-info');
+			NetworkUsers.confirm({network_id:current_user_data.network.id, user_id:user_id})
+				.$promise
+				.then(function(response) {
+					console.log(response);
+					$scope.network_data.users[user_index] = response.data;					
+					$('.btn-pending.user-'+user_id).html('<i class="fa fa-fw fa-check"></i>&nbsp;&nbsp;Confirmed');
+					$('.btn-pending.user-'+user_id).removeClass('btn-info btn-default btn-danger btn-success');
+					$('.btn-pending.user-'+user_id).addClass('btn-success');
+				}, function(response) {
+					$('.btn-pending.user-'+user_id).attr('disabled','');					
+					$('.btn-pending.user-'+user_id).html('<i class="fa fa-fw fa-times"></i>&nbsp;&nbsp;Failed');
+					$('.btn-pending.user-'+user_id).removeClass('btn-info btn-default btn-danger btn-success');
+					$('.btn-pending.user-'+user_id).addClass('btn-danger');
+				});
+
+		}
+
+		$scope.openEditUserModal = function(user_index) {
+			var modalInstance = $modal.open({
+					templateUrl: 'tpl/networks/settings_parts/modals/edit_user.html',
+					controller: 'NetworkEditUserModal',
+					size: 'lg',
+					resolve: {
+						user: function () {
+							return $scope.network_data.users[user_index];
+						},
+						network_locations: function() {
+							return $scope.network_data.locations;
+						},
+						roles: function() {
+							return $scope.roles;
+						}
+					}
+				});
+				modalInstance.result.then(function(submit_data) {
+					var _user_id = submit_data.id;
+					$('.btn-update.user-'+_user_id).removeClass('btn-success btn-info');
+					$('.btn-update.user-'+_user_id).addClass('btn-info');					
+					$('.btn-update.user-'+_user_id).html('<i class="fa fa-fw fa-spin fa-refresh"></i>');
+					NetworkUsers.update({network_id:current_user_data.network.id, user_id:_user_id}, submit_data)
+						.$promise
+						.then(function(response) {
+							$('.btn-update.user-'+_user_id).removeClass('btn-success btn-info');
+							$('.btn-update.user-'+_user_id).addClass('btn-success');
+							$('.btn-update.user-'+_user_id).html('<i class="fa fa-fw fa-check"></i>');
+							$scope.network_data.users[user_index] = response.data;
+						}, function(response) {
+							$('.btn-update.user-'+_user_id).html('<i class="fa fa-fw fa-times"></i>');
+							toaster.pop('error', 'Oops.', response.data.detail);
+						});
+				});
+		}
+
+		$scope.deleteUser = function(user_index) {
+			var user_id = $scope.network_data.users[user_index].id;
+			$('.btn-delete.user-'+user_id).attr('disabled','disabled');
+			$('.btn-delete.user-'+user_id).html('<i class="fa fa-spin fa-refresh"></i>');
+			NetworkUsers.delete({network_id:current_user_data.network.id, user_id:user_id})
+				.$promise
+				.then(function(response) {
+					$('.btn-delete.user-'+user_id).html('<i class="fa fa-fw fa-trash-o"></i>');
+					$scope.network_data.users.splice(user_index, 1);
+				}, function(response) {
+					$('.btn-delete.user-'+user_id).html('<i class="fa fa-fw fa-trash-o"></i>');
+					$('.btn-delete.user-'+user_id).attr('disabled','');
+				});
+
+		}
+
+	}])
+	.controller('NetworkEditUserModal', [	'$scope',
+											'$modalInstance',
+											'user',
+											'network_locations',
+											'roles',	function(	$scope,
+																	$modalInstance,
+																	user,
+																	network_locations,
+																	roles	) {
+
+		$scope.submit_data 			= {
+			id: user.id,
+			firstname: user.firstname,
+			lastname: user.lastname,
+			email: user.email,
+			tel: user.tel,
+			headline: user.headline,
+			location: user.network.pivot.location,
+			office_ext: user.office_ext,
+			project_auto_access: (user.network.pivot.project_auto_access) ? true : false,
+			role: user.network.pivot.role,
+			pm_mail_project_updates: user.pm_mail_project_updates,
+			pm_mail_daily_report: user.pm_mail_daily_report,
+			pm_mail_daily_report_nothing_due: user.pm_mail_daily_report_nothing_due,
+			pm_mail_weekend: user.pm_mail_weekend,
+			pm_mail_task_completion: user.pm_mail_task_completion
+		};
+
+		$scope.network_locations 	= network_locations;
+		$scope.roles 				= roles;		
+
+		$scope.ok = function () {
+			$modalInstance.close($scope.submit_data);
+		};
+
+		$scope.cancel = function () {
+			$modalInstance.dismiss('cancel');
+		};
+
+	}])
+  .controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
+    $scope.items = items;
+    $scope.selected = {
+      item: $scope.items[0]
+    };
 
 	}])
 	.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
@@ -1183,7 +1445,11 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 			$modalInstance.dismiss('cancel');
 		};
 	}])
-	.controller('AddRFIToNetworkModal', ['$scope', '$modalInstance', 'networks',  function($scope, $modalInstance, networks) {
+	.controller('AddRFIToNetworkModal', [	'$scope',
+											'$modalInstance',
+											'networks',  function(	$scope,
+																	$modalInstance,
+																	networks 	) {
 		$scope.networks = networks;
 		$scope.selectedUsers = [];
 		$scope.newRFI = {};
@@ -1275,7 +1541,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 			});
 		};
 	}])
-
 	// Form controller
 	.controller('FormDemoCtrl', ['$scope', function($scope) {
 		$scope.notBlackListed = function(value) {
@@ -1311,10 +1576,10 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
 	// Flot Chart controller
 	.controller('HomepageController', [	'$scope',
-											'UserHomepage',
-											'UserProjects',
-											'$http',
-											'Auth', function(	$scope,
+										'UserHomepage',
+										'UserProjects',
+										'$http',
+										'Auth', function(	$scope,
 															UserHomepage,
 															UserProjects,
 															$http,
@@ -1392,7 +1657,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
 				});
 
-			  $scope.getNewsfeed();
+			$scope.getNewsfeed();
 
 		}
 
@@ -1422,52 +1687,66 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		}
 
 	}])
-	.controller('NetworkViewController', ['$scope', '$stateParams', 'Auth', 'Networks', 'NetworkProjects', function($scope, $stateParams, Auth, Networks, NetworkProjects) {
+  	.controller('NetworkViewController', [  '$scope',
+											'$stateParams', 
+											'Auth', 
+											'Networks', 
+											'NetworkProjects',	function(	$scope, 
+																			$stateParams, 
+																			Auth,
+																			Networks,
+																			NetworkProjects	) {
 
-	$scope.network = {};
+		$scope.network = {};
 
-	$scope.init = function() {
-		Networks.get({id:$stateParams.id})
-			.$promise.then(function(res) {
-				$scope.network = res.data;
-			});
+		$scope.init = function() {
+			Networks.get({id:$stateParams.id})
+				.$promise
+				.then(function(res) {
+					$scope.network = res.data;
+				});
 
-		NetworkProjects.query({id:$stateParams.id})
-			.$promise.then(function(data) {
-				$scope.network.projects = data;
-			});
-	}
+			NetworkProjects.query({id:$stateParams.id})
+				.$promise
+				.then(function(data) {
+					$scope.network.projects = data;
+				});
+		}
 
-	}])
+  	}])
 	.controller('ProfileViewController', [  '$scope',
 											'$stateParams',
 											'Profile',
 											'UserConnections',
-											'UserProjects', function(  	$scope,
+											'UserProjects', function(   $scope,
 																		$stateParams,
 																		Profile,
 																		UserConnections,
 																		UserProjects ) {
 
-	$scope.profile = {};
+		$scope.profile = {};
 
-	Profile.query({id:$stateParams.id})
-	.$promise.then(function(data) {
-		console.log(data);
-		$scope.profile = data;
-	});
+		Profile.query({id:$stateParams.id})
+			.$promise.then(function(data) {
+			  console.log(data);
+			  $scope.profile = data;
+			});
 
-	UserConnections.query({id:$stateParams.id})
-	.$promise.then(function(data) {
-		console.log(data);
-		$scope.profile.connections = data;
-	});
+		UserConnections.query({id:$stateParams.id})
+			.$promise.then(function(data) {
+			  console.log(data);
+			  $scope.profile.connections = data;
+			});
 
-	UserProjects.query({id:$stateParams.id})
-	.$promise.then(function(data) {
-		console.log(data);
-		$scope.profile.projects = data;
-	});
+		UserProjects.query({id:$stateParams.id})
+			.$promise.then(function(data) {
+			  console.log(data);
+			  $scope.profile.projects = data;
+			});
+
+	}])
+  // Flot Chart controller
+  .controller('FlotChartDemoCtrl', ['$scope', function($scope) {
 
   }])
 

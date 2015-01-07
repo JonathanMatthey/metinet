@@ -1,0 +1,25 @@
+<div class="row">
+	<div class="col-md-3">
+		<div class="panel" draggable="true" id="sticky_sidebar">
+			<div class="panel-heading b-b">
+				<h4 class="m-n font-thin h4">Settings Menu</h4>
+			</div>
+			<div class="list-group bg-white">
+				<a 	ng-click="changeAction(menu_item.action)"
+					class="list-group-item"
+					ng-repeat="menu_item in settings_menu"
+					ng-show="menu_item.show">
+					<i class="fa fa-fw {{ menu_item.icon }}"></i>&nbsp; {{ menu_item.name }}
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-8">
+		<!-- START TEMPLATES -->
+		<div ng-repeat="page in settings_menu">
+			<ng-include src="page.tpl" ng-show="settings_action == '{{ page.action }}'"></ng-include>
+		</div>
+		<!-- END TEMPLATES --> 
+	</div>
+</div>
