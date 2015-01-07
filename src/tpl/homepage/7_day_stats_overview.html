@@ -2,7 +2,12 @@
 	<div class="panel-heading bg-black">
 		<div class="m-sm">
 			<span class="pull-right"><i class="fa fa-caret-up text-warning text-lg"></i></span>
-			<span class="h4 text-white">7 Day Stats</span>
+			<span class="h4 text-white">
+				7 Day Stats
+				<span class="text-sm" ng-show="seven_day == 'NO DATA'">
+					- No Data. Please wait for analytics to collect.
+				</span>
+			</span>
 		</div>              
 		<div class="text-center m-t-md">
 		    <div ui-jq="plot" ui-refresh="seven_day.progress_plot" ui-options="
@@ -58,7 +63,7 @@
 		    </div>
 		</div>
 	</div>
-	<div class="b-t b-light bg-white row text-center no-gutter">
+	<div class="b-t b-light bg-white row text-center no-gutter" ng-hide="seven_day == 'NO DATA'">
 		<div class="col-xs-4">
 			<div class="wrapper">
 				<span>Overall Progress Change</span>
@@ -90,23 +95,6 @@
 				<div class="h1 text-info font-thin ng-binding" ng-show="current_tasks">
 					{{ current_tasks.length }}
 				</div>
-			</div>
-		</div>
-	</div>
-	<div class="panel-footer bg-light lter wrapper">
-		<div class="row">
-			<div class="col-xs-4 text-center">
-				<small class="text-muted block">Active Tasks</small>
-				<span class="text-md" ng-hide="current_tasks"><i class="fa fa-spin fa-refresh"></i></span>
-				<span class="text-md" ng-show="current_tasks">{{ current_tasks.length }}</span>
-			</div>
-			<div class="col-xs-4 text-center">
-				<small class="text-muted block">Upcoming Tasks</small>
-				<span class="text-md">{{ upcoming_tasks.length }}</span>
-			</div>
-			<div class="col-xs-4 text-center">
-				<small class="text-muted block">Sleeping</small>
-				<span class="text-md">400</span>
 			</div>
 		</div>
 	</div>

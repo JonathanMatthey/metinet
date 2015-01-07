@@ -1,0 +1,39 @@
+<div class="wrapper-lg bg-white-opacity">
+	<div class="row m-t">
+		<div class="col-sm-7">
+			<a href class="thumb-lg pull-left m-r">
+				<img src="img/a0.jpg" class="img-circle">
+			</a>
+			<div class="clear m-b">
+				<div class="m-b m-t-sm">
+					<span class="h3 text-black" ng-bind='profile.fullname'></span>
+					<small class="m-l">
+						<i class="fa fa-map-marker" ng-show="profile.location_current"></i>&nbsp;
+						{{ profile.location_current }}
+					</small>
+				</div>
+				<p class="m-b">
+					<span class="h4 text-black" ng-show="profile.headline">
+						{{ profile.headline }}
+						<span ng-show="profile.network">
+							@ <a href="#/app/page/company/{{ profile.network.id }}">{{ profile.network.name }}</a>
+						</span>
+					</span>
+				</p>
+				<!-- <a href class="btn btn-sm btn-success btn-rounded">Follow</a> -->
+				</div>
+			</div>
+		<div class="col-sm-5">
+			<div class="pull-right pull-none-xs text-center">
+				<a href class="m-b-md inline m">
+					<span class="h3 block font-bold">2k</span>
+					<small>Followers</small>
+				</a>
+				<a href class="m-b-md inline m">
+					<span class="h3 block font-bold">250</span>
+					<small>Following</small>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
