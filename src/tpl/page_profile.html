@@ -1,45 +1,7 @@
 <div class="hbox hbox-auto-xs hbox-auto-sm">
   <div class="col">
-    <div style="background:url(img/c4.jpg) center center; background-size:cover">
-      <div class="wrapper-lg bg-white-opacity">
-        <div class="row m-t">
-          <div class="col-sm-7">
-            <a href class="thumb-lg pull-left m-r">
-              <img src="img/a0.jpg" class="img-circle">
-            </a>
-            <div class="clear m-b">
-              <div class="m-b m-t-sm">
-                <span class="h3 text-black" ng-bind='profile.fullname'></span>
-                <small class="m-l">
-                  <i class="fa fa-map-marker" ng-show="profile.location_current"></i>&nbsp;
-                  {{ profile.location_current }}
-                </small>
-              </div>
-              <p class="m-b">
-                <span class="h4 text-black" ng-show="profile.headline">
-                  {{ profile.headline }}
-                  <span ng-show="profile.network">
-                    @ <a href="#/app/page/company/{{ profile.network.id }}">{{ profile.network.name }}</a>
-                  </span>
-                </span>
-              </p>
-              <!-- <a href class="btn btn-sm btn-success btn-rounded">Follow</a> -->
-            </div>
-          </div>
-          <div class="col-sm-5">
-            <div class="pull-right pull-none-xs text-center">
-              <a href class="m-b-md inline m">
-                <span class="h3 block font-bold">2k</span>
-                <small>Followers</small>
-              </a>
-              <a href class="m-b-md inline m">
-                <span class="h3 block font-bold">250</span>
-                <small>Following</small>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div  style="background:url(img/c4.jpg) center center; background-size:cover"
+          ng-include="'tpl/user_profile/components/header.html'">
     </div>
     <div class="wrapper bg-white b-b">
       <ul class="nav nav-pills nav-sm">
@@ -50,80 +12,8 @@
 
     <div class="wrapper">
       <div class="row">
-          <div class="col-sm-3">
-            <div class="panel panel-default">
-              <div class="list-group no-radius alt">
-                <a class="list-group-item" href="">
-                  <span class="pull-right" ng-bind="profile.projects.length"></span>
-                  <i class="fa fa-globe fa-fw text-muted"></i>&nbsp;
-                  Projects
-                </a>
-                <a class="list-group-item" href="">
-                  <span class="pull-right" ng-bind="profile.connections.length"></span>
-                  <i class="fa fa-users fa-fw text-muted"></i>&nbsp; 
-                  Connections
-                </a>
-              </div>
-            </div>
-            <div class="panel panel-info">
-              <div class="panel-body">
-                <div class="clear">
-                  <a href="" class="btn btn-addon btn-sm btn-info m-t-xs"><i class="fa fa-plus"></i> Add Connection</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-9">
-            <div class="panel panel-default">
-              <a href="" class="m-t-sm m-l inline" ng-click="data=[40, 40, 20]">
-                <i class="icon-info"></i>&nbsp;&nbsp;Bio
-              </a>
-              <div class="wrapper m-b-sm">              
-                {{ profile.bio }}
-              </div>
-              <ul class="list-group no-radius">
-
-                <!-- Experience -->
-                <li class="list-group-item" ng-show="profile.experience.length > 0">
-                  <h3><i class="fa fa-fw fa-building-o"></i>&nbsp;&nbsp;Experience</h3>
-                </li>                
-                <li class="list-group-item" ng-repeat="experience in profile.experience">
-                  <span class="pull-right" ng-show="experience.current">
-                    Current Job
-                  </span>
-                  <span class="pull-right" ng-show="!experience.current">
-                    {{ experience.start_date | formatFullDate }} - {{ experience.end_date | formatFullDate }}
-                  </span>
-                  {{ experience.title }} @ {{ experience.company }}
-                  <hr>
-                  <p>{{ experience.desc }}</p>
-                </li>
-
-                <!-- Educations -->
-                <li class="list-group-item" ng-show="profile.education.length > 0">
-                  <h3><i class="fa fa-fw fa-graduation-cap"></i>&nbsp;&nbsp;Education</h3>
-                </li>
-                <li class="list-group-item" ng-repeat="education in profile.education">
-                  <span class="pull-right">
-                    {{ education.start_date | formatFullDate }} - {{ education.end_date | formatFullDate }}
-                  </span>
-                  {{ education.title }} @ {{ education.institute }}
-                  <hr>
-                  <p>{{ education.desc }}</p>                  
-                </li>
-
-                <!-- Awards -->
-                <li class="list-group-item" ng-show="profile.awards.length > 0">
-                  <h3><i class="fa fa-fw fa-trophy"></i>&nbsp;&nbsp;Awards</h3>
-                </li>                
-                <li class="list-group-item" ng-repeat="award in profile.awards">
-                  <span class="pull-right">{{ education.date | formatFullDate }}</span>
-                  {{ award.title }}<br>
-                  <small>{{ award.institute }}</small>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <div class="col-sm-3" ng-include="'tpl/user_profile/components/sidebar.html'"></div>
+          <div class="col-sm-9" ng-include="'tpl/user_profile/components/main_body.html'"></div>
         </div>
       </div>
  

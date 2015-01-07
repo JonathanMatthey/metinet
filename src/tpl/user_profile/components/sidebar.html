@@ -1,0 +1,40 @@
+<div class="panel panel-default">
+	<div class="list-group no-radius alt">
+		<a class="list-group-item" href="">
+			<span class="pull-right" ng-bind="profile.projects.length"></span>
+			<i class="fa fa-globe fa-fw text-muted"></i>&nbsp;
+			Projects
+		</a>
+		<a class="list-group-item" href="">
+			<span class="pull-right" ng-bind="profile.connections.length"></span>
+			<i class="fa fa-users fa-fw text-muted"></i>&nbsp; 
+			Connections
+		</a>
+	</div>
+</div>
+
+<div class="panel panel-default" ng-show="profile.location">
+	<div class="list-group no-radius alt">
+		<a class="list-group-item" href="">
+			<i class="fa fa-building-o fa-fw text-muted"></i>&nbsp;
+			Current Office
+		</a>
+		<a class="list-group-item b-t-0 p-t-0">
+			<i class="fa fa-building-o fa-fw text-white"></i>&nbsp;&nbsp;{{ profile.location.name }}<br>
+			<i class="fa fa-building-o fa-fw text-white"></i>&nbsp;&nbsp;{{ profile.location.city }}<br>
+			<i class="fa fa-building-o fa-fw text-white"></i>&nbsp;&nbsp;{{ profile.location.country.nicename }}<br>
+		</a>
+		<a class="list-group-item"  ng-show="profile.location.tel">
+			<i class="fa fa-phone fa-fw text-muted"></i>&nbsp;
+			{{ profile.location.tel }}
+		</a>		
+	</div>
+</div>
+
+<div class="panel panel-info">
+	<div class="panel-body">
+		<div class="clear">
+			<a href="" class="btn btn-addon btn-sm btn-info m-t-xs"><i class="fa fa-plus"></i> Add Connection</a>
+		</div>
+	</div>
+</div>
