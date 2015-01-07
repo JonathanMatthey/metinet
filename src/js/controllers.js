@@ -1120,16 +1120,18 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 												'AccountTypes',
 												'Roles',
 												'Networks',
-												'NetworkUsers', function(	$scope,
-																			$location,
-																			$stateParams,
-																			$modal,
-																			toaster,
-																			Auth,
-																			AccountTypes,
-																			Roles,
-																			Networks,
-																			NetworkUsers 	) {
+												'NetworkUsers'
+												'NetworkLocations', function(	$scope,
+																				$location,
+																				$stateParams,
+																				$modal,
+																				toaster,
+																				Auth,
+																				AccountTypes,
+																				Roles,
+																				Networks,
+																				NetworkUsers,
+																				NetworkLocations 	) {
 
 		var user_has_network 				= Auth.getCredential("user_has_network");
 		if (!user_has_network) {
