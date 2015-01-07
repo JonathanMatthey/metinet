@@ -1119,17 +1119,21 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 												'Auth',
 												'AccountTypes',
 												'Roles',
+												'Countries',												
 												'Networks',
-												'NetworkUsers', function(	$scope,
-																			$location,
-																			$stateParams,
-																			$modal,
-																			toaster,
-																			Auth,
-																			AccountTypes,
-																			Roles,
-																			Networks,
-																			NetworkUsers 	) {
+												'NetworkUsers',
+												'NetworkLocations', function(	$scope,
+																				$location,
+																				$stateParams,
+																				$modal,
+																				toaster,
+																				Auth,
+																				AccountTypes,
+																				Roles,
+																				Countries,
+																				Networks,
+																				NetworkUsers,
+																				NetworkLocations 	) {
 
 		var user_has_network 				= Auth.getCredential("user_has_network");
 		if (!user_has_network) {
@@ -1182,30 +1186,72 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 			}						
 		];
 
-		Networks.get({id:current_user_data.network.id})
-			.$promise
-			.then(function(response) {
-				$scope.network_data = response.data;
-			}, function(response) {
-
-			})
-
-		AccountTypes.get().$promise
-			.then(function(response) {
-				$scope.account_types = response.data;
-			}, function(response) {
-
-			});
-
-		Roles.get().$promise
-			.then(function(response) {
-				$scope.roles = response.data;
-			}, function(response) {
-
-			});
+		$scope.init = function() {
+			$scope.getNetworkData();
+			$scope.getAccountTypes();
+			$scope.getRoles();
+			$scope.getCountries();			
+		}
 
 		$scope.changeAction = function(value) {
 			$scope.settings_action = value;
+		}
+
+		$scope.getNetworkData = function() {
+			Networks.get({id:current_user_data.network.id})
+				.$promise
+				.then(function(response) {
+					$scope.network_data = response.data;
+				}, function(response) {
+
+				});
+		}
+
+		$scope.getAccountTypes = function() {
+			AccountTypes.get().$promise
+				.then(function(response) {
+					$scope.account_types = response.data;
+				}, function(response) {
+
+				});
+		}
+
+		$scope.getRoles = function() {
+			Roles.get().$promise
+				.then(function(response) {
+					$scope.roles = response.data;
+				}, function(response) {
+
+				});
+		}
+
+		$scope.getCountries = function() {
+			Countries.get().$promise
+				.then(function(response) {
+					$scope.countries = response.data;
+				}, function(response) {
+
+				});
+		}
+
+		$scope.updateNetwork = function() {
+			$scope.request_error = null;			
+			$('.submit-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving...');
+			$('.submit-btn').removeClass('btn-success btn-danger btn-info btn-metinet');
+			$('.submit-btn').addClass('btn-info');
+			Networks.update({id:current_user_data.network.id}, $scope.network_data)
+				.$promise
+				.then(function(response) {
+					$('.submit-btn').html('<i class="fa fa-fw fa-check"></i>&nbsp;&nbsp;Saved');
+					$('.submit-btn').removeClass('btn-success btn-danger btn-info btn-metinet');
+					$('.submit-btn').addClass('btn-success');
+					Auth.resetUserData(response.user_data);
+				}, function(response) {
+					$('.submit-btn').html('<i class="fa fa-fw fa-times"></i>&nbsp;&nbsp;Failed');
+					$('.submit-btn').removeClass('btn-success btn-danger btn-info btn-metinet');
+					$('.submit-btn').addClass('btn-danger');
+					$scope.request_error = response.data.msg.text;
+				});			
 		}
 
 		$scope.deleteNetwork = function() {
@@ -1230,11 +1276,57 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		}
 
 		$scope.editLocation = function(location_index) {
-			console.log(location_index);
+			var modalInstance = $modal.open({
+					templateUrl: 'tpl/networks/settings_parts/modals/edit_location.html',
+					controller: 'NetworkEditLocationModal',
+					size: 'md',
+					resolve: {
+						location: function () {
+							return $scope.network_data.locations[location_index];
+						},
+						countries: function () {
+							return $scope.countries;
+						}
+					}
+				});
+				modalInstance.result.then(function(submit_data) {
+					var _location_id = submit_data.id;
+					$('.btn-update.location-'+_location_id).removeClass('btn-success btn-info');
+					$('.btn-update.location-'+_location_id).addClass('btn-info');					
+					$('.btn-update.location-'+_location_id).html('<i class="fa fa-fw fa-spin fa-refresh"></i>');
+					console.log(submit_data);
+					NetworkLocations.update({network_id:current_user_data.network.id, loc_id:_location_id}, submit_data)
+						.$promise
+						.then(function(response) {
+							console.log(response);							
+							$('.btn-update.location-'+_location_id).removeClass('btn-success btn-info');
+							$('.btn-update.location-'+_location_id).addClass('btn-success');
+							$('.btn-update.location-'+_location_id).html('<i class="fa fa-fw fa-check"></i>');
+							$scope.network_data.locations[location_index] = response.data;
+						}, function(response) {
+							$('.btn-update.location-'+_location_id).html('<i class="fa fa-fw fa-times"></i>');
+							toaster.pop('error', 'Oops.', response.data.detail);
+						});
+				});
 		}
 
 		$scope.deleteLocation = function(location_index) {
-			console.log(location_index);
+			var location_id = $scope.network_data.locations[location_index].id;			
+			$('.btn-delete.location-'+location_id).html('<i class="fa fa-spin fa-refresh"></i>');
+			$('.btn-delete.location-'+location_id).removeClass('btn-info btn-default btn-danger btn-success');
+			$('.btn-delete.location-'+location_id).addClass('btn-info');
+			NetworkLocations.delete({network_id:current_user_data.network.id, loc_id:location_id})
+				.$promise
+				.then(function(response) {
+					$('.btn-delete.location-'+location_id).html('<i class="fa fa-fw fa-check"></i>');
+					$scope.network_data.locations.splice(location_index, 1);
+					$scope.getNetworkData();
+				}, function(response) {
+					$('.btn-delete.location-'+location_id).attr('disabled','');					
+					$('.btn-delete.location-'+location_id).html('<i class="fa fa-fw fa-times"></i>');
+					$('.btn-delete.location-'+location_id).removeClass('btn-info btn-default btn-danger btn-success');
+					$('.btn-delete.location-'+location_id).addClass('btn-danger');
+				});
 		}
 
 		$scope.confirmUser = function(user_index) {
@@ -1282,7 +1374,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 					$('.btn-update.user-'+_user_id).removeClass('btn-success btn-info');
 					$('.btn-update.user-'+_user_id).addClass('btn-info');					
 					$('.btn-update.user-'+_user_id).html('<i class="fa fa-fw fa-spin fa-refresh"></i>');
-					NetworkUsers.update({network_id:current_user_data.network.id, user_id:_user_id}, submit_data)
+					NetworkLocations.update({network_id:current_user_data.network.id, location_id:_location_id}, submit_data)
 						.$promise
 						.then(function(response) {
 							$('.btn-update.user-'+_user_id).removeClass('btn-success btn-info');
@@ -1346,6 +1438,28 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
 		$scope.ok = function () {
 			$modalInstance.close($scope.submit_data);
+		};
+
+		$scope.cancel = function () {
+			$modalInstance.dismiss('cancel');
+		};
+
+	}])
+	.controller('NetworkEditLocationModal', [	'$scope',
+												'$modalInstance',
+												'$http',
+												'location',
+												'countries',		function(	$scope,
+																				$modalInstance,
+																				$http,
+																				location,
+																				countries	) {
+
+		$scope.location_data 		= location;
+		$scope.countries 			= countries;		
+
+		$scope.ok = function () {
+			$modalInstance.close($scope.location_data);
 		};
 
 		$scope.cancel = function () {

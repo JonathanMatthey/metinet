@@ -33,8 +33,10 @@
 						<a class="btn btn-info" ng-click="editLocation($index)">
               <i class="fa fa-edit"></i>
             </a>
-						<a class="btn btn-danger" ng-click="deleteLocation($index)">
-              <i class="fa fa-times"></i>
+						<a  class="btn btn-danger btn-delete location-{{ location.id }}"
+                ng-click="deleteLocation($index)"
+                ng-disabled="network_data.default_loc_id == location.id">
+              <i class="fa fa-trash-o"></i>
             </a>
 					</div>
 				</td>
