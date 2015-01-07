@@ -106,15 +106,7 @@ var app = angular.module('app', [	'ngAnimate',
 			.state('app.page.network_settings', {
 				url: '/network/settings',
 				controller: 'NetworkSettingsController',
-				templateUrl: 'tpl/networks/settings.html',
-				resolve: {
-					deps: ['uiLoad',
-						function( uiLoad ){
-							return uiLoad.load([
-								'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places'
-							]);
-						}]
-				}
+				templateUrl: 'tpl/networks/settings.html'
 			})
 			.state('app.page.network', {
 				url: '/network/:id',

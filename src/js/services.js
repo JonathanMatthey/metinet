@@ -9,6 +9,13 @@ angular.module('app.services',[])
 			}
 		});
 	}])
+	.factory('Roles', ['$resource', function($resource) {
+		return $resource('http://api.meti.net/roles', {}, {
+			query: {
+				method: 'GET'
+			}
+		});
+	}])	
 	.factory('Project', ['$resource', function($resource) {
 	    return $resource('http://api.meti.net/projects/:id',{
 	      id:'@_id'
@@ -130,9 +137,15 @@ angular.module('app.services',[])
 				params: {
 					action: 'confirm'
 				}
-			}
+			},
+			update: {
+				method: 'PUT'
+			},
+			delete: {
+				method: 'DELETE'
+			}			
 		});
-	}])		
+	}])
 	.factory('User', ['$resource', function($resource) {
 		return $resource('http://api.meti.net/user/:userId', {
 			userId:'@user_id'

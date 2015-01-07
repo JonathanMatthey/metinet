@@ -1113,15 +1113,24 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 	}])
 	.controller('NetworkSettingsController', [	'$scope',
 												'$location',
+												'$stateParams',
+												'$modal',
+												'toaster',
 												'Auth',
 												'AccountTypes',
+												'Roles',
 												'Networks',
 												'NetworkUsers', function(	$scope,
 																			$location,
+																			$stateParams,
+																			$modal,
+																			toaster,
 																			Auth,
 																			AccountTypes,
+																			Roles,
 																			Networks,
 																			NetworkUsers 	) {
+
 		var user_has_network 				= Auth.getCredential("user_has_network");
 		if (!user_has_network) {
 			$location.path('/');
@@ -1132,7 +1141,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		$scope.user_is_network_super_admin 	= Auth.getCredential("user_is_network_super_admin");
 		$scope.network_data					= {};
 		$scope.request_error				= null;
-		$scope.settings_action				= 'general';		
+		$scope.settings_action				= 'general';
 		var template_directory				= 'tpl/networks/settings_parts/';		
 
 		$scope.items = [
@@ -1194,8 +1203,36 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
 			});
 
+		Roles.get().$promise
+			.then(function(response) {
+				$scope.roles = response.data;
+			}, function(response) {
+
+			});
+
 		$scope.changeAction = function(value) {
 			$scope.settings_action = value;
+		}
+
+		$scope.deleteNetwork = function() {
+			$scope.request_error = null;			
+			$('.delete-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving...');
+			$('.delete-btn').removeClass('btn-success btn-danger');
+			$('.delete-btn').addClass('btn-danger');
+			Networks.delete({id:current_user_data.network.id})
+				.$promise
+				.then(function(response) {
+					$('.delete-btn').html('<i class="fa fa-fw fa-check"></i>&nbsp;&nbsp;Saved');
+					$('.delete-btn').removeClass('btn-danger');
+					$('.delete-btn').addClass('btn-success');
+					Auth.resetUserData(response.user_data);
+					$location.path('/');					
+				}, function(response) {
+					$('.delete-btn').html('<i class="fa fa-fw fa-times"></i>&nbsp;&nbsp;Failed');
+					$('.delete-btn').removeClass('btn-danger');
+					$('.delete-btn').addClass('btn-danger');
+					$scope.request_error = response.data.msg.text;
+				});			
 		}
 
 		$scope.confirmUser = function(user_id) {
@@ -1219,26 +1256,97 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
 		}
 
-		$scope.deleteNetwork = function() {
-			$scope.request_error = null;			
-			$('.delete-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving...');
-			$('.delete-btn').removeClass('btn-success btn-danger');
-			$('.delete-btn').addClass('btn-danger');
-			Networks.delete({id:current_user_data.network.id})
+		$scope.openEditUserModal = function(user_index) {
+			var modalInstance = $modal.open({
+					templateUrl: 'tpl/networks/settings_parts/modals/edit_user.html',
+					controller: 'NetworkEditUserModal',
+					size: 'lg',
+					resolve: {
+						user: function () {
+							return $scope.network_data.users[user_index];
+						},
+						network_locations: function() {
+							return $scope.network_data.locations;
+						},
+						roles: function() {
+							return $scope.roles;
+						}
+					}
+				});
+				modalInstance.result.then(function(submit_data) {
+					var _user_id = submit_data.id;
+					$('.btn-update.user-'+_user_id).removeClass('btn-success btn-info');
+					$('.btn-update.user-'+_user_id).addClass('btn-info');					
+					$('.btn-update.user-'+_user_id).html('<i class="fa fa-fw fa-spin fa-refresh"></i>');
+					NetworkUsers.update({network_id:current_user_data.network.id, user_id:_user_id}, submit_data)
+						.$promise
+						.then(function(response) {
+							$('.btn-update.user-'+_user_id).removeClass('btn-success btn-info');
+							$('.btn-update.user-'+_user_id).addClass('btn-success');
+							$('.btn-update.user-'+_user_id).html('<i class="fa fa-fw fa-check"></i>');
+							$scope.network_data.users[user_index] = response.data;
+						}, function(response) {
+							$('.btn-update.user-'+_user_id).html('<i class="fa fa-fw fa-times"></i>');
+							toaster.pop('error', 'Oops.', response.data.detail);
+						});
+				});
+		}
+
+		$scope.deleteUser = function(user_index) {
+			var user_id = $scope.network_data.users[user_index].id;
+			$('.btn-delete.user-'+user_id).attr('disabled','disabled');
+			$('.btn-delete.user-'+user_id).html('<i class="fa fa-spin fa-refresh"></i>');
+			NetworkUsers.delete({network_id:current_user_data.network.id, user_id:user_id})
 				.$promise
 				.then(function(response) {
-					$('.delete-btn').html('<i class="fa fa-fw fa-check"></i>&nbsp;&nbsp;Saved');
-					$('.delete-btn').removeClass('btn-danger');
-					$('.delete-btn').addClass('btn-success');
-					Auth.resetUserData(response.user_data);
-					$location.path('/');					
+					$('.btn-delete.user-'+user_id).html('<i class="fa fa-fw fa-trash-o"></i>');
+					$scope.network_data.users.splice(user_index, 1);
 				}, function(response) {
-					$('.delete-btn').html('<i class="fa fa-fw fa-times"></i>&nbsp;&nbsp;Failed');
-					$('.delete-btn').removeClass('btn-danger');
-					$('.delete-btn').addClass('btn-danger');
-					$scope.request_error = response.data.msg.text;
-				});			
+					$('.btn-delete.user-'+user_id).html('<i class="fa fa-fw fa-trash-o"></i>');
+					$('.btn-delete.user-'+user_id).attr('disabled','');
+				});
+
 		}
+
+	}])
+	.controller('NetworkEditUserModal', [	'$scope',
+											'$modalInstance',
+											'user',
+											'network_locations',
+											'roles',	function(	$scope,
+																	$modalInstance,
+																	user,
+																	network_locations,
+																	roles	) {
+
+		$scope.submit_data 			= {
+			id: user.id,
+			firstname: user.firstname,
+			lastname: user.lastname,
+			email: user.email,
+			tel: user.tel,
+			headline: user.headline,
+			location: user.network.pivot.location,
+			office_ext: user.office_ext,
+			project_auto_access: (user.network.pivot.project_auto_access) ? true : false,
+			role: user.network.pivot.role,
+			pm_mail_project_updates: user.pm_mail_project_updates,
+			pm_mail_daily_report: user.pm_mail_daily_report,
+			pm_mail_daily_report_nothing_due: user.pm_mail_daily_report_nothing_due,
+			pm_mail_weekend: user.pm_mail_weekend,
+			pm_mail_task_completion: user.pm_mail_task_completion
+		};
+
+		$scope.network_locations 	= network_locations;
+		$scope.roles 				= roles;		
+
+		$scope.ok = function () {
+			$modalInstance.close($scope.submit_data);
+		};
+
+		$scope.cancel = function () {
+			$modalInstance.dismiss('cancel');
+		};
 
 	}])
   .controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
