@@ -16,13 +16,13 @@ var app = angular.module('app', [	'ngAnimate',
 									'ui.validate',
 									'oc.lazyLoad',
 									'pascalprecht.translate',
-                                    'app.controllers',
 									'app.filters',
 									'app.services',
 									'app.directives',
 									'app.controllers',
 									'angularMoment',
 									'toaster',
+                                    'xeditable',
 									'truncate',
 									'angular-lodash',
 									'ngMap']).run([ '$rootScope',
@@ -33,10 +33,11 @@ var app = angular.module('app', [	'ngAnimate',
 																			$state,
 																			$stateParams,
 																			$cookieStore,
-																	$http 	) {
-		$rootScope.$state                               = $state;
-		$rootScope.$stateParams                         = $stateParams;
-		$http.defaults.headers.common['Authorization']  = 'Basic ' + $cookieStore.get('authdata');	
+															         		$http 	) {
+		$rootScope.$state 								= $state;
+		$rootScope.$stateParams 						= $stateParams;
+        $rootScope.api_url								= 'http://api.meti.net';
+		$http.defaults.headers.common['Authorization'] 	= 'Basic ' + $cookieStore.get('authdata');	
 	}])
 	.config([ 	'$stateProvider',
 				'$urlRouterProvider',
@@ -89,7 +90,7 @@ var app = angular.module('app', [	'ngAnimate',
 			.state('app.page.profile', {
 				url: '/profile/:id',
 				controller:'ProfileViewController',                
-				templateUrl: 'tpl/page_profile.html'
+				templateUrl: 'tpl/user_profile/main.html'
 			})
 			.state('app.page.create_network', {
 				url: '/network/create',
@@ -377,3 +378,7 @@ var app = angular.module('app', [	'ngAnimate',
         ]
     });
 }]);
+
+app.run(function(editableOptions) {
+  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+});

@@ -1,0 +1,100 @@
+<!-- START: Profile Matches Current User -->
+<div ng-show="can_edit">
+	<form editable-form name="editableForm" onaftersave="updateAward($index)" class="form-horizontal">		
+<!-- 	START: Editable Section-->
+		<div class="wrapper m-b-sm" ng-show="editableForm.$visible">
+			<div class="row m-b-sm">
+				<div class="col-md-1 no-padder">
+					<button type="submit"
+							class="btn btn-primary btn-xs btn-block"
+							ng-show="editableForm.$visible"
+							ng-disabled="editableForm.$waiting">
+						Save
+					</button>
+					<button type="button"
+							class="btn btn-default btn-xs btn-block"
+							ng-show="editableForm.$visible"							
+							ng-disabled="editableForm.$waiting"
+							ng-click="editableForm.$cancel()">
+						Cancel
+					</button>
+				</div>
+				<div class="col-md-11">			
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Award Title</label>
+						<div class="col-lg-8">
+							<span editable-text="award.title" e-required>
+								{{ award.title || 'Award Title' }}
+							</span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Institute</label>
+						<div class="col-lg-8">
+							<span editable-text="award.institute" e-typeahead="network as network.name for network in networks | filter:$viewValue | limitTo:4">
+								{{ award.institute.name || 'Institute' }}
+							</span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Date Received</label>
+						<div class="col-sm-8" ng-controller="DatepickerDemoCtrl">
+							<div class="input-group row">
+								<input 	type="date"
+										class="form-control"
+										datepicker-popup="{{ format }}"
+										ng-model="award.date"
+										is-open="opened"
+										datepicker-options="dateOptions"
+										ng-required="true"
+										close-text="Close" />
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+								</span>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+<!-- 	END: Editable Section-->
+<!-- 	START: Display Section-->
+		<div class="wrapper padder-v-0" ng-hide="editableForm.$visible">
+			<div class="row">
+				<div class="col-md-1 no-padder">
+					<button type="button"
+							class="btn btn-primary btn-block btn-xs edit-btn award-{{ award.id }}"
+							ng-click="editableForm.$show()"
+							ng-show="!editableForm.$visible"
+							ng-disabled="!profile_loaded">
+						<i class="fa fa-pencil"></i>&nbsp;&nbsp;Edit
+					</button>
+					<button type="button"
+							class="btn btn-danger btn-xs btn-block delete-btn award-{{ award.id }} text-center padder-h-0"
+							ng-click="deleteAward($index)"
+							ng-show="!editableForm.$visible"
+							ng-disabled="!profile_loaded">
+						<i class="fa fa-times"></i>&nbsp;&nbsp;Remove
+					</button>
+				</div>
+				<div class="col-md-11">			
+					<span class="pull-right">{{ award.date | formatFullDate }}</span>
+					{{ award.title }}<br>				
+					<small>{{ award.institute.name }}</small>
+				</div>
+			</div>
+		</div>
+<!-- 	END: Display Section-->		
+	</form>
+</div>
+<!-- END: Profile Matches Current User -->
+<!-- START: Profile Does Not Match Current User -->
+<div ng-hide="can_edit">
+	<span class="pull-right">{{ award.date | formatFullDate }}</span>
+	{{ award.title }}<br>				
+	<small>{{ award.institute.name }}</small>
+</div>
+<!-- END: Profile Does Not Match Current User

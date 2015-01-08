@@ -5,14 +5,35 @@
 				<img src="img/a0.jpg" class="img-circle">
 			</a>
 			<div class="clear m-b">
-				<div class="m-b m-t-sm">
-					<span class="h3 text-black" ng-bind='profile.fullname'></span>
+<!-- 			START: Displaying -->
+				<div class="m-b m-t-sm" ng-hide="can_edit">
+					<span class="h3 text-black" ng-bind='profile.fullname'></span>					
 					<small class="m-l">
 						<i class="fa fa-map-marker" ng-show="profile.location_current"></i>&nbsp;
 						{{ profile.location_current }}
 					</small>
 				</div>
-				<p class="m-b">
+<!-- 			END: Displaying -->
+<!-- 			START: Editable -->
+				<div class="m-b m-t-sm" ng-show="can_edit">
+					<a class="h3 text-black" editable-text="profile.firstname" onaftersave="updateProfile()">
+						{{ profile.firstname || 'First Name' }}
+					</a>
+					&nbsp;
+					<a class="h3 text-black" editable-text="profile.lastname" onaftersave="updateProfile()">
+						{{ profile.lastname || 'Last Name' }}
+					</a>
+					<small class="m-l">
+						<i class="fa fa-map-marker"></i>&nbsp;
+						<a  editable-text="profile.location_current" onaftersave="updateProfile()">
+							{{ profile.location_current || 'Your current location' }}
+						</a>
+					</small>
+				</div>
+<!-- 			END: Editable -->
+
+<!-- 			START: Displaying -->
+				<p class="m-b" ng-hide="can_edit">
 					<span class="h4 text-black" ng-show="profile.headline">
 						{{ profile.headline }}
 						<span ng-show="profile.network">
@@ -20,6 +41,19 @@
 						</span>
 					</span>
 				</p>
+<!-- 			END: Displaying -->
+<!-- 			START: Editable -->
+				<p class="m-b" ng-show="can_edit">
+					<span class="h4 text-black">
+						<a editable-text="profile.headline" onaftersave="updateProfile()">
+							{{ profile.headline || 'Profile headline' }}
+						</a>
+						<span ng-show="profile.network">
+							@ <a href="#/app/page/company/{{ profile.network.id }}">{{ profile.network.name }}</a>
+						</span>
+					</span>
+				</p>
+<!-- 			END: Editable -->
 				<!-- <a href class="btn btn-sm btn-success btn-rounded">Follow</a> -->
 				</div>
 			</div>

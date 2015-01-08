@@ -1,3 +1,6 @@
+<div class="alert alert-danger" ng-show="network_request_error">
+	{{ network_request_error }}
+</div>
 <div class="panel">
 	<div class="panel-heading b-b">
 		<h4 class="m-n font-thin h4">Network Settings</h4>
@@ -10,7 +13,9 @@
 					<div class="input-group">
 						<input type="text" class="form-control" value="{{ user_data.network.name }}" readonly>
 						<span class="input-group-btn">
-							<button class="btn btn-metinet" type="button">Change Network</button>
+							<button class="btn btn-primary change-network-btn" type="button" ng-click="changeNetwork()" ng-disabled="!networks">
+								Change Network
+							</button>
 						</span>
 					</div>
 					<div class="help-block text-xs m-b-none">
@@ -21,7 +26,7 @@
 				<div class="form-group col-sm-6">
 					<label>Your Network Role</label>
 					<div class="btn-group btn-group-justified">
-						<a 	class="btn btn-metinet"
+						<a 	class="btn btn-primary no-hover"
 							ng-class="(user_data.network.pivot.role == role.id) ? 'active' : ''"
 							ng-repeat="role in roles">
 								{{ role.nicename }}
@@ -30,13 +35,6 @@
 				</div>
 			</div>		
 		</form>
-	</div>
-	<div class="panel-footer b-t">
-		<div class="row">
-			<div class="col-md-12">			
-				<button type="submit" class="btn btn-primary pull-right network-submit-btn" ng-click="saveSettings('network')">Save</button>
-			</div>
-		</div>
 	</div>
 </div>
 <script>

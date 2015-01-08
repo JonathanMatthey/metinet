@@ -103,7 +103,7 @@ app.controller("WeatherCtrl", ['$scope', 'yahooApi', 'geoApi', function($scope, 
   }
 ]);
 
-app.factory('yahooApi', ['$resource', function($resource) {
+app.factory('yahooApi', ['$resource', '$rootScope', function($resource, $rootScope) {
   return $resource('http://query.yahooapis.com/v1/public/yql', {}, 
     {'query': 
       {
