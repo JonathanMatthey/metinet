@@ -1,49 +1,109 @@
 <div class="panel panel-default">
-	<a href="" class="m-t-sm m-l inline" ng-click="data=[40, 40, 20]">
-		<i class="icon-info"></i>&nbsp;&nbsp;Bio
-	</a>
-	<div class="wrapper m-b-sm">              
-		{{ profile.bio }}
+	<div ng-hide="can_edit">
+		<a href="" class="m-t-sm m-l inline" ng-click="data=[40, 40, 20]">
+			<i class="icon-info"></i>&nbsp;&nbsp;Bio
+		</a>
+		<div class="wrapper m-b-sm">
+			{{ profile.bio }}
+		</div>
 	</div>
+
+	<div ng-show="can_edit">
+		<form editable-form name="editableForm" onaftersave="updateProfile()">		
+			<div class="wrapper-sm p-b-0">
+				<a href="" class="m-t-xs m-l-sm inline" ng-click="data=[40, 40, 20]">
+					<i class="icon-info"></i>&nbsp;&nbsp;Bio
+				</a>
+				<div class="btn-group btn-group-sm pull-right m-r-xs">
+					<button type="button"
+							class="btn btn-default"
+							ng-click="editableForm.$show()"
+							ng-show="!editableForm.$visible"
+							ng-disabled="!profile_loaded">
+						Edit
+					</button>
+					<button type="submit"
+							class="btn btn-primary"
+							ng-show="editableForm.$visible"
+							ng-disabled="editableForm.$waiting">
+						Save
+					</button>
+					<button type="button"
+							class="btn btn-default"
+							ng-show="editableForm.$visible"							
+							ng-disabled="editableForm.$waiting"
+							ng-click="editableForm.$cancel()">
+						Cancel
+					</button>
+				</div>
+			</div>
+			<div class="wrapper m-b-sm" ng-show="editableForm.$visible">
+				<textarea 	class="form-control"
+							editable-textarea="profile.bio"
+							e-rows="7"
+							e-required>{{ profile.bio || 'Tell people about yourself...' }}</textarea>
+			</div>
+			<div class="wrapper m-b-sm" ng-hide="editableForm.$visible">
+				{{ profile.bio }}
+			</div>
+		</form>
+	</div>
+
 	<ul class="list-group no-radius">
 
 		<!-- Experience -->
-		<li class="list-group-item" ng-show="profile.experience.length > 0">
-			<h3><i class="fa fa-fw fa-building-o"></i>&nbsp;&nbsp;Experience</h3>
+		<li class="list-group-item" ng-show="profile.experience.length > 0 || can_edit">
+			<h3>
+				<i class="fa fa-fw fa-building-o"></i>&nbsp;&nbsp;Experience
+				<div class="pull-right">
+					<button class="btn btn-xs btn-primary" ng-click="showCreateNew('experience')">
+						<i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Add New
+					</button>
+				</div>
+			</h3>
 		</li>                
-		<li class="list-group-item" ng-repeat="experience in profile.experience">
-			<span class="pull-right" ng-show="experience.current">
-				Current Job
-			</span>
-			<span class="pull-right" ng-show="!experience.current">
-				{{ experience.start_date | formatFullDate }} - {{ experience.end_date | formatFullDate }}
-			</span>
-			{{ experience.title }} @ {{ experience.company }}
-			<hr>
-			<p>{{ experience.desc }}</p>
-		</li>
+		<li class="list-group-item bg-black"
+			ng-show="show_create_new_experience"
+			ng-include="'tpl/user_profile/components/new_user_experience.html'"></li>
+		<li class="list-group-item"
+			ng-repeat="experience in profile.experience"
+			ng-include="'tpl/user_profile/components/user_experiences.html'"></li>
 
 		<!-- Educations -->
-		<li class="list-group-item" ng-show="profile.education.length > 0">
-			<h3><i class="fa fa-fw fa-graduation-cap"></i>&nbsp;&nbsp;Education</h3>
+		<li class="list-group-item" ng-show="profile.education.length > 0 || can_edit">
+			<h3>
+				<i class="fa fa-fw fa-graduation-cap"></i>&nbsp;&nbsp;Education
+				<div class="pull-right">
+					<button class="btn btn-xs btn-primary" ng-click="showCreateNew('education')">
+						<i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Add New
+					</button>
+				</div>
+			</h3>	
 		</li>
-		<li class="list-group-item" ng-repeat="education in profile.education">
-			<span class="pull-right">
-				{{ education.start_date | formatFullDate }} - {{ education.end_date | formatFullDate }}
-			</span>
-			{{ education.title }} @ {{ education.institute }}
-			<hr>
-			<p>{{ education.desc }}</p>                  
-		</li>
+		<li class="list-group-item bg-black"
+			ng-show="show_create_new_education"
+			ng-include="'tpl/user_profile/components/new_user_education.html'"></li>
+		<li class="list-group-item"
+			ng-repeat="education in profile.education"
+			ng-include="'tpl/user_profile/components/user_educations.html'"></li>
 
 		<!-- Awards -->
-		<li class="list-group-item" ng-show="profile.awards.length > 0">
-		 	<h3><i class="fa fa-fw fa-trophy"></i>&nbsp;&nbsp;Awards</h3>
-		</li>                
-		<li class="list-group-item" ng-repeat="award in profile.awards">
-			<span class="pull-right">{{ education.date | formatFullDate }}</span>
-				{{ award.title }}<br>
-			<small>{{ award.institute }}</small>
-		</li>
+		<li class="list-group-item" ng-show="profile.awards.length > 0 || can_edit">
+			<h3>
+				<i class="fa fa-fw fa-building-o"></i>&nbsp;&nbsp;Awards
+				<div class="pull-right">
+					<button class="btn btn-xs btn-primary" ng-click="showCreateNew('award')">
+						<i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Add New
+					</button>
+				</div>
+			</h3>
+		</li>             
+		<li class="list-group-item bg-black"
+			ng-show="show_create_new_award"
+			ng-include="'tpl/user_profile/components/new_user_award.html'"></li>
+		<li class="list-group-item"
+			ng-repeat="award in profile.awards"
+			ng-include="'tpl/user_profile/components/user_awards.html'"></li>
+
 	</ul>
 </div>

@@ -307,7 +307,7 @@ function shallowClearAndCopy(src, dst) {
  *
  *    // Some APIs expect a PUT request in the format URL/object/ID
  *    // Here we are creating an 'update' method
- *    app.factory('Notes', ['$resource', function($resource) {
+ *    app.factory('Notes', ['$resource', '$rootScope', function($resource, $rootScope) {
  *    return $resource('/notes/:id', null,
  *        {
  *            'update': { method:'PUT' }

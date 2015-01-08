@@ -1,4 +1,4 @@
-angular.module('myApp.controllers').controller('AppCtrl', [	'$scope', 
+angular.module('app.controllers').controller('AppCtrl', [	'$scope', 
 															'$translate',
 															'$localStorage',
 															'$window',	function(   $scope,
@@ -75,4 +75,4 @@ angular.module('myApp.controllers').controller('AppCtrl', [	'$scope',
 		return (/iPhone|iPod|iPad|Silk|Android|BlackBerry|Opera Mini|IEMobile/).test(ua);
 	}
 
-}])
+}]);
