@@ -1,10 +1,12 @@
 <div class="panel panel-default">
   <div class="panel-body b-b b-light">
-    Search: <input id="filter" type="text" class="form-control input-sm w-sm inline m-r"/>
-    <a class="btn btn-primary">+ Add Network</a>
+    <input id="network_filter" type="text" class="form-control input-sm w-lg inline m-r m-lsm" placeholder="Search.."/>
+    <a class="btn btn-primary btn-sm pull-right add-network-modal-btn" ng-show="user_admin_level == 1" ng-click="addNetworkModal()">
+      <i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Add Network
+    </a>
   </div>
   <div>
-    <table class="table m-b-none" ui-jq="footable" data-filter="#filter" data-page-size="5">
+    <table class="table m-b-none" ui-jq="footable" data-filter="#network_filter" data-page-size="20">
       <thead>
         <tr>
             <th data-toggle="true">
@@ -24,8 +26,12 @@
             <td ng-bind="network.desc"></td>
             <td class="text-right">
               <div class="btn-group btn-group-xs">
-                <a class="btn text-danger"><i class="fa fa-fw fa-trash-o"></i></a>
-                <a class="btn"><i class="fa fa-fw fa-chevron-right"></i></a>
+                <a href="#/app/page/network/{{ network.id }}" class="btn btn-default">
+                  <i class="fa fa-fw fa-eye"></i>
+                </a>
+                <a class="btn btn-default text-danger btn-remove network-{{ network.id }}" ng-show="user_admin_level == 1" ng-click="removeNetwork($index)">
+                  <i class="fa fa-fw fa-trash-o text-danger"></i>
+                </a>
               </div>
             </td>            
         </tr>

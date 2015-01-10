@@ -1,10 +1,12 @@
 <div class="panel panel-default">
   <div class="panel-body b-b b-light">
-    Search: <input id="filter" type="text" class="form-control input-sm w-sm inline m-r"/>
-    <a class="btn btn-primary btn-sm pull-right" ng-click="openAddUserToNetworkModal()">+ Add User</a>
+    <input id="user_filter" type="text" class="form-control input-sm w-lg inline m-r m-lsm" placeholder="Search.."/>
+    <a class="btn btn-primary btn-sm pull-right add-users-modal-btn" ng-show="user_admin_level == 1" ng-click="addUsersModal()">
+      <i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Add Users
+    </a>
   </div>
   <div>
-    <table class="table m-b-none" ui-jq="footable" data-filter="#filter" data-page-size="5">
+    <table class="table m-b-none" ui-jq="footable" data-filter="#user_filter" data-page-size="20">
       <thead>
         <tr>
             <th data-toggle="true">
@@ -26,8 +28,12 @@
             <td ng-bind="user.network.name"></td>
             <td class="text-right">
               <div class="btn-group btn-group-xs">
-                <a class="btn text-danger" ng-click="deleteUser($index)"><i class="fa fa-fw fa-trash-o"></i></a>
-                <a class="btn" href="#/app/page/profile/{{ user.id }}"><i class="fa fa-fw fa-chevron-right"></i></a>
+                <a href="#/app/page/profile/{{ user.id }}" class="btn btn-default">
+                  <i class="fa fa-fw fa-eye"></i>
+                </a>
+                <a class="btn btn-default text-danger btn-remove user-{{ user.id }}" ng-show="user_admin_level < 3" ng-click="removeUser($index)">
+                  <i class="fa fa-fw fa-trash-o text-danger"></i>
+                </a>
               </div>
             </td>            
         </tr>

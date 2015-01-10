@@ -181,7 +181,7 @@ var app = angular.module('app', [	'ngAnimate',
             })
             .state('app.page.project',{
                 url:'/projects/:id/:action',
-                templateUrl: 'tpl/page_project_2.html',
+                templateUrl: 'tpl/project/main_view.html',
                 controller: 'ProjectViewController',
 				resolve: {
 					deps: ['uiLoad',
@@ -214,17 +214,17 @@ var app = angular.module('app', [	'ngAnimate',
             })
             .state('access.signin', {
                 url: '/sign-in',
-                templateUrl: 'tpl/page_signin.html',
+                templateUrl: 'tpl/access/sign_in.html',
                 controller: 'SignInController'
             })
             .state('access.signup', {
                 url: '/sign-up',
-                templateUrl: 'tpl/page_signup.html',
+                templateUrl: 'tpl/access/sign_up.html',
                 controller: 'SignUpController'
             })
             .state('access.activate', {
                 url: '/activate/:activation_code',
-                templateUrl: 'tpl/account/activate.html',
+                templateUrl: 'tpl/access/activate.html',
                 controller: 'ActivationController'
             })            
             .state('access.forgotpwd', {

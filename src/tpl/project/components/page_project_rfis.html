@@ -1,0 +1,76 @@
+<div class="panel panel-default">
+	<div class="panel-body b-b b-light">
+		<input id="rfi_filter" type="text" class="form-control input-sm w-lg inline m-r m-lsm" placeholder="Search.."/>
+	</div>
+	<div>
+		<table class="table m-b-none" ui-jq="footable" data-filter="#rfi_filter" data-page-size="5">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>From</th>
+					<th>To</th>
+					<th>Response Stage</th>
+					<th class="text-center">Deadline</th>					
+					<td class="text-right">Actions</td>
+				</tr>
+			</thead>
+			<tbody ng-hide="project_rfis_returned">
+				<tr ng-hide="projectRFIs.length > 0">
+					<td colspan="7" class="text-center">
+						<i class="fa fa-refresh fa-spin"></i>&nbsp;&nbsp;Loading...
+					</td>
+				</tr>
+			</tbody>
+			<tbody ng-show="project_rfis_returned">
+				<tr ng-hide="projectRFIs.length > 0">
+					<td colspan="7" class="bg-warning text-center">This Project Has No RFIs</td>           
+				</tr>
+				<tr ng-repeat="rfi in projectRFIs" ng-hide="">
+					<td data-ng-bind="rfi.specific_id"></td>
+					<td data-ng-bind="rfi.requesting_network"></td>
+					<td data-ng-bind="rfi.responding_network"></td>
+					<td data-ng-bind="rfi.response_body"></td>
+<!-- 					IF INCOMPLETE -->
+					<td class="text-center" ng-show="rfi.response_data.stage < 2">
+						<span class="text-{{rfi.status.colour}}">
+							{{ rfi.response_deadline | fromNow }}
+						</span>
+					</td>
+<!-- 					/ IF INCOMPLETE -->
+<!-- 					IF COMPLETE -->
+					<td class="text-center" ng-hide="rfi.response_data.stage < 2">
+						<span class="text-success">
+							Completed
+						</span>
+					</td>
+<!-- 					/ IF COMPLETE -->
+					<td class="text-right">
+						<div class="btn-group btn-group-xs">
+							<a 	class="btn btn-primary btn-edit rfi-{{ rfi.id }}"
+								ng-show="rfi.can_edit_request"
+								ng-click="openRfi($index, 'edit')">
+								<i class="fa fa-fw fa-edit"></i>
+							</a>
+							<a 	class="btn btn-primary btn-respond rfi-{{ rfi.id }}"
+								ng-show="rfi.can_edit_response"
+								ng-click="openRfi($index, 'respond')">
+								<i class="fa fa-fw fa-reply"></i>
+							</a>
+							<a 	ng-click="openRfi($index, 'view')"
+								class="btn btn-default">
+								<i class="fa fa-fw fa-eye"></i>
+							</a>							
+						</div>
+					</td> 					
+				</tr>
+			</tbody>
+			<tfoot class="hide-if-no-paging">
+				<tr>
+					<td colspan="5" class="text-center">
+						<ul class="pagination"></ul>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>

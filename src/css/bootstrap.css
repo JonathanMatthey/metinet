@@ -2385,12 +2385,24 @@ output {
   color: #777;
 }
 .form-control[disabled],
-.form-control[readonly],
 fieldset[disabled] .form-control {
   cursor: not-allowed;
   background-color: #eee;
   opacity: 1;
 }
+input.form-control[readonly] {
+  background: none;
+  cursor: default;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 1px solid #eee;  
+}
+textarea.form-control[readonly] {
+  background: none;
+  cursor: default;
+}
+
 textarea.form-control {
   height: auto;
 }

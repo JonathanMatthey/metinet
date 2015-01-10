@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add User to Network</h3>
+</div>
+<div class="modal-body">
+    <h5>Select one or more users to add to this project</h5>
+    <select multiple ng-model="selectedUsers" class="form-control">
+        <option ng-selected=""
+            ng-repeat="user in potential_users"
+            value="{{user.id}}"
+            size="20">
+          {{user.fullname}}
+        </option>
+    </select>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+</div>
