@@ -26,13 +26,15 @@
 		</a>
 		<a 	ng-click="changeAction('permits')"
 			class="btn wrapper-sm"
-			ng-class="(user_action == 'permits') ? 'btn-black' : 'btn-white'">
+			ng-class="(user_action == 'permits') ? 'btn-black' : 'btn-white'"
+			ng-show="project.permit_assessment">
 			<i class="fa fa-certificate m-b-xs"></i><br>
 			Permits
 		</a>
 		<a 	ng-click="changeAction('long-leads')"
 			class="btn wrapper-sm"
-			ng-class="(user_action == 'long-leads') ? 'btn-black' : 'btn-white'">
+			ng-class="(user_action == 'long-leads') ? 'btn-black' : 'btn-white'"
+			ng-show="project.long_lead_items">
 			<i class="fa fa-tags m-b-xs"></i><br>
 			Long Lead Items
 		</a>
@@ -57,13 +59,13 @@
 	</div>
 
 	<!-- START TEMPLATE -->
-	<ng-include src="'tpl/project/page_project_overview.html'" ng-show="user_action == 'overview'"></ng-include>
-	<ng-include src="'tpl/project/page_project_networks.html'" ng-show="user_action == 'networks'"></ng-include>
-	<ng-include src="'tpl/project/page_project_users.html'" ng-show="user_action == 'users'"></ng-include>
-	<ng-include src="'tpl/project/page_project_permits.html'" ng-show="user_action == 'permits'"></ng-include>
-	<ng-include src="'tpl/project/page_project_long_leads.html'" ng-show="user_action == 'long-leads'"></ng-include>
-	<ng-include src="'tpl/project/page_project_rfis.html'" ng-show="user_action == 'rfis'"></ng-include>
-	<ng-include src="'tpl/project/page_project_settings.html'" ng-show="user_action == 'settings'"></ng-include>
+	<ng-include src="'tpl/project/components/page_project_overview.html'" ng-show="user_action == 'overview'"></ng-include>
+	<ng-include src="'tpl/project/components/page_project_networks.html'" ng-show="user_action == 'networks'"></ng-include>
+	<ng-include src="'tpl/project/components/page_project_users.html'" ng-show="user_action == 'users'"></ng-include>
+	<ng-include src="'tpl/project/components/page_project_permits.html'" ng-show="user_action == 'permits'"></ng-include>
+	<ng-include src="'tpl/project/components/page_project_long_leads.html'" ng-show="user_action == 'long-leads'"></ng-include>
+	<ng-include src="'tpl/project/components/page_project_rfis.html'" ng-show="user_action == 'rfis'"></ng-include>
+	<ng-include src="'tpl/project/components/page_project_settings.html'" ng-show="user_action == 'settings'"></ng-include>
 	<!-- END TEMPLATE -->  
 
   </div>
@@ -81,7 +83,7 @@
 			<tab-heading>
 				<i class="fa fa-users text-md wrapper-sm"></i>
 			</tab-heading>
-			<div ng-class="wrapper-sm: !projectUsers" ng-include="'tpl/project/sidebar/project_users.html'"></div>
+			<div ng-class="'wrapper-sm': !projectUsers" ng-include="'tpl/project/sidebar/project_users.html'"></div>
 		</tab>     
     </tabset>
 

@@ -1,7 +1,8 @@
 angular.module('app.services')
 	.factory('ProjectNetworks', ['$resource', '$rootScope', function($resource, $rootScope) {
-		return $resource($rootScope.api_url+'/projects/:id/networks',{
-			id:'@_id'
+		return $resource($rootScope.api_url+'/projects/:id/networks/:network_id',{
+			id:'@id',
+			network_id:'@network_id'
 		},{
 			query: {
 				method: 'GET',
