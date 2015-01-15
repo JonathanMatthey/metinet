@@ -1,24 +1,26 @@
-<div class="row">
-  <div class="col-md-3">
-    <div class="panel" draggable="true" id="sticky_sidebar">
-      <div class="panel-heading b-b">
-        <h4 class="m-n font-thin h4">Settings Menu</h4>
-      </div>
-      <div class="list-group bg-white">
-        <a  ng-click="changeSettingsAction(menu_item.action)"
-          class="list-group-item"
-          ng-repeat="menu_item in settings_menu">
-          <i class="fa fa-fw {{ menu_item.icon }}"></i>&nbsp; {{ menu_item.name }}
-        </a>
-      </div>
-    </div>
-  </div>
+<div class="hbox hbox-auto-xs bg-light">
+	<!-- column -->
+	<div class="col w-md lter b-r">
+		<div class="wrapper b-b">
+			<div class="font-thin h4">Settings Menu</div>
+		</div>
+		<div class="">
+			<div class="list-group bg-white">
+				<a  ui-sref="{{ menu_item.state }}"
+					class="list-group-item"
+					ng-repeat="menu_item in settings_menu">
+					<i class="fa fa-fw {{ menu_item.icon }}"></i>&nbsp; {{ menu_item.name }}
+				</a>
+			</div>
+		</div>
+	</div>
+	<!-- /column -->
 
-  <div class="col-md-8">
-    <!-- START TEMPLATES -->
-    <div ng-repeat="page in settings_menu">
-      <ng-include src="page.tpl" ng-show="settings_action == '{{ page.action }}'"></ng-include>
-    </div>
-    <!-- END TEMPLATES --> 
-  </div>
+	<div class="wrapper-sm">
+		<!-- START: Nested View -->
+		<div ui-view></div>
+		<!-- END: Nested View -->
+	</div>
+
 </div>
+<!-- /hbox layout -->
