@@ -12,10 +12,10 @@ angular.module('app.controllers').controller('ProjectLongLeadController', [ '$sc
 																									ChangeLongLeadStatus,
 																									$modal ) {
 
-	$scope.project_id               = $stateParams.id;
+	$scope.project_id               = $stateParams.project_id;
 	$scope.long_leads_returned      = false;
 
-	ProjectLongLeads.get({id:$stateParams.id})
+	ProjectLongLeads.get({id:$stateParams.project_id})
 		.$promise.then(function(res) {
 			$scope.long_lead_items      = res.data
 			$scope.long_leads_returned  = true;
@@ -49,15 +49,15 @@ angular.module('app.controllers').controller('ProjectLongLeadController', [ '$sc
 					$('.btn-edit.long_lead-'+long_lead.id).removeClass('text-center btn-danger btn-success');
 					$('.btn-edit.long_lead-'+long_lead.id).addClass('btn-success');
 					$('.btn-edit.long_lead-'+long_lead.id).html('<i class="fa fa-fw fa-check"></i>');
-					$('.btn-edit.long_lead-'+long_lead.id).prop('disabled', false);                 
+					$('.btn-edit.long_lead-'+long_lead.id).prop('disabled', false);
 					$scope.long_lead_items[long_lead_index] = res.data;
 				}, function(response) {
 					$('.btn-edit.long_lead-'+long_lead.id).removeClass('text-center btn-danger btn-success');
 					$('.btn-edit.long_lead-'+long_lead.id).addClass('btn-danger');
 					$('.btn-edit.long_lead-'+long_lead.id).html('<i class="fa fa-fw fa-times"></i>');
-					$('.btn-edit.long_lead-'+long_lead.id).prop('disabled', false);                 
+					$('.btn-edit.long_lead-'+long_lead.id).prop('disabled', false);
 				});
-		});     
+		});
 	};
 
 	$scope.changeLongLeadStatus = function(long_lead_index, _action, _status) {
@@ -65,19 +65,19 @@ angular.module('app.controllers').controller('ProjectLongLeadController', [ '$sc
 		$('.btn-edit.long_lead-'+long_lead_item.id).removeClass('text-center text-danger btn-danger btn-success');
 		$('.btn-edit.long_lead-'+long_lead_item.id).addClass('text-center');
 		$('.btn-edit.long_lead-'+long_lead_item.id).html('<i class="fa fa-fw fa-refresh fa-spin"></i>');
-	
+
 		ChangeLongLeadStatus.update({id:long_lead_item.id, action:_action}, long_lead_item)
 			.$promise.then(function(res) {
 				$('.btn-edit.long_lead-'+long_lead_item.id).removeClass('text-center btn-danger btn-success');
 				$('.btn-edit.long_lead-'+long_lead_item.id).addClass('btn-success');
 				$('.btn-edit.long_lead-'+long_lead_item.id).html('<i class="fa fa-fw fa-check"></i>');
-				$('.btn-edit.long_lead-'+long_lead_item.id).prop('disabled', false);                    
+				$('.btn-edit.long_lead-'+long_lead_item.id).prop('disabled', false);
 				$scope.long_lead_items[long_lead_index] = res.data;
 			}, function(response) {
 				$('.btn-edit.long_lead-'+long_lead_item.id).removeClass('text-center btn-danger btn-success');
 				$('.btn-edit.long_lead-'+long_lead_item.id).addClass('btn-danger');
 				$('.btn-edit.long_lead-'+long_lead_item.id).html('<i class="fa fa-fw fa-times"></i>');
-				$('.btn-edit.long_lead-'+long_lead_item.id).prop('disabled', false);                    
+				$('.btn-edit.long_lead-'+long_lead_item.id).prop('disabled', false);
 			});
 	};
 
@@ -94,7 +94,7 @@ angular.module('app.controllers').controller('ProjectLongLeadController', [ '$sc
 				$('.btn-delete.long_lead-'+long_lead_id).removeClass('text-center btn-danger btn-success');
 				$('.btn-delete.long_lead-'+long_lead_id).addClass('btn-danger');
 				$('.btn-delete.long_lead-'+long_lead_id).html('<i class="fa fa-fw fa-times"></i>');
-				$('.btn-delete.long_lead-'+long_lead_id).prop('disabled', false);                   
+				$('.btn-delete.long_lead-'+long_lead_id).prop('disabled', false);
 			});
 	};
 

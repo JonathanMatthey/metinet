@@ -322,13 +322,6 @@ a.list-group-item.no-hover.hover {
   background-color: #19a9d5;
 }
 
-.nav > li > a:hover,
-.nav > li > a:focus,
-.nav > li.active > a {
-  background-color: #0a1015;
-  color: white;
-}
-
 .nav.nav-lg > li > a {
   padding: 20px 20px;
 }
@@ -1901,7 +1894,7 @@ fieldset[disabled] .btn-danger.active {
   color: #2f3342 !important;
   background-color: #6CC3A0;
   border-color: #6CC3A0;
-  cursor: default;  
+  cursor: default;
 }
 
 .btn-primary.no-hover.active:hover,
@@ -4081,12 +4074,12 @@ a.text-#000000:hover {
 
 .padder-v-0 {
   padding-top: 0 !important;
-  padding-bottom: 0 !important;  
+  padding-bottom: 0 !important;
 }
 
 .padder-h-0 {
   padding-left: 0 !important;
-  padding-right: 0 !important;  
+  padding-right: 0 !important;
 }
 
 .padder-top-10-n {
@@ -5072,4 +5065,14 @@ a.text-#000000:hover {
 
 .legendLabel {
   padding: 5px;
+}
+
+.logo {
+  color: #6CC3A0;
+  font-size: 1em;
+}
+
+th.to-do {
+  padding: 2px!important;
+  border-bottom: 0px!important;
 }

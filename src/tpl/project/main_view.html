@@ -1,5 +1,5 @@
-<div 	class="hbox hbox-auto-xs hbox-auto-sm" 
-		ng-init="	app.settings.asideFolded = false; 
+<div 	class="hbox hbox-auto-xs hbox-auto-sm"
+		ng-init="	app.settings.asideFolded = false;
 					app.settings.asideDock = false;
 					init()	">
   <!-- main -->
@@ -12,7 +12,7 @@
   </div>
   <!-- / main -->
   <!-- right col -->
-  <div class="col w-md bg-black bg-auto no-border-xs">
+  <div class="col w-md bg-black bg-auto no-border-xs" ng-hide="$state.includes('app.page.project.nodes')">
 	<tabset class="nav-tabs-alt" justified="true">
 		<tab>
 			<tab-heading>
