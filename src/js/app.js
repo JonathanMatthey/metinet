@@ -165,7 +165,7 @@ var app = angular.module('app', [	'ngAnimate',
 					}]
 				}
 			})
-			.state('app.page.branchnode',{
+			.state('app.page.branchnode', {
 				url:'/nodes/:id',
 				templateUrl: 'tpl/nodes/main.html',
 				controller:'NodeViewController',
@@ -180,20 +180,70 @@ var app = angular.module('app', [	'ngAnimate',
 					}]
 				}
 			})
-			.state('app.page.project',{
-				url:'/projects/:id/:action',
+			.state('app.page.project', {
+				url:'/projects/:id',
 				templateUrl: 'tpl/project/main_view.html',
-				controller: 'ProjectViewController',
-				resolve: {
-					deps: ['uiLoad',
-						function( uiLoad ){
-							return uiLoad.load([
-								'js/jquery/charts/flot/jquery.flot.min.js',
-								'js/jquery/charts/flot/jquery.flot.resize.js'
-							]);
-						}]
-				}
+				controller: 'ProjectController'
 			})
+				.state('app.page.project.overview', {
+					url:'/overview',
+					templateUrl: 'tpl/project/components/page_project_overview.html',
+					controller: 'ProjectOverviewController',
+					resolve: {
+						deps: ['uiLoad',
+							function( uiLoad ){
+								return uiLoad.load([
+									'js/jquery/charts/flot/jquery.flot.min.js',
+									'js/jquery/charts/flot/jquery.flot.resize.js'
+								]);
+							}]
+					}
+				})
+				.state('app.page.project.long-leads', {
+					url:'/long-leads',
+					templateUrl: 'tpl/project/components/page_project_long_leads.html',
+					controller: 'ProjectLongLeadController'
+				})
+				.state('app.page.project.permits', {
+					url:'/permits',
+					templateUrl: 'tpl/project/components/page_project_permits.html',
+					controller: 'ProjectPermitController'
+				})
+				.state('app.page.project.rfis', {
+					url:'/rfis',
+					templateUrl: 'tpl/project/components/page_project_rfis.html',
+					controller: 'ProjectRFIController'
+				})
+				.state('app.page.project.settings', {
+					url:'/settings',
+					templateUrl: 'tpl/project/components/page_project_settings.html',
+					controller: 'ProjectSettingsController'
+				})
+					.state('app.page.project.settings.general', {
+						url:'/general',
+						templateUrl: 'tpl/project/components/settings/general_settings.html',
+						controller: 'ProjectGeneralSettingsController'			
+					})
+					.state('app.page.project.settings.networks', {
+						url:'/networks',
+						templateUrl: 'tpl/project/components/settings/networks_settings.html',
+						controller: 'ProjectNetworksSettingsController'			
+					})
+					.state('app.page.project.settings.users', {
+						url:'/users',
+						templateUrl: 'tpl/project/components/settings/users_settings.html',
+						controller: 'ProjectUsersSettingsController'			
+					})
+					.state('app.page.project.settings.location', {
+						url:'/location',
+						templateUrl: 'tpl/project/components/settings/location_settings.html',
+						controller: 'ProjectLocationSettingsController'			
+					})
+					.state('app.page.project.settings.tracking', {
+						url:'/tracking',
+						templateUrl: 'tpl/project/components/settings/tracking_settings.html',
+						controller: 'ProjectTrackingSettingsController'			
+					})
 
 			.state('app.page.search', {
 				url: '/search',
