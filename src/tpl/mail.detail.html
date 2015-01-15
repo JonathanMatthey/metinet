@@ -1,52 +1,52 @@
 <div ng-controller="MailDetailCtrl" ng-init="init()">
-  <div class="loading-gantt" ng-hide="ready">
-    <span>Loading Messages</span>
-  </div>
-  <div ng-show="ready">
-    <div class="wrapper bg-light lter b-b conversation-header">
-    </div>
-    <div class="wrapper b-b">
-      <h2 class="font-thin m-n">{{conversation.subject}}</h2>
-    </div>
-    <div class="wrapper b-b font-bold m-b-sm">
-      {{ conversation.users | pluck:'fullname' | join:', '  }}
-    </div>
-    <div class="wrapper b-b ng-binding row clearfix" ng-repeat="message in conversation.messages">
-      <div class="col-xs-12 no-padder">
-        <img ng-src="img/a10.jpg" class="pull-left img-circle thumb-xs m-l-md m-r-sm" src="img/a10.jpg">
-        <div class=" no-padder ">
-          <a href="" class="ng-binding" ng-bind="message.creator.fullname"></a> <span class="text-muted pull-right m-r" ng-bind="message.updated_at"></span>
-          <p ng-bind="message.message" style="margin-left:64px">
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="wrapper">
-      <div ng-repeat="attach in conversation.attach" class="panel b-a inline m-r-sm m-b-sm bg-light">
-        <div class="wrapper-xs b-b"><i class="fa fa-paperclip"></i> {{attach.name}}</div>
-        <div class="wrapper-xs w-sm lt">
-          <a ng-href="{{attach.url}}"><img ng-src="{{attach.url}}" class="img-full"></a>
-        </div>
-      </div>
-    </div>
-    <div class="wrapper">
-      <div class="panel b-a">
-        <div class="panel-heading ng-show" ng-hide="reply">
-          <div class="m-b-lg">
-            Click here to <a href class="text-u-l" ng-click="reply=!reply">Reply</a> or <a href class="text-u-l" ng-click="reply=!reply">Forward</a>
-          </div>
-        </div>
-        <div class="ng-hide" ng-show="reply">
-          <div class="panel-heading b-b b-light">
-            {{ conversation.users | pluck:'fullname' | join:', '  }}
-          </div>
-          <textarea class="conversation-reply-body" ng-model="messageBody" class="wrapper" contenteditable="true" style="min-height:100px"></textarea>
-          <div class="panel-footer bg-light lt">
-            <button class="btn btn-link pull-right" ng-click="reply=!reply"><i class="fa fa-trash-o"></i></button>
-            <button ng-click="sendMessage()" class="btn btn-info w-xs font-bold">Send</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="loading-gantt" ng-hide="ready">
+		<span>Loading Messages</span>
+	</div>
+	<div ng-show="ready">
+		<div class="wrapper p-b-0">
+			<h2 class="font-thin m-n">{{conversation.subject}}</h2>
+		</div>
+		<div class="wrapper b-b font-bold m-b-sm">
+			<i class="icon icon-users"></i>	
+			&nbsp;&nbsp;{{ conversation.users | pluck: 'fullname' | join: ', '  }}
+		</div>
+		<div class="wrapper b-b ng-binding row clearfix" ng-repeat="message in conversation.messages">
+			<div class="col-xs-12 no-padder">
+				<img ng-src="img/a10.jpg" class="pull-left img-circle thumb-xs m-l-md m-r-sm" src="img/a10.jpg">
+				<div class=" no-padder ">
+					<a href="" class="ng-binding" ng-bind="message.creator.fullname"></a>
+					<span class="text-muted pull-right m-r">{{ message.updated_at | fromNow }}</span>
+					<p ng-bind="message.message" style="margin-left:64px">
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="wrapper">
+			<div ng-repeat="attach in conversation.attach" class="panel b-a inline m-r-sm m-b-sm bg-light">
+				<div class="wrapper-xs b-b"><i class="fa fa-paperclip"></i> {{attach.name}}</div>
+				<div class="wrapper-xs w-sm lt">
+					<a ng-href="{{attach.url}}"><img ng-src="{{attach.url}}" class="img-full"></a>
+				</div>
+			</div>
+		</div>
+		<div class="wrapper">
+			<div class="panel b-a">
+				<div class="panel-heading ng-show" ng-hide="reply">
+					<div class="m-b-lg">
+						Click here to <a href class="text-u-l" ng-click="reply=!reply">Reply</a> or <a href class="text-u-l" ng-click="reply=!reply">Forward</a>
+					</div>
+				</div>
+				<div class="ng-hide" ng-show="reply">
+					<div class="panel-heading b-b b-light">
+						{{ conversation.users | pluck:'fullname' | join:', '  }}
+					</div>
+					<textarea class="conversation-reply-body" ng-model="messageBody" class="wrapper" contenteditable="true" style="min-height:100px"></textarea>
+					<div class="panel-footer bg-light lt">
+						<button class="btn btn-link pull-right" ng-click="reply=!reply"><i class="fa fa-trash-o"></i></button>
+						<button ng-click="sendMessage()" class="btn btn-info w-xs font-bold">Send</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

@@ -13,53 +13,54 @@
 	<div ui-jq="plot" ui-refresh="d0_1" ui-options="
 		[
 			{ 
-			  data: [ {{ d0_2 }} ], 
-			  label: 'Calculated', 
-			  points: { show: true, radius: 1 }, 
-			  splines: { show: true, tension: 0.4, lineWidth: 1 } 
+				data: [ {{ d0_2 }} ], 
+				label: 'Calculated', 
+				points: { show: true, radius: 1 }, 
+				splines: { show: true, tension: 0.4, lineWidth: 1 } 
 			},
 			{ 
-			  data: [ {{ d0_1 }} ],
-			  label: 'Actual',
-			  points: { show: true, radius: 2 },
-			  splines: { show: true, tension: 0.4, lineWidth: 1 }
+				data: [ {{ d0_1 }} ],
+				label: 'Actual',
+				points: { show: true, radius: 2 },
+				splines: { show: true, tension: 0.4, lineWidth: 1 }
 			}
 		],
 		{
 			colors: [
-			  '#314554',
-			  '{{ app.color.info }}'
+				'#314554',
+				'{{ app.color.info }}'
 			],
 			series: { 
-			  shadowSize: 3 
+				shadowSize: 3 
 			},
 			xaxis: { 
-			  mode:'time',
-			  timeformat: '%d-%m-%Y',
-			  font: { color: '#507b9b' }
+				mode:'time',
+				timeformat: '%d-%m-%Y',
+				font: { color: '#507b9b' }
 			},
 			yaxis: {
-			  font: { color: '#507b9b' }, 
-			  max:100
+				font: { color: '#507b9b' }, 
+				min:0,
+				max:100
 			},
 			grid: { 
-			  hoverable: true,
-			  clickable: true,
-			  borderWidth: 0,
-			  color: '#1c2b36'
+				hoverable: true,
+				clickable: true,
+				borderWidth: 0,
+				color: '#1c2b36'
 			},
 			tooltip: true,
 			tooltipOpts: { 
-			  content: '%y% on %x',  
-			  defaultTheme: false, 
-			  shifts: { 
-			    x: 10,
-			    y: -25 
-			  } 
+				content: '%y% on %x',  
+				defaultTheme: false, 
+				shifts: { 
+					x: 10,
+					y: -25 
+			  	} 
 			}
 		}
-		" style="min-height:360px" >
-	    </div>
+		" style="min-height:360px">
+		</div>
 </div>
 <div class="wrapper-md bg-white-only b-b">
 	<div class="row text-center">
@@ -95,11 +96,12 @@
 			</div>
 		</div>
 		<div class="col-sm-3 col-xs-6">
-			<div>
-				Visits
-			</div>
-			<div class="h2 m-b-sm">
-				2,300
+			<div>Last Updated</div>
+			<div class="h2 m-b-sm text-muted" ng-hide="project">
+				<i class="fa fa-spin fa-refresh"></i>
+			</div>      
+			<div class="h2 m-b-sm" ng-show="project">
+				{{ project.updated_data.time | fromNow }}
 			</div>
 		</div>
 	</div>
@@ -138,8 +140,8 @@
 
 			</div>
 		</div>
-	    <!-- START TO DO -->
-	    <div class="col-md-6">
+		<!-- START TO DO -->
+		<div class="col-md-6">
 			<div class="wrapper" ng-hide="project">
 				<h4 class="m-b-lg"><i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Loading To Do List...</h4>
 			</div>
@@ -182,8 +184,8 @@
 					</tbody>             
 				</table>
 			</div>
-    	</div>
-    	<!-- END TO DO -->
+		</div>
+		<!-- END TO DO -->
 	</div>
-  	<!-- / users -->
+	<!-- / users -->
 </div>

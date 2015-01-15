@@ -1,0 +1,76 @@
+<div class="panel panel-default b-0">
+	<header class="panel-heading b-b">
+		<h4 class="m-n font-thin h4">Location Settings</h4>
+	</header>
+	<div class="panel-body">
+
+		<ui-gmap-google-map 	center="map.center"
+								zoom="map.zoom"
+								draggable="true"
+								options="map.options">
+
+			<ui-gmap-marker 	coords="marker.coords"
+								options="marker.options"
+								events="marker.events"
+								idkey="marker.id"></ui-gmap-marker>
+
+		</ui-gmap-google-map>
+
+		<hr>
+
+		<div class="alert alert-info m-b-0" id="map-request-result" ng-show="map_request">
+			<i class="fa fa-fw fa-spin fa-refresh"></i>&nbsp;&nbsp;Loading country data...
+		</div>
+
+		<div class="form-group pull-in clearfix">
+			<div class="col-sm-6">
+				<label>Country</label>
+				<select class="form-control">
+					<option value="{{ country.code }}"
+							ng-repeat="country in countries"
+							ng-selected="project_settings.country_id == country.iso"
+							ng-model="project_settings.country_id"
+							ng-disabled="marker_moved">{{ country.nicename }}</option>
+				</select>				
+			</div>
+			<div class="col-sm-6">
+				<label>Currency</label>
+				<select class="form-control">
+					<option value="{{ currency.code }}"
+							ng-repeat="currency in currencies"
+							ng-selected="project_settings.currency_id == currency.code"
+							ng-model="project_settings.currency_id"							
+							ng-disabled="marker_moved">{{ currency.name }} [{{ currency.symbol }}]</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group pull-in clearfix">
+			<div class="col-sm-6">
+				<label>Working Days</label>
+				<input 	type="text"
+						class="form-control"
+						placeholder="Working Days"
+						ng-model="project_settings.working_days"
+						ng-disabled="marker_moved">
+			</div>
+			<div class="col-sm-6">
+				<label>Working Hours</label>
+				<input 	type="text"
+						class="form-control"
+						placeholder="Working Hours"
+						ng-model="project_settings.working_hours"
+						ng-disabled="marker_moved">
+			</div>
+		</div>
+
+	</div>
+	<footer class="panel-footer text-right bg-light lter">
+		<button type="submit"
+				class="btn btn-primary btn-submit location"
+				ng-disabled="!project_settings"
+				ng-click="submitSettings('location')">
+			Save
+		</button>
+	</footer>
+</div>

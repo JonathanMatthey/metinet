@@ -1,0 +1,136 @@
+<div class="modal-header" ng-hide="action == 'create'">
+	<h3><i class="fa fa-fw fa-tag"></i>&nbsp;&nbsp;{{ long_lead.name }}</h3>
+</div>
+<div class="modal-header" ng-show="action == 'create'">
+	<h3><i class="fa fa-fw fa-tag"></i>&nbsp;&nbsp;Create Long Lead Item</h3>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div ng-class="(action == 'view') ? 'col-md-7' : 'col-md-12'">
+
+			<form class="bs-example form-horizontal ng-pristine ng-valid">
+				<div class="form-group">
+					<label 	class="control-label text-right"
+							ng-class="(action == 'view') ? 'col-lg-4' : 'col-lg-3'">Name</label>
+					<div ng-class="(action == 'view') ? 'col-lg-8' : 'col-lg-8'">
+						<input 	type="text"
+								class="form-control input-sm"
+								ng-readonly="action == 'view'"
+								placeholder="Name"
+								ng-model="long_lead.name">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label text-right"
+							ng-class="(action == 'view') ? 'col-lg-4' : 'col-lg-3'">Quantity</label>
+					<div ng-class="(action == 'view') ? 'col-lg-8' : 'col-lg-8'">
+						<input 	type="text"
+								class="form-control input-sm"
+								ng-readonly="action == 'view'"								
+								placeholder="Quantity"
+								ng-model="long_lead.quantity">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label text-right"
+							ng-class="(action == 'view') ? 'col-lg-4' : 'col-lg-3'">Delivery Time</label>
+					<div ng-class="(action == 'view') ? 'col-lg-8' : 'col-lg-8'">
+						<div class="input-group" ng-hide="action == 'view'">
+							<input 	type="text"
+									class="form-control input-sm"
+									placeholder="Delivery Time"
+									ng-model="long_lead.delivery_time">
+							<span 	class="input-group-addon">Days</span>
+						</div>
+						<input 	type="text"
+								class="form-control"
+								ng-readonly="action == 'view'"								
+								placeholder="Delivery Time"
+								ng-model="long_lead.delivery_time"
+								ng-show="action == 'view'">											
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label text-right"
+							ng-class="(action == 'view') ? 'col-lg-4' : 'col-lg-3'">Approval Time</label>
+					<div ng-class="(action == 'view') ? 'col-lg-8' : 'col-lg-8'">
+						<div class="input-group" ng-hide="action == 'view'">
+							<input 	type="text"
+									class="form-control input-sm"
+									placeholder="Approval Time"
+									ng-model="long_lead.approval_time">
+							<span 	class="input-group-addon">Days</span>
+						</div>
+						<input 	type="text"
+								class="form-control"
+								ng-readonly="action == 'view'"								
+								placeholder="Approval Time"
+								ng-model="long_lead.approval_time"
+								ng-show="action == 'view'">											
+					</div>
+				</div>				
+				<div class="form-group">
+					<label class="control-label text-right"
+							ng-class="(action == 'view') ? 'col-lg-4' : 'col-lg-3'">Cost Per Item</label>
+					<div ng-class="(action == 'view') ? 'col-lg-8' : 'col-lg-8'">
+						<div class="input-group" ng-hide="action == 'view'">
+							<span class="input-group-addon">£</span>
+							<input 	type="text"
+									class="form-control input-sm"
+									placeholder="Cost Per Item"
+									ng-model="long_lead.cost">
+						</div>						
+						<input 	type="text"
+								class="form-control"
+								ng-readonly="action == 'view'"								
+								placeholder="Cost Per Item"
+								ng-model="long_lead.cost"
+								ng-show="action == 'view'">
+					</div>
+				</div>
+				<div class="form-group" ng-show="action == 'view'">
+					<label class="col-lg-4 control-label text-right">Status</label>
+					<div class="col-lg-8">
+						<input 	type="text"
+								class="form-control input-sm text-{{ long_lead.status.status_colour }}"
+								ng-readonly="action == 'view'"								
+								placeholder="Name"
+								ng-model="long_lead.status.status">
+					</div>
+				</div>				
+			</form>
+
+		</div>
+		<div class="col-md-5" ng-show="action == 'view'">
+<!--         	START: Ordered Data -->
+			<dt>Ordered By</dt>
+			<dd ng-hide="long_lead.ordered_data">
+				{{ long_lead.status.stage }}
+			</dd>
+			<dd ng-show="long_lead.ordered_data">
+				<i class="fa fa-fw fa-user"></i>&nbsp;&nbsp;{{ long_lead.ordered_data.user.fullname }}<br>
+				<i class="fa fa-fw fa-calendar"></i>&nbsp;&nbsp;<span ng-bind="long_lead.ordered_data.time | formatFullDate"></span>
+			</dd>
+<!--         	END: Ordered Data -->
+<!--         	START: Recieved Data -->
+			<dt ng-show="long_lead.received_data" class="m-t-sm">Received By</dt>
+			<dd ng-show="long_lead.received_data">
+				<i class="fa fa-fw fa-user"></i>&nbsp;&nbsp;{{ long_lead.received_data.user.fullname }}<br>
+				<i class="fa fa-fw fa-calendar"></i>&nbsp;&nbsp;<span ng-bind="long_lead.received_data.time | formatFullDate"></span>
+			</dd>
+<!--         	END: Recieved Data -->
+<!--         	START: Approved Data -->			
+			<dt ng-show="long_lead.approved_data" class="m-t-sm">Approved By</dt>
+			<dd ng-show="long_lead.approved_data">
+				<i class="fa fa-fw fa-user"></i>&nbsp;&nbsp;{{ long_lead.approved_data.user.fullname }}<br>
+				<i class="fa fa-fw fa-calendar"></i>&nbsp;&nbsp;<span ng-bind="long_lead.approved_data.time | formatFullDate"></span>
+			</dd>
+
+<!--         	END: Approved Data -->
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="cancel()" ng-show="action != 'view'">Cancel</button>
+	<button class="btn btn-primary" ng-click="ok()">Ok</button>	
+</div>

@@ -1,7 +1,8 @@
 angular.module('app.services')
 	.factory('ProjectLongLeads', ['$resource', '$rootScope', function($resource, $rootScope) {
-		return $resource($rootScope.api_url+'/projects/:id/long-leads',{
-			id:'@_id'
+		return $resource($rootScope.api_url+'/projects/:id/long-leads/:long_lead_id',{
+			id:'@_id',
+			long_lead_id:'@_long_lead_id'
 		},{
 			query: {
 				method: 'GET',
@@ -12,7 +13,7 @@ angular.module('app.services')
 				isArray: true
 			},
 			update: {
-			    method: 'PUT'
+				method: 'PUT'
 			}
 		});
 	}]);

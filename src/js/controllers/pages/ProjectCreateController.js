@@ -1,71 +1,117 @@
 angular.module('app.controllers').controller('ProjectCreateController', [	'$scope',
-																			'$state', 
-																			'$window', 
-																			'$http', 
-																			'Auth', 
-																			'Project', 
-																			'moment', 
-																			'toaster', function(	$scope,
+																			'$state',
+																			'Countries',
+																			'Currencies',
+																			'Networks', 
+																			'Project', 	function(	$scope,
 																									$state,
-																									$window,
-																									$http,
-																									Auth,
-																									Project,
-																									moment,
-																									toaster 	) {
-		
-	$scope.project 						= new Project();
-	$scope.projectCountry 				= {};
-	$scope.project.name 				= "Big New Project";
-	$scope.project.lat 					= 1.1;
-	$scope.project.lng 					= 2.2;
-	$scope.project.client_name 			= "JCB";
-	$scope.project.contractor_name 		= "Mr Contractor";
-	$scope.project.consultant_name 		= "Mrs Consultant";
-	$scope.project.start_date 			= new moment().format("DD-MMMM-YYYY");//new moment().format("YYYY-MM-DD 00:00:00");
-	$scope.project.end_date_contract 	= new moment().add(6, 'M').format("DD-MMMM-YYYY");
-	$scope.project.progress_reports 	= true;
-	$scope.project.long_lead_items 		= true;
-	$scope.project.risk_assessment 		= true;
-	$scope.project.permit_assessment 	= true;
-	$scope.project.cost_management 		= true;
-	$scope.project.terms 				= true;
+																									Countries,
+																									Currencies,
+																									Networks,
+																									Project	) {
+	$scope.new_project 					= {};
+	$scope.new_project.lat 				= 51.5085300;
+	$scope.new_project.lng 				= -0.1257400;
+	$scope.new_project.country_id 		= 'GB';
+	$scope.new_project.currency_id 		= 'GBP';
+	$scope.new_project.working_hours 	= 8;
+	$scope.new_project.working_days 	= 5;
 
-	$http.get('http://api.metinet.co/countries').then(function (resp) {
-		$scope.countries = resp.data.data;
-		console.log('$scope.countries ')
-		console.log($scope.countries )
-		$scope.projectCountry = $scope.countries[1];
-	});
-
-	$http.get('http://api.metinet.co/currencies').then(function (resp) {
-		$scope.currencies = resp.data.data;
-		console.log('$scope.currencies' )
-		console.log($scope.currencies )
-	});
-
-	$scope.updateCountry = function(country) {
-		$scope.project.country_id = country.iso
-		$scope.project.working_hours = country.working_hours;
-		$scope.project.working_days = country.working_days;
+	$scope.steps = {
+		step1: false,
+		step2: false,
+		step3: false,
+		step4: false
 	}
 
-	$scope.updateCurrency = function(currency) {
-		$scope.project.currency_id = currency.code
-	}
+	$scope.marker_moved 				= false;		
 
-	$scope.create = function() {
-		console.log($scope.project);
-		toaster.pop('wait', 'Saving Project', 'Shouldn\'t take long...');
-		$scope.project.$save( function(data) {
-			if(!data.result){
-				toaster.pop('error', 'Error', '');
-			} else {
-				toaster.pop('success', 'Success', '');
-				setTimeout(function() {
-					$state.go('app.page.projects');
-				}, 1500);
+	$scope.map = { 
+			center: { 
+				latitude: $scope.new_project.lat,
+				longitude: $scope.new_project.lng
+			},
+			zoom: 8,
+			options: {
+				scrollwheel: false
 			}
+		};
+
+	$scope.marker = {
+			id: 0,
+			coords: {
+				latitude: $scope.new_project.lat,
+				longitude: $scope.new_project.lng
+			},
+			options: { draggable: true },
+			events: {
+				dragend: function(marker, eventName, args) {
+					$('#map-request-result').removeClass('alert-info alert-warning');
+					$('#map-request-result').addClass('alert-info');
+					$('#map-request-result').html('<i class="fa fa-fw fa-spin fa-refresh"></i>&nbsp;&nbsp;Loading country data...');
+					$scope.marker_moved = true;
+					$scope.map_request	= true;
+					var coords = {
+						lat: marker.getPosition().lat(),
+						lng: marker.getPosition().lng()
+					};
+					$scope.new_project.lat = marker.getPosition().lat();
+					$scope.new_project.lng = marker.getPosition().lng();
+					Countries.findByCoords({action:'query'}, coords)
+						.$promise.then(function(res) {
+							console.log(res);
+							$scope.new_project.country_id 		= res.data.iso;
+							$scope.new_project.currency_id 		= res.data.currency_id;
+							$scope.new_project.working_hours 	= res.data.working_hours;
+							$scope.new_project.working_days 	= res.data.working_days;
+							$scope.marker_moved = false;
+							$scope.map_request	= false;
+						}, function(res) {
+							$('#map-request-result').removeClass('alert-info alert-warning');
+							$('#map-request-result').addClass('alert-warning');
+							$('#map-request-result').html('It appears you did not select a land mass.  Please select the data below manually.');
+							$scope.marker_moved = false;										
+						});
+				}
+			}
+		};
+
+	Countries.get()
+		.$promise.then(function(res) {
+			$scope.countries = res.data;
 		});
+
+	Currencies.get()
+		.$promise.then(function(res) {
+			$scope.currencies = res.data;
+		});
+
+	Networks.query()
+		.$promise.then(function(response) {
+			$scope.networks = response.data;
+		});
+
+	$scope.redrawMap	= function() {
+		var mapEl 	= angular.element(document.querySelector('.angular-google-map'));
+		var iScope 	= mapEl.isolateScope();
+		var map 	= iScope.map;
+		var zoom 	= map.getZoom();
+		var center 	= map.getCenter();
+		google.maps.event.trigger(map, "resize");
+		map.setZoom(zoom);
+		map.setCenter(center);		
+	}
+
+	$scope.createProject = function() {
+		$('#creating-project-visual').removeClass('text-danger');
+		$('.tab-button').attr("disabled", true);
+		$('#creating-project-visual').html('<i class="fa fa-fw fa-spin fa-refresh"></i>&nbsp;&nbsp;Creating Your Project...');
+		Project.store({}, $scope.new_project)
+			.$promise.then(function(res) {
+				$state.go('app.page.projects');
+			}, function(res) {
+				$('#creating-project-visual').addClass('text-danger');
+				$('#creating-project-visual').html('<i class="fa fa-fw fa-exclamation"></i>Something went wrong. Please try again later.');
+			});
 	};
 }]);

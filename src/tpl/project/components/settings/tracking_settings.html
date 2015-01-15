@@ -1,0 +1,51 @@
+<div class="panel panel-default b-0">
+	<header class="panel-heading b-b">
+		<h4 class="m-n font-thin h4">Tracking Settings</h4>
+ 	</header>
+	<div class="panel-body">
+		<form class="form-horizontal">
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">MetiNet will monitor:</label>
+				<div class="col-sm-9">
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-model="project_settings.long_lead_items">
+							Long Lead Items
+						</label>
+					</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-model="project_settings.permit_assessment">
+							Permits
+						</label>
+					</div>
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-model="project_settings.risk_assessment" disabled>
+							Risk Assessment (Coming Soon)
+						</label>
+					</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-model="project_settings.cost_management" disabled>
+							Cost Management (Coming Soon)
+						</label>
+					</div>
+
+				</div>
+			</div>
+
+		</form>
+	</div>
+	<footer class="panel-footer text-right bg-light lter">
+		<button type="submit"
+				class="btn btn-primary btn-submit tracking"
+				ng-disabled="!project_settings"
+				ng-click="submitSettings('tracking')">
+			Save
+		</button>
+	</footer>
+</div>

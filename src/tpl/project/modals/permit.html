@@ -1,0 +1,106 @@
+<div class="modal-header">
+	<h3><i class="fa fa-fw fa-certificate"></i>&nbsp;&nbsp;{{ permit.name }}</h3>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div ng-class="(action == 'view') ? 'col-md-7' : 'col-md-12'">
+
+			<form class="bs-example form-horizontal ng-pristine ng-valid">
+				<div class="form-group">
+					<label 	class="control-label text-right"
+							ng-class="(action == 'view') ? 'col-lg-4' : 'col-lg-3'">Name</label>
+					<div ng-class="(action == 'view') ? 'col-lg-8' : 'col-lg-8'">
+						<input 	type="text"
+								class="form-control input-sm"
+								ng-readonly="action == 'view'"
+								placeholder="Name"
+								ng-model="permit.name">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label text-right"
+							ng-class="(action == 'view') ? 'col-lg-4' : 'col-lg-3'">Application Time</label>
+					<div ng-class="(action == 'view') ? 'col-lg-8' : 'col-lg-8'">
+						<div class="input-group" ng-hide="action == 'view'">
+							<input 	type="text"
+									class="form-control input-sm"
+									placeholder="Application Time"
+									ng-model="permit.application_time">
+							<span 	class="input-group-addon">Days</span>
+						</div>
+						<input 	type="text"
+								class="form-control"
+								readonly
+								placeholder="Application Time"
+								ng-model="permit.application_time"
+								ng-show="action == 'view'">											
+					</div>
+				</div>
+				<div class="form-group">
+					<label 	class="control-label text-right"
+							ng-class="(action == 'view') ? 'col-lg-4' : 'col-lg-3'">Quantity</label>
+					<div ng-class="(action == 'view') ? 'col-lg-8' : 'col-lg-8'">
+						<input 	type="text"
+								class="form-control input-sm"
+								ng-readonly="action == 'view'"
+								placeholder="Quantity"
+								ng-model="permit.quantity">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label text-right"
+							ng-class="(action == 'view') ? 'col-lg-4' : 'col-lg-3'">Cost Per Item</label>
+					<div ng-class="(action == 'view') ? 'col-lg-8' : 'col-lg-8'">
+						<div class="input-group" ng-hide="action == 'view'">
+							<span class="input-group-addon">$</span>
+							<input 	type="text"
+									class="form-control input-sm"
+									placeholder="Cost Per Item"
+									ng-model="permit.cost">
+						</div>						
+						<input 	type="text"
+								class="form-control"
+								readonly
+								placeholder="Cost Per Item"
+								ng-model="permit.cost"
+								ng-show="action == 'view'">
+					</div>
+				</div>
+				<div class="form-group" ng-show="action == 'view'">
+					<label class="col-lg-4 control-label text-right">Status</label>
+					<div class="col-lg-8">
+						<input 	type="text"
+								class="form-control text-{{ permit.status.status_colour }}"
+								ng-readonly="action == 'view'"								
+								placeholder="Status"
+								ng-model="permit.status.status">
+					</div>
+				</div>				
+			</form>
+
+		</div>
+		<div class="col-md-5" ng-show="action == 'view'">
+<!--         	START: Applied Data -->
+			<dt>Applied By</dt>
+			<dd ng-hide="permit.applied_data">
+				{{ permit.status.stage }}
+			</dd>
+			<dd ng-show="permit.applied_data">
+				<i class="fa fa-fw fa-user"></i>&nbsp;&nbsp;{{ permit.applied_data.user.fullname }}<br>
+				<i class="fa fa-fw fa-calendar"></i>&nbsp;&nbsp;<span ng-bind="permit.applied_data.time | formatFullDate"></span>
+			</dd>
+<!--         	END: Applied Data -->
+<!--         	START: Recieved Data -->
+			<dt ng-show="permit.received_data" class="m-t-sm">Received By</dt>
+			<dd ng-show="permit.received_data">
+				<i class="fa fa-fw fa-user"></i>&nbsp;&nbsp;{{ permit.received_data.user.fullname }}<br>
+				<i class="fa fa-fw fa-calendar"></i>&nbsp;&nbsp;<span ng-bind="permit.received_data.time | formatFullDate"></span>
+			</dd>
+<!--         	END: Recieved Data -->
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="cancel()" ng-show="action != 'view'">Cancel</button>
+	<button class="btn btn-primary" ng-click="ok()">Ok</button>	
+</div>

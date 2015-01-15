@@ -1,9 +1,12 @@
 <div class="panel panel-default">
 	<div class="panel-body b-b b-light">
 		<input id="rfi_filter" type="text" class="form-control input-sm w-lg inline m-r m-lsm" placeholder="Search.."/>
+		<a class="btn btn-primary btn-sm pull-right new-rfi-modal-btn" ng-click="newRFI()">
+		  <i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Add New RFI
+		</a>
 	</div>
 	<div>
-		<table class="table m-b-none" ui-jq="footable" data-filter="#rfi_filter" data-page-size="5">
+		<table class="table m-b-none" ui-jq="footable" data-filter="#rfi_filter" data-page-size="20">
 			<thead>
 				<tr>
 					<th>Name</th>
@@ -29,7 +32,7 @@
 					<td data-ng-bind="rfi.specific_id"></td>
 					<td data-ng-bind="rfi.requesting_network"></td>
 					<td data-ng-bind="rfi.responding_network"></td>
-					<td data-ng-bind="rfi.response_body"></td>
+					<td data-ng-bind="rfi.response_data.text"></td>
 <!-- 					IF INCOMPLETE -->
 					<td class="text-center" ng-show="rfi.response_data.stage < 2">
 						<span class="text-{{rfi.status.colour}}">

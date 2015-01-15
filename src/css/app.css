@@ -3589,7 +3589,7 @@ a.text-primary:hover {
 }
 
 .text-primary {
-  color: #7266ba;
+  color: #6CC3A0;
 }
 
 .text-primary-lt {
@@ -5057,4 +5057,10 @@ a.text-#000000:hover {
   99.9% {
     background-color: #7266ba;
   }
+}
+
+.angular-google-map-container { height: 300px; }
+
+.legendLabel {
+  padding: 5px;
 }

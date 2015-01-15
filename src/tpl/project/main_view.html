@@ -1,11 +1,11 @@
 <div 	class="hbox hbox-auto-xs hbox-auto-sm" 
 		ng-init="	app.settings.asideFolded = false; 
-    				app.settings.asideDock = false;
-    				init()	">
+					app.settings.asideDock = false;
+					init()	">
   <!-- main -->
   <div class="col" id="main_col">
 
-    <div class="btn-group btn-group-justified dker">
+	<div class="btn-group btn-group-justified dker">
 		<a 	ng-click="changeAction('overview')"
 			class="btn wrapper-sm"
 			ng-class="user_action == 'overview' ? 'btn-black' : 'btn-white'">
@@ -72,7 +72,7 @@
   <!-- / main -->
   <!-- right col -->
   <div class="col w-md bg-black bg-auto no-border-xs">
-    <tabset class="nav-tabs-alt" justified="true">
+	<tabset class="nav-tabs-alt" justified="true">
 		<tab>
 			<tab-heading>
 				<i class="fa fa-clock-o text-md wrapper-sm"></i>
@@ -83,10 +83,9 @@
 			<tab-heading>
 				<i class="fa fa-users text-md wrapper-sm"></i>
 			</tab-heading>
-			<div ng-class="'wrapper-sm': !projectUsers" ng-include="'tpl/project/sidebar/project_users.html'"></div>
-		</tab>     
-    </tabset>
-
+			<div ng-class="{'wrapper-sm': !projectUsers}" ng-include="'tpl/project/sidebar/project_users.html'"></div>
+		</tab>
+	</tabset>
   </div>
   <!-- / right col -->
 </div>
