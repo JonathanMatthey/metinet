@@ -1,13 +1,13 @@
 <!-- START streamline -->
 
-<div class="m-b text-md" ng-hide="audit_history">
+<div class="m-b text-md" ng-hide="node_audit_history">
 	<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;
 	Recent Activity
 </div>
 
-<div class="padder-top-10-n" ng-show="audit_history">
+<div class="padder-top-10-n" ng-show="node_audit_history">
 	<div class="streamline b-l m-b">
-		<div class="sl-item" ng-repeat="activity in $parent.audit_history">
+		<div class="sl-item" ng-repeat="activity in $parent.node_audit_history">
 			<div class="m-l">
 				<div class="text-white">{{ activity.time | fromNow }}</div>
 				<p ng-bind="activity.text"></p>
@@ -18,6 +18,6 @@
 
 <!-- END streamline -->
 
-<div class="text-center" ng-show="audit_history">
+<div class="text-center" ng-show="node_audit_history">
 	<a href class="btn btn-sm btn-primary padder-md m-b">More</a>
 </div>

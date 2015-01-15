@@ -26,18 +26,18 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 
 	$scope.settings_action          = 'location';
 	$scope.project 					= $scope.$parent.project;
-	$scope.map 						= { 
+	$scope.map 						= {
 										center: { latitude: 51.5000, longitude: 0.1333 },
 										zoom: 10,
 										options: { scrollwheel: false }
 									};
-	$scope.marker 					= { 
+	$scope.marker 					= {
 										id: 0,
 										coords: { latitude: 0, longitude: 0 },
 									};
 	$scope.marker_moved 			= false;
 
-	Project.get({id:$stateParams.id})
+	Project.get({id:$stateParams.project_id})
 		.$promise.then(function(res) {
 			$scope.project 							= res.data;
 			$scope.project_settings					= res.data;
@@ -48,8 +48,8 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 			$scope.project_settings.working_hours 	= res.data.working_hours;
 			$scope.project_settings.working_days 	= res.data.working_days;
 
-			$scope.map = { 
-					center: { 
+			$scope.map = {
+					center: {
 						latitude: res.data.lat,
 						longitude: res.data.lng
 					},
@@ -78,7 +78,7 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 								lng: marker.getPosition().lng()
 							};
 							$scope.project_settings.lat = marker.getPosition().lat();
-							$scope.project_settings.lng = marker.getPosition().lng();								
+							$scope.project_settings.lng = marker.getPosition().lng();
 							Countries.findByCoords({action:'query'}, coords)
 								.$promise.then(function(res) {
 									$scope.project_settings.country_id = res.data.iso;
@@ -91,7 +91,7 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 									$('#map-request-result').removeClass('alert-info alert-warning');
 									$('#map-request-result').addClass('alert-warning');
 									$('#map-request-result').html('It appears you did not select a land mass.  Please select the data below manually.');
-									$scope.marker_moved = false;										
+									$scope.marker_moved = false;
 								});
 						}
 					}
@@ -110,11 +110,11 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 		});
 
 	$scope.getProjectNetworks = function() {
-		ProjectNetworks.get({id:$stateParams.id})
+		ProjectNetworks.get({id:$stateParams.project_id})
 			.$promise.then(function(res) {
 				$scope.projectNetworks          = res.data.networks;
 				$scope.potential_networks       = res.data.potential_networks;
-				$scope.networks_except_users    = res.data.networks_except_users;               
+				$scope.networks_except_users    = res.data.networks_except_users;
 			});
 	}
 
@@ -123,7 +123,7 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 		$('.btn-remove.network-'+_network_id).html('<i class="fa fa-fw fa-spin fa-refresh"></i>');
 		$('.btn-remove.network-'+_network_id).removeClass('btn-danger btn-default');
 		$('.btn-remove.network-'+_network_id).addClass('btn-default');
-		ProjectNetworks.delete({id:$stateParams.id, network_id:_network_id})
+		ProjectNetworks.delete({id:$stateParams.project_id, network_id:_network_id})
 			.$promise.then(function(response) {
 				$scope.projectNetworks.splice(network_index, 1);
 				$scope.potential_networks = response.data.potential_networks;
@@ -152,26 +152,26 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 			$('.add-network-modal-btn').removeClass('text-center btn-danger btn-primary');
 			$('.add-network-modal-btn').addClass('text-center btn-primary');
 			$('.add-network-modal-btn').html('<i class="fa fa-fw fa-refresh fa-spin"></i>');
-			ProjectNetworks.save({id:$stateParams.id, network_id:requested_network_data.id})
+			ProjectNetworks.save({id:$stateParams.project_id, network_id:requested_network_data.id})
 				.$promise.then(function(response) {
 					$('.add-network-modal-btn').removeClass('text-center btn-danger btn-primary');
 					$('.add-network-modal-btn').addClass('btn-primary');
-					$('.add-network-modal-btn').html('<i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Add Network');                    
+					$('.add-network-modal-btn').html('<i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Add Network');
 					$('.add-network-modal-btn').prop('disabled', false);
 					$scope.projectNetworks      = response.data.networks;
 					$scope.potential_networks   = response.data.potential_networks;
-					$scope.getProjectUsers();                   
+					$scope.getProjectUsers();
 				}, function(response) {
 					$('.add-network-modal-btn').removeClass('text-center btn-danger btn-primary');
 					$('.add-network-modal-btn').addClass('btn-danger');
-					$('.add-network-modal-btn').html('<i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Add Network');                    
+					$('.add-network-modal-btn').html('<i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Add Network');
 					$('.add-network-modal-btn').prop('disabled', false);
 				});
 		});
 	}
 
 	$scope.getProjectUsers = function() {
-		ProjectUsers.get({id:$stateParams.id})
+		ProjectUsers.get({id:$stateParams.project_id})
 			.$promise.then(function(res) {
 				// success handler
 				$scope.projectUsers     = res.data.users;
@@ -185,10 +185,10 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 		if (r == true) {
 			$('.btn-remove.user-'+_user.id).html('<i class="fa fa-fw fa-spin fa-refresh"></i>');
 			$('.btn-remove.user-'+_user.id).removeClass('btn-danger btn-default');
-			$('.btn-remove.user-'+_user.id).addClass('btn-default');            
-			ProjectUsers.delete({id:$stateParams.id, userId: _user.id})
+			$('.btn-remove.user-'+_user.id).addClass('btn-default');
+			ProjectUsers.delete({id:$stateParams.project_id, userId: _user.id})
 				.$promise.then(function(response) {
-					$scope.projectUsers.splice(user_index, 1);                  
+					$scope.projectUsers.splice(user_index, 1);
 					toaster.pop('success', 'User deleted', '.');
 					$scope.potential_users = response.data.potential_users;
 				});
@@ -196,7 +196,7 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 	}
 
 	$scope.addUsersModal = function() {
-		$('.add-users-modal-btn').prop('disabled', true);       
+		$('.add-users-modal-btn').prop('disabled', true);
 		var modalInstance = $modal.open({
 			templateUrl: 'tpl/project/modals/add_users.html',
 			controller: 'ProjectAddUsersModalController',
@@ -210,12 +210,12 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 		modalInstance.result.then(function(selected_users) {
 			$('.add-users-modal-btn').removeClass('text-center btn-danger btn-primary');
 			$('.add-users-modal-btn').addClass('text-center btn-primary');
-			$('.add-users-modal-btn').html('<i class="fa fa-fw fa-refresh fa-spin"></i>');          
-			ProjectUsers.save({"id":$stateParams.id},{"users":selected_users})
+			$('.add-users-modal-btn').html('<i class="fa fa-fw fa-refresh fa-spin"></i>');
+			ProjectUsers.save({"id":$stateParams.project_id},{"users":selected_users})
 				.$promise.then(function(response) {
 					$('.add-users-modal-btn').removeClass('text-center btn-danger btn-primary');
 					$('.add-users-modal-btn').addClass('btn-primary');
-					$('.add-users-modal-btn').html('<i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Add Users');                    
+					$('.add-users-modal-btn').html('<i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Add Users');
 					$('.add-users-modal-btn').prop('disabled', false);
 					toaster.pop('success', 'Users added', '');
 					$scope.projectUsers     = response.data.users;
@@ -248,7 +248,7 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 			state: 	'app.page.project.settings.users',
 			name:   'Users',
 			icon:   'fa-building-o'
-		},		
+		},
 		{
 			state: 	'app.page.project.settings.location',
 			name:   'Location Settings',
@@ -258,14 +258,14 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 			state: 	'app.page.project.settings.tracking',
 			name:   'Tracking Settings',
 			icon:   'fa-line-chart'
-		}                       
+		}
 	];
 
 	$scope.submitSettings   = function(action) {
 		$('.btn-submit.'+action).removeClass('text-center btn-danger btn-success btn-primary');
 		$('.btn-submit.'+action).addClass('btn-primary text-center');
 		$('.btn-submit.'+action).html('<i class="fa fa-fw fa-refresh fa-spin"></i>');
-		Project.update({id:$stateParams.id}, $scope.project_settings)
+		Project.update({id:$stateParams.project_id}, $scope.project_settings)
 			.$promise.then(function(res) {
 				$('.btn-submit.'+action).removeClass('text-center btn-danger btn-success btn-primary');
 				$('.btn-submit.'+action).addClass('text-center btn-primary');
@@ -276,7 +276,7 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 				$('.btn-submit.'+action).removeClass('text-center btn-danger btn-success btn-primary');
 				$('.btn-submit.'+action).addClass('btn-danger');
 				$('.btn-submit.'+action).html('<i class="fa fa-fw fa-times"></i>');
-			}); 
+			});
 	}
 
 }]);

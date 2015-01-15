@@ -1,4 +1,4 @@
-angular.module('app.controllers').controller('AppCtrl', [	'$scope', 
+angular.module('app.controllers').controller('AppCtrl', [	'$scope',
 															'$translate',
 															'$localStorage',
 															'$window',	function(   $scope,
@@ -12,10 +12,8 @@ angular.module('app.controllers').controller('AppCtrl', [	'$scope',
 
 	// config
 	$scope.app = {
-		name: 'Metinet',
-		metinet: {
-			brand_name: "MetiNet"
-		},
+		brand_name: 'MetiNet',
+		slogan: 'Collaborative Construction Solutions',
 		version: '0.0.2',
 		// for chart colors
 		color: {
@@ -30,7 +28,7 @@ angular.module('app.controllers').controller('AppCtrl', [	'$scope',
 		},
 		settings: {
 			themeID: 1,
-			navbarHeaderColor: 'bg-metinet',
+			navbarHeaderColor: 'bg-black',
 			navbarCollapseColor: 'bg-white',
 			asideColor: 'bg-black',
 			headerFixed: true,
@@ -58,7 +56,7 @@ angular.module('app.controllers').controller('AppCtrl', [	'$scope',
 
 	// angular translate
 	$scope.lang = { isopen: false };
-	$scope.langs = {en:'English', de_DE:'German', it_IT:'Italian'};
+	$scope.langs = { en_EN:'English', de_DE:'German', it_IT:'Italian' };
 	$scope.selectLang = $scope.langs[$translate.proposedLanguage()] || "English";
 	$scope.setLang = function(langKey, $event) {
 		// set the current lang
@@ -68,7 +66,7 @@ angular.module('app.controllers').controller('AppCtrl', [	'$scope',
 		$scope.lang.isopen = !$scope.lang.isopen;
 	};
 
-	function isSmartDevice( $window ) {
+	function isSmartDevice($window) {
 		// Adapted from http://www.detectmobilebrowsers.com
 		var ua = $window['navigator']['userAgent'] || $window['navigator']['vendor'] || $window['opera'];
 		// Checks for iOs, Android, Blackberry, Opera Mini, and Windows mobile devices

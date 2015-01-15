@@ -28,16 +28,16 @@ angular.module('app.controllers').controller('ProfileViewController', [ '$scope'
 
 	$scope.new_experience 				= {};
 	$scope.new_education 				= {};
-	$scope.new_award 					= {};	
+	$scope.new_award 					= {};
 
 	if ($scope.current_user_data.id == $stateParams.id) {
 		$scope.can_edit 		= true;
 	}
 
-	Profile.query({id:$stateParams.id})
-		.$promise.then(function(data) {
-			$scope.profile 				= data;
-			$scope.profile_loaded 		= true;		  
+	Profile.get({id:$stateParams.id})
+		.$promise.then(function(response) {
+			$scope.profile 				= response.data;
+			$scope.profile_loaded 		= true;
 		});
 
 	UserConnections.query({id:$stateParams.id})
@@ -105,7 +105,7 @@ angular.module('app.controllers').controller('ProfileViewController', [ '$scope'
 
 		UserExperiences.update({user_id:$scope.current_user_data.id, exp_id:_exp_id}, $scope.profile.experience[experience_index])
 			.$promise.then(function(response) {
-				$scope.profile.experience[experience_index] = response.data;				
+				$scope.profile.experience[experience_index] = response.data;
 				$('.edit-btn.experience-'+_exp_id).html('<i class="fa fa-check"></i>');
 				$('.edit-btn.experience-'+_exp_id).removeClass('btn-primary btn-success btn-danger');
 				$('.edit-btn.experience-'+_exp_id).addClass('btn-success');
@@ -133,7 +133,7 @@ angular.module('app.controllers').controller('ProfileViewController', [ '$scope'
 				$('.delete-btn.experience-'+_exp_id).html('<i class="fa fa-times"></i>&nbsp;&nbsp;Failed');
 				$('.delete-btn.experience-'+_exp_id).removeClass('btn-primary btn-success btn-danger');
 				$('.delete-btn.experience-'+_exp_id).addClass('btn-danger');
-			});		
+			});
 	}
 
 	$scope.createEducation = function() {
@@ -192,7 +192,7 @@ angular.module('app.controllers').controller('ProfileViewController', [ '$scope'
 				$('.delete-btn.education-'+_edu_id).html('<i class="fa fa-times"></i>&nbsp;&nbsp;Failed');
 				$('.delete-btn.education-'+_edu_id).removeClass('btn-primary btn-success btn-danger');
 				$('.delete-btn.education-'+_edu_id).addClass('btn-danger');
-			});		
+			});
 	}
 
 	$scope.createAward = function() {
@@ -252,7 +252,7 @@ angular.module('app.controllers').controller('ProfileViewController', [ '$scope'
 				$('.delete-btn.award-'+_award_id).html('<i class="fa fa-times"></i>&nbsp;&nbsp;Failed');
 				$('.delete-btn.award-'+_award_id).removeClass('btn-primary btn-success btn-danger');
 				$('.delete-btn.award-'+_award_id).addClass('btn-danger');
-			});		
+			});
 	}
 
 	$scope.showCreateNew = function(action) {
@@ -260,10 +260,10 @@ angular.module('app.controllers').controller('ProfileViewController', [ '$scope'
 			$scope.show_create_new_experience 	= true;
 		}
 		if (action == 'education') {
-			$scope.show_create_new_education 	= true;			
+			$scope.show_create_new_education 	= true;
 		}
 		if (action == 'award') {
-			$scope.show_create_new_award 		= true;			
+			$scope.show_create_new_award 		= true;
 		}
 	}
 

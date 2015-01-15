@@ -6,11 +6,11 @@ angular.module('app.controllers').controller('ProjectRFIController', [ 	'$scope'
 																								ProjectRFIs,
 																								$modal ) {
 
-	$scope.project_id               = $stateParams.id;
+	$scope.project_id               = $stateParams.project_id;
 	$scope.project_rfis_returned    = false;
 
-	ProjectRFIs.get({id:$stateParams.id})
-		.$promise.then(function(res) {      
+	ProjectRFIs.get({id:$stateParams.project_id})
+		.$promise.then(function(res) {
 			$scope.projectRFIs 				= res.data;
 			$scope.project_rfis_returned    = true;
 		});
@@ -44,7 +44,7 @@ angular.module('app.controllers').controller('ProjectRFIController', [ 	'$scope'
 			$('.btn-'+action+'.rfi-'+rfi_id).addClass('text-center btn-primary');
 			$('.btn-'+action+'.rfi-'+rfi_id).html('<i class="fa fa-fw fa-refresh fa-spin"></i>');
 
-			ProjectRFIs.update({"id":$stateParams.id, "rfi_id":rfi_id}, rfi)
+			ProjectRFIs.update({"id":$stateParams.project_id, "rfi_id":rfi_id}, rfi)
 				.$promise.then(function(response) {
 					$('.btn-'+action+'.rfi-'+rfi_id).removeClass('text-center btn-danger btn-primary btn-success');
 					$('.btn-'+action+'.rfi-'+rfi_id).addClass('btn-success');
@@ -56,7 +56,7 @@ angular.module('app.controllers').controller('ProjectRFIController', [ 	'$scope'
 					$('.btn-'+action+'.rfi-'+rfi_id).html('<i class="fa fa-fw fa-times"></i>');
 					$('.btn-'+action+'.rfi-'+rfi_id).prop('disabled', false);
 				});
-		});     
+		});
 	};
 
 	$scope.newRFI = function() {
@@ -77,7 +77,7 @@ angular.module('app.controllers').controller('ProjectRFIController', [ 	'$scope'
 			$('.new-rfi-modal-btn').addClass('text-center btn-primary');
 			$('.new-rfi-modal-btn').html('<i class="fa fa-fw fa-refresh fa-spin"></i>');
 
-			ProjectRFIs.store({"id":$stateParams.id}, rfi)
+			ProjectRFIs.store({"id":$stateParams.project_id}, rfi)
 				.$promise.then(function(response) {
 					$('.new-rfi-modal-btn').removeClass('text-center btn-danger btn-primary btn-success');
 					$('.new-rfi-modal-btn').addClass('btn-success');

@@ -36,8 +36,8 @@ var app = angular.module('app', [	'ngAnimate',
 																						$http 	) {
 		$rootScope.$state 								= $state;
 		$rootScope.$stateParams 						= $stateParams;
-		$rootScope.api_url								= 'http://api.meti.net';
-		$http.defaults.headers.common['Authorization'] 	= 'Basic ' + $cookieStore.get('authdata');	
+		$rootScope.api_url								= 'http://api.metinet.co';
+		$http.defaults.headers.common['Authorization'] 	= 'Basic ' + $cookieStore.get('authdata');
 	}])
 	.config([ 	'$stateProvider',
 				'$urlRouterProvider',
@@ -67,7 +67,6 @@ var app = angular.module('app', [	'ngAnimate',
 		$stateProvider
 			.state('app', {
 				abstract: true,
-				url: '/app',
 				templateUrl: 'tpl/app.html'
 			})
 			.state('app.home', {
@@ -84,12 +83,11 @@ var app = angular.module('app', [	'ngAnimate',
 				}
 			})
 			.state('app.page', {
-				url: '/page',
 				template: '<div class="hbox hbox-auto-xs bg-light " ng-init="" ui-view></div>'
 			})
 			.state('app.page.profile', {
 				url: '/profile/:id',
-				controller:'ProfileViewController',                
+				controller:'ProfileViewController',
 				templateUrl: 'tpl/user_profile/main.html'
 			})
 			.state('app.page.create_network', {
@@ -165,23 +163,8 @@ var app = angular.module('app', [	'ngAnimate',
 					}]
 				}
 			})
-			.state('app.page.branchnode', {
-				url:'/nodes/:id',
-				templateUrl: 'tpl/nodes/main.html',
-				controller:'NodeViewController',
-				resolve: {
-					deps: ['uiLoad',
-						function( uiLoad ){
-							return uiLoad.load([
-								'js/libs/moment.min.js',
-								'js/jquery/charts/sparkline/jquery.sparkline.min.js',
-								'js/jquery/slider/slider.css'
-							]);
-					}]
-				}
-			})
 			.state('app.page.project', {
-				url:'/projects/:id',
+				url:'/projects/:project_id',
 				templateUrl: 'tpl/project/main_view.html',
 				controller: 'ProjectController'
 			})
@@ -222,28 +205,43 @@ var app = angular.module('app', [	'ngAnimate',
 					.state('app.page.project.settings.general', {
 						url:'/general',
 						templateUrl: 'tpl/project/components/settings/general_settings.html',
-						controller: 'ProjectGeneralSettingsController'			
+						controller: 'ProjectGeneralSettingsController'
 					})
 					.state('app.page.project.settings.networks', {
 						url:'/networks',
 						templateUrl: 'tpl/project/components/settings/networks_settings.html',
-						controller: 'ProjectNetworksSettingsController'			
+						controller: 'ProjectNetworksSettingsController'
 					})
 					.state('app.page.project.settings.users', {
 						url:'/users',
 						templateUrl: 'tpl/project/components/settings/users_settings.html',
-						controller: 'ProjectUsersSettingsController'			
+						controller: 'ProjectUsersSettingsController'
 					})
 					.state('app.page.project.settings.location', {
 						url:'/location',
 						templateUrl: 'tpl/project/components/settings/location_settings.html',
-						controller: 'ProjectLocationSettingsController'			
+						controller: 'ProjectLocationSettingsController'
 					})
 					.state('app.page.project.settings.tracking', {
 						url:'/tracking',
 						templateUrl: 'tpl/project/components/settings/tracking_settings.html',
-						controller: 'ProjectTrackingSettingsController'			
+						controller: 'ProjectTrackingSettingsController'
 					})
+				.state('app.page.project.nodes', {
+					url:'/nodes/:node_id',
+					templateUrl: 'tpl/nodes/main.html',
+					controller:'NodeViewController',
+					resolve: {
+						deps: ['uiLoad',
+							function( uiLoad ){
+								return uiLoad.load([
+									'js/libs/moment.min.js',
+									'js/jquery/charts/sparkline/jquery.sparkline.min.js',
+									'js/jquery/slider/slider.css'
+								]);
+						}]
+					}
+				})
 
 			.state('app.page.search', {
 				url: '/search',
@@ -260,23 +258,23 @@ var app = angular.module('app', [	'ngAnimate',
 			})
 			.state('access', {
 				url: '/access',
-				template: '<div ui-view class="fade-in-right-big smooth"></div>'
+				templateUrl: 'tpl/access/main.html'
 			})
 			.state('access.signin', {
 				url: '/sign-in',
-				templateUrl: 'tpl/access/sign_in.html',
+				templateUrl: 'tpl/access/components/sign_in.html',
 				controller: 'SignInController'
 			})
 			.state('access.signup', {
 				url: '/sign-up',
-				templateUrl: 'tpl/access/sign_up.html',
+				templateUrl: 'tpl/access/components/sign_up.html',
 				controller: 'SignUpController'
 			})
 			.state('access.activate', {
 				url: '/activate/:activation_code',
-				templateUrl: 'tpl/access/activate.html',
+				templateUrl: 'tpl/access/components/activate.html',
 				controller: 'ActivationController'
-			})            
+			})
 			.state('access.forgotpwd', {
 				url: '/forgotpwd',
 				templateUrl: 'tpl/page_forgotpwd.html'

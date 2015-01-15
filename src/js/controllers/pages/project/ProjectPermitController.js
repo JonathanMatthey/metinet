@@ -9,16 +9,16 @@ angular.module('app.controllers').controller('ProjectPermitController', [ 	'$sco
 																									Auth,
 																									ProjectPermits,
 																									Permits,
-																									ChangePermitStatus,                                                                                             
+																									ChangePermitStatus,
 																									$modal ) {
 
-	$scope.project_id               = $stateParams.id;
+	$scope.project_id               = $stateParams.project_id;
 	$scope.permits_returned         = false;
 
-	ProjectPermits.get({id:$stateParams.id})
+	ProjectPermits.get({id:$stateParams.project_id})
 		.$promise.then(function(res) {
 			$scope.permits          = res.data
-			$scope.permits_returned = true;             
+			$scope.permits_returned = true;
 		});
 
 	$scope.openPermitModal = function(permit_index, action) {
@@ -49,15 +49,15 @@ angular.module('app.controllers').controller('ProjectPermitController', [ 	'$sco
 					$('.btn-edit.permit-'+permit.id).removeClass('text-center btn-danger btn-success');
 					$('.btn-edit.permit-'+permit.id).addClass('btn-success');
 					$('.btn-edit.permit-'+permit.id).html('<i class="fa fa-fw fa-check"></i>');
-					$('.btn-edit.permit-'+permit.id).prop('disabled', false);                   
+					$('.btn-edit.permit-'+permit.id).prop('disabled', false);
 					$scope.permits[permit_index] = res.data;
 				}, function(response) {
 					$('.btn-edit.permit-'+permit.id).removeClass('text-center btn-danger btn-success');
 					$('.btn-edit.permit-'+permit.id).addClass('btn-danger');
 					$('.btn-edit.permit-'+permit.id).html('<i class="fa fa-fw fa-times"></i>');
-					$('.btn-edit.permit-'+permit.id).prop('disabled', false);                   
+					$('.btn-edit.permit-'+permit.id).prop('disabled', false);
 				});
-		});     
+		});
 	};
 
 	$scope.changePermitStatus = function(permit_index, _action, _status) {
@@ -65,19 +65,19 @@ angular.module('app.controllers').controller('ProjectPermitController', [ 	'$sco
 		$('.btn-edit.permit-'+permit.id).removeClass('text-center text-danger btn-danger btn-success');
 		$('.btn-edit.permit-'+permit.id).addClass('text-center');
 		$('.btn-edit.permit-'+permit.id).html('<i class="fa fa-fw fa-refresh fa-spin"></i>');
-	
+
 		ChangePermitStatus.update({id:permit.id, action:_action}, permit)
 			.$promise.then(function(res) {
 				$('.btn-edit.permit-'+permit.id).removeClass('text-center btn-danger btn-success');
 				$('.btn-edit.permit-'+permit.id).addClass('btn-success');
 				$('.btn-edit.permit-'+permit.id).html('<i class="fa fa-fw fa-check"></i>');
-				$('.btn-edit.permit-'+permit.id).prop('disabled', false);                   
+				$('.btn-edit.permit-'+permit.id).prop('disabled', false);
 				$scope.permits[permit_index] = res.data;
 			}, function(response) {
 				$('.btn-edit.permit-'+permit.id).removeClass('text-center btn-danger btn-success');
 				$('.btn-edit.permit-'+permit.id).addClass('btn-danger');
 				$('.btn-edit.permit-'+permit.id).html('<i class="fa fa-fw fa-times"></i>');
-				$('.btn-edit.permit-'+permit.id).prop('disabled', false);                   
+				$('.btn-edit.permit-'+permit.id).prop('disabled', false);
 			});
 	};
 
@@ -94,7 +94,7 @@ angular.module('app.controllers').controller('ProjectPermitController', [ 	'$sco
 				$('.btn-delete.permit-'+permit_id).removeClass('text-center btn-danger btn-success');
 				$('.btn-delete.permit-'+permit_id).addClass('btn-danger');
 				$('.btn-delete.permit-'+permit_id).html('<i class="fa fa-fw fa-times"></i>');
-				$('.btn-delete.permit-'+permit_id).prop('disabled', false);                 
+				$('.btn-delete.permit-'+permit_id).prop('disabled', false);
 			});
 	};
 

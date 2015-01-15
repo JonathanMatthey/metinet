@@ -6,7 +6,7 @@ angular.module('app.controllers').controller('ProjectController', [ '$scope',
 																								Project,
 																								ProjectAudit ) {
 
-	$scope.project_id               = $stateParams.id;
+	$scope.project_id               = $stateParams.project_id;
 	$scope.project 					= {};
 	$scope.user_action              = $stateParams.action;
 	$scope.user_admin_level         = 3;
@@ -16,7 +16,7 @@ angular.module('app.controllers').controller('ProjectController', [ '$scope',
 	}
 
 	initialiseWebSockets = function() {
-		var channel = pusher.subscribe('Project_'+$stateParams.id);
+		var channel = pusher.subscribe('Project_'+$stateParams.project_id);
 		channel.bind('audit-trail', function(data) {
 			console.log(data);
 			$scope.projectAudit.unshift(data[0]);
@@ -25,13 +25,13 @@ angular.module('app.controllers').controller('ProjectController', [ '$scope',
 		});
 	};
 
-	Project.get({id:$stateParams.id})
+	Project.get({id:$stateParams.project_id})
 		.$promise.then(function(res) {
 			$scope.project 				= res.data;
 			$scope.user_admin_level		= res.data.pivot.role;
 		});
 
-	ProjectAudit.get({id:$stateParams.id})
+	ProjectAudit.get({id:$stateParams.project_id})
 		.$promise.then(function(res) {
 			// success handler
 			$scope.projectAudit = res.data

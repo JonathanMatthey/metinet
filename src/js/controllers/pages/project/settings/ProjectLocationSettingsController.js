@@ -11,18 +11,18 @@ angular.module('app.controllers').controller('ProjectLocationSettingsController'
 																												uiGmapGoogleMapApi,
 																												Countries,
 																												Currencies ) {
-	$scope.map 						= { 
+	$scope.map 						= {
 										center: { latitude: 51.5000, longitude: 0.1333 },
 										zoom: 10,
 										options: { scrollwheel: false }
 									};
-	$scope.marker 					= { 
+	$scope.marker 					= {
 										id: 0,
 										coords: { latitude: 0, longitude: 0 },
 									};
 	$scope.marker_moved 			= false;
 
-	Project.get({id:$stateParams.id})
+	Project.get({id:$stateParams.project_id})
 		.$promise.then(function(res) {
 			$scope.project 							= res.data;
 			$scope.project_settings					= res.data;
@@ -33,8 +33,8 @@ angular.module('app.controllers').controller('ProjectLocationSettingsController'
 			$scope.project_settings.working_hours 	= res.data.working_hours;
 			$scope.project_settings.working_days 	= res.data.working_days;
 
-			$scope.map = { 
-					center: { 
+			$scope.map = {
+					center: {
 						latitude: res.data.lat,
 						longitude: res.data.lng
 					},
@@ -63,7 +63,7 @@ angular.module('app.controllers').controller('ProjectLocationSettingsController'
 								lng: marker.getPosition().lng()
 							};
 							$scope.project_settings.lat = marker.getPosition().lat();
-							$scope.project_settings.lng = marker.getPosition().lng();								
+							$scope.project_settings.lng = marker.getPosition().lng();
 							Countries.findByCoords({action:'query'}, coords)
 								.$promise.then(function(res) {
 									$scope.project_settings.country_id = res.data.iso;
@@ -76,7 +76,7 @@ angular.module('app.controllers').controller('ProjectLocationSettingsController'
 									$('#map-request-result').removeClass('alert-info alert-warning');
 									$('#map-request-result').addClass('alert-warning');
 									$('#map-request-result').html('It appears you did not select a land mass.  Please select the data below manually.');
-									$scope.marker_moved = false;										
+									$scope.marker_moved = false;
 								});
 						}
 					}
@@ -97,7 +97,7 @@ angular.module('app.controllers').controller('ProjectLocationSettingsController'
 		$('.btn-submit.'+action).removeClass('text-center btn-danger btn-success btn-primary');
 		$('.btn-submit.'+action).addClass('btn-primary text-center');
 		$('.btn-submit.'+action).html('<i class="fa fa-fw fa-refresh fa-spin"></i>');
-		Project.update({id:$stateParams.id}, $scope.project_settings)
+		Project.update({id:$stateParams.project_id}, $scope.project_settings)
 			.$promise.then(function(res) {
 				$('.btn-submit.'+action).removeClass('text-center btn-danger btn-success btn-primary');
 				$('.btn-submit.'+action).addClass('text-center btn-primary');
@@ -108,7 +108,7 @@ angular.module('app.controllers').controller('ProjectLocationSettingsController'
 				$('.btn-submit.'+action).removeClass('text-center btn-danger btn-success btn-primary');
 				$('.btn-submit.'+action).addClass('btn-danger');
 				$('.btn-submit.'+action).html('<i class="fa fa-fw fa-times"></i>');
-			}); 
+			});
 	}
 
 }]);

@@ -6,13 +6,13 @@ angular.module('app.controllers').controller('ProjectOverviewController', [ '$sc
 																									ProjectProgressPlot,
 																									$http ) {
 
-	$scope.project_id		= $stateParams.id;
+	$scope.project_id		= $stateParams.project_id;
 
-	$http.get('http://api.metinet.co/projects/'+$stateParams.id+"/to-do").then(function (resp) {
+	$http.get('http://api.metinet.co/projects/'+$stateParams.project_id+"/to-do").then(function (resp) {
 		$scope.projectTodo 	= resp.data.data;
 	});
 
-	ProjectProgressPlot.get({id:$stateParams.id})
+	ProjectProgressPlot.get({id:$stateParams.project_id})
 		.$promise.then(function(res) {
 			// success handler
 			$scope.projectProgressPlot = res.data;

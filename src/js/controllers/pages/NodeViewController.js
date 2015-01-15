@@ -62,16 +62,16 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 	};
 
 	initialiseWebSockets = function() {
-		var channel = pusher.subscribe('Node_'+$stateParams.id);
+		var channel = pusher.subscribe('Node_'+$stateParams.node_id);
 		channel.bind('audit-trail', function(data) {
 			console.log(data);
-			$scope.audit_history.unshift(data[0]);
-			$scope.audit_history.pop();
+			$scope.node_audit_history.unshift(data[0]);
+			$scope.node_audit_history.pop();
 			$scope.$apply();
 		});
 	};
 
-	Node.get({id:$stateParams.id})
+	Node.get({id:$stateParams.node_id})
 		.$promise.then(function(res) {
 			$scope.node 				= res.data;
 			$scope.progress 			= res.data.progress;
@@ -122,23 +122,23 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 	}
 
 	$scope.updateNode = function() {
-		Node.update({id:$stateParams.id}, $scope.node)
+		Node.update({id:$stateParams.node_id}, $scope.node)
 			.$promise.then(function(res) {
 				$scope.node = res.data;
-			});	
+			});
 	}
 
-	NodeAudit.get({id:$stateParams.id})
+	NodeAudit.get({id:$stateParams.node_id})
 		.$promise.then(function(res) {
 			// success handler
-			$scope.audit_history = res.data;
+			$scope.node_audit_history = res.data;
 		});
 
-	NodeUsers.get({id:$stateParams.id})
+	NodeUsers.get({id:$stateParams.node_id})
 		.$promise.then(function(res) {
 			$scope.node_users 		= res.data.current_users;
 			$scope.potential_users	= res.data.potential_users;
-			$scope.users_returned 	= true;			
+			$scope.users_returned 	= true;
 		});
 
 	$scope.addUsers = function() {
@@ -155,7 +155,7 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 		modalInstance.result
 			.then(function (_users) {
 				$scope.users_returned 			= false;
-				NodeUsers.store({id:$stateParams.id}, {users: _users})
+				NodeUsers.store({id:$stateParams.node_id}, {users: _users})
 					.$promise.then(function(response) {
 						$scope.node_users 		= response.data.current_users;
 						$scope.potential_users	= response.data.potential_users;
@@ -173,7 +173,7 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 		$('.btn-remove.user-'+_user.id).html('<i class="fa fa-fw fa-spin fa-refresh"></i>');
 		$('.btn-remove.user-'+_user.id).removeClass('btn-danger btn-default');
 		$('.btn-remove.user-'+_user.id).addClass('btn-default');
-		NodeUsers.delete({id:$stateParams.id, user_id: _user.id})
+		NodeUsers.delete({id:$stateParams.node_id, user_id: _user.id})
 			.$promise.then(function(response) {
 				$scope.node_users 		= response.data.current_users;
 				$scope.potential_users	= response.data.potential_users;
@@ -183,11 +183,11 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 	// START: Long Lead Item Functionality
 
 	$scope.getLongLeads = function() {
-		$scope.long_leads_returned 	= false;		
-		NodeLongLeads.get({id:$stateParams.id})
+		$scope.long_leads_returned 	= false;
+		NodeLongLeads.get({id:$stateParams.node_id})
 			.$promise.then(function(res) {
 				$scope.long_lead_items 		= res.data
-				$scope.long_leads_returned  = true;             
+				$scope.long_leads_returned  = true;
 			});
 	};
 
@@ -219,15 +219,15 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 					$('.btn-edit.long_lead-'+long_lead.id).removeClass('text-center btn-danger btn-success');
 					$('.btn-edit.long_lead-'+long_lead.id).addClass('btn-success');
 					$('.btn-edit.long_lead-'+long_lead.id).html('<i class="fa fa-fw fa-check"></i>');
-					$('.btn-edit.long_lead-'+long_lead.id).prop('disabled', false);                 
+					$('.btn-edit.long_lead-'+long_lead.id).prop('disabled', false);
 					$scope.long_lead_items[long_lead_index] = res.data;
 				}, function(response) {
 					$('.btn-edit.long_lead-'+long_lead.id).removeClass('text-center btn-danger btn-success');
 					$('.btn-edit.long_lead-'+long_lead.id).addClass('btn-danger');
 					$('.btn-edit.long_lead-'+long_lead.id).html('<i class="fa fa-fw fa-times"></i>');
-					$('.btn-edit.long_lead-'+long_lead.id).prop('disabled', false);                 
+					$('.btn-edit.long_lead-'+long_lead.id).prop('disabled', false);
 				});
-		});     
+		});
 	};
 
 	$scope.addLongLead 		= function() {
@@ -250,14 +250,14 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 				$('.btn-add-long-lead').removeClass('btn-primary btn-danger btn-success');
 				$('.btn-add-long-lead').addClass('btn-primary');
 				$('.btn-add-long-lead').html('<i class="fa fa-fw fa-spin fa-refresh"></i>&nbsp;&nbsp;Processing');
-				NodeLongLeads.save({id:$stateParams.id}, long_lead_data)
+				NodeLongLeads.save({id:$stateParams.node_id}, long_lead_data)
 					.$promise.then(function(response) {
 						$('.btn-add-long-lead').removeClass('btn-primary btn-danger btn-success');
 						$('.btn-add-long-lead').addClass('btn-success');
 						$('.btn-add-long-lead').html('<i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Add Long Lead Item');
 						$scope.long_lead_items 	= response.data
 						$scope.adding_long_lead	= false;
-						setTimeout(function() { 
+						setTimeout(function() {
 							$('.btn-add-long-lead').removeClass('btn-primary btn-danger btn-success');
 							$('.btn-add-long-lead').addClass('btn-primary');
 						}, 3000);
@@ -275,19 +275,19 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 		$('.btn-edit.long_lead-'+long_lead_item.id).removeClass('text-center text-danger btn-danger btn-success');
 		$('.btn-edit.long_lead-'+long_lead_item.id).addClass('text-center');
 		$('.btn-edit.long_lead-'+long_lead_item.id).html('<i class="fa fa-fw fa-refresh fa-spin"></i>');
-	
+
 		ChangeLongLeadStatus.update({id:long_lead_item.id, action:_action}, long_lead_item)
 			.$promise.then(function(res) {
 				$('.btn-edit.long_lead-'+long_lead_item.id).removeClass('text-center btn-danger btn-success');
 				$('.btn-edit.long_lead-'+long_lead_item.id).addClass('btn-success');
 				$('.btn-edit.long_lead-'+long_lead_item.id).html('<i class="fa fa-fw fa-check"></i>');
-				$('.btn-edit.long_lead-'+long_lead_item.id).prop('disabled', false);                    
+				$('.btn-edit.long_lead-'+long_lead_item.id).prop('disabled', false);
 				$scope.long_lead_items[long_lead_index] = res.data;
 			}, function(response) {
 				$('.btn-edit.long_lead-'+long_lead_item.id).removeClass('text-center btn-danger btn-success');
 				$('.btn-edit.long_lead-'+long_lead_item.id).addClass('btn-danger');
 				$('.btn-edit.long_lead-'+long_lead_item.id).html('<i class="fa fa-fw fa-times"></i>');
-				$('.btn-edit.long_lead-'+long_lead_item.id).prop('disabled', false);                    
+				$('.btn-edit.long_lead-'+long_lead_item.id).prop('disabled', false);
 			});
 	};
 
@@ -304,7 +304,7 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 				$('.btn-delete.long_lead-'+long_lead_id).removeClass('text-center btn-danger btn-success');
 				$('.btn-delete.long_lead-'+long_lead_id).addClass('btn-danger');
 				$('.btn-delete.long_lead-'+long_lead_id).html('<i class="fa fa-fw fa-times"></i>');
-				$('.btn-delete.long_lead-'+long_lead_id).prop('disabled', false);                   
+				$('.btn-delete.long_lead-'+long_lead_id).prop('disabled', false);
 			});
 	};
 
@@ -313,10 +313,10 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 	// START: Permit Functionality
 
 	$scope.getPermits = function() {
-		NodePermits.get({id:$stateParams.id})
+		NodePermits.get({id:$stateParams.node_id})
 			.$promise.then(function(res) {
 				$scope.permits          = res.data
-				$scope.permits_returned = true;             
+				$scope.permits_returned = true;
 			});
 	};
 
@@ -348,15 +348,15 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 					$('.btn-edit.permit-'+permit.id).removeClass('text-center btn-danger btn-success');
 					$('.btn-edit.permit-'+permit.id).addClass('btn-success');
 					$('.btn-edit.permit-'+permit.id).html('<i class="fa fa-fw fa-check"></i>');
-					$('.btn-edit.permit-'+permit.id).prop('disabled', false);                   
+					$('.btn-edit.permit-'+permit.id).prop('disabled', false);
 					$scope.permits[permit_index] = res.data;
 				}, function(response) {
 					$('.btn-edit.permit-'+permit.id).removeClass('text-center btn-danger btn-success');
 					$('.btn-edit.permit-'+permit.id).addClass('btn-danger');
 					$('.btn-edit.permit-'+permit.id).html('<i class="fa fa-fw fa-times"></i>');
-					$('.btn-edit.permit-'+permit.id).prop('disabled', false);                   
+					$('.btn-edit.permit-'+permit.id).prop('disabled', false);
 				});
-		});     
+		});
 	};
 
 	$scope.addPermit 		= function() {
@@ -379,14 +379,14 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 				$('.btn-add-permit').removeClass('btn-primary btn-danger btn-success');
 				$('.btn-add-permit').addClass('btn-primary');
 				$('.btn-add-permit').html('<i class="fa fa-fw fa-spin fa-refresh"></i>&nbsp;&nbsp;Processing');
-				NodePermits.save({id:$stateParams.id}, permit_data)
+				NodePermits.save({id:$stateParams.node_id}, permit_data)
 					.$promise.then(function(response) {
 						$('.btn-add-permit').removeClass('btn-primary btn-danger btn-success');
 						$('.btn-add-permit').addClass('btn-success');
 						$('.btn-add-permit').html('<i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Add Permit');
 						$scope.permits 			= response.data
 						$scope.adding_permit	= false;
-						setTimeout(function() { 
+						setTimeout(function() {
 							$('.btn-add-permit').removeClass('btn-primary btn-danger btn-success');
 							$('.btn-add-permit').addClass('btn-primary');
 						}, 3000);
@@ -404,19 +404,19 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 		$('.btn-edit.permit-'+permit.id).removeClass('text-center text-danger btn-danger btn-success');
 		$('.btn-edit.permit-'+permit.id).addClass('text-center');
 		$('.btn-edit.permit-'+permit.id).html('<i class="fa fa-fw fa-refresh fa-spin"></i>');
-	
+
 		ChangePermitStatus.update({id:permit.id, action:_action}, permit)
 			.$promise.then(function(res) {
 				$('.btn-edit.permit-'+permit.id).removeClass('text-center btn-danger btn-success');
 				$('.btn-edit.permit-'+permit.id).addClass('btn-success');
 				$('.btn-edit.permit-'+permit.id).html('<i class="fa fa-fw fa-check"></i>');
-				$('.btn-edit.permit-'+permit.id).prop('disabled', false);                   
+				$('.btn-edit.permit-'+permit.id).prop('disabled', false);
 				$scope.permits[permit_index] = res.data;
 			}, function(response) {
 				$('.btn-edit.permit-'+permit.id).removeClass('text-center btn-danger btn-success');
 				$('.btn-edit.permit-'+permit.id).addClass('btn-danger');
 				$('.btn-edit.permit-'+permit.id).html('<i class="fa fa-fw fa-times"></i>');
-				$('.btn-edit.permit-'+permit.id).prop('disabled', false);                   
+				$('.btn-edit.permit-'+permit.id).prop('disabled', false);
 			});
 	};
 
@@ -433,7 +433,7 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 				$('.btn-delete.permit-'+permit_id).removeClass('text-center btn-danger btn-success');
 				$('.btn-delete.permit-'+permit_id).addClass('btn-danger');
 				$('.btn-delete.permit-'+permit_id).html('<i class="fa fa-fw fa-times"></i>');
-				$('.btn-delete.permit-'+permit_id).prop('disabled', false);                 
+				$('.btn-delete.permit-'+permit_id).prop('disabled', false);
 			});
 	};
 
