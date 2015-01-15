@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
-	.controller('AppCtrl', [	'$scope', 
+	.controller('AppCtrl', [	'$scope',
 								'$translate',
 								'$localStorage',
 								'$window',	function(   $scope,
@@ -103,7 +103,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 											'$window',
 											'Auth',
 											'User',
-											'Networks',											
+											'Networks',
 											'$http',
 											'toaster', function(	$scope,
 																	$state,
@@ -131,32 +131,32 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 				action: 'profile',
 				name: 	'Profile Settings',
 				icon: 	'fa-user',
-				tpl: 	template_directory+'profile_settings.html'				
+				tpl: 	template_directory+'profile_settings.html'
 			},
 			{
 				action: 'network',
 				name: 	'Network Settings',
 				icon: 	'fa-lock',
-				tpl: 	template_directory+'network_settings.html'				
+				tpl: 	template_directory+'network_settings.html'
 			},
 			{
 				action: 'email-notifications',
 				name: 	'Email Notification Settings',
 				icon: 	'fa-envelope-o',
-				tpl: 	template_directory+'email_notification_settings.html'				
+				tpl: 	template_directory+'email_notification_settings.html'
 			},
 			{
 				action: 'password',
 				name: 	'Password Settings',
 				icon: 	'fa-lock',
-				tpl: 	template_directory+'change_password.html'				
+				tpl: 	template_directory+'change_password.html'
 			},
 			{
 				action: 'privacy',
 				name: 	'Privacy Settings',
 				icon: 	'fa-lock',
-				tpl: 	template_directory+'privacy_settings.html'				
-			}						
+				tpl: 	template_directory+'privacy_settings.html'
+			}
 		];
 
 		User.get({userId:current_user_data.id})
@@ -184,7 +184,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 			});
 
 		$scope.saveSettings = function(action_value) {
-			$scope.request_error = null;			
+			$scope.request_error = null;
 			$('.'+action_value+'-submit-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving...');
 			$('.'+action_value+'-submit-btn').removeClass('btn-success btn-danger btn-primary');
 			$('.'+action_value+'-submit-btn').addClass('btn-info');
@@ -214,18 +214,18 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 					$('.password-submit-btn').removeClass('btn-info');
 					$('.password-submit-btn').addClass('btn-success');
 					//	Reset Credentials, otherwise all routes will fail.
-					Auth.setCredentials($scope.user_data.email, $scope.password_data.password_new, response.data);					
+					Auth.setCredentials($scope.user_data.email, $scope.password_data.password_new, response.data);
 				}, function(response) {
 					console.log(response);
 					$('.password-submit-btn').html('<i class="fa fa-fw fa-times"></i>&nbsp;&nbsp;Failed');
 					$('.password-submit-btn').removeClass('btn-info');
 					$('.password-submit-btn').addClass('btn-danger');
-					$scope.request_error = response.data.msg.text;					
+					$scope.request_error = response.data.msg.text;
 				});
-		};		
+		};
 
 		$scope.changeAction = function(value) {
-			$scope.settings_action	= value;			
+			$scope.settings_action	= value;
 		}
 	}])
 	.controller('ProjectListController', [	'$scope',
@@ -243,12 +243,12 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 			});
 	}])
 	.controller('ProjectCreateController', [	'$scope',
-												'$state', 
-												'$window', 
-												'$http', 
-												'Auth', 
-												'Project', 
-												'moment', 
+												'$state',
+												'$window',
+												'$http',
+												'Auth',
+												'Project',
+												'moment',
 												'toaster', function(	$scope,
 																		$state,
 																		$window,
@@ -257,7 +257,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 																		Project,
 																		moment,
 																		toaster 	) {
-		
+
 		$scope.project 						= new Project();
 		$scope.projectCountry 				= {};
 		$scope.project.name 				= "Big New Project";
@@ -498,7 +498,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		$scope.openAddPackageModal = function() {
 		  var modalInstance = $modal.open({
 		    templateUrl: 'tpl/project/modal_add_package.html',
-		    controller: 'AddPackageModal'       
+		    controller: 'AddPackageModal'
 		  });
 		  modalInstance.result.then(function(newPackage) {
 			console.log("here");
@@ -781,6 +781,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 			var parentId 			= newNode.parent;
 			var parentNodeIndex 	= _.findIndex($scope.gantt_data.data,{"id":parseInt(newNode.parent,10)});
 			var parentNode 			= $scope.gantt_data.data[parentNodeIndex];
+      var todaysDate        = moment().format("DD-MM-YYYY");
 
 			if (parentNode && parentNode.type === "task"){
 				var r = confirm("Creating a new task will convert " + parentNode.text + " into a folder, and lose all links, permits and long leads - continue ?");
@@ -789,13 +790,21 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 				}
 			}
 
-			parentNode.open = true;
 			newNode.duration = 100;
 			newNode.parent_id = parseInt(parentId,10);
 			newNode.name  = newNode.text;
-			parentNode.duration = 100;
-			parentNode.type = "project";
-			newNode.start_date = parentNode.start_date;
+
+      if (typeof parentNode === "undefined"){
+        // you're trying to create a root node
+        // so set the start date to today
+        newNode.start_date = todaysDate;
+        newNode.parent_id = 0;
+      } else {
+				parentNode.open = true;
+				parentNode.duration = 100;
+				parentNode.type = "project";
+				newNode.start_date = parentNode.start_date;
+      }
 
 			// save new node
 			delete(newNode.id);
@@ -829,14 +838,14 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 				if ( response.status === 200 ) {
 					// user logged in
 				} else {
-				
+
 				}
-				
+
 			}, function(response) {
 				if ( response.status === 403 ) {
-				
+
 				} else {
-				
+
 				}
 			});
 
@@ -1091,7 +1100,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
 		$scope.submit = function() {
 
-			$scope.request_error = null;			
+			$scope.request_error = null;
 			$('.submit-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving...');
 			$('.submit-btn').removeClass('btn-success btn-danger');
 			$('.submit-btn').addClass('btn-metinet');
@@ -1119,7 +1128,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 												'Auth',
 												'AccountTypes',
 												'Roles',
-												'Countries',												
+												'Countries',
 												'Networks',
 												'NetworkUsers',
 												'NetworkLocations', function(	$scope,
@@ -1146,7 +1155,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		$scope.network_data					= {};
 		$scope.request_error				= null;
 		$scope.settings_action				= 'general';
-		var template_directory				= 'tpl/networks/settings_parts/';		
+		var template_directory				= 'tpl/networks/settings_parts/';
 
 		$scope.settings_menu	= [
 			{
@@ -1161,7 +1170,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 				name: 	'Users',
 				icon: 	'fa-group',
 				tpl: 	template_directory+'users.html',
-				show: 	true				
+				show: 	true
 			},
 			{
 				action: 'locations',
@@ -1183,14 +1192,14 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 				icon: 	'fa-times',
 				tpl: 	template_directory+'delete_network.html',
 				show: 	$scope.user_is_network_super_admin
-			}						
+			}
 		];
 
 		$scope.init = function() {
 			$scope.getNetworkData();
 			$scope.getAccountTypes();
 			$scope.getRoles();
-			$scope.getCountries();			
+			$scope.getCountries();
 		}
 
 		$scope.changeAction = function(value) {
@@ -1235,7 +1244,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		}
 
 		$scope.updateNetwork = function() {
-			$scope.request_error = null;			
+			$scope.request_error = null;
 			$('.submit-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving...');
 			$('.submit-btn').removeClass('btn-success btn-danger btn-info btn-metinet');
 			$('.submit-btn').addClass('btn-info');
@@ -1251,11 +1260,11 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 					$('.submit-btn').removeClass('btn-success btn-danger btn-info btn-metinet');
 					$('.submit-btn').addClass('btn-danger');
 					$scope.request_error = response.data.msg.text;
-				});			
+				});
 		}
 
 		$scope.deleteNetwork = function() {
-			$scope.request_error = null;			
+			$scope.request_error = null;
 			$('.delete-btn').html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Saving...');
 			$('.delete-btn').removeClass('btn-success btn-danger');
 			$('.delete-btn').addClass('btn-danger');
@@ -1266,13 +1275,13 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 					$('.delete-btn').removeClass('btn-danger');
 					$('.delete-btn').addClass('btn-success');
 					Auth.resetUserData(response.user_data);
-					$location.path('/');					
+					$location.path('/');
 				}, function(response) {
 					$('.delete-btn').html('<i class="fa fa-fw fa-times"></i>&nbsp;&nbsp;Failed');
 					$('.delete-btn').removeClass('btn-danger');
 					$('.delete-btn').addClass('btn-danger');
 					$scope.request_error = response.data.msg.text;
-				});			
+				});
 		}
 
 		$scope.editLocation = function(location_index) {
@@ -1292,13 +1301,13 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 				modalInstance.result.then(function(submit_data) {
 					var _location_id = submit_data.id;
 					$('.btn-update.location-'+_location_id).removeClass('btn-success btn-info');
-					$('.btn-update.location-'+_location_id).addClass('btn-info');					
+					$('.btn-update.location-'+_location_id).addClass('btn-info');
 					$('.btn-update.location-'+_location_id).html('<i class="fa fa-fw fa-spin fa-refresh"></i>');
 					console.log(submit_data);
 					NetworkLocations.update({network_id:current_user_data.network.id, loc_id:_location_id}, submit_data)
 						.$promise
 						.then(function(response) {
-							console.log(response);							
+							console.log(response);
 							$('.btn-update.location-'+_location_id).removeClass('btn-success btn-info');
 							$('.btn-update.location-'+_location_id).addClass('btn-success');
 							$('.btn-update.location-'+_location_id).html('<i class="fa fa-fw fa-check"></i>');
@@ -1311,7 +1320,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		}
 
 		$scope.deleteLocation = function(location_index) {
-			var location_id = $scope.network_data.locations[location_index].id;			
+			var location_id = $scope.network_data.locations[location_index].id;
 			$('.btn-delete.location-'+location_id).html('<i class="fa fa-spin fa-refresh"></i>');
 			$('.btn-delete.location-'+location_id).removeClass('btn-info btn-default btn-danger btn-success');
 			$('.btn-delete.location-'+location_id).addClass('btn-info');
@@ -1322,7 +1331,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 					$scope.network_data.locations.splice(location_index, 1);
 					$scope.getNetworkData();
 				}, function(response) {
-					$('.btn-delete.location-'+location_id).attr('disabled','');					
+					$('.btn-delete.location-'+location_id).attr('disabled','');
 					$('.btn-delete.location-'+location_id).html('<i class="fa fa-fw fa-times"></i>');
 					$('.btn-delete.location-'+location_id).removeClass('btn-info btn-default btn-danger btn-success');
 					$('.btn-delete.location-'+location_id).addClass('btn-danger');
@@ -1330,7 +1339,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		}
 
 		$scope.confirmUser = function(user_index) {
-			var user_id = $scope.network_data.users[user_index].id;			
+			var user_id = $scope.network_data.users[user_index].id;
 			$('.btn-pending.user-'+user_id).attr('disabled','disabled');
 			$('.btn-pending.user-'+user_id).html('<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Confirming...');
 			$('.btn-pending.user-'+user_id).removeClass('btn-info btn-default btn-danger btn-success');
@@ -1339,12 +1348,12 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 				.$promise
 				.then(function(response) {
 					console.log(response);
-					$scope.network_data.users[user_index] = response.data;					
+					$scope.network_data.users[user_index] = response.data;
 					$('.btn-pending.user-'+user_id).html('<i class="fa fa-fw fa-check"></i>&nbsp;&nbsp;Confirmed');
 					$('.btn-pending.user-'+user_id).removeClass('btn-info btn-default btn-danger btn-success');
 					$('.btn-pending.user-'+user_id).addClass('btn-success');
 				}, function(response) {
-					$('.btn-pending.user-'+user_id).attr('disabled','');					
+					$('.btn-pending.user-'+user_id).attr('disabled','');
 					$('.btn-pending.user-'+user_id).html('<i class="fa fa-fw fa-times"></i>&nbsp;&nbsp;Failed');
 					$('.btn-pending.user-'+user_id).removeClass('btn-info btn-default btn-danger btn-success');
 					$('.btn-pending.user-'+user_id).addClass('btn-danger');
@@ -1372,7 +1381,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 				modalInstance.result.then(function(submit_data) {
 					var _user_id = submit_data.id;
 					$('.btn-update.user-'+_user_id).removeClass('btn-success btn-info');
-					$('.btn-update.user-'+_user_id).addClass('btn-info');					
+					$('.btn-update.user-'+_user_id).addClass('btn-info');
 					$('.btn-update.user-'+_user_id).html('<i class="fa fa-fw fa-spin fa-refresh"></i>');
 					NetworkLocations.update({network_id:current_user_data.network.id, location_id:_location_id}, submit_data)
 						.$promise
@@ -1434,7 +1443,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		};
 
 		$scope.network_locations 	= network_locations;
-		$scope.roles 				= roles;		
+		$scope.roles 				= roles;
 
 		$scope.ok = function () {
 			$modalInstance.close($scope.submit_data);
@@ -1456,7 +1465,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 																				countries	) {
 
 		$scope.location_data 		= location;
-		$scope.countries 			= countries;		
+		$scope.countries 			= countries;
 
 		$scope.ok = function () {
 			$modalInstance.close($scope.location_data);
@@ -1810,11 +1819,11 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
 	}])
   	.controller('NetworkViewController', [  '$scope',
-											'$stateParams', 
-											'Auth', 
-											'Networks', 
-											'NetworkProjects',	function(	$scope, 
-																			$stateParams, 
+											'$stateParams',
+											'Auth',
+											'Networks',
+											'NetworkProjects',	function(	$scope,
+																			$stateParams,
 																			Auth,
 																			Networks,
 																			NetworkProjects	) {
@@ -1931,7 +1940,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 					email: 		$scope.user.email,
 					password:  	$scope.user.password
 				}).then(function(response) {
-						$scope.process_engaged = false;					
+						$scope.process_engaged = false;
 						if (response.status === 200) {
 							// user logged in
 							Auth.setCredentials($scope.user.email, $scope.user.password, response.data.user_data);
@@ -1952,12 +1961,12 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		};
 	}])
 	// signup controller
-	.controller('SignUpController', [	'$scope', 
-										'$http', 
+	.controller('SignUpController', [	'$scope',
+										'$http',
 										'$state',
 										'$translate',
 										'$location',
-										'User', function(	$scope, 
+										'User', function(	$scope,
 															$http,
 															$state,
 															$translate,
@@ -1994,11 +2003,11 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 									function(data) {
 										$scope.process_engaged 	= false;
 										$scope.sign_up_complete = true;
-									}, 
+									},
 
 									// Fail
 									function (data) {
-										$scope.process_engaged 		= false;										
+										$scope.process_engaged 		= false;
 										$scope.authError 			= data.data.detail;
 										$scope.validation_errors	= data.data.data;
 									}
@@ -2006,13 +2015,13 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 		};
 	}])
 	// signup controller
-	.controller('ActivationController', [	'$scope', 
-											'$http', 
+	.controller('ActivationController', [	'$scope',
+											'$http',
 											'$state',
 											'$stateParams',
 											'$translate',
 											'$location',
-											'Activate', function(	$scope, 
+											'Activate', function(	$scope,
 																	$http,
 																	$state,
 																	$stateParams,
@@ -2030,9 +2039,9 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 											// Success
 											function(response) {
 												$scope.success 			= true;
-												$scope.user_fullname 	= response.data.fullname;												
+												$scope.user_fullname 	= response.data.fullname;
 												$scope.process_engaged 	= false;
-											}, 
+											},
 
 											// Fail
 											function (response) {
