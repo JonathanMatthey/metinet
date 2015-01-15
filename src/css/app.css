@@ -2929,7 +2929,7 @@ fieldset[disabled] .i-checks input + i:before {
 }
 
 .bg-black {
-  color: #6b94b3;
+  color: #6b94b3!important;
   background-color: #1c2b36;
 }
 
@@ -2968,7 +2968,12 @@ fieldset[disabled] .i-checks input + i:before {
 
 .bg-black a.list-group-item:hover,
 .bg-black a.list-group-item:focus {
-  background-color: inherit;
+  background-color: #1c2b36!important;
+}
+
+a.bg-black.list-group-item:hover,
+a.bg-black.list-group-item:focus {
+  background-color: #1c2b36!important;
 }
 
 .bg-black .nav > li:hover > a,
