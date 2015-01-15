@@ -781,7 +781,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 			var parentId 			= newNode.parent;
 			var parentNodeIndex 	= _.findIndex($scope.gantt_data.data,{"id":parseInt(newNode.parent,10)});
 			var parentNode 			= $scope.gantt_data.data[parentNodeIndex];
-      var todaysDate        = moment().format("DD-MM-YYYY");
+      var todaysDate        = moment().format("YYYY-MM-DD 00:00:00");
 
 			if (parentNode && parentNode.type === "task"){
 				var r = confirm("Creating a new task will convert " + parentNode.text + " into a folder, and lose all links, permits and long leads - continue ?");
@@ -805,6 +805,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 				parentNode.type = "project";
 				newNode.start_date = parentNode.start_date;
       }
+
+     	console.log(newNode.start_date)
 
 			// save new node
 			delete(newNode.id);
