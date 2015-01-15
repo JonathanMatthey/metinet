@@ -1,0 +1,27 @@
+<div class="col w-md bg-light lter b-r bg-auto no-border-xs" ng-init="init()">
+	<ng-include src="'tpl/nodes/components/sidebar.html'"></ng-include>
+</div>
+<div class="bg-light">
+	<div class="row" ng-hide="node.is_leaf">
+		<ng-include src="'tpl/nodes/components/not_leaf.html'"></ng-include>
+	</div>
+	<div class="row" ng-show="node.is_leaf">
+		<ng-include src="'tpl/nodes/components/is_leaf.html'"></ng-include>
+	</div>
+</div>
+<div class="col w-md bg-black bg-auto no-border-xs">
+	<tabset class="nav-tabs-alt" justified="true">
+		<tab>
+			<tab-heading>
+				<i class="fa fa-clock-o text-md wrapper-sm"></i>
+			</tab-heading>
+			<div class="wrapper-sm sidebar_inner" ng-include="'tpl/nodes/sidebar_components/audit_history.html'"></div>
+		</tab>
+		<tab>
+			<tab-heading>
+				<i class="fa fa-users text-md wrapper-sm"></i>
+			</tab-heading>
+			<div ng-class="{'wrapper-sm': !projectUsers}" ng-include="'tpl/project/sidebar/sidebar_users.html'"></div>
+		</tab>
+	</tabset>
+</div>

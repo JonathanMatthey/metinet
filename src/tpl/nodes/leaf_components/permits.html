@@ -1,0 +1,80 @@
+<div class="panel panel-default m-b-none">
+	<div class="panel-body b-b b-light">
+		<input id="permit_filter" type="text" class="form-control input-sm w-lg inline m-r m-lsm" placeholder="Search..."/>
+		<a 	class="btn btn-primary btn-sm pull-right btn-add-permit"
+			ng-show="node.associated_user.id == current_user.id"
+			ng-disabled="!permits_returned"
+			ng-click="addPermit()">
+				<i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Add Permit
+		</a>
+	</div>
+	<div>
+		<table class="table m-b-none" ui-jq="footable" data-filter="#permit_filter" data-page-size="20">
+			<thead>
+				<tr>
+					<th data-toggle="true">Name</th>
+					<th class="text-center">Status</th>
+					<th class="text-center">Applied</th>
+					<th class="text-center">Received</th>
+					<td class="text-right">Actions</td>
+				</tr>
+			</thead>
+			<tbody ng-hide="permits_returned">
+				<tr ng-hide="permits.length > 0">
+					<td colspan="5" class="text-center">
+						<i class="fa fa-refresh fa-spin"></i>&nbsp;&nbsp;Loading...
+					</td>
+				</tr>
+			</tbody>
+			<tbody ng-show="permits_returned">
+				<tr ng-hide="permits.length > 0">
+					<td colspan="5" class="bg-info text-center">This Node Has No Permits</td>           
+				</tr>
+				<tr ng-repeat="permit in permits" ng-show="permits.length > 0">
+					<td ng-bind="permit.name"></td>
+					<td class="text-center text-{{permit.status.status_colour}}" ng-bind="permit.status.status"></td>
+					<td class="text-center">
+						<div class="checkbox m-n">
+							<label class="i-checks">
+								<input 	type="checkbox"
+										ng-model="permit.applied"
+										ng-disabled="permit.received"
+										ng-change="changePermitStatus($index, 'apply')"><i></i>
+							</label>
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="checkbox m-n">
+							<label class="i-checks">
+								<input 	type="checkbox"
+										ng-model="permit.received"
+										ng-disabled="!permit.applied"
+										ng-change="changePermitStatus($index, 'receive')"><i></i>
+							</label>
+						</div>
+					</td>
+					<td class="text-right">
+						<div class="btn-group btn-group-xs">
+							<a class="btn btn-default" ng-click="openPermitModal($index, 'view')">
+								<i class="fa fa-fw fa-eye"></i>
+							</a>
+							<a class="btn btn-default btn-edit permit-{{ permit.id }}" ng-click="openPermitModal($index, 'edit')">
+								<i class="fa fa-fw fa-pencil"></i>
+							</a>
+							<a class="btn btn-default btn-delete permit-{{ permit.id }}" ng-click="deletePermit($index)">
+								<i class="text-danger fa fa-fw fa-trash-o"></i>
+							</a>
+						</div>
+					</td>           
+				</tr>
+			</tbody>
+			<tfoot class="hide-if-no-paging">
+				<tr>
+					<td colspan="5" class="text-center">
+						<ul class="pagination"></ul>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>

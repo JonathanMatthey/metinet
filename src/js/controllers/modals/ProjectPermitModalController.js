@@ -1,23 +1,23 @@
-angular.module('app.controllers').controller('ProjectViewRFIModalController', [	'$scope',
+angular.module('app.controllers').controller('ProjectPermitModalController', [	'$scope',
 																				'$modalInstance',
-																				'rfi',
+																				'permit',
 																				'action', function(	$scope,
 																									$modalInstance,
-																									rfi,
+																									permit,
 																									action	) {
-	$scope.rfi 		= rfi;
-	$scope.action 	= action;
+	$scope.permit 	= permit;
+	$scope.action 		= action;
 
 	$scope.ok 	= function () {
 		if ($scope.action == 'view') {
 			$modalInstance.close();
 		} else {
-			$modalInstance.close($scope.rfi);
+			$modalInstance.close($scope.permit);
 		}
 	};
 
 	$scope.cancel 	= function () {
-		$modalInstance.close();
+		$modalInstance.close('cancel');
 	};
 
 }]);

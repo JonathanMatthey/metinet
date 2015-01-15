@@ -1,0 +1,8 @@
+<div class="streamline b-l m-b">
+	<div class="sl-item" ng-repeat="activity in nodeAudit">
+		<div class="m-l">
+			<div class="text-muted">{{ activity.time | fromNow }}</div>
+			<p ng-bind="activity.text"></p>
+		</div>
+	</div>
+</div>

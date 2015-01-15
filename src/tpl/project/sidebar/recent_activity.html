@@ -7,7 +7,7 @@
 
 <div class="padder-top-10-n" ng-show="projectAudit">
 	<div class="streamline b-l m-b">
-		<div class="sl-item" ng-repeat="activity in projectAudit">
+		<div class="sl-item" ng-repeat="activity in $parent.projectAudit">
 			<div class="m-l">
 				<div class="text-white">{{ activity.time | fromNow }}</div>
 				<p ng-bind="activity.text"></p>

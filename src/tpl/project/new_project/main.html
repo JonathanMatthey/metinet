@@ -1,0 +1,349 @@
+<div class="app-content m-n ng-scope">
+	<!-- uiView:  --><div ui-view="" class="app-content-body ng-scope"><div class="bg-light lter wrapper-md ng-scope">
+	<div class="row">
+		<div class="col-sm-8 col-xs-8 col-xs-offset-2">
+			<h1 class="m-n font-thin h3 text-black">
+				<i class="fa fa-fw fa-pencil"></i>&nbsp;&nbsp;Create New Project
+			</h1>
+		</div>
+	</div>
+</div>
+<section class="m-t-md col-xs-8 col-xs-offset-2 ng-scope">
+	<tabset class="tab-container" ng-init="steps={percent:20, step1:true, step2:false, step3:false}">
+<!-- 		START: GENERAL INFORMATION -->
+		<tab 	heading="General"
+				active="steps.step1"
+ 				class="tab-button"
+				select="steps.percent=20">
+			<h4>General Information</h4>
+			<hr>
+			<form name="step1" class="form-validation" novalidate>
+				<div class="row">
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<p>
+								Project Name
+								<span ng-show="step1.name.$error.required" class="pull-right text-danger">
+									Required
+								</span>
+								<span ng-show="step1.name.$error.minlength" class="pull-right text-danger">
+									Min length: 5 Characters.
+								</span>
+							</p>
+							<input 	type="text"
+									name="name"
+									class="form-control"
+									ng-model="new_project.name"
+									ng-minlength="5"
+									required>							
+						</div>
+						<div class="form-group">
+							<p>
+								Start Date
+								<span ng-show="step1.start_date.$error.required" class="pull-right text-danger">
+									Required
+								</span>
+								<span ng-show="step1.start_date.$error.pattern" class="pull-right text-danger">
+									<i class="fa fa-fw fa-exclamation m-l-xs"></i>
+									The start date must be a date.
+								</span>
+							</p>
+							<div ng-controller="DatepickerDemoCtrl">
+								<div class="input-group">
+									<input 	type="text" 
+											name="start_date"
+											class="form-control"
+											datepicker-popup="{{ format }}"
+											ng-model="new_project.start_date"
+											is-open="opened"
+											datepicker-options="dateOptions"
+											required
+											close-text="Close" />
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-default" ng-click="open($event)">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</span>
+								</div>
+							</div>										
+						</div>
+						<div class="form-group">
+							<p>
+								Contractural End Date
+								<span ng-show="step1.end_date.$error.required" class="pull-right text-danger">
+									Required
+								</span>
+								<span ng-show="step1.end_date.$error.pattern" class="pull-right text-danger">
+									<i class="fa fa-fw fa-exclamation m-l-xs"></i>
+									The end date must be a date.
+								</span>
+							</p>				
+							<div ng-controller="DatepickerDemoCtrl">
+								<div class="input-group">
+									<input 	type="text" 
+											name="end_date"
+											class="form-control"
+											datepicker-popup="{{ format }}"
+											ng-model="new_project.end_date_contract"
+											is-open="opened"
+											datepicker-options="dateOptions"
+											required
+											close-text="Close" />
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-default" ng-click="open($event)">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</span>								
+								</div>
+							</div>									
+						</div>
+
+					</div>
+
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<p>Description</p>
+							<textarea 	class="form-control"
+										rows="9"
+										ng-minlength="2"
+										ng-model="new_project.desc"></textarea>
+						</div>
+
+					</div>
+
+				</div>
+
+			</form>
+		</tab>
+<!-- 		END: GENERAL INFORMATION -->
+<!-- 		START: COMPANY INFORMATION -->
+		<tab 	heading="Company"
+ 				disabled="step1.$invalid"
+ 				class="tab-button" 				
+				active="steps.step2"
+				select="steps.percent=40">
+			<h4>Company Information</h4>
+			<hr>
+			<form name="step2" class="form-validation" novalidate>
+				<div class="row">
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<p>
+								Client
+								<span ng-show="step2.client.$error.required" class="pull-right text-danger">
+									Required
+								</span>
+							</p>
+							<input 	type="text"
+									name="client"
+									ng-model="new_project.client"
+									placeholder="Search Networks..."
+									typeahead="network as network.name for network in networks | filter:$viewValue | limitTo:8"
+									required
+									autocomplete="off"
+									class="form-control">
+						</div>
+						<div class="form-group">
+							<p>
+								Contractor
+								<span ng-show="step2.contractor.$error.required" class="pull-right text-danger">
+									Required
+								</span>
+							</p>
+							<input 	type="text"
+									name="contractor"
+									ng-model="new_project.contractor"
+									placeholder="Search Networks..."
+									typeahead="network as network.name for network in networks | filter:$viewValue | limitTo:8"
+									required
+									autocomplete="off"									
+									class="form-control">
+						</div>
+						<div class="form-group">
+							<p>
+								Consultant
+							</p>
+							<input 	type="text"
+									name="consultant"
+									ng-model="new_project.consultant"
+									placeholder="Search Networks..."
+									typeahead="network as network.name for network in networks | filter:$viewValue | limitTo:8"
+									autocomplete="off"									
+									class="form-control">
+						</div>
+
+					</div>
+
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<p>Project Name</p>
+							<textarea 	class="form-control"
+										rows="9"
+										ng-minlength="2"
+										ng-model="new_project.desc"></textarea>
+						</div>
+
+					</div>
+
+				</div>
+
+			</form>
+		</tab>
+<!-- 		END: COMPANY INFORMATION -->
+<!-- 		START: LOCATION INFORMATION -->
+		<tab 	heading="Location"
+ 				disabled="step1.$invalid || step2.$invalid"
+ 				class="tab-button" 				
+				active="steps.step3"
+				select="steps.percent=60"
+				ng-click="redrawMap()">
+			<h4>Location Information</h4>
+			<hr>
+			<form name="step3" class="form-validation" novalidate>
+				<div class="padder-h-xs">
+
+					<ui-gmap-google-map 	center="map.center"
+											zoom="map.zoom"
+											draggable="true"
+											options="map.options">
+
+						<ui-gmap-marker 	coords="marker.coords"
+											options="marker.options"
+											events="marker.events"
+											idkey="marker.id"></ui-gmap-marker>
+
+					</ui-gmap-google-map>
+
+					<hr>
+
+					<div class="form-group pull-in clearfix">
+						<div class="col-sm-6">
+							<label>Country</label>
+							<select class="form-control">
+								<option value="{{ country.code }}"
+										ng-repeat="country in countries"
+										ng-selected="new_project.country_id == country.iso"
+										ng-model="new_project.country_id"
+										ng-disabled="marker_moved">{{ country.nicename }}</option>
+							</select>				
+						</div>
+						<div class="col-sm-6">
+							<label>Currency</label>
+							<select class="form-control">
+								<option value="{{ currency.code }}"
+										ng-repeat="currency in currencies"
+										ng-selected="new_project.currency_id == currency.code"
+										ng-model="new_project.currency_id"							
+										ng-disabled="marker_moved">{{ currency.name }} [{{ currency.symbol }}]</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group pull-in clearfix">
+						<div class="col-sm-6">
+							<label>Working Days</label>
+							<input 	type="text"
+									class="form-control"
+									placeholder="Working Days"
+									ng-model="new_project.working_days"
+									ng-disabled="marker_moved">
+						</div>
+						<div class="col-sm-6">
+							<label>Working Hours</label>
+							<input 	type="text"
+									class="form-control"
+									placeholder="Working Hours"
+									ng-model="new_project.working_hours"
+									ng-disabled="marker_moved">
+						</div>
+					</div>
+
+				</div>
+
+			</form>
+		</tab>
+<!-- 		END: LOCATION INFORMATION -->
+<!-- 		START: MONITORING INFORMATION -->
+		<tab 	heading="Monitoring"
+ 				disabled="step1.$invalid || step2.$invalid || step3.$invalid"
+ 				class="tab-button"
+				active="steps.step4"
+				select="steps.percent=80">
+			<h4>Monitoring Settings</h4>
+			<hr>
+			<form name="step4" class="form-validation" novalidate>
+				<div class="row">
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<div class="col-sm-10 col-md-offset-2">
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" ng-model="new_project.long_lead_items">
+										Long Lead Items
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" ng-model="new_project.permit_assessment">
+										Permits
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" ng-model="new_project.risk_assessment" disabled>
+										Risk Assessment (Coming Soon)
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" ng-model="new_project.cost_management" disabled>
+										Cost Management (Coming Soon)
+									</label>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+
+						<div class="well">
+							Here you select what you would like MetiNet to track and monitor on your behalf.
+						</div>
+
+					</div>
+
+				</div>
+
+				<div class="m-t">
+					<div class="clearfix">
+						<button type="submit" ng-disabled="step1.$invalid" class="btn btn-metinet pull-right" ng-click="steps.step5=true">
+							Create Project
+						</button>
+					</div>
+				</div>
+			</form>
+		</tab>
+<!-- 		END: MONITORING INFORMATION -->
+<!-- 		START: CREATING PROJECT -->
+		<tab 	heading="Create Project"
+ 				disabled="step1.$invalid || step2.$invalid || step3.$invalid || step4.$invalid"
+ 				class="tab-button" 				
+				ng-click="createProject()"
+				select="steps.percent=100">
+			<div class="text-center wrapper-xl text-lg" id="creating-project-visual">
+				<i class="fa fa-fw fa-spin fa-refresh"></i>&nbsp;&nbsp;Creating Your Project...
+			</div>
+		</tab>
+<!-- 		END: CREATING PROJECT -->
+	</tabset>
+	<progressbar value="steps.percent" class="progress-xs" type="success"></progressbar>
+</section>

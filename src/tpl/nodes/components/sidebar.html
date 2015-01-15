@@ -1,0 +1,79 @@
+<div class="panel no-border bg-black m-b-none">
+	<div class="panel-heading lt">
+		<div class="m-sm">
+			<span class="h4 text-white" ng-bind="node.name"></span>
+		</div>              
+		<div class="text-center m-t-md">
+				<div id="sparkline"></div>
+		</div>
+	</div>
+	<div class="panel-footer bg-light lter wrapper">
+		<div class="row">
+			<div class="col-xs-6 text-center">
+				<small class="block">Start Date</small>
+				<span class="text-muted text-md">{{ node.start_date | formatFullDate }}</span>
+			</div>
+			<div class="col-xs-6 text-center">
+				<small class="block">End Date</small>
+				<span class="text-muted text-md">{{ node.end_date.date | formatFullDate }}</span>
+			</div>
+		</div>
+	</div>
+</div>  
+<ul class="list-group no-radius m-b-none">
+	<li class="list-group-item b-l-0 b-r-0">
+		<span class="pull-right">{{ node.duration }} Days</span>
+		Duration
+	</li>
+	<li class="list-group-item b-l-0 b-r-0">
+		<span class="pull-right text-{{ node.status.colour }}">
+			{{ node.projected_end_date.date | formatFullDate }}
+		</span>
+		Projected End Date
+	</li>
+	<a class="list-group-item b-l-0 b-r-0" ng-show="node.parent_node" href="#/app/page/nodes/{{node.parent_node.id}}">
+		<div class="clearfix">
+			Parent Node
+			<span class="pull-right" ng-bind="node.parent_node.name"></span>
+		</div>
+	</a>
+</ul>
+<div class="padder-v bg-light lter row text-center no-gutter">
+	<div class="col-xs-6">
+		<div>Actual</div>
+		<div class="inline m-t-sm">
+			<div easypiechart options="options" percent="percent.progress">
+				 <span class="percent" style="position:absolute; top:57px; right:45px; text-align:center;">
+				 	{{ node.display_progress }}%
+				 </span>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-6">
+		<div>Projected</div>
+		<div class="inline m-t-sm">
+			<div easypiechart options="options" percent="percent.projected">
+				 <span class="percent" style="position:absolute; top:57px; right:45px; text-align:center;">
+				 	{{ node.display_projected_progress }}%
+				 </span>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="wrapper-md">
+	<dl>
+		<dt>Assigned User</dt>
+		<dd class="m-b-xs ng-binding" ng-bind="node.associated_user.fullname"></dd>
+		<dt>Last Updated</dt>
+		<dt>
+			<i class="fa fa-fw fa-user"></i>
+			<span class="font-normal" ng-bind="node.updated_data.user.fullname"></span>
+		</dt>
+		<dt>
+			<i class="fa fa-fw fa-clock-o"></i>
+			<span class="font-normal">
+				{{ node.updated_data.time.date | fromNow }}
+			</span>
+		</dt>
+	</dl>
+</div>

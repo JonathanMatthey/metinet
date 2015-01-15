@@ -21,7 +21,11 @@
 
 </head>
 <body ng-controller="AppCtrl">
-	<div class="app" id="app" ng-class="{'app-header-fixed':app.settings.headerFixed, 'app-aside-fixed':app.settings.asideFixed, 'app-aside-dock':app.settings.asideDock, 'container':app.settings.container}" ui-view></div>
+	<div 	class="app app-aside-folded"
+			id="app"
+			ng-class="{'app-header-fixed':app.settings.headerFixed, 'app-aside-fixed':app.settings.asideFixed, 'app-aside-dock':app.settings.asideDock, 'container':app.settings.container}"
+			ui-view>
+	</div>
 	<!-- jQuery -->
 	<script src="js/jquery/jquery.min.js"></script>
 	<script src="js/libs/lodash.js"></script>
@@ -41,8 +45,8 @@
 	<script src="js/angular/ui-jq.js"></script>
 	<script src="js/angular/ui-load.js"></script>
 	<script src="js/angular/ui-validate.js"></script>
-	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-	<script src="js/angular/ng-map.min.js"></script>
+	<script src="js/modules/angular-google-maps/angular-google-maps.min.js"></script>
+	<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
 	<script src="js/modules/angular-xeditable/dist/js/xeditable.min.js"></script>
 
 	<!-- Vendor -->
@@ -85,6 +89,7 @@
 
 		<!-- START: LongLeads Services -->
 		<script src="js/services/LongLeads/LongLeads.js"></script>
+		<script src="js/services/LongLeads/ChangeLongLeadStatus.js"></script>		
 		<!-- END: LongLeads Services -->
 
 		<!-- START: Messaging Services -->
@@ -109,6 +114,7 @@
 
 		<!-- START: Permits Services -->
 		<script src="js/services/Permits/Permits.js"></script>
+		<script src="js/services/Permits/ChangePermitStatus.js"></script>
 		<!-- END: Permits Services -->	
 
 		<!-- START: Project Services -->
@@ -156,6 +162,7 @@
 		<script src="js/controllers/pages/MessagesListController.js"></script>	
 		<script src="js/controllers/pages/ModalPermitCtrl.js"></script>
 		<script src="js/controllers/pages/ModalRFICtrl.js"></script>
+		<script src="js/controllers/pages/NavController.js"></script>
 		<script src="js/controllers/pages/NetworkCreateController.js"></script>
 		<script src="js/controllers/pages/NetworkSettingsController.js"></script>
 		<script src="js/controllers/pages/NetworkViewController.js"></script>
@@ -175,11 +182,17 @@
 		<script src="js/controllers/modals/AddUserToNetworkModal.js"></script>
 		<script src="js/controllers/modals/ChangeNetworkModal.js"></script>
 		<script src="js/controllers/modals/EditPermitModal.js"></script>
-		<script src="js/controllers/modals/ProjectAddNetworkModalController.js"></script>
-		<script src="js/controllers/modals/ProjectAddUsersModalController.js"></script>
-		<script src="js/controllers/modals/ProjectViewRFIModalController.js"></script>
 		<script src="js/controllers/modals/NetworkEditLocationModal.js"></script>
 		<script src="js/controllers/modals/NetworkEditUserModal.js"></script>
+		<script src="js/controllers/modals/NodeAddUsersModalController.js"></script>
+		<script src="js/controllers/modals/NodeLongLeadItemModalController.js"></script>
+		<script src="js/controllers/modals/NodePermitModalController.js"></script>
+		<script src="js/controllers/modals/ProjectAddNetworkModalController.js"></script>
+		<script src="js/controllers/modals/ProjectAddUsersModalController.js"></script>
+		<script src="js/controllers/modals/ProjectRFIModalController.js"></script>
+		<script src="js/controllers/modals/ProjectNewRFIModalController.js"></script>
+		<script src="js/controllers/modals/ProjectLongLeadItemModalController.js"></script>
+		<script src="js/controllers/modals/ProjectPermitModalController.js"></script>
 		<script src="js/controllers/modals/ViewLongLeadModal.js"></script>
 		<script src="js/controllers/modals/ViewPermitModal.js"></script>
 		<!-- END: Modal Controllers -->

@@ -1,0 +1,13 @@
+<div class="modal-header">
+	<h3 class="modal-title">Add Users To Node</h3>
+</div>
+<div class="modal-body">
+	<h5>Select Users to Add To This Node</h5>
+	<select ui-jq="chosen" multiple class="form-control" ng-model="selected_users">
+		<option value="{{ user.id }}" ng-repeat="user in potential_users">{{ user.fullname }}</option>
+	</select>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="cancel()">Cancel</button>
+	<button class="btn btn-primary" ng-click="ok()">OK</button>
+</div>

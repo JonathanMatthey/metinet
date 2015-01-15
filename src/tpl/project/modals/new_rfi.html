@@ -1,0 +1,64 @@
+<div class="modal-header">
+   	<h3 class="modal-title">New RFI</h3>
+</div>
+<div class="modal-body">
+	<form class="bs-example form-horizontal ng-pristine ng-valid">
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Requesting:</label>
+			<div class="col-lg-8">
+				<input 	type="text"
+						class="form-control"
+						placeholder="Requesting"
+						readonly
+						value="{{ rfi.requesting_network.name }}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Responding:</label>
+			<div class="col-lg-8">
+				<input 	type="text"
+						class="form-control"
+						placeholder="Responding Network"
+						ng-model="rfi.responding_network"
+						typeahead="network as network.name for network in possible_networks">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Deadline:</label>
+			<div class="col-lg-8" ng-controller="DatepickerDemoCtrl">
+				<div class="input-group">
+					<input 	type="text"
+							class="form-control"
+							datepicker-popup="{{format}}"
+							ng-model="rfi.response_deadline"
+							is-open="opened"
+							datepicker-options="dateOptions"
+							ng-required="true"
+							close-text="Close" />
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default" ng-click="open($event)">
+							<i class="glyphicon glyphicon-calendar"></i>
+						</button>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Request:</label>
+			<div class="col-lg-8">
+				<textarea 	class="form-control"
+							placeholder="Request"
+							ng-model="rfi.request_body"></textarea>
+			</div>
+		</div>
+
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+	<button class="btn btn-primary" ng-click="ok()">OK</button>
+</div>
