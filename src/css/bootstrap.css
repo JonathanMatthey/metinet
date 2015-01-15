@@ -2748,6 +2748,10 @@ select[multiple].input-lg {
   background-image: none;
   border: 1px solid transparent;
 }
+.btn-transparent {
+  color: inherit!important;
+  background-color: rgba(255, 255, 255, 0)!important;
+}
 .btn:focus,
 .btn:active:focus,
 .btn.active:focus {

@@ -1,7 +1,7 @@
 <div class="panel no-border bg-black m-b-none">
 	<div class="panel-heading lt">
 		<div class="m-sm">
-			<span class="h4 text-white" ng-bind="node.name"></span>
+			<span ng-bind="node.name"></span>
 		</div>              
 		<div class="text-center m-t-md">
 				<div id="sparkline"></div>
@@ -63,7 +63,18 @@
 <div class="wrapper-md">
 	<dl>
 		<dt>Assigned User</dt>
-		<dd class="m-b-xs ng-binding" ng-bind="node.associated_user.fullname"></dd>
+		<dd class="m-b-sm" ng-show="node.associated_user.id == current_user.id">
+			<select class="form-control" ng-model="node.user_id" ng-change="updateNode()">
+				<option value="{{ user.id }}"
+						ng-repeat="user in node_users"
+						ng-selected="node.associated_user.id == user.id">
+					{{ user.fullname }}
+				</option>
+			</select>
+		</dd>
+		<dd class="m-b-xs"
+			ng-bind="node.associated_user.fullname"
+			ng-hide="node.associated_user.id == current_user.id"></dd>
 		<dt>Last Updated</dt>
 		<dt>
 			<i class="fa fa-fw fa-user"></i>
@@ -76,4 +87,7 @@
 			</span>
 		</dt>
 	</dl>
+	<a class="btn btn-primary btn-block" ng-click="editNode()" ng-disabled="!node_returned" ng-show="node.associated_user.id == current_user.id">
+		<i class="fa fa-fw fa-pencil"></i>&nbsp;&nbsp;Edit Node
+	</a>
 </div>

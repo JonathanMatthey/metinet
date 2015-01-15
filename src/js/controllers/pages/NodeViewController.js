@@ -29,6 +29,7 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 																								toaster	) {
 
 	$scope.current_user 		= Auth.getCredential('user_data');
+	$scope.node_returned 		= false;
 	$scope.long_leads_returned 	= false;
 	$scope.permits_returned 	= false;
 	$scope.users_returned 		= false;
@@ -62,7 +63,6 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 
 	initialiseWebSockets = function() {
 		var channel = pusher.subscribe('Node_'+$stateParams.id);
-		console.log(channel);
 		channel.bind('audit-trail', function(data) {
 			console.log(data);
 			$scope.audit_history.unshift(data[0]);
@@ -91,33 +91,55 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 															barColor:'green',
 															lineWidth: 5	});
 
+			$scope.node_returned 		= true;
+
 			if ($scope.node.is_leaf) {
-				// get users / permits / audit / longleads
-				$scope.getNodeAudit();
+				// get permits / longleads
 				$scope.getPermits();
 				$scope.getLongLeads();
-				$scope.getNodeUsers();
 			}
 	});
 
-	$scope.getNodeAudit = function() {
-		NodeAudit.get({
-			id:$stateParams.id
-		})
+	$scope.editNode = function() {
+		var modalInstance 	= $modal.open({
+			templateUrl: 'tpl/nodes/modals/edit_node.html',
+			controller: 'EditNodeModalController',
+				resolve: {
+					node: function () {
+						return $scope.node;
+					},
+					is_leaf: function () {
+						return $scope.node.is_leaf;
+					}
+				}
+		});
+
+		modalInstance.result
+			.then(function (node_data) {
+				$scope.node = node_data;
+				return $scope.updateNode();
+			});
+	}
+
+	$scope.updateNode = function() {
+		Node.update({id:$stateParams.id}, $scope.node)
+			.$promise.then(function(res) {
+				$scope.node = res.data;
+			});	
+	}
+
+	NodeAudit.get({id:$stateParams.id})
 		.$promise.then(function(res) {
 			// success handler
 			$scope.audit_history = res.data;
 		});
-	}
 
-	$scope.getNodeUsers = function() {
-		NodeUsers.get({id:$stateParams.id})
+	NodeUsers.get({id:$stateParams.id})
 		.$promise.then(function(res) {
 			$scope.node_users 		= res.data.current_users;
 			$scope.potential_users	= res.data.potential_users;
 			$scope.users_returned 	= true;			
 		});
-	}
 
 	$scope.addUsers = function() {
 		var modalInstance 	= $modal.open({

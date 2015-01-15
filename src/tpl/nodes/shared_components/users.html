@@ -44,6 +44,7 @@
 					</a>
 					<a 	class="btn btn-default text-danger btn-remove user-{{ user.id }}"
 						ng-show="node.associated_user.id == current_user.id"
+						ng-disabled="node.associated_user.id == user.id"
 						ng-click="removeUser($index)">
 						<i class="fa fa-fw fa-trash-o text-danger"></i>
 					</a>
