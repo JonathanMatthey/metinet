@@ -5,68 +5,9 @@
   <!-- main -->
   <div class="col" id="main_col">
 
-	<div class="btn-group btn-group-justified dker">
-		<a 	ng-click="changeAction('overview')"
-			class="btn wrapper-sm"
-			ng-class="user_action == 'overview' ? 'btn-black' : 'btn-white'">
-			<i class="fa fa-globe m-b-xs"></i><br>
-			Overview
-		</a>
-		<a 	ng-click="changeAction('networks')"
-			class="btn wrapper-sm"
-			ng-class="(user_action == 'networks') ? 'btn-black' : 'btn-white'">
-			<i class="fa fa-building-o m-b-xs"></i><br>
-			Networks
-		</a>
-		<a 	ng-click="changeAction('users')"
-			class="btn wrapper-sm"
-			ng-class="(user_action == 'users') ? 'btn-black' : 'btn-white'">
-			<i class="fa fa-users m-b-xs"></i><br>
-			Users
-		</a>
-		<a 	ng-click="changeAction('permits')"
-			class="btn wrapper-sm"
-			ng-class="(user_action == 'permits') ? 'btn-black' : 'btn-white'"
-			ng-show="project.permit_assessment">
-			<i class="fa fa-certificate m-b-xs"></i><br>
-			Permits
-		</a>
-		<a 	ng-click="changeAction('long-leads')"
-			class="btn wrapper-sm"
-			ng-class="(user_action == 'long-leads') ? 'btn-black' : 'btn-white'"
-			ng-show="project.long_lead_items">
-			<i class="fa fa-tags m-b-xs"></i><br>
-			Long Lead Items
-		</a>
-		<a 	ng-click="changeAction('rfis')"
-			class="btn wrapper-sm"
-			ng-class="(user_action == 'rfis') ? 'btn-black' : 'btn-white'">
-			<i class="fa fa-edit m-b-xs"></i><br>
-			RFIs
-		</a>
-		<a 	href="#/app/page/projects/1/gantt"
-			class="btn wrapper-sm"
-			ng-class="(user_action == 'gantt') ? 'btn-black' : 'btn-white'">
-			<i class="fa fa-tasks m-b-xs"></i><br>			
-			Gantt Chart
-		</a>
-		<a 	ng-click="changeAction('settings')"
-			class="btn wrapper-sm"
-			ng-class="(user_action == 'settings') ? 'btn-black' : 'btn-white'">
-			<i class="fa fa-cogs m-b-xs"></i><br>
-			Settings
-		</a>
-	</div>
-
-	<!-- START TEMPLATE -->
-	<ng-include src="'tpl/project/components/page_project_overview.html'" ng-show="user_action == 'overview'"></ng-include>
-	<ng-include src="'tpl/project/components/page_project_networks.html'" ng-show="user_action == 'networks'"></ng-include>
-	<ng-include src="'tpl/project/components/page_project_users.html'" ng-show="user_action == 'users'"></ng-include>
-	<ng-include src="'tpl/project/components/page_project_permits.html'" ng-show="user_action == 'permits'"></ng-include>
-	<ng-include src="'tpl/project/components/page_project_long_leads.html'" ng-show="user_action == 'long-leads'"></ng-include>
-	<ng-include src="'tpl/project/components/page_project_rfis.html'" ng-show="user_action == 'rfis'"></ng-include>
-	<ng-include src="'tpl/project/components/page_project_settings.html'" ng-show="user_action == 'settings'"></ng-include>
-	<!-- END TEMPLATE -->  
+	<!-- START: Nested View -->
+	<div ui-view></div>
+	<!-- END: Nested View -->
 
   </div>
   <!-- / main -->

@@ -35,45 +35,55 @@
 		</a>
 	</li>
 
-	<li class="line dk" ng-show="$state.current.name === 'app.page.project'"></li>
-
-	<li ui-sref-active="active" ng-show="$state.current.name === 'app.page.project'">
-		<a ui-sref="app.mail.list">
+	<li ui-sref-active="active"
+		class="bg-lighter"
+		ng-show="$state.includes('app.page.project')">
+		<a ui-sref="app.page.project.overview({id:$stateParams.id})">
 			<i class="fa fa-fw fa-globe text-primary"></i>
 			<span class="font-bold">Project Overview</span>
 		</a>
 	</li>
 
-	<li ui-sref-active="active" ng-show="$state.current.name === 'app.page.project'">
-		<a ui-sref="app.mail.list">
+	<li ui-sref-active="active"
+		class="bg-lighter"
+		ng-show="$state.includes('app.page.project')">
+		<a ui-sref="app.page.project.long-leads({id:$stateParams.id})">
 			<i class="fa fa-fw fa-tags text-primary"></i>
 			<span class="font-bold">Long Lead Items</span>
 		</a>
 	</li>
 
-	<li ui-sref-active="active" ng-show="$state.current.name === 'app.page.project'">
-		<a ui-sref="app.mail.list">
+	<li ui-sref-active="active"
+		class="bg-lighter"
+		ng-show="$state.includes('app.page.project')">
+		<a ui-sref="app.page.project.permits({id:$stateParams.id})">
 			<i class="fa fa-fw fa-certificate text-primary"></i>
 			<span class="font-bold">Permits</span>
 		</a>
 	</li>
 
-	<li ui-sref-active="active" ng-show="$state.current.name === 'app.page.project'">
-		<a ui-sref="app.mail.list">
+	<li ui-sref-active="active"
+		class="bg-lighter"
+		ng-show="$state.includes('app.page.project')">
+		<a ui-sref="app.page.project.rfis({id:$stateParams.id})">
 			<i class="fa fa-fw fa-edit text-primary"></i>
 			<span class="font-bold">RFIs</span>
 		</a>
 	</li>
 
-	<li ui-sref-active="active" ng-show="$state.current.name === 'app.page.project'">
-		<a ui-sref="app.mail.list">
+	<li ui-sref-active="active"
+		class="bg-lighter"
+		ng-show="$state.includes('app.page.project')">
+		<a ui-sref="app.page.gantt({id:$stateParams.id})">
 			<i class="fa fa-fw fa-tasks text-primary"></i>
 			<span class="font-bold">Gantt Chart</span>
 		</a>
 	</li>
 
-	<li ui-sref-active="active" ng-show="$state.current.name === 'app.page.project'">
-		<a ui-sref="app.mail.list">
+	<li ui-sref-active="active"
+		class="bg-lighter"
+		ng-show="$state.includes('app.page.project')">
+		<a ui-sref="app.page.project.settings.general({id:$stateParams.id})">
 			<i class="fa fa-fw fa-cogs text-primary"></i>
 			<span class="font-bold">Project Settings</span>
 		</a>
