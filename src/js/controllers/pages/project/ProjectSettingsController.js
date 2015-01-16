@@ -24,8 +24,8 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 																										Countries,
 																										Currencies ) {
 
-	$scope.settings_action          = 'location';
 	$scope.project 					= $scope.$parent.project;
+	$scope.project_returned 		= false;
 	$scope.map 						= {
 										center: { latitude: 51.5000, longitude: 0.1333 },
 										zoom: 10,
@@ -96,6 +96,8 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 						}
 					}
 				};
+
+			$scope.project_returned = true;
 
 		});
 

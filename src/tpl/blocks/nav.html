@@ -1,5 +1,5 @@
 <!-- list -->
-<ul class="nav" ng-controller="NavController">
+<ul class="nav" ng-controller="HeaderController" ng-init="init()">
 	<li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
 		<span translate="aside.nav.HEADER">Navigation</span>
 	</li>
@@ -11,7 +11,9 @@
 	</li>
 	<li ui-sref-active="active">
 		<a ui-sref="app.mail.list">
-			<b class="badge bg-info pull-right">9</b>
+			<b 	class="badge bg-metinet pull-right"
+				ng-show="unread_conversation_count > 0"
+				ng-bind="unread_conversation_count"></b>
 			<i class="fa fa-fw fa-envelope-o icon text-primary"></i>
 			<span class="font-bold">Messaging</span>
 		</a>

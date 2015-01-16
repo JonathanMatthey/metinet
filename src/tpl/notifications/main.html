@@ -1,0 +1,58 @@
+<!-- hbox layout -->
+<div class="hbox bg-light">
+	<!-- column -->
+	<div class="col w lter b-r">
+		<div class="vbox">
+			<div class="wrapper b-b">
+				<div class="font-thin h4">Filter Notifications</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- /column -->
+
+	<!-- column -->
+	<div class="col" ng-init="init()">
+
+		<ul class="list-group alt"
+			infinite-scroll="getNotifications()"
+			infinite-scroll-disabled="notifications_requested">
+			<li class="list-group-item" ng-repeat="notification in notifications">
+				<div class="media">
+					<span class="pull-left thumb-sm">
+						<span class="fa-stack fa-lg">
+							<i class="fa fa-circle fa-stack-2x"></i>
+							<i class="fa {{ notification.icon }} fa-stack-1x fa-inverse"></i>
+						</span>
+					</span>
+					<a class="pull-right m-t-sm" ng-hide="notification.read" ng-click="markAsRead($index)">
+						<i class="fa fa-circle"></i>
+					</a>
+					<div class="media-body">
+						<div><a href="">{{ notification.text }}</a></div>
+						<small class="text-muted">{{ notification.time | fromNow }}</small>
+					</div>
+				</div>
+			</li>
+		</ul>
+
+	</div>
+	<!-- /column -->
+
+	<!-- column -->
+	<div class="col w-md lter b-l">
+		<div class="vbox">
+			<div class="wrapper b-b b-light">
+				<div class="font-thin h4">Header</div>
+				<small class="text-muted">with fluid height</small>
+			</div>
+			<div class="row">
+
+
+
+			</div>
+		</div>
+	</div>
+	<!-- /column -->
+</div>
+<!-- /hbox layout -->

@@ -19,6 +19,10 @@ angular.module('app.controllers').controller('ProjectLongLeadController', [ '$sc
 		.$promise.then(function(res) {
 			$scope.long_lead_items      = res.data
 			$scope.long_leads_returned  = true;
+		}, function(res) {
+			if (res.status == 403 && res.data.detail == 'Not Monitoring Long Lead Items') {
+				$state.go('app.page.project.overview');
+			}
 		});
 
 	$scope.openLongLeadItemModal = function(long_lead_index, action) {

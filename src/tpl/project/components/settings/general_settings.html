@@ -3,20 +3,22 @@
 		<h4 class="m-n font-thin h4">General Settings</h4>
 	</header>
 	<div class="panel-body">
-	
+
 			<div class="form-group">
 				<div class="row">
 					<div class="col-sm-6">
 						<label>Project Name</label>
-						<input  type="text" 
+						<input  type="text"
 								class="form-control"
-								ng-model="project_settings.name">
+								ng-model="project_settings.name"
+								ng-disabled="!project_returned">
 					</div>
 					<div class="col-sm-6">
 						<label>Description</label>
-						<input  type="text" 
+						<input  type="text"
 								class="form-control"
-								ng-model="project_settings.desc">
+								ng-model="project_settings.desc"
+								ng-disabled="!project_returned">
 					</div>
 				</div>
 			</div>
@@ -27,14 +29,15 @@
 						<label>Contract Start Date</label>
 						<div ng-controller="DatepickerDemoCtrl">
 							<div class="input-group">
-								<input  type="text" 
+								<input  type="text"
 										class="form-control"
 										datepicker-popup="{{ format }}"
 										ng-model="project_settings.start_date"
 										is-open="opened"
 										datepicker-options="dateOptions"
 										ng-required="true"
-										close-text="Close" />
+										close-text="Close"
+										ng-disabled="!project_returned" />
 								<span class="input-group-btn">
 									<button type="button" class="btn btn-default" ng-click="open($event)">
 										<i class="glyphicon glyphicon-calendar"></i>
@@ -47,14 +50,15 @@
 						<label>Contract End Date</label>
 						<div ng-controller="DatepickerDemoCtrl">
 							<div class="input-group">
-								<input  type="text" 
+								<input  type="text"
 										class="form-control"
 										datepicker-popup="{{ format }}"
 										ng-model="project_settings.end_date_contract"
 										is-open="opened"
 										datepicker-options="dateOptions"
 										ng-required="true"
-										close-text="Close" />
+										close-text="Close"
+										ng-disabled="!project_returned" />
 								<span class="input-group-btn">
 									<button type="button" class="btn btn-default" ng-click="open($event)">
 										<i class="glyphicon glyphicon-calendar"></i>
@@ -76,7 +80,8 @@
 							class="form-control"
 							placeholder="Client"
 							ng-model="project_settings.client"
-							typeahead="network as network.name for network in project_settingsNetworks">
+							typeahead="network as network.name for network in project_settingsNetworks"
+							ng-disabled="!project_returned">
 				</div>
 				<div class="col-sm-6">
 					<label>Contractor</label>
@@ -84,7 +89,8 @@
 							class="form-control"
 							placeholder="Contractor"
 							ng-model="project_settings.contractor"
-							typeahead="network as network.name for network in project_settingsNetworks">
+							typeahead="network as network.name for network in project_settingsNetworks"
+							ng-disabled="!project_returned">
 				</div>
 			</div>
 		</div>
@@ -97,7 +103,8 @@
 							class="form-control"
 							placeholder="Consultant"
 							ng-model="project_settings.consultant"
-							typeahead="network as network.name for network in project_settingsNetworks">
+							typeahead="network as network.name for network in project_settingsNetworks"
+							ng-disabled="!project_returned">
 				</div>
 			</div>
 		</div>
