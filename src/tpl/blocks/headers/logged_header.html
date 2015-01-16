@@ -10,7 +10,7 @@
 		<i class="glyphicon glyphicon-align-justify"></i>
 	</button>
 	<!-- brand -->
-	<a href="#/" class="navbar-brand text-lt">
+	<a href="#/" class="navbar-brand text-lt b-b b-light">
 		<span class="logo">M</span>
 		<span class="hidden-folded m-l-xs">{{app.name}}</span>
 	</a>
@@ -21,20 +21,20 @@
 <div class="collapse pos-rlt navbar-collapse box-shadow {{ app.settings.navbarCollapseColor }}" ng-controller="HeaderController">
 	<!-- link and dropdown -->
 	<ul class="nav navbar-nav hidden-sm">
+		<li>
+			<a ui-sref="app.home">
+				<i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
+				<span>Home</span>
+			</a>
+		</li>
 		<li ng-show="user_data.network">
 			<a ui-sref="app.page.projects">
 				<i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
-				<span>Projects</span>
-			</a>
-		</li>
-		<li>
-			<a href="#/app/mail/inbox/">
-				<i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
-				<span>Messages</span>
+				<span>Projects {{ recent_notifications }}</span>
 			</a>
 		</li>
 		<li ng-show="user_data.network">
-			<a href="#/app/page/network/{{ user_data.network.id }}">
+			<a ui-sref="app.page.network({ id:user_data.network.id })">
 				<i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
 				<span>{{ user_data.network.name }}</span>
 			</a>
@@ -42,6 +42,50 @@
 	</ul>
 	<!-- nabar right -->
 	<ul class="nav navbar-nav navbar-right" >
+		<li dropdown>
+			<a href dropdown-toggle>
+				<i class="icon-bell fa-fw text-md"></i>
+				<span class="visible-xs-inline">Notifications</span>
+				<span class="badge badge-sm up bg-danger pull-right-xs">{{ unread_notification_count }}</span>
+			</a>
+			<!-- dropdown -->
+			<div class="dropdown-menu w-xl animated fadeInUp">
+				<div class="panel bg-white">
+					<div class="panel-heading b-light bg-light">
+						<strong>You have <span>2</span> notifications</strong>
+					</div>
+					<div class="list-group" ng-repeat="notification in recent_notifications">
+						<a href class="media list-group-item">
+							<span class="pull-left thumb-sm">
+								<span class="fa-stack fa-lg">
+									<i class="fa fa-circle fa-stack-2x"></i>
+									<i class="fa {{ notification.icon }} fa-stack-1x fa-inverse"></i>
+								</span>
+							</span>
+							<span class="media-body block m-b-none">
+								{{ notification.text }}<br>
+								<small class="text-muted">{{ notification.time.date | fromNow }}</small>
+							</span>
+						</a>
+						<a href class="media list-group-item">
+							<span class="media-body block m-b-none">
+								{{ notification.text }}<br>
+								<small class="text-muted">{{ notification.time.date | fromNow }}</small>
+							</span>
+						</a>
+					</div>
+					<div class="panel-footer text-sm">
+						<a href class="pull-right">
+							<i class="fa fa-cog"></i>
+						</a>
+						<a ui-sref="app.page.notifications" data-toggle="class:show animated fadeInRight">
+							See all the notifications
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- / dropdown -->
+		</li>
 		<li class="dropdown">
 			<a href class="dropdown-toggle clear" data-toggle="dropdown">
 				<span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
@@ -53,35 +97,38 @@
 			<!-- dropdown -->
 			<ul class="dropdown-menu w">
 				<li>
-					<a href="#/app/page/profile/{{ user_data.id }}">Profile</a>
+					<a ui-sref="app.page.profile({ id:user_data.id })">
+						Profile
+					</a>
 				</li>
 				<li>
-					<a ui-sref="app.page.settings">Settings</a>
+					<a ui-sref="app.page.settings">
+						Settings
+					</a>
 				</li>
 				<li class="divider"></li>
-				<li ng-show="user_data.network">
-					<a href="#/app/page/network/{{ user_data.network.id }}">My Network</a>
+				<li>
+					<a ui-sref="app.page.network({ id:user_data.network.id })">
+						My Network
+					</a>
 				</li>
 				<li ng-show="user_data.network.pivot.role < 3">
-					<a href="#/app/page/network/settings">
+					<a ui-sref="app.page.network_settings">
 						Network Settings
 						<span class="pull-right"><i class="fa fa-edit"></i></span>
 					</a>
 				</li>
 				<li>
-					<a href="#/app/page/network/create">
+					<a ui-sref="app.page.create_network">
 						Create New Network
 						<span class="pull-right"><i class="fa fa-pencil"></i></span>
 					</a>
 				</li>
 				<li class="divider"></li>
 				<li>
-					<a ui-sref="app.docs">
-						Help
+					<a ui-sref="access.signin">
+						Logout
 					</a>
-				</li>
-				<li>
-					<a ui-sref="access.signin">Logout</a>
 				</li>
 			</ul>
 			<!-- / dropdown -->

@@ -1,0 +1,54 @@
+<!-- header -->
+<div class="wrapper bg-light lter b-b" ng-init="init()">
+	<a ui-sref="app.mail.list" class="btn btn-sm btn-default w-xxs m-r-sm" tooltip="Back to Inbox"><i class="fa fa-long-arrow-left"></i></a>
+	<div class="btn-group m-r-sm">
+		<button class="btn btn-sm btn-primary w-xxs w-auto-xs text-warning"
+				ng-class="{ active: conversation.pivot.starred == 1 }"
+				tooltip="Starred">
+			<i class="fa fa-star"></i>
+		</button>
+		<button class="btn btn-sm btn-primary w-xxs w-auto-xs text-warning"
+				ng-class="{ active: conversation.pivot.archived == 1 }"
+				tooltip="Archived">
+			<i class="fa fa-trash-o"></i>
+		</button>
+	</div>
+</div>
+<!-- / header -->
+<div class="wrapper b-b">
+	<h2 class="font-thin m-n">{{conversation.subject}} {{ conversation.pivot.starred }}</h2>
+</div>
+<div class="wrapper b-b">
+	<div>
+		<i class="icon icon-users"></i>&nbsp;
+		<a ui-sref="app.page.profile({ id:user.id })" ng-repeat="user in conversation.users">
+			{{ user.fullname }},&nbsp;
+		</a>
+	</div>
+	updated by <a href>{{ conversation.updater.fullname }}</a> {{ conversation.updated_at | fromNow }}
+</div>
+<div class="wrapper-md b-b" ng-repeat="message in conversation.messages">
+	<div class="m-b-xs">
+		<span class="font-bold">{{ message.creator.fullname }}</span>
+		<div class="pull-right">
+			<span ng-hide="message.creator.id == current_user.id">{{ message.created_at | fromNow }}</span>
+			<a 	class="btn btn-xs btn-danger btn-delete message-{{ message.id }}"
+				ng-click="deleteMessage($index)"
+				ng-show="message.creator.id == current_user.id">
+				<i class="fa fa-times"></i>
+			</a>
+		</div>
+	</div>
+	{{ message.message }}
+</div>
+
+<div class="wrapper">
+	<div class="panel b-a">
+		<div>
+			<textarea class="form-control b-0" ng-model="new_message"></textarea>
+			<div class="panel-footer bg-light lt clearfix">
+				<button class="btn btn-primary pull-right" ng-click="sendMessage()">Send</button>
+			</div>
+		</div>
+	</div>
+</div>

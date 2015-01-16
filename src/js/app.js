@@ -25,6 +25,7 @@ var app = angular.module('app', [	'ngAnimate',
 									'xeditable',
 									'truncate',
 									'angular-lodash',
+									'infinite-scroll',
 									'uiGmapgoogle-maps']).run([ '$rootScope',
 																'$state',
 																'$stateParams',
@@ -36,7 +37,7 @@ var app = angular.module('app', [	'ngAnimate',
 																						$http 	) {
 		$rootScope.$state 								= $state;
 		$rootScope.$stateParams 						= $stateParams;
-		$rootScope.api_url								= 'http://api.metinet.co';
+		$rootScope.api_url								= 'http://api.meti.net';
 		$http.defaults.headers.common['Authorization'] 	= 'Basic ' + $cookieStore.get('authdata');
 	}])
 	.config([ 	'$stateProvider',
@@ -63,7 +64,7 @@ var app = angular.module('app', [	'ngAnimate',
 		app.value      = $provide.value;
 
 		$urlRouterProvider
-			.otherwise('/app/home');
+			.otherwise('/home');
 		$stateProvider
 			.state('app', {
 				abstract: true,
@@ -89,6 +90,11 @@ var app = angular.module('app', [	'ngAnimate',
 				url: '/profile/:id',
 				controller:'ProfileViewController',
 				templateUrl: 'tpl/user_profile/main.html'
+			})
+			.state('app.page.notifications', {
+				url: '/notifications',
+				controller:'NotificationViewController',
+				templateUrl: 'tpl/notifications/main.html'
 			})
 			.state('app.page.create_network', {
 				url: '/network/create',
@@ -243,6 +249,40 @@ var app = angular.module('app', [	'ngAnimate',
 					}
 				})
 
+				// mail
+				.state('app.mail', {
+					abstract: true,
+					url: '/mail',
+					controller: 'MailController',
+					templateUrl: 'tpl/messaging/mail.html',
+					// use resolve to load other dependences
+					resolve: {
+						deps: ['uiLoad',
+							function( uiLoad ){
+								return uiLoad.load([
+									'js/app/mail/mail.js',
+									'js/app/mail/mail-service.js',
+									'js/libs/moment.min.js'
+								]);
+						}]
+					}
+				})
+					.state('app.mail.list', {
+						url: '/inbox/{fold}',
+						controller: 'MailListController',
+						templateUrl: 'tpl/messaging/list.html'
+					})
+					.state('app.mail.detail', {
+						url: '/{conversation_id:[0-9]+}',
+						controller: 'MailDetailController',
+						templateUrl: 'tpl/messaging/detail.html'
+					})
+					.state('app.mail.compose', {
+						url: '/compose',
+						controller: 'MailNewController',
+						templateUrl: 'tpl/messaging/new.html'
+					})
+
 			.state('app.page.search', {
 				url: '/search',
 				templateUrl: 'tpl/page_search.html'
@@ -282,35 +322,6 @@ var app = angular.module('app', [	'ngAnimate',
 			.state('access.404', {
 				url: '/404',
 				templateUrl: 'tpl/page_404.html'
-			})
-			// mail
-			.state('app.mail', {
-				abstract: true,
-				url: '/mail',
-				templateUrl: 'tpl/mail.html',
-				// use resolve to load other dependences
-				resolve: {
-					deps: ['uiLoad',
-						function( uiLoad ){
-							return uiLoad.load([
-								'js/app/mail/mail.js',
-								'js/app/mail/mail-service.js',
-								'js/libs/moment.min.js'
-							]);
-					}]
-				}
-			})
-			.state('app.mail.list', {
-				url: '/inbox/{fold}',
-				templateUrl: 'tpl/mail.list.html'
-			})
-			.state('app.mail.detail', {
-				url: '/{mailId:[0-9]{1,4}}',
-				templateUrl: 'tpl/mail.detail.html'
-			})
-			.state('app.mail.compose', {
-				url: '/compose',
-				templateUrl: 'tpl/mail.new.html'
 			})
 			.state('apps', {
 				abstract: true,

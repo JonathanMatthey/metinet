@@ -1,10 +1,12 @@
 angular.module('app.controllers').controller('ProjectPermitController', [ 	'$scope',
+																			'$state',
 																			'$stateParams',
 																			'Auth',
 																			'ProjectPermits',
 																			'Permits',
 																			'ChangePermitStatus',
-																			'$modal',  function(   $scope,
+																			'$modal',  function(   	$scope,
+																									$state,
 																									$stateParams,
 																									Auth,
 																									ProjectPermits,
@@ -19,6 +21,10 @@ angular.module('app.controllers').controller('ProjectPermitController', [ 	'$sco
 		.$promise.then(function(res) {
 			$scope.permits          = res.data
 			$scope.permits_returned = true;
+		}, function(res) {
+			if (res.status == 403 && res.data.detail == 'Not Monitoring Permits') {
+				$state.go('app.page.project.overview');
+			}
 		});
 
 	$scope.openPermitModal = function(permit_index, action) {
