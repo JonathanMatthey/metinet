@@ -11,26 +11,34 @@
 
 					<div class="checkbox">
 						<label>
-							<input type="checkbox" ng-model="project_settings.long_lead_items">
+							<input 	type="checkbox"
+									ng-model="project_settings.long_lead_items"
+									ng-disabled="!project_returned">
 							Long Lead Items
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
-							<input type="checkbox" ng-model="project_settings.permit_assessment">
+							<input 	type="checkbox"
+									ng-model="project_settings.permit_assessment"
+									ng-disabled="!project_returned">
 							Permits
 						</label>
 					</div>
 
 					<div class="checkbox">
 						<label>
-							<input type="checkbox" ng-model="project_settings.risk_assessment" disabled>
+							<input 	type="checkbox"
+									ng-model="project_settings.risk_assessment"
+									disabled>
 							Risk Assessment (Coming Soon)
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
-							<input type="checkbox" ng-model="project_settings.cost_management" disabled>
+							<input 	type="checkbox"
+									ng-model="project_settings.cost_management"
+									disabled>
 							Cost Management (Coming Soon)
 						</label>
 					</div>

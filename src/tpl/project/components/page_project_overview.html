@@ -1,15 +1,17 @@
 <div class="bg-black dker wrapper-lg" ng-controller="FlotChartDemoCtrl">
-	<ul class="nav nav-pills nav-xxs nav-rounded m-b-lg">
-		<li class="active">
-			<a href>Day</a>
-		</li>
-		<li>
-			<a href ng-click="refreshData()">Week</a>
-		</li>
-		<li>
-			<a href ng-click="refreshData()">Month</a>
-		</li>
-	</ul>
+	<div class="">
+		<div class="pull-right clearfix" ng-show="project">
+			<div class="btn-group btn-group-sm dropdown">
+				<button class="btn btn-default" dropdown-toggle>
+					Import <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu pull-right">
+					<li><a href>Tasks</a></li>
+				</ul>
+			</div>
+		</div>
+		<h3 class="m-t-none m-b-md">{{ project.name }}</h3>
+	</div>
 	<div ui-jq="plot" ui-refresh="d0_1" ui-options="
 		[
 			{

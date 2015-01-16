@@ -3,12 +3,12 @@ angular.module('app.services')
 			return $resource($rootScope.api_url+'/profiles/:user_id/educations/:exp_id',{
 			user_id:'@user_id',
 			exp_id:'@exp_id'
-	    },{
-	        store: {
+		},{
+			store: {
 				method: 'POST'
-	        },
-	        update: {
-	        	method: 'PUT'
-	        }
-	    });
+			},
+			update: {
+				method: 'PUT'
+			}
+		});
 	}]);

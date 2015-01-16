@@ -7,7 +7,6 @@ angular.module('app.controllers').controller('ProjectController', [ '$scope',
 																								ProjectAudit ) {
 
 	$scope.project_id               = $stateParams.project_id;
-	$scope.project 					= {};
 	$scope.user_action              = $stateParams.action;
 	$scope.user_admin_level         = 3;
 
