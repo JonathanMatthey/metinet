@@ -3038,7 +3038,7 @@ fieldset[disabled] .i-checks input + i:before {
 }
 
 .bg-black .text-muted {
-  color: #507b9b !important;
+  color: #80AbCb !important;
 }
 
 .bg-black .text-lt {
@@ -4102,7 +4102,7 @@ a.text-#000000:hover {
 
 .padder-v-0 {
   padding-top: 0 !important;
-  padding-bottom: 0 !important;  
+  padding-bottom: 0 !important;
 }
 
 .padder-top-10-n {

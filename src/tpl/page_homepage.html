@@ -14,14 +14,14 @@
 		<!-- main body -->
 		<div class="row" ng-hide="newsfeed.length > 0">
 			<div class="wrapper-lg">
-				<div class="row">						
+				<div class="row">
 					<div class="col-md-offset-3 col-md-6">
 						<div class="panel bg-black">
 							<div class="panel-heading">
 								<h3 class="m-n font-thin h3 text-metinet">Welcome {{ user_data.firstname }}!</h3>
 							</div>
 							<div class="panel-body wrapper-md">
-								<p>Welcome to Metinet!</p>								
+								<p>Welcome to Metinet!</p>
 								<p>We think this software will make your life a LOT easier, and we'll endeavour to increasingly improve the service as we develop.  So we hope you'll give us feedback to allow us to help you get more out of this software.</p>
 								<p>However, there are a few things we need to get done first, so let's get started!</p>
 
@@ -30,7 +30,7 @@
 								<h4 class="h4 text-black m-b-sm">First Step: Join A Network</h4>
 								<p>You need to join a company network before we can get you started with any project manangement.</p>
 							</div>
-							<div class="panel-body">								
+							<div class="panel-body">
 								<div class="btn-group btn-group-justified">
 									<a class="btn btn-default">Request To Join Network</a>
 									<a class="btn btn-default">Create A New Network</a>
@@ -83,7 +83,7 @@
 							<span>Network RFIs</span>
 							<div class="h1 text-muted font-thin" ng-hide="network_rfis">
 								<i class="fa fa-spin fa-refresh"></i>
-							</div>							
+							</div>
 							<div class="h1 text-warning font-thin" ng-show="network_rfis">
 								{{ network_rfis.length }}
 							</div>
@@ -98,31 +98,31 @@
 
 				<div class="row">
 
-					<ng-include	src="'tpl/homepage/7_day_stats_overview.html'" 
+					<ng-include	src="'tpl/homepage/7_day_stats_overview.html'"
 								ng-show="homepage_action == 'overview'"></ng-include>
 
-					<ng-include	src="'tpl/homepage/projects_overview.html'" 
+					<ng-include	src="'tpl/homepage/projects_overview.html'"
 								ng-show="homepage_action == 'projects'"></ng-include>
 
-					<ng-include	src="'tpl/homepage/current_tasks_overview.html'" 
+					<ng-include	src="'tpl/homepage/current_tasks_overview.html'"
 								ng-show="homepage_action == 'current_tasks'"></ng-include>
 
-					<ng-include	src="'tpl/homepage/upcoming_tasks_overview.html'" 
+					<ng-include	src="'tpl/homepage/upcoming_tasks_overview.html'"
 								ng-show="homepage_action == 'upcoming_tasks'"></ng-include>
 
-					<ng-include	src="'tpl/homepage/network_rfis_overview.html'" 
+					<ng-include	src="'tpl/homepage/network_rfis_overview.html'"
 								ng-show="homepage_action == 'rfis'"></ng-include>
 
-				</div>				
+				</div>
 			</div>
-			<!-- / main column -->				
+			<!-- / main column -->
 
 		</div>
 		<!-- / main body -->
 	</div>
   <!-- / main -->
   <!-- right col -->
-  <div class="col w-md bg-black b-l bg-auto no-border-xs" id="sidebar">
+  <div class="col w-md b-l bg-auto no-border-xs" id="sidebar">
   	<div class="sidebar_inner">
 
 		<div class="wrapper">
@@ -131,9 +131,9 @@
 
 		<ul class="timeline" ng-hide="newsfeed.length > 0">
 			<li class="wrapper p-t-0">
-				<div class="bg-black">
+				<div class="">
 					<p>You have no news!</p>
-					<p>You must do something to create some news...</p>					
+					<p>You must do something to create some news...</p>
 				</div>
 			</li>
 		</ul>
