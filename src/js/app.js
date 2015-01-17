@@ -37,7 +37,7 @@ var app = angular.module('app', [	'ngAnimate',
 																						$http 	) {
 		$rootScope.$state 								= $state;
 		$rootScope.$stateParams 						= $stateParams;
-		$rootScope.api_url								= 'http://api.meti.net';
+		$rootScope.api_url								= 'http://api.metinet.co';
 		$http.defaults.headers.common['Authorization'] 	= 'Basic ' + $cookieStore.get('authdata');
 	}])
 	.config([ 	'$stateProvider',

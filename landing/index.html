@@ -41,7 +41,7 @@
 		<!-- Settings -->
 		<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 		<script type="text/javascript" src="js/home-slider-settings.js"></script>
-		<script type="text/javascript" src="js/portfolio-blog-slider-settings.js"></script>		
+		<script type="text/javascript" src="js/portfolio-blog-slider-settings.js"></script>
 		<script type="text/javascript" src="js/carousel-portfolio-settings.js"></script>
 		<script type="text/javascript" src="js/carousel-blog-settings.js"></script>
 		<script type="text/javascript" src="js/carousel-testimonials-settings.js"></script>
@@ -92,7 +92,7 @@
 						<li><a href="index.html">Pricing</a></li>
 						<li><a href="contact.html">Contact Us</a></li>
 						<li><a href="http://app.metinet.co/">Login</a></li>
-						<li class="signup hide-when-mobile"><a>/</a></li> 
+						<li class="signup hide-when-mobile"><a>/</a></li>
 						<li class="signup"><a href="http://app.metinet.co/#/access/signup">Sign Up</a></li>
 					</ul>
 					<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -509,8 +509,8 @@
 							<p>
 								MetiNet's web-based construction management tools allow seamless integration between all collaborating parties, helps predict where project failures might occur and brings increased transparency and accountability to a project's lifecycle.
 							</p>
-							<p>								
- 								Taking into account localised data, types of contract, cultural differences and more, we can help you dramatically increase your chances of delivering your construction projects on time and on budget.								
+							<p>
+ 								Taking into account localised data, types of contract, cultural differences and more, we can help you dramatically increase your chances of delivering your construction projects on time and on budget.
 							</p>
 							<!-- Project URL Button -->
 							<a 	href="http://app.metinet.co/#/access/signup"
@@ -624,7 +624,7 @@
 											e.preventDefault();
 											var _email = $('#email').val();
 											var request = $.ajax({
-											  url: "http://api.meti.net/subscribe",
+											  url: "http://api.metinet.co/subscribe",
 											  type: "POST",
 											  data: { email: _email },
 											});
@@ -637,7 +637,7 @@
 											request.fail(function(data) {
 												$('#newsletter .container').hide();
 												$('#newsletter .fail').show();
-											});											
+											});
 										});
 
 									});
