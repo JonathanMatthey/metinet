@@ -36,7 +36,6 @@ angular.module('app.controllers').controller('ProfileViewController', [ '$scope'
 
 	Profile.get({id:$stateParams.id})
 		.$promise.then(function(response) {
-			console.log('RESPONSE DATA ? ',response)
 			if(typeof response.data ==="undefined"){
 				$scope.profile 				= response;
 			} else {
