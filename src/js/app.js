@@ -26,6 +26,7 @@ var app = angular.module('app', [	'ngAnimate',
 									'truncate',
 									'angular-lodash',
 									'infinite-scroll',
+									'angularFileUpload',
 									'uiGmapgoogle-maps']).run([ '$rootScope',
 																'$state',
 																'$stateParams',
@@ -450,3 +451,5 @@ var app = angular.module('app', [	'ngAnimate',
 app.run(function(editableOptions) {
 	editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
 });
+
+var pusher = new Pusher('6b5abd6806ff36f34495');

@@ -1,7 +1,9 @@
 angular.module('app.controllers').controller('ProjectOverviewController', [ '$scope',
+																			'$modal',
 																			'$stateParams',
 																			'ProjectProgressPlot',
 																			'$http', 	function(   $scope,
+																									$modal,
 																									$stateParams,
 																									ProjectProgressPlot,
 																									$http ) {
@@ -20,7 +22,7 @@ angular.module('app.controllers').controller('ProjectOverviewController', [ '$sc
 			$scope.d0_2 = res.data.calculated_plot;
 		});
 
-	$scope.openPermitModal = function(permit_index, action) {
+	$scope.importTasksModal = function(permit_index, action) {
 		var modalInstance = $modal.open({
 			templateUrl: 'tpl/project/modals/import_tasks.html',
 			controller: 'ProjectImportTasksModalController',

@@ -32,7 +32,7 @@
   "license": "Envato REGULAR LICENSE",
   "homepage": "http://themeforest.net/item/angulr-bootstrap-admin-web-app-with-angularjs/8437259",
   "private": true,
-  "directory" : "src/js/bower_components",
+  "directory": "src/js/bower_components",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -57,6 +57,7 @@
     "angular-resource": "~1.2.25",
     "angular-bootstrap-nav-tree": "*",
     "angular-file-upload": "~1.1.1",
-    "ngImgCrop": "~0.2.0"
+    "ngImgCrop": "~0.2.0",
+    "angular-upload": "~1.0.11"
   }
 }
