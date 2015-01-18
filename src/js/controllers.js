@@ -3,16 +3,11 @@
 /* Controllers */
 
 angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
-	
-
-
-
-
-  .controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
-    $scope.items = items;
-    $scope.selected = {
-      item: $scope.items[0]
-    };
+	.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
+	    $scope.items = items;
+	    $scope.selected = {
+	      item: $scope.items[0]
+	    };
 
 	}])
 	.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
@@ -29,21 +24,4 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 			$modalInstance.dismiss('cancel');
 		};
 	}])
-
-	// Form controller
-
-
-	// Flot Chart controller
-
-
-
-  // jVectorMap controller
-
-	// signin controller
-
-	// signup controller
-
-	// signup controller
-
-
 ;

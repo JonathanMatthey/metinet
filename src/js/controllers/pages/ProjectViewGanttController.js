@@ -112,61 +112,73 @@ angular.module('app.controllers').controller('ProjectViewGanttController', [	'$s
 		var parentNodeIndex 	= _.findIndex($scope.gantt_data.data,{"id":parseInt(newNode.parent,10)});
 		var parentNode 			= $scope.gantt_data.data[parentNodeIndex];
 
-		if (parentNode && parentNode.type === "task"){
-			var r = confirm("Creating a new task will convert " + parentNode.text + " into a folder, and lose all links, permits and long leads - continue ?");
-			if (r == false) {
-				return false;
-			}
-		}
+    var todaysDate        = moment().format("YYYY-MM-DD 00:00:00");
 
-		parentNode.open = true;
-		newNode.duration = 100;
-		newNode.parent_id = parseInt(parentId,10);
-		newNode.name  = newNode.text;
-		parentNode.duration = 100;
-		parentNode.type = "project";
-		newNode.start_date = parentNode.start_date;
+      if (parentNode && parentNode.type === "task"){
+        var r = confirm("Creating a new task will convert " + parentNode.text + " into a folder, and lose all links, permits and long leads - continue ?");
+        if (r == false) {
+          return false;
+        }
+      }
 
-		// save new node
-		delete(newNode.id);
-		delete(newNode.end_date);
-		delete(newNode.text);
-		delete(newNode.parent);
+      newNode.duration = 100;
+      newNode.parent_id = parseInt(parentId,10);
+      newNode.name  = newNode.text;
 
-		$http.post('http://api.metinet.co/projects/' + $scope.projectId + '/nodes', {
-			headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
-			name: newNode.name,
-			start_date: newNode.start_date,
-			duration: newNode.duration,
-			parent_id: newNode.parent_id
-		})
-		.then(function(response) {
-			var dataNode = {
-				"id": response.data.data.id,
-				"text": response.data.data.name,
-				"start_date": response.data.data.gantt_start_date,
-				"duration": response.data.data.duration,
-				"parent": response.data.data.parent,
-				"type": "task",
-				"progress": (parseInt(response.data.data.progress,10)/100)
-			};
+      if (typeof parentNode === "undefined"){
+        // you're trying to create a root node
+        // so set the start date to today
+        newNode.start_date = todaysDate;
+        newNode.parent_id = 0;
+      } else {
+        parentNode.open = true;
+        parentNode.duration = 100;
+        parentNode.type = "project";
+        newNode.start_date = parentNode.start_date;
+      }
 
-			$scope.gantt_data.data.push(dataNode);
-			gantt.parse($scope.gantt_data);
-			console.log('resp',response);
-			toaster.pop('success', 'Created new Task', '.');
+      console.log(newNode.start_date)
 
-			if ( response.status === 200 ) {
-				// user logged in
-			} else {
-			
-			}
-			
+      // save new node
+      delete(newNode.id);
+      delete(newNode.end_date);
+      delete(newNode.text);
+      delete(newNode.parent);
+
+      $http.post('http://api.metinet.co/projects/' + $scope.projectId + '/nodes', {
+        headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
+        name: newNode.name,
+        start_date: newNode.start_date,
+        duration: newNode.duration,
+        parent_id: newNode.parent_id
+      })
+      .then(function(response) {
+        var dataNode = {
+          "id": response.data.data.id,
+          "text": response.data.data.name,
+          "start_date": response.data.data.gantt_start_date,
+          "duration": response.data.data.duration,
+          "parent": response.data.data.parent,
+          "type": "task",
+          "progress": (parseInt(response.data.data.progress,10)/100)
+        };
+
+        $scope.gantt_data.data.push(dataNode);
+        gantt.parse($scope.gantt_data);
+        console.log('resp',response);
+        toaster.pop('success', 'Created new Task', '.');
+
+        if ( response.status === 200 ) {
+          // user logged in
+        } else {
+
+        }
+
 		}, function(response) {
 			if ( response.status === 403 ) {
-			
+
 			} else {
-			
+
 			}
 		});
 

@@ -32,30 +32,6 @@ angular.module('app.controllers').controller('ProjectOverviewController', [ '$sc
 				}
 			}
 		});
-
-		modalInstance.result.then(function(permit) {
-			if (action == 'view') {
-				return true;
-			}
-
-			$('.btn-edit.permit-'+permit.id).removeClass('text-center btn-danger btn-success');
-			$('.btn-edit.permit-'+permit.id).addClass('text-center');
-			$('.btn-edit.permit-'+permit.id).html('<i class="fa fa-fw fa-refresh fa-spin"></i>');
-
-			Permits.update({id:permit.id}, permit)
-				.$promise.then(function(res) {
-					$('.btn-edit.permit-'+permit.id).removeClass('text-center btn-danger btn-success');
-					$('.btn-edit.permit-'+permit.id).addClass('btn-success');
-					$('.btn-edit.permit-'+permit.id).html('<i class="fa fa-fw fa-check"></i>');
-					$('.btn-edit.permit-'+permit.id).prop('disabled', false);
-					$scope.permits[permit_index] = res.data;
-				}, function(response) {
-					$('.btn-edit.permit-'+permit.id).removeClass('text-center btn-danger btn-success');
-					$('.btn-edit.permit-'+permit.id).addClass('btn-danger');
-					$('.btn-edit.permit-'+permit.id).html('<i class="fa fa-fw fa-times"></i>');
-					$('.btn-edit.permit-'+permit.id).prop('disabled', false);
-				});
-		});
 	};
 
 }]);

@@ -79,7 +79,7 @@
 						<li><a href="index.html">Pricing</a></li>
 						<li><a href="contact.html">Contact Us</a></li>
 						<li><a href="http://app.metinet.co/">Login</a></li>
-						<li class="signup hide-when-mobile"><a>/</a></li> 
+						<li class="signup hide-when-mobile"><a>/</a></li>
 						<li class="signup"><a href="http://app.metinet.co/#/access/signup">Sign Up</a></li>
 					</ul>
 					<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -248,7 +248,7 @@
 						Oops! Something went wrong. Please try again later...
 					</div>
 					<div id="contact_request_success" class="alert" style="display:none;"></div>
-					<div class="contact-form">						
+					<div class="contact-form">
 						<form id="comment-form" name="contact-form">
 							<!-- Textbox -->
 							<input type="text" name="name" placeholder="Name *"/>
@@ -269,13 +269,13 @@
 
 							$('#comment-form').on('submit', function(e) {
 								e.preventDefault();
-								
+
 								var _name 		= $("#comment-form input[name=name]").val();
 								var _email 		= $("#comment-form input[name=email]").val();
 								var _phone 		= $("#comment-form input[name=phone]").val();
 								var _message 	= $("#comment-form textarea[name=message]").val();
 
-								var data = { 
+								var data = {
 								  	name: _name,
 								  	email: _email,
 								  	phone: _phone,
@@ -285,9 +285,9 @@
 								console.log(data);
 
 								var request 	= $.ajax({
-								  url: "http://api.meti.net/contact",
+								  url: "http://api.metinet.co/contact",
 								  type: "POST",
-								  data: { 
+								  data: {
 								  	name: _name,
 								  	email: _email,
 								  	phone: _phone,
@@ -301,7 +301,7 @@
 								});
 								request.fail(function(data) {
 									$('#contact_request_failed').show();
-								});											
+								});
 							});
 
 						});
@@ -408,7 +408,7 @@
 											e.preventDefault();
 											var _email = $('#email').val();
 											var request = $.ajax({
-											  url: "http://api.meti.net/subscribe",
+											  url: "http://api.metinet.co/subscribe",
 											  type: "POST",
 											  data: { email: _email },
 											});
@@ -421,7 +421,7 @@
 											request.fail(function(data) {
 												$('#newsletter .container').hide();
 												$('#newsletter .fail').show();
-											});											
+											});
 										});
 
 									});
