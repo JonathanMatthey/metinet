@@ -7,7 +7,6 @@
 				</button>
 				<ul class="dropdown-menu pull-right">
 					<li><a ng-click="importTasksModal()">Tasks</a></li>
-					<li><a href>Tasks</a></li>
 				</ul>
 			</div>
 		</div>
@@ -143,8 +142,9 @@
 
 			</div>
 		</div>
-		<!-- START TO DO -->
+
 		<div class="col-md-6">
+		<!-- START TO DO -->
 			<div class="wrapper" ng-hide="project">
 				<h4 class="m-b-lg"><i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Loading To Do List...</h4>
 			</div>
@@ -195,8 +195,72 @@
 					</tbody>
 				</table>
 			</div>
-		</div>
 		<!-- END TO DO -->
+		<!-- START: Processing Jobs -->
+			<div class="panel no-border" ng-show="project">
+				<div class="panel-heading wrapper">
+					<h5 class="font-thin m-t-none m-b-none text-muted">Queued Jobs</h5>
+				</div>
+				<table class="table table-striped m-b-none">
+					<tbody ng-hide="current_jobs.length > 0">
+						<tr>
+							<td class="text-center" colspan="5">No Current Jobs</td>
+						</tr>
+					</tbody>
+					<tbody ng-show="current_jobs.length > 0">
+						<tr ng-repeat="job in current_jobs">
+							<td class="text-left" ng-show="job.processing">
+								<i class="fa fa-fw fa-spin fa-refresh"></i>
+							</td>
+							<td class="text-left" ng-hide="job.processing">
+								<i class="fa fa-fw fa-refresh"></i>
+							</td>
+							<td class="text-left" ng-bind="job.job_name"></td>
+							<td ng-show="job.user">
+								<i class="icon icon-user"></i>&nbsp;&nbsp;{{ job.user.fullname }}
+							</td>
+							<td ng-hide="job.user">
+								<i class="icon icon-cog"></i>&nbsp;&nbsp;System
+							</td>
+							<td class="text-right" ng-show="job.processing">
+								Processing
+							</td>
+							<td class="text-right" ng-hide="job.processing">
+								Queued
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		<!-- END: Processing Jobs -->
+		<!-- START: Completed Jobs -->
+			<div class="panel no-border" ng-show="project">
+				<div class="panel-heading wrapper">
+					<h5 class="font-thin m-t-none m-b-none text-muted">Latest Completed Jobs</h5>
+				</div>
+				<table class="table table-striped m-b-none">
+					<tbody ng-hide="completed_jobs.length > 0">
+						<tr>
+							<td class="text-center" colspan="4">No Completed Jobs</td>
+						</tr>
+					</tbody>
+					<tbody ng-show="completed_jobs.length > 0">
+						<tr ng-repeat="job in completed_jobs">
+							<td class="text-left" ng-bind="job.job_name"></td>
+							<td ng-show="job.user">
+								<i class="icon icon-user"></i>&nbsp;&nbsp;{{ job.user.fullname }}
+							</td>
+							<td ng-hide="job.user">
+								<i class="icon icon-cog"></i>&nbsp;&nbsp;System
+							</td>
+							<td class="text-right">{{ job.completed_at | fromNow }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		<!-- END: Completed Jobs -->
+		</div>
+
 	</div>
 	<!-- / users -->
 </div>

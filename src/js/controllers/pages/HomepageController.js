@@ -1,8 +1,10 @@
 angular.module('app.controllers').controller('HomepageController', [	'$scope',
+																		'$rootScope',
 																		'UserHomepage',
 																		'UserProjects',
 																		'$http',
 																		'Auth', function(	$scope,
+																							$rootScope,
 																							UserHomepage,
 																							UserProjects,
 																							$http,
@@ -99,7 +101,7 @@ angular.module('app.controllers').controller('HomepageController', [	'$scope',
 	}
 
 	$scope.getNewsfeed = function() {
-		$http.get('http://api.metinet.co/user/newsfeed/'+$scope.newsfeedSkip).then(function (resp) {
+		$http.get($rootScope.api_url+'/user/newsfeed/'+$scope.newsfeedSkip).then(function (resp) {
 			$.merge($scope.newsfeed, resp.data.data);
 			$scope.newsfeedSkip++;
 		});

@@ -1,8 +1,10 @@
 angular.module('app.controllers').controller('ProjectOverviewController', [ '$scope',
+																			'$rootScope',
 																			'$modal',
 																			'$stateParams',
 																			'ProjectProgressPlot',
 																			'$http', 	function(   $scope,
+																									$rootScope,
 																									$modal,
 																									$stateParams,
 																									ProjectProgressPlot,
@@ -10,7 +12,7 @@ angular.module('app.controllers').controller('ProjectOverviewController', [ '$sc
 
 	$scope.project_id		= $stateParams.project_id;
 
-	$http.get('http://api.metinet.co/projects/'+$stateParams.project_id+"/to-do").then(function (resp) {
+	$http.get($rootScope.api_url+'/projects/'+$stateParams.project_id+"/to-do").then(function (resp) {
 		$scope.projectTodo 	= resp.data.data;
 	});
 

@@ -1,4 +1,5 @@
 angular.module('app.controllers').controller('ProjectViewGanttController', [	'$scope',
+																				'$rootScope',
 																				'$stateParams',
 																				'Auth',
 																				'Project',
@@ -7,6 +8,7 @@ angular.module('app.controllers').controller('ProjectViewGanttController', [	'$s
 																				'toaster',
 																				'NodeDependencies',
 																				'$http',	function(	$scope,
+																										$rootScope,
 																										$stateParams,
 																										Auth,
 																										Project,
@@ -145,7 +147,7 @@ angular.module('app.controllers').controller('ProjectViewGanttController', [	'$s
       delete(newNode.text);
       delete(newNode.parent);
 
-      $http.post('http://api.metinet.co/projects/' + $scope.projectId + '/nodes', {
+      $http.post($rootScope.api_url+'/projects/' + $scope.projectId + '/nodes', {
         headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
         name: newNode.name,
         start_date: newNode.start_date,
