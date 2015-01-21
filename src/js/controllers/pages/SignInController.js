@@ -19,7 +19,6 @@ angular.module('app.controllers').controller('SignInController', [	'$scope',
 		$scope.authError 	= null;
 		// Try to login
 		$http.post($rootScope.api_url+'/auth', {
-				headers: 	{'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
 				email: 		$scope.user.email,
 				password:  	$scope.user.password
 			}).then(function(response) {
