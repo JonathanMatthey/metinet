@@ -4,7 +4,7 @@
 	<div class="col w lter b-r">
 		<div class="vbox">
 			<div class="wrapper b-b">
-				<div class="font-thin h4">Filter Notifications</div>
+				<div class="font-thin h4">Filter Audit History</div>
 			</div>
 
 		</div>
@@ -14,27 +14,30 @@
 	<!-- column -->
 	<div class="col" ng-init="init()">
 
-		<div class="alert alert-info text-center" ng-hide="notifications.length > 0">
-			You have no notifications
+		<div class="alert alert-info text-center" ng-hide="full_audit.length > 0">
+			There has been no activity so far.
 		</div>
 
 		<ul class="list-group alt"
 			infinite-scroll="getNotifications()"
 			infinite-scroll-disabled="notifications_requested">
-			<li class="list-group-item" ng-repeat="notification in notifications" ng-show="notifications.length > 0">
+			<li class="list-group-item"
+				ng-repeat="item in full_audit"
+				ng-show="full_audit.length > 0"
+				ng-click="viewAuditItem($index)">
 				<div class="media">
 					<span class="pull-left thumb-sm">
 						<span class="fa-stack fa-lg">
 							<i class="fa fa-circle fa-stack-2x"></i>
-							<i class="fa {{ notification.icon }} fa-stack-1x fa-inverse"></i>
+							<i class="fa {{ item.icon }} fa-stack-1x fa-inverse"></i>
 						</span>
 					</span>
 					<a class="pull-right m-t-sm" ng-hide="notification.read" ng-click="markAsRead($index)">
 						<i class="fa fa-circle"></i>
 					</a>
 					<div class="media-body">
-						<div><a href="">{{ notification.text }}</a></div>
-						<small class="text-muted">{{ notification.time | fromNow }}</small>
+						<div><a href="">{{ item.text }}</a></div>
+						<small class="text-muted">{{ item.time | fromNow }}</small>
 					</div>
 				</div>
 			</li>
@@ -43,20 +46,5 @@
 	</div>
 	<!-- /column -->
 
-	<!-- column -->
-	<div class="col w-md lter b-l">
-		<div class="vbox">
-			<div class="wrapper b-b b-light">
-				<div class="font-thin h4">Header</div>
-				<small class="text-muted">with fluid height</small>
-			</div>
-			<div class="row">
-
-
-
-			</div>
-		</div>
-	</div>
-	<!-- /column -->
 </div>
 <!-- /hbox layout -->

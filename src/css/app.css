@@ -3239,7 +3239,7 @@ a.bg-black.list-group-item:focus {
 }
 
 .bg-info {
-  color: #d9f3fb;
+  color: #d9f3fb!important;
   background-color: #23b7e5;
 }
 
@@ -4058,6 +4058,11 @@ a.text-#000000:hover {
 .padder-v-xs {
   padding-top: 5px!important;
   padding-bottom: 5px!important;
+}
+
+.padder-v-sm {
+  padding-top: 10px!important;
+  padding-bottom: 10px!important;
 }
 
 .no-padder {

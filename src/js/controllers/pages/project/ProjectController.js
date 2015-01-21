@@ -1,8 +1,10 @@
 angular.module('app.controllers').controller('ProjectController', [ '$scope',
+																	'$rootScope',
 																	'$stateParams',
 																	'Project',
 																	'ProjectAudit',
 																	'ProjectJobs',	function(   $scope,
+																								$rootScope,
 																								$stateParams,
 																								Project,
 																								ProjectAudit,
@@ -38,9 +40,10 @@ angular.module('app.controllers').controller('ProjectController', [ '$scope',
 		.$promise.then(function(res) {
 			$scope.project 				= res.data;
 			$scope.user_admin_level		= res.data.pivot.role;
+			$rootScope.current_project	= res.data;
 		});
 
-	ProjectAudit.get({id:$stateParams.project_id})
+	ProjectAudit.get({project_id:$stateParams.project_id})
 		.$promise.then(function(res) {
 			// success handler
 			$scope.projectAudit = res.data

@@ -4,9 +4,6 @@ angular.module('app.services')
 			id:'@_id',
 			rfi_id:'@rfi_id'
 		},{
-			store: {
-				method: 'POST'
-			},			
 			query: {
 				method: 'GET',
 				transformResponse: function (res) {
@@ -14,6 +11,9 @@ angular.module('app.services')
 					return res.data;
 				},
 				isArray: true
+			},
+			store: {
+				method: 'POST'
 			},
 			update: {
 				method: 'PUT'

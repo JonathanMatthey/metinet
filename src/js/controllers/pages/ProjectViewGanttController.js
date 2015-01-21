@@ -18,15 +18,17 @@ angular.module('app.controllers').controller('ProjectViewGanttController', [	'$s
 																										NodeDependencies,
 																										$http	) {
 
+	$scope.gantt_returned = false;
 	$scope.gantt_data = {
 		'data':[],
 		'links':[]
 	};
 
-	$scope.projectId = $stateParams.id;
+	$scope.project_id = $stateParams.project_id;
+	console.log
 
 	var link, dataNode;
-	ProjectGantt.get({id:$scope.projectId})
+	ProjectGantt.get({id:$scope.project_id})
 		.$promise.then(function(res) {
 			$scope.project 			= res.data.project;
 			$scope.gantt_data_raw 	= res.data;
@@ -61,8 +63,8 @@ angular.module('app.controllers').controller('ProjectViewGanttController', [	'$s
 			for (var j = 0; j < $scope.gantt_data_raw.links.length; j++) {
 				link = {
 					"id": 		j,
-					"source": 	$scope.gantt_data_raw.links[j].target,
-					"target":  	$scope.gantt_data_raw.links[j].source,
+					"source": 	$scope.gantt_data_raw.links[j].source,
+					"target":  	$scope.gantt_data_raw.links[j].target,
 					"type":  	$scope.gantt_data_raw.links[j].type
 				}
 				$scope.gantt_data.links.push(link);
@@ -71,6 +73,7 @@ angular.module('app.controllers').controller('ProjectViewGanttController', [	'$s
 			console.log($scope.gantt_data);
 			$scope.refreshProgressGantt();
 			gantt_data = $scope.gantt_data;
+			$scope.gantt_returned = true;
 		});
 
 	gantt.attachEvent("onAfterTaskUpdate", function(id,item) {
@@ -147,7 +150,7 @@ angular.module('app.controllers').controller('ProjectViewGanttController', [	'$s
       delete(newNode.text);
       delete(newNode.parent);
 
-      $http.post($rootScope.api_url+'/projects/' + $scope.projectId + '/nodes', {
+      $http.post($rootScope.api_url+'/projects/' + $scope.project_id + '/nodes', {
         headers: {'Authorization': 'Basic amVtaW1hLnNjb3R0QGZha2VyZW1haWwuY29tOnRlc3QxMjM0'},
         name: newNode.name,
         start_date: newNode.start_date,

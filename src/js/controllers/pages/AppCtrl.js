@@ -1,7 +1,11 @@
 angular.module('app.controllers').controller('AppCtrl', [	'$scope',
+															'$rootScope',
+															'$state',
 															'$translate',
 															'$localStorage',
 															'$window',	function(   $scope,
+																					$rootScope,
+																					$state,
 																					$translate,
 																					$localStorage,
 																					$window 	) {
@@ -41,9 +45,9 @@ angular.module('app.controllers').controller('AppCtrl', [	'$scope',
 
 	// save settings to local storage
 	if ( angular.isDefined($localStorage.settings) ) {
-		$scope.app.settings =  $localStorage.settings;
+		$scope.app.settings 	= $localStorage.settings;
 	} else {
-		$localStorage.settings = $scope.app.settings;
+		$localStorage.settings 	= $scope.app.settings;
 	}
 	$scope.$watch('app.settings', function() {
 		if( $scope.app.settings.asideDock  &&  $scope.app.settings.asideFixed ) {
@@ -55,10 +59,10 @@ angular.module('app.controllers').controller('AppCtrl', [	'$scope',
 	}, true);
 
 	// angular translate
-	$scope.lang = { isopen: false };
-	$scope.langs = { en_EN:'English', de_DE:'German', it_IT:'Italian' };
-	$scope.selectLang = $scope.langs[$translate.proposedLanguage()] || "English";
-	$scope.setLang = function(langKey, $event) {
+	$scope.lang 		= { isopen: false };
+	$scope.langs 		= { en_EN:'English', de_DE:'German', it_IT:'Italian' };
+	$scope.selectLang 	= $scope.langs[$translate.proposedLanguage()] || "English";
+	$scope.setLang 		= function(langKey, $event) {
 		// set the current lang
 		$scope.selectLang = $scope.langs[langKey];
 		// You can change the language during runtime
@@ -72,5 +76,16 @@ angular.module('app.controllers').controller('AppCtrl', [	'$scope',
 		// Checks for iOs, Android, Blackberry, Opera Mini, and Windows mobile devices
 		return (/iPhone|iPod|iPad|Silk|Android|BlackBerry|Opera Mini|IEMobile/).test(ua);
 	}
+
+	//	If there is an error on one of the pages, i.e. the
+	$rootScope.$on('$stateChangeError', function(	event,
+													toState,
+													toParams,
+													fromState,
+													fromParams,
+													error 	) {
+		$state.go('app.home');
+	});
+
 
 }]);

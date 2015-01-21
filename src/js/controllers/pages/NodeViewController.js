@@ -39,6 +39,9 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 							projected: 0
 						}
 
+	$scope.data2				= [50, 50, 50, 50, 50, 50, 50, 50];
+
+
 	$scope.options = {
 		animate:{
 			duration:1000,
@@ -85,11 +88,19 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 				sparkline_plot.push(res.data.recent_progress[i].progress);
 			}
 
-			$scope.sparkline_plot = sparkline_plot;
+			var number_of_points 		= res.data.recent_progress.length;
+			$scope.progress_change 		= Math.round((res.data.recent_progress[0].progress - res.data.recent_progress[(number_of_points - 1)].progress) * -1);
 
-			$('#sparkline').sparkline(	sparkline_plot, {	type:'line',
-															barColor:'green',
-															lineWidth: 5	});
+			$('#progress_graph').sparkline(sparkline_plot, {	type: 'line',
+													height: 65,
+													width: '100%',
+													lineWidth: 2,
+													valueSpots: {'0:':'#fff'},
+													lineColor: '#fff',
+													spotColor: '#fff',
+													fillColor: '',
+													highlightLineColor: '#fff',
+													spotRadius: 3 	});
 
 			$scope.node_returned 		= true;
 

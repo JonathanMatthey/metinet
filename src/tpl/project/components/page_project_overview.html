@@ -3,10 +3,16 @@
 		<div class="pull-right clearfix" ng-show="project">
 			<div class="btn-group btn-group-sm dropdown">
 				<button class="btn btn-default" dropdown-toggle>
-					Import <span class="caret"></span>
+					Options <span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu pull-right">
-					<li><a ng-click="importTasksModal()">Tasks</a></li>
+					<li>
+						<a ui-sref="app.page.project.audit-history({project_id:$stateParams.project_id})">
+							Full Audit History
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li><a ng-click="importTasksModal()">Import Tasks</a></li>
 				</ul>
 			</div>
 		</div>
@@ -125,7 +131,8 @@
 					</div>
 				</h4>
 
-				<a ui-sref="app.page.project.nodes({project_id:$stateParams.project_id, node_id:package.id})" ng-repeat="package in project.packages">
+				<a 	ui-sref="app.page.project.task({project_id:$stateParams.project_id, node_id:package.id})"
+					ng-repeat="package in project.packages">
 					<div class="text-left">
 						<span class="pull-right">{{package.display_progress}}%</span>
 						<span ng-bind="package.name"></span>
@@ -168,25 +175,31 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+						<tr class="pointer"
+							ui-sref="app.page.project.rfis({project_id:$stateParams.project_id})">
 							<td>RFIs</td>
 							<td class="text-center text-success" ng-bind="projectTodo.rfis.ok"></td>
 							<td class="text-center text-info" ng-bind="projectTodo.rfis.attention"></td>
 							<td class="text-center text-danger" ng-bind="projectTodo.rfis.critical"></td>
 						</tr>
-						<tr ng-show="project.long_lead_items">
+						<tr ng-show="project.long_lead_items"
+							class="pointer"
+							ui-sref="app.page.project.long-leads({project_id:$stateParams.project_id})">
 							<td>Long Leads</td>
 							<td class="text-center text-success" ng-bind="projectTodo.long_lead.ok"></td>
 							<td class="text-center text-info" ng-bind="projectTodo.long_lead.attention"></td>
 							<td class="text-center text-danger" ng-bind="projectTodo.long_lead.critical"></td>
 						</tr>
-						<tr ng-show="project.permit_assessment">
+						<tr ng-show="project.permit_assessment"
+							class="pointer"
+							ui-sref="app.page.project.permits({project_id:$stateParams.project_id})">
 							<td>Permits</td>
 							<td class="text-center text-success" ng-bind="projectTodo.permits.ok"></td>
 							<td class="text-center text-info" ng-bind="projectTodo.permits.attention"></td>
 							<td class="text-center text-danger" ng-bind="projectTodo.permits.critical"></td>
 						</tr>
-						<tr>
+						<tr class="pointer"
+							ui-sref="app.page.project.tasks({project_id:$stateParams.project_id})">
 							<td>Leaf Nodes</td>
 							<td class="text-center text-success" ng-bind="projectTodo.leaf_nodes.ok"></td>
 							<td class="text-center text-info" ng-bind="projectTodo.leaf_nodes.attention"></td>

@@ -1,36 +1,45 @@
-angular.module('app.services')
-	.factory('Auth', [	'Base64',
-						'$cookieStore',
-						'$http',
-						'$state', 	function(	Base64,
-												$cookieStore,
-												$http,
-												$state	) {
+angular.module('app.services').factory('Auth', [	'Base64',
+													'$rootScope',
+													'$cookieStore',
+													'$http',
+													'$state', 	function(	Base64,
+																			$rootScope,
+																			$cookieStore,
+																			$http,
+																			$state	) {
 
 	    // initialize to whatever is in the cookie, if anything
 	    $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
 
-	    if(typeof($cookieStore.get('authdata')) == "undefined") {
+	    if (typeof($cookieStore.get('authdata')) == "undefined") {
 	        $state.go('access.signin');
 	    }
 
 	    return {
 			getCredential: function(credentialField){
-				return $cookieStore.get(credentialField);
+				var value					= $cookieStore.get(credentialField);
+				$rootScope.credentialField	= value;
+				return value;
 			},
 			setCredentials: function(username, password, user_data) {
 	            var encoded = Base64.encode(username + ':' + password);
 				$http.defaults.headers.common.Authorization = 'Basic ' + encoded;
+
 				$cookieStore.put('authdata', encoded);
+				console.log($cookieStore.put('authdata', encoded));
+
+				$rootScope.user_data				= user_data;
 				$cookieStore.put('user_data', user_data);
-				
+
 				var user_has_network 				= (user_data.network != null) ? true : false;
-				$cookieStore.put('user_has_network', user_has_network);					
+				$rootScope.user_has_network			= user_has_network;
+				$cookieStore.put('user_has_network', user_has_network);
+
 				if (user_has_network) {
 					var user_is_network_admin 		= (user_data.network.pivot.role < 3) ? true : false;
 					var user_is_network_super_admin = (user_data.network.pivot.role == 1) ? true : false;
 					$cookieStore.put('user_is_network_admin', user_is_network_admin);
-					$cookieStore.put('user_is_network_super_admin', user_is_network_super_admin);				
+					$cookieStore.put('user_is_network_super_admin', user_is_network_super_admin);
 				}
 			},
 			resetUserData: function(user_data) {
@@ -42,17 +51,25 @@ angular.module('app.services')
 				$cookieStore.put('user_data', user_data);
 
 				var user_has_network 				= (user_data.network != null) ? true : false;
-				$cookieStore.put('user_has_network', user_has_network);					
+				$cookieStore.put('user_has_network', user_has_network);
 				if (user_has_network) {
 					var user_is_network_admin 		= (user_data.network.pivot.role < 3) ? true : false;
 					var user_is_network_super_admin = (user_data.network.pivot.role == 1) ? true : false;
 					$cookieStore.put('user_is_network_admin', user_is_network_admin);
-					$cookieStore.put('user_is_network_super_admin', user_is_network_super_admin);				
+					$cookieStore.put('user_is_network_super_admin', user_is_network_super_admin);
 				}
 			},
 			clearCredentials: function() {
 				document.execCommand("ClearAuthenticationCache");
 				$cookieStore.remove('authdata');
+				$cookieStore.remove('user_data');
+				$rootScope.user_data					= null;
+				$cookieStore.remove('user_has_network');
+				$rootScope.user_has_network				= null;
+				$cookieStore.remove('user_is_network_admin');
+				$rootScope.user_is_network_admin		= null;
+				$cookieStore.remove('user_is_network_super_admin');
+				$rootScope.user_is_network_super_admin	= null;
 				$http.defaults.headers.common.Authorization = 'Basic ';
 			}
 	    };

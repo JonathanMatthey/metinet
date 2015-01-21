@@ -122,12 +122,10 @@
 	</div>
   <!-- / main -->
   <!-- right col -->
-  <div class="col w-md b-l bg-auto no-border-xs" id="sidebar">
-  	<div class="sidebar_inner">
+  <div class="col w-md bg-black no-border" id="sidebar">
+  	<div class="sidebar_inner padder-sm">
 
-		<div class="wrapper">
-			<div class="font-thin h4"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;Newsfeed</div>
-		</div>
+		<div class="font-thin h4 padder-v-sm"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;Newsfeed</div>
 
 		<ul class="timeline" ng-hide="newsfeed.length > 0">
 			<li class="wrapper p-t-0">
@@ -138,26 +136,17 @@
 			</li>
 		</ul>
 
-		<ul class="timeline" ng-show="newsfeed.length > 0">
-			<li class="tl-item" ng-repeat="newsItem in newsfeed">
-				<div class="tl-wrap b-{{newsItem.colour}} m-l-0">
-					<div class="tl-content panel padder b-t b-b w-auto-xs b-radius-0 b-r-0">
-						<div class="text-lt m-b-sm">
-							{{ newsItem.project_name }}
-							<span class="pull-right" ng-bind="newsItem.time | fromNow"></span>
-						</div>
-						<div class="panel-body pull-in b-t b-light">
-							<div class="clear">
-								<a href="" class="text-dark block m-b-xs" ng-bind="newsItem.text"></a>
-							</div>
-						</div>
+		<div class="padder-top-10-n" ng-show="newsfeed.length > 0">
+			<div class="streamline b-l m-b">
+				<div class="sl-item" ng-repeat="newsItem in newsfeed">
+					<div class="m-l">
+						{{ newsItem.project_name }}
+						<div class="text-white pull-right">{{ newsItem.time | fromNow }}</div>
+						<p ng-bind="newsItem.text"></p>
 					</div>
 				</div>
-			</li>
-			<li class="tl-header">
-				<div class="btn btn-sm btn-default btn-rounded" ng-click="getNewsfeed()">more</div>
-			</li>
-		</ul>
+			</div>
+		</div>
 
 	</div>
   </div>

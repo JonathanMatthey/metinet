@@ -4,12 +4,7 @@ angular.module('app.services')
 			id:'@_id'
 		},{
 			query: {
-				method: 'GET',
-				transformResponse: function (res) {
-					var res = JSON.parse(res);
-					return res.data;
-				},
-				isArray: true
+				method: 'GET'
 			},
 			store: {
 				method: 'POST'

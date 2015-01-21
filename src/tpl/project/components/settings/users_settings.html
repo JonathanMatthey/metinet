@@ -21,7 +21,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="user in projectUsers">
+        <tr ng-hide="projectUsers">
+          <td colspan="3" class="text-center">
+            <i class="fa fa-fw fa-spin fa-refresh"></i>&nbsp;&nbsp;Loading Users...
+          </td>
+        </tr>
+        <tr ng-repeat="user in projectUsers" ng-show="projectUsers">
             <td>
               <i class="text-xs fa fa-circle" ng-class="{ 'text-success': user.online }"></i>
               &nbsp;&nbsp;{{ user.fullname }}</td>
@@ -35,7 +40,7 @@
                   <i class="fa fa-fw fa-trash-o text-danger"></i>
                 </a>
               </div>
-            </td>            
+            </td>
         </tr>
       </tbody>
       <tfoot class="hide-if-no-paging">

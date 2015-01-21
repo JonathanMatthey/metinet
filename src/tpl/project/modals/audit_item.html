@@ -1,0 +1,33 @@
+<div class="modal-header">
+	<h3><i class="fa fa-fw fa-clipboard"></i>&nbsp;&nbsp;Audit Item</h3>
+</div>
+<div class="modal-body">
+	<div class="wrapper">
+		<div class="media">
+			<div class="media-left">
+				<a href="#">
+					<span class="fa-stack fa-lg">
+						<i class="fa fa-square fa-stack-2x"></i>
+						<i class="fa bg-{{ audit_item.colour }} fa-{{ audit_item.icon }} fa-stack-1x fa-inverse"></i>
+					</span>
+				</a>
+			</div>
+			<div class="media-body">
+				{{ audit_item.text }}
+			</div>
+		</div>
+
+		<div class="wrapper-xs" ng-repeat="updated_field in audit_item.updated_fields">
+			<div>{{ updated_field }}</div>
+			<span ng-show="updated_field.before == null">Empty</span>
+			<span ng-hide="updated_field.before == null">{{ updated_field.before }}</span>
+			=>
+			<span ng-show="updated_field.after == null">Empty</span>
+			<span ng-hide="updated_field.after == null">{{ updated_field.after }}</span>
+		</div>
+
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="ok()">Ok</button>
+</div>

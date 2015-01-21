@@ -1,37 +1,57 @@
-<div class="panel no-border bg-black m-b-none">
-	<div class="panel-heading lt">
-		<div class="m-sm">
-			<span ng-bind="node.name"></span>
-		</div>              
-		<div class="text-center m-t-md">
-				<div id="sparkline"></div>
+<div class="panel panel-default m-b-none b-0">
+
+	<div class="panel-heading">
+		<span ng-hide="node"><i class="fa fa-fw fa-spin fa-refresh"></i>&nbsp;&nbsp;Loading Node...</span>
+		<span ng-show="node">{{ node.name }}</span>
+	</div>
+
+	<div class="bg-light dker wrapper m-t-n-xxs">
+		<span class="pull-right">7 Day Progress</span>
+		<span class="h4">{{ progress_change }}%</span>
+		<div class="text-center m-b-n m-t-sm">
+			<div 	ui-jq="sparkline"
+					id="progress_graph"
+					ui-options="	{{ data2 }},
+									{	type: 'line',
+										height: 65,
+										width: '100%',
+										lineWidth: 2,
+										valueSpots: {'0:':'#fff'},
+										lineColor: '#fff',
+										spotColor: '#fff',
+										fillColor: '',
+										highlightLineColor: '#fff',
+										spotRadius: 3
+									}"></div>
 		</div>
 	</div>
-	<div class="panel-footer bg-light lter wrapper">
+	<div class="panel-body">
 		<div class="row">
 			<div class="col-xs-6 text-center">
 				<small class="block">Start Date</small>
-				<span class="text-muted text-md">{{ node.start_date | formatFullDate }}</span>
+				<span class="text-muted text-md" ng-show="node">{{ node.start_date | formatFullDate }}</span>
 			</div>
 			<div class="col-xs-6 text-center">
 				<small class="block">End Date</small>
-				<span class="text-muted text-md">{{ node.end_date.date | formatFullDate }}</span>
+				<span class="text-muted text-md" ng-show="node">{{ node.end_date.date | formatFullDate }}</span>
 			</div>
 		</div>
 	</div>
-</div>  
+</div>
 <ul class="list-group no-radius m-b-none">
 	<li class="list-group-item b-l-0 b-r-0">
 		<span class="pull-right">{{ node.duration }} Days</span>
 		Duration
 	</li>
 	<li class="list-group-item b-l-0 b-r-0">
-		<span class="pull-right text-{{ node.status.colour }}">
+		<span class="pull-right text-{{ node.status.colour }}" ng-show="node">
 			{{ node.projected_end_date.date | formatFullDate }}
 		</span>
 		Projected End Date
 	</li>
-	<a class="list-group-item b-l-0 b-r-0" ng-show="node.parent_node" href="#/app/page/nodes/{{node.parent_node.id}}">
+	<a 	class="list-group-item b-l-0 b-r-0"
+		ng-show="node.parent_node"
+		ui-sref="app.page.project.task({project_id:$stateParams.project_id, node_id:node.parent_node.id})"
 		<div class="clearfix">
 			Parent Node
 			<span class="pull-right" ng-bind="node.parent_node.name"></span>
@@ -44,7 +64,7 @@
 		<div class="inline m-t-sm">
 			<div easypiechart options="options" percent="percent.progress">
 				 <span class="percent" style="position:absolute; top:57px; right:45px; text-align:center;">
-				 	{{ node.display_progress }}%
+					{{ node.display_progress }}%
 				 </span>
 			</div>
 		</div>
@@ -54,7 +74,7 @@
 		<div class="inline m-t-sm">
 			<div easypiechart options="options" percent="percent.projected">
 				 <span class="percent" style="position:absolute; top:57px; right:45px; text-align:center;">
-				 	{{ node.display_projected_progress }}%
+					{{ node.display_projected_progress }}%
 				 </span>
 			</div>
 		</div>

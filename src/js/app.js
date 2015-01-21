@@ -73,7 +73,7 @@ var app = angular.module('app', [	'ngAnimate',
 			})
 			.state('app.home', {
 				url: '/home',
-				controller:'HomepageController',
+				controller: 'HomepageController',
 				templateUrl: 'tpl/page_homepage.html',
 				resolve: {
 					deps: ['uiLoad',
@@ -89,12 +89,12 @@ var app = angular.module('app', [	'ngAnimate',
 			})
 			.state('app.page.profile', {
 				url: '/profile/:id',
-				controller:'ProfileViewController',
+				controller: 'ProfileViewController',
 				templateUrl: 'tpl/user_profile/main.html'
 			})
 			.state('app.page.notifications', {
 				url: '/notifications',
-				controller:'NotificationViewController',
+				controller: 'NotificationViewController',
 				templateUrl: 'tpl/notifications/main.html'
 			})
 			.state('app.page.create_network', {
@@ -123,7 +123,7 @@ var app = angular.module('app', [	'ngAnimate',
 			.state('app.page.settings', {
 				url: '/settings',
 				templateUrl: 'tpl/user_settings/main.html',
-				controller:'UserSettingsController',
+				controller: 'UserSettingsController',
 				resolve: {
 					deps: ['uiLoad',
 						function(uiLoad) {
@@ -139,7 +139,7 @@ var app = angular.module('app', [	'ngAnimate',
 			.state('app.page.projects', {
 				url: '/projects',
 				templateUrl: 'tpl/project/all.html',
-				controller:'ProjectListController',
+				controller: 'ProjectListController',
 				resolve: {
 					deps: ['uiLoad',
 						function( uiLoad ){
@@ -153,14 +153,14 @@ var app = angular.module('app', [	'ngAnimate',
 				}
 			})
 			.state('app.page.gantt', {
-				url: '/projects/:id/gantt',
+				url: '/projects/:project_id/gantt',
 				templateUrl: 'tpl/page_gantt.html',
-				controller:'ProjectViewGanttController'
+				controller: 'ProjectViewGanttController'
 			})
 			.state('app.page.newproject', {
 				url:'/projects/new',
 				templateUrl: 'tpl/project/new_project/main.html',
-				controller:'ProjectCreateController',
+				controller: 'ProjectCreateController',
 				resolve: {
 					deps: ['uiLoad',
 						function( uiLoad ){
@@ -188,6 +188,11 @@ var app = angular.module('app', [	'ngAnimate',
 								]);
 							}]
 					}
+				})
+				.state('app.page.project.audit-history', {
+					url:'/audit-history',
+					templateUrl: 'tpl/project/components/page_project_audit.html',
+					controller: 'ProjectAuditHistoryController'
 				})
 				.state('app.page.project.long-leads', {
 					url:'/long-leads',
@@ -234,10 +239,15 @@ var app = angular.module('app', [	'ngAnimate',
 						templateUrl: 'tpl/project/components/settings/tracking_settings.html',
 						controller: 'ProjectTrackingSettingsController'
 					})
-				.state('app.page.project.nodes', {
-					url:'/nodes/:node_id',
+				.state('app.page.project.tasks', {
+					url:'/tasks',
+					templateUrl: 'tpl/project/components/page_project_leaf_nodes.html',
+					controller: 'ProjectLeafNodeController'
+				})
+				.state('app.page.project.task', {
+					url:'/tasks/:node_id',
 					templateUrl: 'tpl/nodes/main.html',
-					controller:'NodeViewController',
+					controller: 'NodeViewController',
 					resolve: {
 						deps: ['uiLoad',
 							function( uiLoad ){

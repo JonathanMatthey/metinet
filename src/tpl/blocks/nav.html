@@ -39,7 +39,7 @@
 
 	<li ui-sref-active="active"
 		class="bg-lighter"
-		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes')">
+		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')">
 		<a ui-sref="app.page.project.overview({project_id:$stateParams.project_id})">
 			<i class="fa fa-fw fa-globe text-primary"></i>
 			<span class="font-bold">Project Overview</span>
@@ -48,7 +48,7 @@
 
 	<li ui-sref-active="active"
 		class="bg-lighter"
-		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes')">
+		ng-show="($state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')) && current_project.long_lead_items">
 		<a ui-sref="app.page.project.long-leads({project_id:$stateParams.project_id})">
 			<i class="fa fa-fw fa-tags text-primary"></i>
 			<span class="font-bold">Long Lead Items</span>
@@ -57,7 +57,7 @@
 
 	<li ui-sref-active="active"
 		class="bg-lighter"
-		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes')">
+		ng-show="($state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')) && current_project.permit_assessment">
 		<a ui-sref="app.page.project.permits({project_id:$stateParams.project_id})">
 			<i class="fa fa-fw fa-certificate text-primary"></i>
 			<span class="font-bold">Permits</span>
@@ -66,7 +66,7 @@
 
 	<li ui-sref-active="active"
 		class="bg-lighter"
-		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes')">
+		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')">
 		<a ui-sref="app.page.project.rfis({project_id:$stateParams.project_id})">
 			<i class="fa fa-fw fa-edit text-primary"></i>
 			<span class="font-bold">RFIs</span>
@@ -75,7 +75,7 @@
 
 	<li ui-sref-active="active"
 		class="bg-lighter"
-		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes')">
+		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')">
 		<a ui-sref="app.page.gantt({project_id:$stateParams.project_id})">
 			<i class="fa fa-fw fa-tasks text-primary"></i>
 			<span class="font-bold">Gantt Chart</span>
@@ -84,7 +84,7 @@
 
 	<li ui-sref-active="active"
 		class="bg-lighter"
-		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes')">
+		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')">
 		<a ui-sref="app.page.project.settings.general({project_id:$stateParams.project_id})">
 			<i class="fa fa-fw fa-cogs text-primary"></i>
 			<span class="font-bold">Project Settings</span>

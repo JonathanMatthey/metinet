@@ -111,14 +111,12 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 			$scope.currencies = response.data;
 		});
 
-	$scope.getProjectNetworks = function() {
-		ProjectNetworks.get({id:$stateParams.project_id})
-			.$promise.then(function(res) {
-				$scope.projectNetworks          = res.data.networks;
-				$scope.potential_networks       = res.data.potential_networks;
-				$scope.networks_except_users    = res.data.networks_except_users;
-			});
-	}
+	ProjectNetworks.get({id:$stateParams.project_id})
+		.$promise.then(function(res) {
+			$scope.projectNetworks          = res.data.networks;
+			$scope.potential_networks       = res.data.potential_networks;
+			$scope.networks_except_users    = res.data.networks_except_users;
+		});
 
 	$scope.removeNetwork = function(network_index) {
 		var _network_id = $scope.projectNetworks[network_index].id;

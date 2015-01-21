@@ -1,18 +1,19 @@
 <div class="list-group list-group-lg list-group-sp">
-	
+
 	<div ng-repeat="child_node in node.children">
-		<a href="#/app/page/nodes/{{ child_node.id }}" class="list-group-item clearfix bg-black lter">
+		<a 	ui-sref="app.page.project.task({project_id:$stateParams.project_id, node_id:child_node.id})"
+			class="list-group-item clearfix bg-black lter">
 			<span class="clear text-white">
 				<span ng-bind="child_node.name"></span>&nbsp;&nbsp;
 				<i class="fa fa-fw icon-user icon"></i>
 				<span ng-bind="child_node.associated_user.fullname"></span>
 				<small class="text-muted clear text-ellipsis">
-					
+
 					<div 	class="progress-xs m-t-sm m-b-xs bg-white progress ng-isolate-scope"
 							value="{{ child_node.progress }}"
 							animate="true"
 							type="{{ child_node.status.colour }}">
-						
+
 						<div 	class="progress-bar progress-bar-{{ child_node.status.colour }}"
 								role="progressbar"
 								aria-valuenow="{{ child_node.progress }}"
