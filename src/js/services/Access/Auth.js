@@ -71,6 +71,8 @@ angular.module('app.services').factory('Auth', [	'Base64',
 				$cookieStore.remove('user_is_network_super_admin');
 				$rootScope.user_is_network_super_admin	= null;
 				$http.defaults.headers.common.Authorization = 'Basic ';
+
+				$rootScope.user_projects 				= null;
 			}
 	    };
 

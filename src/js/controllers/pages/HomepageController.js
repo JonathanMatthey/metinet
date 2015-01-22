@@ -22,6 +22,10 @@ angular.module('app.controllers').controller('HomepageController', [	'$scope',
 
 	$scope.user_data		= Auth.getCredential('user_data');
 
+	$rootScope.$watchCollection('user_projects', function(new_value) {
+		$scope.user_projects	= new_value;
+	});
+
 	$scope.init = function() {
 
 		UserProjects.query({id:$scope.user_data.id})
@@ -34,7 +38,6 @@ angular.module('app.controllers').controller('HomepageController', [	'$scope',
 				$scope.current_tasks	= res.data.current_tasks;
 				$scope.upcoming_tasks	= res.data.upcoming_tasks;
 				$scope.network_rfis		= res.data.network_rfis;
-				console.log(res.data.seven_day);
 				$scope.seven_day		= res.data.seven_day;
 
 				$('#current_tasks_table').trigger('footable_redraw');

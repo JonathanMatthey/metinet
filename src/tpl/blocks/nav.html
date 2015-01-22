@@ -85,6 +85,15 @@
 	<li ui-sref-active="active"
 		class="bg-lighter"
 		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')">
+		<a ui-sref="app.page.project.discussions({project_id:$stateParams.project_id})">
+			<i class="fa fa-fw fa-comments text-primary"></i>
+			<span class="font-bold">Discussions</span>
+		</a>
+	</li>
+
+	<li ui-sref-active="active"
+		class="bg-lighter"
+		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')">
 		<a ui-sref="app.page.project.settings.general({project_id:$stateParams.project_id})">
 			<i class="fa fa-fw fa-cogs text-primary"></i>
 			<span class="font-bold">Project Settings</span>

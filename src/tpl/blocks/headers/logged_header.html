@@ -18,7 +18,9 @@
 </div>
 <!-- / navbar header -->
 <!-- navbar collapse -->
-<div class="collapse pos-rlt navbar-collapse box-shadow {{ app.settings.navbarCollapseColor }}" ng-controller="HeaderController">
+<div 	class="collapse pos-rlt navbar-collapse box-shadow {{ app.settings.navbarCollapseColor }}"
+		ng-controller="HeaderController"
+		ng-init="init()">
 	<!-- link and dropdown -->
 	<ul class="nav navbar-nav hidden-sm">
 		<li>
@@ -27,19 +29,27 @@
 				<span><i class="fa fa-fw fa-laptop"></i>&nbsp;&nbsp;Home</span>
 			</a>
 		</li>
-		<li class="pos-stc" dropdown>
+		<li class="pos-stc" dropdown ng-click="getProjects()">
 			<a dropdown-toggle>
 				<span>Projects</span>
 				<span class="caret"></span>
 			</a>
 			<div class="dropdown-menu wrapper w-full bg-white">
-				<div class="wrapper-xs" ng-hide="projects_left.length > 0">
+				<div class="wrapper-xs" ng-hide="projects_returned">
 					<i class="fa fa-fw fa-spin fa-refresh"></i>&nbsp;&nbsp;Loading Projects...
 				</div>
-				<div class="row" ng-show="projects_left.length > 0">
+				<div class="row" ng-show="projects_returned">
 					<div class="col-md-8 b-r">
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-12" ng-hide="projects_left.length > 0">
+								<div class="m-l-xs m-t-xs m-b-xs">
+									We couldn't find any projects associated with you...
+									<a ui-sref="app.page.newproject" class="btn btn-primary btn-xs pull-right">
+										<i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;Create New Project
+									</a>
+								</div>
+							</div>
+							<div class="col-md-12" ng-show="projects_left.length > 0">
 								<div class="m-l-xs m-t-xs m-b-xs font-bold">Projects</div>
 							</div>
 							<div class="col-sm-6">
