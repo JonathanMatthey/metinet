@@ -209,6 +209,16 @@ var app = angular.module('app', [	'ngAnimate',
 					templateUrl: 'tpl/project/components/page_project_rfis.html',
 					controller: 'ProjectRFIController'
 				})
+				.state('app.page.project.discussions', {
+					url:'/discissions',
+					templateUrl: 'tpl/project/components/discussions.html',
+					controller: 'ProjectDiscussionsController'
+				})
+					.state('app.page.project.discussion', {
+						url:'/:discussion_id',
+						templateUrl: 'tpl/project/components/discussion.html',
+						controller: 'ProjectDiscussionController'
+					})
 				.state('app.page.project.settings', {
 					url:'/settings',
 					templateUrl: 'tpl/project/components/page_project_settings.html',
