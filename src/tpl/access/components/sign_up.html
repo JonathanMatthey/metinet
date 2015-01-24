@@ -1,12 +1,43 @@
-<div class="container w-xxl w-auto-xs" ng-init="app.settings.container = false;">
+<script type="text/javascript" src="https://platform.linkedin.com/in.js">
+	api_key: 77q6eqq38byw5y
+	authorize: true
+	scope: r_fullprofile r_emailaddress
+</script>
+<script type="text/javascript">
+	function onLinkedInLoad() {
+		IN.ENV.js.scope = new Array();
+		IN.ENV.js.scope[0] = 'r_emailaddress';
+		IN.User.authorize();
+		IN.Event.on(IN, "auth", onLinkedIn);
+	}
+	function onLinkedInAuth() {
+		IN.API.Profile("me").fields("id,firstName,lastName,headline,emailAddress").result(displayProfiles);
+	}
+	function displayProfiles(profiles) {
+		var member 	= profiles.values[0];
+		var scope 	= $('#sign_in_controller').scope();
+		scope.$apply(function() {
+			scope.user_data.firstname 		= member.firstName;
+			scope.user_data.lastname 		= member.lastName;
+			scope.user_data.email 			= member.emailAddress;
+			scope.user_data.linked_in_id 	= member.id;
+		});
+		$('#linked_in_area').hide();
+	}
+</script>
+
+<div 	id="sign_in_controller"
+		class="container w-xxl w-auto-xs" ng-init="app.settings.container = false;"
+		ng-controller="SignUpController">
 	<h2 href class="text-center block m-t">
 		{{app.brand_name}}
 	</h2>
 	<div class="m-b-lg">
+
 		<div class="wrapper text-center">
 			<strong>Create an Account</strong>
 		</div>
-		<form name="form" class="form-validation" ng-hide="sign_up_complete">
+		<form name="sign_up_form" class="form-validation" ng-hide="sign_up_complete">
 			<div class="wrapper text-center" ng-show="process_engaged">
 				<i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;Processing...
 			</div>
@@ -16,42 +47,85 @@
 				</ul>
 			</div>
 			<div class="list-group list-group-sm">
-				<div class="list-group-item">
-					<input placeholder="First Name" class="form-control no-border" ng-model="user_data.firstname" required>
+				<input 	type="hidden"
+						name="linked_in_id"
+						ng-model="user_data.linked_in_id">
+				<div 	class="list-group-item">
+					<input 	placeholder="First Name"
+							name="firstname"
+							class="form-control style-colour no-border"
+							ng-minlength="2"
+							ng-model="user_data.firstname"
+							required>
 				</div>
 				<div class="list-group-item">
-					<input placeholder="Last Name" class="form-control no-border" ng-model="user_data.lastname" required>
+					<input 	placeholder="Last Name"
+							name="lastname"
+							class="form-control style-colour no-border"
+							ng-minlength="2"
+							ng-model="user_data.lastname"
+							required>
 				</div>
 				<div class="list-group-item">
-					<input type="email" placeholder="Email" class="form-control no-border" ng-model="user_data.email" required>
+					<input 	type="email"
+							placeholder="Email"
+							name="email"
+							class="form-control style-colour no-border"
+							ng-model="user_data.email"
+							required>
 				</div>
 				<div class="list-group-item">
-					<input type="password" placeholder="Password" class="form-control no-border" ng-model="user_data.password" required>
+					<input 	type="password"
+							placeholder="Password"
+							class="form-control style-colour no-border"
+							ng-model="user_data.password"
+							required>
 				</div>
 				<div class="list-group-item">
-					<input type="password" placeholder="Confirm Password" class="form-control no-border" ng-model="user_data.password_confirm" required>
+					<input 	type="password"
+							placeholder="Confirm Password"
+							class="form-control style-colour no-border"
+							ui-validate="'$value == user_data.password'"
+							ui-validate-watch="'user_data.password'"
+							ng-model="user_data.password_confirm"
+							required>
 				</div>
 			</div>
 			<div class="checkbox m-b-md m-t-none" ng-hide="sign_up_complete">
 				<label class="i-checks">
-					<input type="checkbox" ng-model="agree" required  ng-model="user_data.terms">
+					<input type="checkbox" ng-model="agree" required ng-model="user_data.terms">
 					<i></i> I agree with the <a href>terms and policy</a>
 				</label>
 			</div>
-			<button type="submit" class="btn btn-lg btn-primary btn-block" ng-click="signup()" ng-disabled='form.$invalid' ng-hide="sign_up_complete">
+			<button type="submit"
+					class="btn btn-lg btn-primary btn-block"
+					ng-click="signup()"
+					ng-disabled='sign_up_form.$invalid'
+					ng-hide="sign_up_complete">
 				Sign up
 			</button>
+			<div id="linked_in_area">
+				<p class="text-center m-t-sm" ng-hide="sign_up_complete">
+					<small>Or</small>
+				</p>
+				<button type="submit"
+						class="btn btn-lg btn-linkedin btn-block btn-addon"
+						onclick="onLinkedInLoad()"
+						ng-hide="sign_up_complete">
+					<i class="fa fa-fw fa-linkedin"></i>Sign up with LinkedIn
+				</button>
+			</div>
+
+			<div style="display:none;">
+				<script type="IN/Login" data-onAuth="onLinkedInAuth"></script>
+			</div>
+
 		</form>
 		<div class="well bg-black" ng-show="sign_up_complete">
 			<h4 class="text-success">Congratulations!</h4>
 			<p>Your sign up was successful.</p>
 			<p>We now need you to check your email to validate your account.</p>
 		</div>
-		<div class="line line-dashed"></div>
-		<p class="text-center" ng-hide="sign_up_complete">
-			<small>Already have an account?</small>
-		</p>
-		<a ui-sref="access.signin" class="btn btn-lg btn-default btn-block">Sign in</a>
 	</div>
 	<div class="text-center" ng-include="'tpl/blocks/page_footer.html'"></div>
 </div>
