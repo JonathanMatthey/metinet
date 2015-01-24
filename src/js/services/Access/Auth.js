@@ -12,7 +12,11 @@ angular.module('app.services').factory('Auth', [	'Base64',
 	    $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
 
 	    if (typeof($cookieStore.get('authdata')) == "undefined") {
-	        $state.go('access.signin');
+	        if ($state.is('access.signup') || $state.is('access.activate') || $state.is('access.forgotpwd')) {
+	        	return true;
+	        } else {
+				$state.go('access.signin');
+	        }
 	    }
 
 	    return {

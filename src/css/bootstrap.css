@@ -2396,7 +2396,7 @@ input.form-control[readonly] {
   border-top: 0;
   border-left: 0;
   border-right: 0;
-  border-bottom: 1px solid #eee;  
+  border-bottom: 1px solid #eee;
 }
 textarea.form-control[readonly] {
   background: none;
@@ -2406,6 +2406,15 @@ textarea.form-control[readonly] {
 textarea.form-control {
   height: auto;
 }
+
+.form-control.style-colour.ng-invalid {
+  color: #a94442;
+}
+.form-control.style-colour.ng-valid {
+  color: #3c763d;
+}
+
+
 input[type="search"] {
   -webkit-appearance: none;
 }
@@ -2569,13 +2578,18 @@ select[multiple].input-lg {
 }
 .has-success .form-control {
   border-color: #3c763d;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 }
 .has-success .form-control:focus {
   border-color: #2b542c;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168;
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168;
+}
+.list-group-item.has-success {
+  border-color: #3c763d;
+}
+.list-group-item.has-success .form-control:focus {
+  border-color: none!important;
+}
+.list-group-item.has-success .form-control:focus {
+  border-color: none!important;
 }
 .has-success .input-group-addon {
   color: #3c763d;
@@ -2595,14 +2609,20 @@ select[multiple].input-lg {
 }
 .has-warning .form-control {
   border-color: #8a6d3b;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 }
 .has-warning .form-control:focus {
   border-color: #66512c;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b;
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b;
 }
+.list-group-item.has-warning {
+  border-color: #8a6d3b;
+}
+.list-group-item.has-warning .form-control:focus {
+  border-color: none!important;
+}
+.list-group-item.has-warning .form-control:focus {
+  border-color: none!important;
+}
+
 .has-warning .input-group-addon {
   color: #8a6d3b;
   background-color: #fcf8e3;
@@ -2621,14 +2641,20 @@ select[multiple].input-lg {
 }
 .has-error .form-control {
   border-color: #a94442;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 }
 .has-error .form-control:focus {
   border-color: #843534;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
 }
+.list-group-item.has-error .form-control {
+  color: #a94442!important;
+}
+.list-group-item.has-error .form-control:focus {
+  border-color: none!important;
+}
+.list-group-item.has-error .form-control:focus {
+  border-color: none!important;
+}
+
 .has-error .input-group-addon {
   color: #a94442;
   background-color: #f2dede;
