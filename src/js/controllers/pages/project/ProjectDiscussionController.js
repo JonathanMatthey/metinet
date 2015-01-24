@@ -23,6 +23,7 @@ angular.module('app.controllers').controller('ProjectDiscussionController', [  	
 	}).$promise.then(function(response) {
 			$scope.discussion 			= response.data;
 			executeUserPanel();
+			setTimeout(function(){ scrollDiscussionBox(); }, 200);
 		});
 
 	ProjectDiscussions.get({	//	Get the nodes & possible nodes associated with this discussion
@@ -32,6 +33,7 @@ angular.module('app.controllers').controller('ProjectDiscussionController', [  	
 	}).$promise.then(function(response) {
 			$scope.discussion_nodes		= response.data.discussion_nodes;
 			$scope.possible_nodes		= response.data.possible_nodes;
+
 			$scope.nodes_returned		= true;
 		});
 
@@ -105,6 +107,7 @@ angular.module('app.controllers').controller('ProjectDiscussionController', [  	
 
 	$scope.sendPost						= function() {
 		var new_index	= $scope.discussion.posts.push($scope.requested_post) - 1;
+		setTimeout(function(){ scrollDiscussionBox(); }, 10);
 		ProjectDiscussions.save({	//	Tell API to attach the node to this discussion
 			project_id:$stateParams.project_id,
 			discussion_id:$stateParams.discussion_id,
@@ -121,6 +124,12 @@ angular.module('app.controllers').controller('ProjectDiscussionController', [  	
 		var small_users_no			= 4;
 		$scope.total_user_count		= $scope.discussion.users.length - small_users_no;
 		$scope.small_users			= $scope.discussion.users.slice(0, small_users_no);
+	}
+
+	var scrollDiscussionBox			= function() {
+		var discussion_box 		= $('#discussion_box');
+		var height 				= discussion_box[0].scrollHeight;
+		discussion_box.scrollTop(height);
 	}
 
 }]);
