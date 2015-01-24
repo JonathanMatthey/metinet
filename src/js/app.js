@@ -177,7 +177,7 @@ var app = angular.module('app', [	'ngAnimate',
 			})
 				.state('app.page.project.overview', {
 					url:'/overview',
-					templateUrl: 'tpl/project/components/page_project_overview.html',
+					templateUrl: 'tpl/project/components/overview.html',
 					controller: 'ProjectOverviewController',
 					resolve: {
 						deps: ['uiLoad',
@@ -191,37 +191,37 @@ var app = angular.module('app', [	'ngAnimate',
 				})
 				.state('app.page.project.audit-history', {
 					url:'/audit-history',
-					templateUrl: 'tpl/project/components/page_project_audit.html',
+					templateUrl: 'tpl/project/components/audit_history.html',
 					controller: 'ProjectAuditHistoryController'
 				})
 				.state('app.page.project.long-leads', {
 					url:'/long-leads',
-					templateUrl: 'tpl/project/components/page_project_long_leads.html',
+					templateUrl: 'tpl/project/components/long_lead_items.html',
 					controller: 'ProjectLongLeadController'
 				})
 				.state('app.page.project.permits', {
 					url:'/permits',
-					templateUrl: 'tpl/project/components/page_project_permits.html',
+					templateUrl: 'tpl/project/components/permits.html',
 					controller: 'ProjectPermitController'
 				})
 				.state('app.page.project.rfis', {
 					url:'/rfis',
-					templateUrl: 'tpl/project/components/page_project_rfis.html',
+					templateUrl: 'tpl/project/components/rfis.html',
 					controller: 'ProjectRFIController'
 				})
 				.state('app.page.project.discussions', {
-					url:'/discissions',
+					url:'/discussions',
 					templateUrl: 'tpl/project/components/discussions.html',
 					controller: 'ProjectDiscussionsController'
 				})
 					.state('app.page.project.discussion', {
-						url:'/:discussion_id',
+						url:'/discussions/:discussion_id',
 						templateUrl: 'tpl/project/components/discussion.html',
 						controller: 'ProjectDiscussionController'
 					})
 				.state('app.page.project.settings', {
 					url:'/settings',
-					templateUrl: 'tpl/project/components/page_project_settings.html',
+					templateUrl: 'tpl/project/components/settings.html',
 					controller: 'ProjectSettingsController'
 				})
 					.state('app.page.project.settings.general', {
@@ -251,7 +251,7 @@ var app = angular.module('app', [	'ngAnimate',
 					})
 				.state('app.page.project.tasks', {
 					url:'/tasks',
-					templateUrl: 'tpl/project/components/page_project_leaf_nodes.html',
+					templateUrl: 'tpl/project/components/leaf_nodes.html',
 					controller: 'ProjectLeafNodeController'
 				})
 				.state('app.page.project.task', {
@@ -399,37 +399,65 @@ var app = angular.module('app', [	'ngAnimate',
  * value: array of the css js file located
  */
 .constant('JQ_CONFIG', {
-		easyPieChart:   ['js/jquery/charts/easypiechart/jquery.easy-pie-chart.js'],
-		sparkline:      ['js/jquery/charts/sparkline/jquery.sparkline.min.js'],
-		plot:           ['js/jquery/charts/flot/jquery.flot.min.js',
+		easyPieChart:   [
+							'js/jquery/charts/easypiechart/jquery.easy-pie-chart.js'
+						],
+		sparkline:      [
+							'js/jquery/charts/sparkline/jquery.sparkline.min.js'
+						],
+		plot:           [
+							'js/jquery/charts/flot/jquery.flot.min.js',
 							'js/jquery/charts/flot/jquery.flot.resize.js',
 							'js/jquery/charts/flot/jquery.flot.tooltip.min.js',
 							'js/jquery/charts/flot/jquery.flot.spline.js',
 							'js/jquery/charts/flot/jquery.flot.orderBars.js',
 							'js/jquery/charts/flot/jquery.flot.time.js',
-							'js/jquery/charts/flot/jquery.flot.pie.min.js'],
-		slimScroll:     ['js/jquery/slimscroll/jquery.slimscroll.min.js'],
-		sortable:       ['js/jquery/sortable/jquery.sortable.js'],
-		nestable:       ['js/jquery/nestable/jquery.nestable.js',
-							'js/jquery/nestable/nestable.css'],
-		filestyle:      ['js/jquery/file/bootstrap-filestyle.min.js'],
-		slider:         ['js/jquery/slider/bootstrap-slider.js',
-							'js/jquery/slider/slider.css'],
-		chosen:         ['js/jquery/chosen/chosen.jquery.min.js',
-							'js/jquery/chosen/chosen.css'],
-		TouchSpin:      ['js/jquery/spinner/jquery.bootstrap-touchspin.min.js',
-							'js/jquery/spinner/jquery.bootstrap-touchspin.css'],
-		wysiwyg:        ['js/jquery/wysiwyg/bootstrap-wysiwyg.js',
-							'js/jquery/wysiwyg/jquery.hotkeys.js'],
-		dataTable:      ['js/jquery/datatables/jquery.dataTables.min.js',
+							'js/jquery/charts/flot/jquery.flot.pie.min.js'
+						],
+		slimScroll:     [
+							'js/jquery/slimscroll/jquery.slimscroll.min.js'
+						],
+		sortable:       [
+							'js/jquery/sortable/jquery.sortable.js'
+						],
+		nestable:       [
+							'js/jquery/nestable/jquery.nestable.js',
+							'js/jquery/nestable/nestable.css'
+						],
+		filestyle:      [
+							'js/jquery/file/bootstrap-filestyle.min.js'
+						],
+		slider:         [
+							'js/jquery/slider/bootstrap-slider.js',
+							'js/jquery/slider/slider.css'
+						],
+		chosen:         [
+							'js/jquery/chosen/chosen.jquery.min.js',
+							'js/jquery/chosen/chosen.css'
+						],
+		TouchSpin:      [
+							'js/jquery/spinner/jquery.bootstrap-touchspin.min.js',
+							'js/jquery/spinner/jquery.bootstrap-touchspin.css'
+						],
+		wysiwyg:        [
+							'js/jquery/wysiwyg/bootstrap-wysiwyg.js',
+							'js/jquery/wysiwyg/jquery.hotkeys.js'
+						],
+		dataTable:      [
+							'js/jquery/datatables/jquery.dataTables.min.js',
 							'js/jquery/datatables/dataTables.bootstrap.js',
-							'js/jquery/datatables/dataTables.bootstrap.css'],
-		vectorMap:      ['js/jquery/jvectormap/jquery-jvectormap.min.js',
+							'js/jquery/datatables/dataTables.bootstrap.css'
+						],
+		vectorMap:      [
+							'js/jquery/jvectormap/jquery-jvectormap.min.js',
 							'js/jquery/jvectormap/jquery-jvectormap-world-mill-en.js',
 							'js/jquery/jvectormap/jquery-jvectormap-us-aea-en.js',
-							'js/jquery/jvectormap/jquery-jvectormap.css'],
-		footable:       ['js/jquery/footable/footable.all.min.js',
-							'js/jquery/footable/footable.core.css']
+							'js/jquery/jvectormap/jquery-jvectormap.css'
+						],
+		footable:       [
+							'js/jquery/footable/footable.all.min.js',
+							'js/jquery/footable/footable.core.css'
+						]
 		}
 )
 

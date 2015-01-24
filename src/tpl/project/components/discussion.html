@@ -1,0 +1,142 @@
+<!-- hbox layout -->
+<div class="hbox hbox-auto-xs bg-light " ng-init="
+	app.settings.asideFolded = true;
+	app.settings.asideFixed = true;
+	app.settings.asideDock = false;
+	app.settings.container = false;
+	app.hideAside = false
+	">
+	<!-- column -->
+	<div class="col w-md lter b-r">
+		<div class="vbox">
+			<div class="row-row">
+				<div class="cell scrollable hover">
+					<div class="cell-inner">
+
+						<div class="panel panel-default m-b-none b-0">
+
+							<div class="panel-heading">
+								<i class="fa fa-fw fa-comments"></i>&nbsp;&nbsp;{{ discussion.subject }}
+							</div>
+
+							<div class="panel-body" ng-show="discussion">
+
+								<a 	ng-repeat="user in small_users"
+									ui-sref="app.page.profile({id:user.id})"
+									class="avatar thumb-xs m-r-xs">
+									<img src="img/a7.jpg" alt="...">
+									<i class="on b-white"></i>
+								</a>
+								<p class="m-t-sm">
+									<a href="" class="btn btn-xs">
+										+{{ total_user_count }} more users
+									</a>
+								</p>
+
+								<div ng-show="updates_request_processing">
+									<button class="btn btn-default btn-xs text-center btn-block">
+										<i class="fa fa-fw fa-spin fa-refresh"></i>
+									</button>
+								</div>
+								<div ng-hide="updates_request_processing">
+									<button class="btn btn-success btn-xs btn-block"
+											ng-click="requestUpdates()"
+											ng-hide="discussion.user_receiving_updates">Request Updates</button>
+									<button class="btn btn-danger btn-xs btn-block"
+											ng-click="stopUpdates()"
+											ng-show="discussion.user_receiving_updates">Stop Updates</button>
+								</div>
+
+							</div>
+
+							<div class="list-group">
+								<div class="list-group-item text-sm padder-v-xs">
+									Associated Tasks
+									<i class="fa fa-fw fa-spin fa-refresh pull-right" ng-hide="nodes_returned"></i>
+								</div>
+								<a href="" class="list-group-item no-hover">
+									<input 	type="text"
+											class="form-control input-sm"
+											placeholder="Attach Task"
+											ng-model="selected_node"
+											typeahead="node as node.name for node in possible_nodes"
+											typeahead-on-select="addNode($item, $model)"
+											typeahead-editable="false"
+											ng-disabled="!possible_nodes">
+								</a>
+								<a 	ng-click="detachNode($index)"
+									ng-repeat="node in discussion_nodes"
+									class="list-group-item text-xs padder-v-xs b-0 node-{{ node.id }}">
+									{{ node.name }}
+								</a>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /column -->
+
+	<!-- column -->
+	<div class="col">
+		<div class="vbox">
+			<div class="row-row">
+				<div class="cell">
+					<div class="cell-inner">
+
+						<div class="wrapper-lg">
+							<div class="m-b b-l m-l-md streamline">
+
+								<div ng-repeat="post in discussion.posts">
+									<a class="pull-left thumb-sm avatar m-l-n-md">
+										<img src="img/a1.jpg" class="img-circle" alt="...">
+									</a>
+									<div class="m-l-lg panel b-a">
+										<div class="panel-heading pos-rlt b-b b-light">
+											<span class="arrow left"></span>
+											<a ui-sref="app.page.profile({id:post.created_data.user.id})">
+												{{ post.created_data.user.fullname }}
+											</a>
+											<span class="text-muted m-l-sm pull-right">
+												<i class="fa fa-clock-o"></i>
+												{{ post.created_data.time.date | fromNow }}
+											</span>
+										</div>
+										<div class="panel-body">
+											<div ng-bind="post.message"></div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="clearfix padder-lg p-t-sm b-t">
+				<a class="pull-left thumb-sm avatar"><img src="img/a6.jpg" alt="..."></a>
+				<div class="m-l-xxl">
+					<form class="m-b-none ng-pristine ng-valid">
+						<textarea 	type="text"
+									class="form-control"
+									ng-model="requested_post.message"
+									ng-disabled="!discussion"
+									placeholder="Input your comment here"></textarea>
+						<div class="well wrapper-xs clearfix">
+							<button class="btn btn-primary btn-sm pull-right"
+									ng-disabled="!discussion"
+									ng-click="sendPost()">Post</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /column -->
+
+</div>
+<!-- /hbox layout -->

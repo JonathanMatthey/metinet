@@ -4073,6 +4073,14 @@ a.text-#000000:hover {
   padding-top: 0 !important;
 }
 
+.p-t-xs {
+  padding-top: 5px !important;
+}
+
+.p-t-sm {
+  padding-top: 10px !important;
+}
+
 .p-b-0 {
   padding-bottom: 0 !important;
 }
@@ -4080,6 +4088,11 @@ a.text-#000000:hover {
 .padder-v-0 {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
+}
+
+.padder-v-xs {
+  padding-top: 5px!important;
+  padding-bottom: 5px!important;
 }
 
 .padder-h-0 {

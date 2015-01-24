@@ -1,0 +1,55 @@
+<div class="bg-light lter b-b wrapper-md">
+	<div class="pull-right clearfix">
+		<input 	id="filter"
+				type="text"
+				class="form-control input-sm w-md inline m-r"
+				ng-disabled="!discussions"
+				placeholder="Search..."/>
+		<button class="btn btn-primary btn-sm btn-addon">
+			<i class="fa fa-plus"></i>Add Discussion
+		</button>
+	</div>
+	<h1 class="m-n font-thin h3">Discussions</h1>
+</div>
+<div class="wrapper-md">
+	<div class="panel panel-default">
+		<div>
+			<table class="table m-b-none footable" ui-jq="footable" data-filter="#filter" data-page-size="10">
+			<tbody>
+				<tr ng-hide="discussions">
+					<td class="text-center"><i class="fa fa-fw fa-spin fa-refresh"></i>&nbsp;&nbsp;Loading Discussions...</td>
+				</tr>
+				<tr ng-repeat="discussion in discussions"
+					ui-sref="app.page.project.discussion({project_id:$stateParams.project_id, discussion_id:discussion.id})"
+					class="pointer"
+					ng-show="discussions">
+					<td>
+						<article class="media">
+							<div class="media-body">
+								<a 	class="h4"
+									ng-bind="discussion.subject"></a>
+								<br>
+								<em class="text-xs">
+									Last Updated:
+									<span ng-bind="discussion.updated.data.time | formatFullDate"></span>
+								</em>
+								<small class="block m-t-xs">
+									<span class="font-bold">{{ discussion.posts[0].created_data.user.fullname }}:&nbsp;</span>
+									{{ discussion.posts[0].message | limitTo:100 }}...
+								</small>
+							</div>
+						</article>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot class="hide-if-no-paging" ng-show="discussions">
+				<tr>
+					<td colspan="5" class="text-center">
+						<ul class="pagination"></ul>
+					</td>
+				</tr>
+			</tfoot>
+			</table>
+		</div>
+	</div>
+</div>
