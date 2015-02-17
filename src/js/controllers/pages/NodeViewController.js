@@ -39,7 +39,7 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 							projected: 0
 						}
 
-	$scope.data2				= [50, 50, 50, 50, 50, 50, 50, 50];
+	$scope.data2				= [0, 0, 0, 0, 0, 0, 0, 0];
 
 
 	$scope.options = {
@@ -67,7 +67,6 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 	initialiseWebSockets = function() {
 		var channel = pusher.subscribe('Node_'+$stateParams.node_id);
 		channel.bind('audit-trail', function(data) {
-			console.log(data);
 			$scope.node_audit_history.unshift(data[0]);
 			$scope.node_audit_history.pop();
 			$scope.$apply();
@@ -82,33 +81,37 @@ angular.module('app.controllers').controller('NodeViewController', [	'$scope',
 			$scope.percent.progress 	= res.data.progress;
 			$scope.percent.projected 	= res.data.projected_progress;
 
-			var i;
-			var sparkline_plot = [];
-			for (i = 0; i < res.data.recent_progress.length; i++) {
-				sparkline_plot.push(res.data.recent_progress[i].progress);
+			if (res.recent_progress) {
+
+				var i;
+				var sparkline_plot = [];
+				for (i = 0; i < res.data.recent_progress.length; i++) {
+					sparkline_plot.push(res.data.recent_progress[i].progress);
+				}
+
+				var number_of_points 		= res.data.recent_progress.length;
+				$scope.progress_change 		= Math.round((res.data.recent_progress[0].progress - res.data.recent_progress[(number_of_points - 1)].progress) * -1);
+
+				$('#progress_graph').sparkline(sparkline_plot, {	type: 'line',
+														height: 65,
+														width: '100%',
+														lineWidth: 2,
+														valueSpots: {'0:':'#fff'},
+														lineColor: '#fff',
+														spotColor: '#fff',
+														fillColor: '',
+														highlightLineColor: '#fff',
+														spotRadius: 3 	});
+
 			}
-
-			var number_of_points 		= res.data.recent_progress.length;
-			$scope.progress_change 		= Math.round((res.data.recent_progress[0].progress - res.data.recent_progress[(number_of_points - 1)].progress) * -1);
-
-			$('#progress_graph').sparkline(sparkline_plot, {	type: 'line',
-													height: 65,
-													width: '100%',
-													lineWidth: 2,
-													valueSpots: {'0:':'#fff'},
-													lineColor: '#fff',
-													spotColor: '#fff',
-													fillColor: '',
-													highlightLineColor: '#fff',
-													spotRadius: 3 	});
-
-			$scope.node_returned 		= true;
 
 			if ($scope.node.is_leaf) {
 				// get permits / longleads
 				$scope.getPermits();
 				$scope.getLongLeads();
 			}
+
+			$scope.node_returned 		= true;
 	});
 
 	$scope.editNode = function() {

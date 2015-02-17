@@ -3,13 +3,13 @@
 	<li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
 		<span translate="aside.nav.HEADER">Navigation</span>
 	</li>
-	<li ui-sref-active="active">
+	<li ui-sref-active="active" id="home_link">
 		<a ui-sref="app.home">
 			<i class="fa fa-laptop text-lg icon text-primary"></i>
 			<span class="font-bold">Home</span>
 		</a>
 	</li>
-	<li ui-sref-active="active">
+	<li ui-sref-active="active" id="inbox_link">
 		<a ui-sref="app.mail.list">
 			<b 	class="badge bg-metinet pull-right"
 				ng-show="unread_conversation_count > 0"
@@ -18,92 +18,92 @@
 			<span class="font-bold">Messaging</span>
 		</a>
 	</li>
-	<li ui-sref-active="active">
+	<li ui-sref-active="active" id="profile_link">
 		<a ui-sref="app.page.profile({id:user_data.id})">
 			<i class="icon-user text-lg icon text-primary"></i>
 			<span class="font-bold">Profile</span>
 		</a>
 	</li>
-	<li ui-sref-active="active">
+	<li ui-sref-active="active" ng-show="user_has_network">
 		<a ui-sref="app.page.network({id:user_data.network.id})">
 			<i class="fa fa-fw fa-building-o text-lg icon text-primary"></i>
 			<span class="font-bold">{{ user_data.network.name }}</span>
 		</a>
 	</li>
-	<li ui-sref-active="active">
+	<li ui-sref-active="active" ng-show="user_has_network">
 		<a ui-sref="app.page.projects">
 			<i class="icon-globe text-primary"></i>
 			<span class="font-bold">Projects</span>
 		</a>
 	</li>
 
-	<li ui-sref-active="active"
-		class="bg-lighter"
-		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')">
-		<a ui-sref="app.page.project.overview({project_id:$stateParams.project_id})">
-			<i class="fa fa-fw fa-globe text-primary"></i>
-			<span class="font-bold">Project Overview</span>
-		</a>
-	</li>
+		<li ui-sref-active="active"
+			class="bg-lighter"
+			ng-show="($state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')) && user_has_network">
+			<a ui-sref="app.page.project.overview({project_id:$stateParams.project_id})">
+				<i class="fa fa-fw fa-globe text-primary"></i>
+				<span class="font-bold">Project Overview</span>
+			</a>
+		</li>
 
-	<li ui-sref-active="active"
-		class="bg-lighter"
-		ng-show="($state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')) && current_project.long_lead_items">
-		<a ui-sref="app.page.project.long-leads({project_id:$stateParams.project_id})">
-			<i class="fa fa-fw fa-tags text-primary"></i>
-			<span class="font-bold">Long Lead Items</span>
-		</a>
-	</li>
+		<li ui-sref-active="active"
+			class="bg-lighter"
+			ng-show="($state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')) && current_project.long_lead_items && user_has_network">
+			<a ui-sref="app.page.project.long-leads({project_id:$stateParams.project_id})">
+				<i class="fa fa-fw fa-tags text-primary"></i>
+				<span class="font-bold">Long Lead Items</span>
+			</a>
+		</li>
 
-	<li ui-sref-active="active"
-		class="bg-lighter"
-		ng-show="($state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')) && current_project.permit_assessment">
-		<a ui-sref="app.page.project.permits({project_id:$stateParams.project_id})">
-			<i class="fa fa-fw fa-certificate text-primary"></i>
-			<span class="font-bold">Permits</span>
-		</a>
-	</li>
+		<li ui-sref-active="active"
+			class="bg-lighter"
+			ng-show="($state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')) && current_project.permit_assessment && user_has_network">
+			<a ui-sref="app.page.project.permits({project_id:$stateParams.project_id})">
+				<i class="fa fa-fw fa-certificate text-primary"></i>
+				<span class="font-bold">Permits</span>
+			</a>
+		</li>
 
-	<li ui-sref-active="active"
-		class="bg-lighter"
-		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')">
-		<a ui-sref="app.page.project.rfis({project_id:$stateParams.project_id})">
-			<i class="fa fa-fw fa-edit text-primary"></i>
-			<span class="font-bold">RFIs</span>
-		</a>
-	</li>
+		<li ui-sref-active="active"
+			class="bg-lighter"
+			ng-show="($state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')) && user_has_network">
+			<a ui-sref="app.page.project.rfis({project_id:$stateParams.project_id})">
+				<i class="fa fa-fw fa-edit text-primary"></i>
+				<span class="font-bold">RFIs</span>
+			</a>
+		</li>
 
-	<li ui-sref-active="active"
-		class="bg-lighter"
-		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')">
-		<a ui-sref="app.page.gantt({project_id:$stateParams.project_id})">
-			<i class="fa fa-fw fa-tasks text-primary"></i>
-			<span class="font-bold">Gantt Chart</span>
-		</a>
-	</li>
+		<li ui-sref-active="active"
+			class="bg-lighter"
+			ng-show="($state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')) && user_has_network">
+			<a ui-sref="app.page.gantt({project_id:$stateParams.project_id})">
+				<i class="fa fa-fw fa-tasks text-primary"></i>
+				<span class="font-bold">Gantt Chart</span>
+			</a>
+		</li>
 
-	<li ui-sref-active="active"
-		class="bg-lighter"
-		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')">
-		<a ui-sref="app.page.project.discussions({project_id:$stateParams.project_id})">
-			<i class="fa fa-fw fa-comments text-primary"></i>
-			<span class="font-bold">Discussions</span>
-		</a>
-	</li>
+		<li ui-sref-active="active"
+			class="bg-lighter"
+			ng-show="($state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')) && user_has_network">
+			<a ui-sref="app.page.project.discussions({project_id:$stateParams.project_id})">
+				<i class="fa fa-fw fa-comments text-primary"></i>
+				<span class="font-bold">Discussions</span>
+			</a>
+		</li>
 
-	<li ui-sref-active="active"
-		class="bg-lighter"
-		ng-show="$state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')">
-		<a ui-sref="app.page.project.settings.general({project_id:$stateParams.project_id})">
-			<i class="fa fa-fw fa-cogs text-primary"></i>
-			<span class="font-bold">Project Settings</span>
-		</a>
-	</li>
+		<li ui-sref-active="active"
+			class="bg-lighter"
+			ng-show="($state.includes('app.page.project') || $state.includes('app.page.nodes') || $state.includes('app.page.gantt')) && user_has_network">
+			<a ui-sref="app.page.project.settings.general({project_id:$stateParams.project_id})">
+				<i class="fa fa-fw fa-cogs text-primary"></i>
+				<span class="font-bold">Project Settings</span>
+			</a>
+		</li>
 
 	<li class="line dk"></li>
 
 	<li ui-sref-active="active">
-		<a ui-sref="app.page.settings">
+		<a ui-sref="app.page.settings.account">
 			<i class="fa fa-fw fa-cog icon text-primary"></i>
 			<span class="font-bold">Settings</span>
 		</a>

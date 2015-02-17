@@ -1,6 +1,6 @@
 angular.module('app.services')
 	.factory('Networks', ['$resource', '$rootScope', function($resource, $rootScope) {
-		return $resource($rootScope.api_url+'/networks/:id',{
+		return $resource($rootScope.api_url_version+'/networks/:id',{
 			id:'@_id'
 		}, {
 			query: {

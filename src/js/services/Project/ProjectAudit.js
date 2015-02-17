@@ -1,6 +1,6 @@
 angular.module('app.services')
 	.factory('ProjectAudit', ['$resource', '$rootScope', function($resource, $rootScope) {
-		return $resource($rootScope.api_url+'/projects/:project_id/audit/:skip',	{
+		return $resource($rootScope.api_url_version+'/projects/:project_id/audit/:skip',	{
 			project_id:'@_project_id',
 			skip:'@_skip'
 		}, {

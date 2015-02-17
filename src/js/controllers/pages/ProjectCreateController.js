@@ -1,9 +1,11 @@
 angular.module('app.controllers').controller('ProjectCreateController', [	'$scope',
+																			'$rootScope',
 																			'$state',
 																			'Countries',
 																			'Currencies',
-																			'Networks', 
+																			'Networks',
 																			'Project', 	function(	$scope,
+																									$rootScope,
 																									$state,
 																									Countries,
 																									Currencies,
@@ -24,10 +26,10 @@ angular.module('app.controllers').controller('ProjectCreateController', [	'$scop
 		step4: false
 	}
 
-	$scope.marker_moved 				= false;		
+	$scope.marker_moved 				= false;
 
-	$scope.map = { 
-			center: { 
+	$scope.map = {
+			center: {
 				latitude: $scope.new_project.lat,
 				longitude: $scope.new_project.lng
 			},
@@ -70,7 +72,7 @@ angular.module('app.controllers').controller('ProjectCreateController', [	'$scop
 							$('#map-request-result').removeClass('alert-info alert-warning');
 							$('#map-request-result').addClass('alert-warning');
 							$('#map-request-result').html('It appears you did not select a land mass.  Please select the data below manually.');
-							$scope.marker_moved = false;										
+							$scope.marker_moved = false;
 						});
 				}
 			}
@@ -79,6 +81,7 @@ angular.module('app.controllers').controller('ProjectCreateController', [	'$scop
 	Countries.get()
 		.$promise.then(function(res) {
 			$scope.countries = res.data;
+			console.log($scope.countries);
 		});
 
 	Currencies.get()
@@ -99,7 +102,7 @@ angular.module('app.controllers').controller('ProjectCreateController', [	'$scop
 		var center 	= map.getCenter();
 		google.maps.event.trigger(map, "resize");
 		map.setZoom(zoom);
-		map.setCenter(center);		
+		map.setCenter(center);
 	}
 
 	$scope.createProject = function() {
@@ -108,10 +111,14 @@ angular.module('app.controllers').controller('ProjectCreateController', [	'$scop
 		$('#creating-project-visual').html('<i class="fa fa-fw fa-spin fa-refresh"></i>&nbsp;&nbsp;Creating Your Project...');
 		Project.store({}, $scope.new_project)
 			.$promise.then(function(res) {
+				// Reset user projects, so the header controller automatically loads them all again to include the new one.
+				$rootScope.user_projects	= null;
+				//	Redirect the user to the projects page.
 				$state.go('app.page.projects');
 			}, function(res) {
 				$('#creating-project-visual').addClass('text-danger');
 				$('#creating-project-visual').html('<i class="fa fa-fw fa-exclamation"></i>Something went wrong. Please try again later.');
 			});
 	};
+
 }]);

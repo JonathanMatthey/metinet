@@ -257,7 +257,7 @@ angular.module('app.controllers').controller('ProjectSettingsController', [ '$sc
 		{
 			state: 	'app.page.project.settings.tracking',
 			name:   'Tracking Settings',
-			icon:   'fa-line-chart'
+			icon:   'fa-binoculars'
 		}
 	];
 

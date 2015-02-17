@@ -1,0 +1,36 @@
+<h3 class="m-t-none m-b-none font-thin wrapper">
+	Import Project File
+</h3>
+<div class="row">
+	<div class="modal-body padder-v-0">
+		<div class="row">
+			<div class="col-sm-12">
+
+				<div class="panel-body">
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-change="change()">
+							Overwrite all current data
+						</label>
+					</div>
+
+					<div class="m-b">
+						<input type="file" nv-file-select="" uploader="uploader" />
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<div class="m-t-none m-b-none font-thin wrapper p-t-0">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="pull-right clearfix">
+				<a class="btn btn-default" ng-click="cancel()">Cancel</a>
+				<a class="btn btn-primary btn-upload" ng-click="ok()">Upload</a>
+			</div>
+		</div>
+	</div>
+</div>

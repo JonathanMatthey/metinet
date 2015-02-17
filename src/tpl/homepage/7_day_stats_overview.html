@@ -63,39 +63,4 @@
 		    </div>
 		</div>
 	</div>
-	<div class="b-t b-light bg-white row text-center no-gutter" ng-hide="seven_day == 'NO DATA'">
-		<div class="col-xs-4">
-			<div class="wrapper">
-				<span>Overall Progress Change</span>
-				<div class="h1 text-muted font-thin ng-binding" ng-hide="seven_day">
-					<i class="fa fa-spin fa-refresh"></i>
-				</div>
-				<div class="h1 text-info font-thin ng-binding" ng-show="seven_day">
-					{{ seven_day.overall_change }}%
-				</div>
-			</div>
-		</div>
-		<div class="col-xs-4">
-			<div class="wrapper">
-				<span>Projected Overall Progress Change</span>
-				<div class="h1 text-muted font-thin ng-binding" ng-hide="seven_day">
-					<i class="fa fa-spin fa-refresh"></i>
-				</div>
-				<div class="h1 text-info font-thin ng-binding" ng-show="seven_day">
-					{{ seven_day.overall_projected_change }}%
-				</div>
-			</div>
-		</div>
-		<div class="col-xs-4">
-			<div class="wrapper">
-				<span>Active Tasks</span>
-				<div class="h1 text-muted font-thin ng-binding" ng-hide="current_tasks">
-					<i class="fa fa-spin fa-refresh"></i>
-				</div>
-				<div class="h1 text-info font-thin ng-binding" ng-show="current_tasks">
-					{{ current_tasks.length }}
-				</div>
-			</div>
-		</div>
-	</div>
 </div>

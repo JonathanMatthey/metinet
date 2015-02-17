@@ -11,14 +11,6 @@ angular.module('app.services').factory('Auth', [	'Base64',
 	    // initialize to whatever is in the cookie, if anything
 	    $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
 
-	    if (typeof($cookieStore.get('authdata')) == "undefined") {
-	        if ($state.is('access.signup') || $state.is('access.activate') || $state.is('access.forgotpwd')) {
-	        	return true;
-	        } else {
-				$state.go('access.signin');
-	        }
-	    }
-
 	    return {
 			getCredential: function(credentialField){
 				var value					= $cookieStore.get(credentialField);
@@ -26,7 +18,9 @@ angular.module('app.services').factory('Auth', [	'Base64',
 				return value;
 			},
 			setCredentials: function(username, password, user_data) {
+				console.log(username, password);
 	            var encoded = Base64.encode(username + ':' + password);
+				console.log(encoded);
 				$http.defaults.headers.common.Authorization = 'Basic ' + encoded;
 
 				$cookieStore.put('authdata', encoded);
@@ -35,7 +29,7 @@ angular.module('app.services').factory('Auth', [	'Base64',
 				$rootScope.user_data				= user_data;
 				$cookieStore.put('user_data', user_data);
 
-				var user_has_network 				= (user_data.network != null) ? true : false;
+				var user_has_network 				= (user_data.network != null && (user_data.network.pivot.network_confirm)) ? true : false;
 				$rootScope.user_has_network			= user_has_network;
 				$cookieStore.put('user_has_network', user_has_network);
 
@@ -53,8 +47,11 @@ angular.module('app.services').factory('Auth', [	'Base64',
 				$cookieStore.remove('user_is_network_super_admin');
 
 				$cookieStore.put('user_data', user_data);
+				$rootScope.user_data = user_data;
 
-				var user_has_network 				= (user_data.network != null) ? true : false;
+				console.log($rootScope.user_data);
+
+				var user_has_network 				= (user_data.network != null && (user_data.network.pivot.network_confirm)) ? true : false;
 				$cookieStore.put('user_has_network', user_has_network);
 				if (user_has_network) {
 					var user_is_network_admin 		= (user_data.network.pivot.role < 3) ? true : false;

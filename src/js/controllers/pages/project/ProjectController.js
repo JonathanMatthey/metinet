@@ -1,10 +1,12 @@
 angular.module('app.controllers').controller('ProjectController', [ '$scope',
 																	'$rootScope',
+																	'$state',
 																	'$stateParams',
 																	'Project',
 																	'ProjectAudit',
 																	'ProjectJobs',	function(   $scope,
 																								$rootScope,
+																								$state,
 																								$stateParams,
 																								Project,
 																								ProjectAudit,
@@ -41,6 +43,10 @@ angular.module('app.controllers').controller('ProjectController', [ '$scope',
 			$scope.project 				= res.data;
 			$scope.user_admin_level		= res.data.pivot.role;
 			$rootScope.current_project	= res.data;
+		}, function(res) {
+			if (res.status == 403) {
+				$state.go('app.home');
+			}
 		});
 
 	ProjectAudit.get({project_id:$stateParams.project_id})

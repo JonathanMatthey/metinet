@@ -1,6 +1,6 @@
 angular.module('app.services')
 	.factory('UserConnections', ['$resource', '$rootScope', function($resource, $rootScope) {
-			return $resource($rootScope.api_url+'/user/:id/connections',{
+			return $resource($rootScope.api_url_version+'/users/:id/connections',{
 			id:'@id'
 		},{
 			query: {

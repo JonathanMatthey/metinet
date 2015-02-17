@@ -1,6 +1,6 @@
 angular.module('app.services')
 	.factory('ProjectRFIs', ['$resource', '$rootScope', function($resource, $rootScope) {
-		return $resource($rootScope.api_url+'/projects/:id/rfis/:rfi_id',{
+		return $resource($rootScope.api_url_version+'/projects/:id/rfis/:rfi_id',{
 			id:'@_id',
 			rfi_id:'@rfi_id'
 		},{

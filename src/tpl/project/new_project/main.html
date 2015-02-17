@@ -36,7 +36,7 @@
 									class="form-control"
 									ng-model="new_project.name"
 									ng-minlength="5"
-									required>							
+									required>
 						</div>
 						<div class="form-group">
 							<p>
@@ -51,7 +51,7 @@
 							</p>
 							<div ng-controller="DatepickerDemoCtrl">
 								<div class="input-group">
-									<input 	type="text" 
+									<input 	type="text"
 											name="start_date"
 											class="form-control"
 											datepicker-popup="{{ format }}"
@@ -66,7 +66,7 @@
 										</button>
 									</span>
 								</div>
-							</div>										
+							</div>
 						</div>
 						<div class="form-group">
 							<p>
@@ -78,10 +78,10 @@
 									<i class="fa fa-fw fa-exclamation m-l-xs"></i>
 									The end date must be a date.
 								</span>
-							</p>				
+							</p>
 							<div ng-controller="DatepickerDemoCtrl">
 								<div class="input-group">
-									<input 	type="text" 
+									<input 	type="text"
 											name="end_date"
 											class="form-control"
 											datepicker-popup="{{ format }}"
@@ -94,9 +94,9 @@
 										<button type="button" class="btn btn-default" ng-click="open($event)">
 											<i class="glyphicon glyphicon-calendar"></i>
 										</button>
-									</span>								
+									</span>
 								</div>
-							</div>									
+							</div>
 						</div>
 
 					</div>
@@ -121,7 +121,7 @@
 <!-- 		START: COMPANY INFORMATION -->
 		<tab 	heading="Company"
  				disabled="step1.$invalid"
- 				class="tab-button" 				
+ 				class="tab-button"
 				active="steps.step2"
 				select="steps.percent=40">
 			<h4>Company Information</h4>
@@ -159,7 +159,7 @@
 									placeholder="Search Networks..."
 									typeahead="network as network.name for network in networks | filter:$viewValue | limitTo:8"
 									required
-									autocomplete="off"									
+									autocomplete="off"
 									class="form-control">
 						</div>
 						<div class="form-group">
@@ -171,7 +171,7 @@
 									ng-model="new_project.consultant"
 									placeholder="Search Networks..."
 									typeahead="network as network.name for network in networks | filter:$viewValue | limitTo:8"
-									autocomplete="off"									
+									autocomplete="off"
 									class="form-control">
 						</div>
 
@@ -197,7 +197,7 @@
 <!-- 		START: LOCATION INFORMATION -->
 		<tab 	heading="Location"
  				disabled="step1.$invalid || step2.$invalid"
- 				class="tab-button" 				
+ 				class="tab-button"
 				active="steps.step3"
 				select="steps.percent=60"
 				ng-click="redrawMap()">
@@ -229,7 +229,7 @@
 										ng-selected="new_project.country_id == country.iso"
 										ng-model="new_project.country_id"
 										ng-disabled="marker_moved">{{ country.nicename }}</option>
-							</select>				
+							</select>
 						</div>
 						<div class="col-sm-6">
 							<label>Currency</label>
@@ -237,7 +237,7 @@
 								<option value="{{ currency.code }}"
 										ng-repeat="currency in currencies"
 										ng-selected="new_project.currency_id == currency.code"
-										ng-model="new_project.currency_id"							
+										ng-model="new_project.currency_id"
 										ng-disabled="marker_moved">{{ currency.name }} [{{ currency.symbol }}]</option>
 							</select>
 						</div>
@@ -336,7 +336,7 @@
 <!-- 		START: CREATING PROJECT -->
 		<tab 	heading="Create Project"
  				disabled="step1.$invalid || step2.$invalid || step3.$invalid || step4.$invalid"
- 				class="tab-button" 				
+ 				class="tab-button"
 				ng-click="createProject()"
 				select="steps.percent=100">
 			<div class="text-center wrapper-xl text-lg" id="creating-project-visual">

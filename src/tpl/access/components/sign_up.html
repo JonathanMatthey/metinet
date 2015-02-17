@@ -1,31 +1,3 @@
-<script type="text/javascript" src="https://platform.linkedin.com/in.js">
-	api_key: 77q6eqq38byw5y
-	authorize: true
-	scope: r_fullprofile r_emailaddress
-</script>
-<script type="text/javascript">
-	function onLinkedInLoad() {
-		IN.ENV.js.scope = new Array();
-		IN.ENV.js.scope[0] = 'r_emailaddress';
-		IN.User.authorize();
-		IN.Event.on(IN, "auth", onLinkedIn);
-	}
-	function onLinkedInAuth() {
-		IN.API.Profile("me").fields("id,firstName,lastName,headline,emailAddress").result(displayProfiles);
-	}
-	function displayProfiles(profiles) {
-		var member 	= profiles.values[0];
-		var scope 	= $('#sign_in_controller').scope();
-		scope.$apply(function() {
-			scope.user_data.firstname 		= member.firstName;
-			scope.user_data.lastname 		= member.lastName;
-			scope.user_data.email 			= member.emailAddress;
-			scope.user_data.linked_in_id 	= member.id;
-		});
-		$('#linked_in_area').hide();
-	}
-</script>
-
 <div 	id="sign_in_controller"
 		class="container w-xxl w-auto-xs" ng-init="app.settings.container = false;"
 		ng-controller="SignUpController">
@@ -117,7 +89,7 @@
 			</div>
 
 			<div style="display:none;">
-				<script type="IN/Login" data-onAuth="onLinkedInAuth"></script>
+				<script type="IN/Login"></script>
 			</div>
 
 		</form>

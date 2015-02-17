@@ -29,7 +29,7 @@
 				<span><i class="fa fa-fw fa-laptop"></i>&nbsp;&nbsp;Home</span>
 			</a>
 		</li>
-		<li class="pos-stc" dropdown ng-click="getProjects()">
+		<li class="pos-stc" dropdown ng-click="getProjects()" ng-show="user_has_network">
 			<a dropdown-toggle>
 				<span>Projects</span>
 				<span class="caret"></span>
@@ -85,7 +85,7 @@
 				</div>
 			</div>
 		</li>
-		<li ng-show="user_data.network">
+		<li ng-show="user_has_network">
 			<a ui-sref="app.page.network({ id:user_data.network.id })">
 				<i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
 				<span>{{ user_data.network.name }}</span>
@@ -163,17 +163,17 @@
 					</a>
 				</li>
 				<li>
-					<a ui-sref="app.page.settings">
+					<a ui-sref="app.page.settings.account">
 						Settings
 					</a>
 				</li>
 				<li class="divider"></li>
-				<li>
+				<li ng-show="user_has_network">
 					<a ui-sref="app.page.network({ id:user_data.network.id })">
 						My Network
 					</a>
 				</li>
-				<li ng-show="user_data.network.pivot.role < 3">
+				<li ng-show="user_has_network && user_data.network.pivot.role < 3">
 					<a ui-sref="app.page.network_settings">
 						Network Settings
 						<span class="pull-right"><i class="fa fa-edit"></i></span>

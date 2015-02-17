@@ -1,6 +1,6 @@
 angular.module('app.services')
 	.factory('NetworkUsers', ['$resource', '$rootScope', function($resource, $rootScope) {
-		return $resource($rootScope.api_url+'/networks/:network_id/users/:user_id',{
+		return $resource($rootScope.api_url_version+'/networks/:network_id/users/:user_id',{
 			network_id:'@network_id',
 			user_id:'@user_id'
 		}, {
@@ -15,6 +15,6 @@ angular.module('app.services')
 			},
 			delete: {
 				method: 'DELETE'
-			}			
+			}
 		});
 	}]);

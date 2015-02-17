@@ -1,6 +1,6 @@
 angular.module('app.services')
 	.factory('ProjectProgressPlot', ['$resource', '$rootScope', function($resource, $rootScope) {
-		return $resource($rootScope.api_url+'/projects/:id/progress-plot',{
+		return $resource($rootScope.api_url_version+'/projects/:id/progress-plot',{
 			id:'@_id'
 		},{
 			query: {

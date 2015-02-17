@@ -6,9 +6,8 @@ angular.module('app.controllers').controller('ChangeNetworkModal', [	'$scope',
 
 	$scope.networks 	= networks;
 
-	console.log($scope.networks);
-
 	$scope.ok = function () {
+		console.log($scope.selected_network.id);
 		$modalInstance.close($scope.selected_network.id);
 	};
 

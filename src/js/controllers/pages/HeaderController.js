@@ -21,7 +21,7 @@ angular.module('app.controllers').controller('HeaderController', [	'$scope',
 		$scope.current_project 		= new_value;
 	});
 
-	$rootScope.$watchCollection('user_data', function(new_value) {
+	$rootScope.$watch('user_data', function(new_value) {
 		if (new_value) {
 			$scope.user_data 			= new_value;
 		} else {
@@ -29,7 +29,15 @@ angular.module('app.controllers').controller('HeaderController', [	'$scope',
 		}
 	});
 
-	$rootScope.$watchCollection('user_projects', function(new_value) {
+	$rootScope.$watch('user_has_network', function(new_value) {
+		if (new_value) {
+			$scope.user_has_network 	= new_value;
+		} else {
+			$scope.user_has_network 	= Auth.getCredential('user_has_network');
+		}
+	});
+
+	$rootScope.$watch('user_projects', function(new_value) {
 		if (new_value) {
 			var half_length				= Math.ceil(new_value.length / 2);
 			$scope.projects_left		= new_value.slice(0, half_length);

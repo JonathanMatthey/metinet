@@ -1,6 +1,6 @@
 angular.module('app.services')
 	.factory('UserHomepage', ['$resource', '$rootScope', function($resource, $rootScope) {
-		return $resource($rootScope.api_url+'/user/homepage',{
+		return $resource($rootScope.api_url_version+'/homepage',{
 			id:'@_id'
 		},{
 			query: {
