@@ -1,6 +1,6 @@
 angular.module('app.services')
 	.factory('Permits', ['$resource', '$rootScope', function($resource, $rootScope) {
-	    return $resource($rootScope.api_url+'/permits/:id',{
+	    return $resource($rootScope.api_url_version+'/permits/:id',{
 	      id:'@id'
 	    },{
 	        query: {

@@ -1,18 +1,25 @@
-angular.module('app.controllers').controller('AppCtrl', [	'$scope',
+angular.module('app.controllers').controller('AppCtrl', [   '$scope',
 															'$rootScope',
 															'$state',
 															'$translate',
 															'$localStorage',
-															'$window',	function(   $scope,
-																					$rootScope,
-																					$state,
-																					$translate,
-																					$localStorage,
-																					$window 	) {
+															'$window',
+															'Auth', function(   $scope,
+																				$rootScope,
+																				$state,
+																				$translate,
+																				$localStorage,
+																				$window,
+																				Auth    ) {
 	// add 'ie' classes to html
 	var isIE = !!navigator.userAgent.match(/MSIE/i);
 	isIE && angular.element($window.document.body).addClass('ie');
 	isSmartDevice( $window ) && angular.element($window.document.body).addClass('smart');
+
+	var user_data	= Auth.getCredential('user_data');
+	if (!user_data) {
+		$state.go('access.signin');
+	}
 
 	// config
 	$scope.app = {
@@ -39,16 +46,17 @@ angular.module('app.controllers').controller('AppCtrl', [	'$scope',
 			asideFixed: false,
 			asideFolded: true,
 			asideDock: false,
-			container: true
+			container: false
 		}
 	}
 
 	// save settings to local storage
 	if ( angular.isDefined($localStorage.settings) ) {
-		$scope.app.settings 	= $localStorage.settings;
+		$scope.app.settings     = $localStorage.settings;
 	} else {
-		$localStorage.settings 	= $scope.app.settings;
+		$localStorage.settings  = $scope.app.settings;
 	}
+
 	$scope.$watch('app.settings', function() {
 		if( $scope.app.settings.asideDock  &&  $scope.app.settings.asideFixed ) {
 			// aside dock and fixed must set the header fixed.
@@ -59,10 +67,10 @@ angular.module('app.controllers').controller('AppCtrl', [	'$scope',
 	}, true);
 
 	// angular translate
-	$scope.lang 		= { isopen: false };
-	$scope.langs 		= { en_EN:'English', de_DE:'German', it_IT:'Italian' };
-	$scope.selectLang 	= $scope.langs[$translate.proposedLanguage()] || "English";
-	$scope.setLang 		= function(langKey, $event) {
+	$scope.lang         = { isopen: false };
+	$scope.langs        = { en_EN:'English', de_DE:'German', it_IT:'Italian' };
+	$scope.selectLang   = $scope.langs[$translate.proposedLanguage()] || "English";
+	$scope.setLang      = function(langKey, $event) {
 		// set the current lang
 		$scope.selectLang = $scope.langs[langKey];
 		// You can change the language during runtime
@@ -77,15 +85,40 @@ angular.module('app.controllers').controller('AppCtrl', [	'$scope',
 		return (/iPhone|iPod|iPad|Silk|Android|BlackBerry|Opera Mini|IEMobile/).test(ua);
 	}
 
-	//	If there is an error on one of the pages, i.e. the
-	$rootScope.$on('$stateChangeError', function(	event,
+	//**    Configuration for UI-Router State Events
+
+	//  If there is an error on one of the pages
+	//  Send them to the homepage.
+	$rootScope.$on('$stateChangeError', function(   event,
 													toState,
 													toParams,
 													fromState,
 													fromParams,
-													error 	) {
+													error   ) {
 		$state.go('app.home');
 	});
 
+	//  If the current user does not have the correct access rights..
+	//  Refuse access to private areas.
+	$rootScope.$on('$stateChangeStart', function(   event,
+													toState,
+													toParams,
+													fromState,
+													fromParams,
+													error   ) {
+
+		var user_data   = Auth.getCredential('user_data');
+
+		if (!user_data && toState.access === 'private') {
+			$state.go('access.signin');
+		}
+
+		if (user_data) {
+			if (!user_data.active && toState.access === 'private') {
+				$state.go('access.signin');
+			}
+		}
+
+	});
 
 }]);

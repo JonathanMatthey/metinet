@@ -1,8 +1,5 @@
 'use strict';
 
-// routes avail at
-// https://bitbucket.org/stevchenks/fixing_metinet_api/src/7f82ee9db72b3c2160859c7dedd54c04a09d1474/app/routes.php?at=master
-
 // Declare app level module which depends on filters, and services
 var app = angular.module('app', [	'ngAnimate',
 									'ngCookies',
@@ -36,10 +33,11 @@ var app = angular.module('app', [	'ngAnimate',
 																						$stateParams,
 																						$cookieStore,
 																						$http 	) {
-		$rootScope.$state 								= $state;
-		$rootScope.$stateParams 						= $stateParams;
-		$rootScope.api_url								= 'http://api.meti.net';
-		$http.defaults.headers.common['Authorization'] 	= 'Basic ' + $cookieStore.get('authdata');
+		$rootScope.$state 									= $state;
+		$rootScope.$stateParams 							= $stateParams;
+		$rootScope.api_url									= 'http://api.meti.net';
+		$rootScope.api_url_version							= 'http://api.meti.net/v1';
+		$http.defaults.headers.common['Authorization'] 		= 'Basic ' + $cookieStore.get('authdata');
 	}])
 	.config([ 	'$stateProvider',
 				'$urlRouterProvider',
@@ -53,28 +51,49 @@ var app = angular.module('app', [	'ngAnimate',
 										$controllerProvider,
 										$compileProvider,
 										$filterProvider,
-										$provide 	) {
+										$provide	) {
 
 		// lazy controller, directive and service
-		app.controller = $controllerProvider.register;
-		app.directive  = $compileProvider.directive;
-		app.filter     = $filterProvider.register;
-		app.factory    = $provide.factory;
-		app.service    = $provide.service;
-		app.constant   = $provide.constant;
-		app.value      = $provide.value;
+		app.controller 	= $controllerProvider.register;
+		app.directive  	= $compileProvider.directive;
+		app.filter     	= $filterProvider.register;
+		app.factory    	= $provide.factory;
+		app.service    	= $provide.service;
+		app.constant   	= $provide.constant;
+		app.value      	= $provide.value;
+
+		var interceptor = ['$rootScope', '$q', function (scope, $q) {
+			function success(response) {
+				return response;
+			}
+			function error(response) {
+				var status = response.status;
+				if (status == 401) {
+					window.location = "#/access/sign-in";
+					return;
+				}
+				// otherwise
+				return $q.reject(response);
+			}
+			return function (promise) {
+				return promise.then(success, error);
+			}
+		}];
+		$httpProvider.responseInterceptors.push(interceptor);
 
 		$urlRouterProvider
 			.otherwise('/home');
 		$stateProvider
 			.state('app', {
 				abstract: true,
-				templateUrl: 'tpl/app.html'
+				templateUrl: 'tpl/app.html',
+				access: 'private'
 			})
 			.state('app.home', {
 				url: '/home',
 				controller: 'HomepageController',
 				templateUrl: 'tpl/page_homepage.html',
+				access: 'private',
 				resolve: {
 					deps: ['uiLoad',
 						function( uiLoad ){
@@ -85,22 +104,26 @@ var app = angular.module('app', [	'ngAnimate',
 				}
 			})
 			.state('app.page', {
-				template: '<div class="hbox hbox-auto-xs bg-light " ng-init="" ui-view></div>'
+				template: '<div class="hbox hbox-auto-xs bg-light " ng-init="" ui-view></div>',
+				access: 'private'
 			})
 			.state('app.page.profile', {
 				url: '/profile/:id',
 				controller: 'ProfileViewController',
-				templateUrl: 'tpl/user_profile/main.html'
+				templateUrl: 'tpl/user_profile/main.html',
+				access: 'private'
 			})
 			.state('app.page.notifications', {
 				url: '/notifications',
 				controller: 'NotificationViewController',
-				templateUrl: 'tpl/notifications/main.html'
+				templateUrl: 'tpl/notifications/main.html',
+				access: 'private'
 			})
 			.state('app.page.create_network', {
 				url: '/network/create',
 				controller: 'NetworkCreateController',
 				templateUrl: 'tpl/networks/create.html',
+				access: 'private',
 				resolve: {
 					deps: ['uiLoad',
 						function( uiLoad ){
@@ -113,33 +136,65 @@ var app = angular.module('app', [	'ngAnimate',
 			.state('app.page.network_settings', {
 				url: '/network/settings',
 				controller: 'NetworkSettingsController',
-				templateUrl: 'tpl/networks/settings.html'
+				templateUrl: 'tpl/networks/settings.html',
+				access: 'private'
 			})
 			.state('app.page.network', {
 				url: '/network/:id',
 				controller: 'NetworkViewController',
-				templateUrl: 'tpl/page_company.html'
+				templateUrl: 'tpl/page_company.html',
+				access: 'private'
 			})
 			.state('app.page.settings', {
 				url: '/settings',
 				templateUrl: 'tpl/user_settings/main.html',
 				controller: 'UserSettingsController',
+				access: 'private',
 				resolve: {
 					deps: ['uiLoad',
 						function(uiLoad) {
 							return uiLoad.load([
-								'js/jquery/sticky/jquery.sticky.js',
-								'js/jquery/chosen/chosen.jquery.min.js',
-								'js/jquery/chosen/chosen.css'
+								'js/jquery/sticky/jquery.sticky.js'
 							]);
 					}]
 				}
 			})
+				.state('app.page.settings.account', {
+					url: '/account',
+					templateUrl: 'tpl/user_settings/sections/account_settings.html',
+					controller: 'UserSettingsController',
+					access: 'private'
+				})
+				.state('app.page.settings.network', {
+					url: '/network',
+					templateUrl: 'tpl/user_settings/sections/network_settings.html',
+					controller: 'UserSettingsController',
+					access: 'private'
+				})
+				.state('app.page.settings.email_notifications', {
+					url: '/email_notifications',
+					templateUrl: 'tpl/user_settings/sections/email_notifications_settings.html',
+					controller: 'UserSettingsController',
+					access: 'private'
+				})
+				.state('app.page.settings.password', {
+					url: '/password',
+					templateUrl: 'tpl/user_settings/sections/change_password.html',
+					controller: 'UserSettingsController',
+					access: 'private'
+				})
+				.state('app.page.settings.privacy', {
+					url: '/password',
+					templateUrl: 'tpl/user_settings/sections/privacy_settings.html',
+					controller: 'UserSettingsController',
+					access: 'private'
+				})
 
 			.state('app.page.projects', {
 				url: '/projects',
 				templateUrl: 'tpl/project/all.html',
 				controller: 'ProjectListController',
+				access: 'private',
 				resolve: {
 					deps: ['uiLoad',
 						function( uiLoad ){
@@ -155,12 +210,14 @@ var app = angular.module('app', [	'ngAnimate',
 			.state('app.page.gantt', {
 				url: '/projects/:project_id/gantt',
 				templateUrl: 'tpl/page_gantt.html',
-				controller: 'ProjectViewGanttController'
+				controller: 'ProjectViewGanttController',
+				access: 'private'
 			})
 			.state('app.page.newproject', {
 				url:'/projects/new',
 				templateUrl: 'tpl/project/new_project/main.html',
 				controller: 'ProjectCreateController',
+				access: 'private',
 				resolve: {
 					deps: ['uiLoad',
 						function( uiLoad ){
@@ -173,12 +230,14 @@ var app = angular.module('app', [	'ngAnimate',
 			.state('app.page.project', {
 				url:'/projects/:project_id',
 				templateUrl: 'tpl/project/main_view.html',
-				controller: 'ProjectController'
+				controller: 'ProjectController',
+				access: 'private'
 			})
 				.state('app.page.project.overview', {
 					url:'/overview',
 					templateUrl: 'tpl/project/components/overview.html',
 					controller: 'ProjectOverviewController',
+					access: 'private',
 					resolve: {
 						deps: ['uiLoad',
 							function( uiLoad ){
@@ -192,72 +251,86 @@ var app = angular.module('app', [	'ngAnimate',
 				.state('app.page.project.audit-history', {
 					url:'/audit-history',
 					templateUrl: 'tpl/project/components/audit_history.html',
-					controller: 'ProjectAuditHistoryController'
+					controller: 'ProjectAuditHistoryController',
+					access: 'private'
 				})
 				.state('app.page.project.long-leads', {
 					url:'/long-leads',
 					templateUrl: 'tpl/project/components/long_lead_items.html',
-					controller: 'ProjectLongLeadController'
+					controller: 'ProjectLongLeadController',
+					access: 'private'
 				})
 				.state('app.page.project.permits', {
 					url:'/permits',
 					templateUrl: 'tpl/project/components/permits.html',
-					controller: 'ProjectPermitController'
+					controller: 'ProjectPermitController',
+					access: 'private'
 				})
 				.state('app.page.project.rfis', {
 					url:'/rfis',
 					templateUrl: 'tpl/project/components/rfis.html',
-					controller: 'ProjectRFIController'
+					controller: 'ProjectRFIController',
+					access: 'private'
 				})
 				.state('app.page.project.discussions', {
 					url:'/discussions',
 					templateUrl: 'tpl/project/components/discussions.html',
-					controller: 'ProjectDiscussionsController'
+					controller: 'ProjectDiscussionsController',
+					access: 'private'
 				})
 					.state('app.page.project.discussion', {
 						url:'/discussions/:discussion_id',
 						templateUrl: 'tpl/project/components/discussion.html',
-						controller: 'ProjectDiscussionController'
+						controller: 'ProjectDiscussionController',
+						access: 'private'
 					})
 				.state('app.page.project.settings', {
 					url:'/settings',
 					templateUrl: 'tpl/project/components/settings.html',
-					controller: 'ProjectSettingsController'
+					controller: 'ProjectSettingsController',
+					access: 'private'
 				})
 					.state('app.page.project.settings.general', {
 						url:'/general',
 						templateUrl: 'tpl/project/components/settings/general_settings.html',
-						controller: 'ProjectGeneralSettingsController'
+						controller: 'ProjectGeneralSettingsController',
+						access: 'private'
 					})
 					.state('app.page.project.settings.networks', {
 						url:'/networks',
 						templateUrl: 'tpl/project/components/settings/networks_settings.html',
-						controller: 'ProjectNetworksSettingsController'
+						controller: 'ProjectNetworksSettingsController',
+						access: 'private'
 					})
 					.state('app.page.project.settings.users', {
 						url:'/users',
 						templateUrl: 'tpl/project/components/settings/users_settings.html',
-						controller: 'ProjectUsersSettingsController'
+						controller: 'ProjectUsersSettingsController',
+						access: 'private'
 					})
 					.state('app.page.project.settings.location', {
 						url:'/location',
 						templateUrl: 'tpl/project/components/settings/location_settings.html',
-						controller: 'ProjectLocationSettingsController'
+						controller: 'ProjectLocationSettingsController',
+						access: 'private'
 					})
 					.state('app.page.project.settings.tracking', {
 						url:'/tracking',
 						templateUrl: 'tpl/project/components/settings/tracking_settings.html',
-						controller: 'ProjectTrackingSettingsController'
+						controller: 'ProjectTrackingSettingsController',
+						access: 'private'
 					})
 				.state('app.page.project.tasks', {
 					url:'/tasks',
 					templateUrl: 'tpl/project/components/leaf_nodes.html',
-					controller: 'ProjectLeafNodeController'
+					controller: 'ProjectLeafNodeController',
+					access: 'private'
 				})
 				.state('app.page.project.task', {
 					url:'/tasks/:node_id',
 					templateUrl: 'tpl/nodes/main.html',
 					controller: 'NodeViewController',
+					access: 'private',
 					resolve: {
 						deps: ['uiLoad',
 							function( uiLoad ){
@@ -276,6 +349,7 @@ var app = angular.module('app', [	'ngAnimate',
 					url: '/mail',
 					controller: 'MailController',
 					templateUrl: 'tpl/messaging/mail.html',
+					access: 'private',
 					// use resolve to load other dependences
 					resolve: {
 						deps: ['uiLoad',
@@ -291,17 +365,20 @@ var app = angular.module('app', [	'ngAnimate',
 					.state('app.mail.list', {
 						url: '/inbox/{fold}',
 						controller: 'MailListController',
-						templateUrl: 'tpl/messaging/list.html'
+						templateUrl: 'tpl/messaging/list.html',
+						access: 'private'
 					})
 					.state('app.mail.detail', {
 						url: '/{conversation_id:[0-9]+}',
 						controller: 'MailDetailController',
-						templateUrl: 'tpl/messaging/detail.html'
+						templateUrl: 'tpl/messaging/detail.html',
+						access: 'private'
 					})
 					.state('app.mail.compose', {
 						url: '/compose',
 						controller: 'MailNewController',
-						templateUrl: 'tpl/messaging/new.html'
+						templateUrl: 'tpl/messaging/new.html',
+						access: 'private'
 					})
 
 			.state('app.page.search', {
@@ -319,30 +396,36 @@ var app = angular.module('app', [	'ngAnimate',
 			})
 			.state('access', {
 				url: '/access',
-				templateUrl: 'tpl/access/main.html'
+				templateUrl: 'tpl/access/main.html',
+				access: 'public'
 			})
 			.state('access.signin', {
 				url: '/sign-in',
 				templateUrl: 'tpl/access/components/sign_in.html',
-				controller: 'SignInController'
+				controller: 'SignInController',
+				access: 'public'
 			})
 			.state('access.signup', {
 				url: '/sign-up',
 				templateUrl: 'tpl/access/components/sign_up.html',
-				controller: 'SignUpController'
+				controller: 'SignUpController',
+				access: 'public'
 			})
 			.state('access.activate', {
 				url: '/activate/:activation_code',
 				templateUrl: 'tpl/access/components/activate.html',
-				controller: 'ActivationController'
+				controller: 'ActivationController',
+				access: 'public'
 			})
 			.state('access.forgotpwd', {
 				url: '/forgotpwd',
-				templateUrl: 'tpl/page_forgotpwd.html'
+				templateUrl: 'tpl/page_forgotpwd.html',
+				access: 'public'
 			})
 			.state('access.404', {
 				url: '/404',
-				templateUrl: 'tpl/page_404.html'
+				templateUrl: 'tpl/page_404.html',
+				access: 'public'
 			})
 			.state('apps', {
 				abstract: true,
@@ -494,8 +577,7 @@ var app = angular.module('app', [	'ngAnimate',
 					}
 			]
 		});
-}]);
-
+}])
 app.run(function(editableOptions) {
 	editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
 });

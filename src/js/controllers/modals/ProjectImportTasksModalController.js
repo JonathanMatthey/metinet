@@ -20,7 +20,7 @@ angular.module('app.controllers').controller('ProjectImportTasksModalController'
 	$scope.selected_package	= $scope.packages[0].id;
 
 	var uploader 			= $scope.uploader = new FileUploader({
-		url: $rootScope.api_url+'/projects/'+project.id+'/import-tasks',
+		url: $rootScope.api_url+'/v1/projects/'+project.id+'/import-tasks',
 		method: 'POST',
 		headers: {
 			Authorization: 'Basic '+auth_data

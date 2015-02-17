@@ -11,7 +11,7 @@
 				<div class="text-right">{{ current_tasks.length }} Tasks Shown</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 	<div>
 		<table id="current_tasks_table" class="table m-b-none" ui-jq="footable" data-filter="#current_tasks_filter" data-page-size="10">
 			<thead>
@@ -21,11 +21,13 @@
 					<th>Associated Network</th>
 					<th>Progress</th>
 					<th>Status</th>
-					<td>Actions</td>					
+					<td>Actions</td>
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="task in current_tasks">
+				<tr ng-repeat="task in current_tasks"
+					class="pointer"
+					ui-sref="app.page.project.task({project_id:task.project_id, node_id:task.id})">
 					<td>{{ task.name }}</td>
 					<td>{{ task.associated_user.fullname }}</td>
 					<td>{{ task.associated_user.network.name }}</td>
@@ -35,7 +37,7 @@
 						<div class="btn-group btn-group-xs" role="group" aria-label="...">
 							<a href="#/page/nodes/{{ task.id }}" class="btn btn-default"><i class="fa fa-fw fa-eye"></i></a>
 						</div>
-					</td>					
+					</td>
 				</tr>
 			</tbody>
 			<tfoot>

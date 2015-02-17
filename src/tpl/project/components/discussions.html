@@ -15,14 +15,21 @@
 	<div class="panel panel-default">
 		<div>
 			<table class="table m-b-none footable" ui-jq="footable" data-filter="#filter" data-page-size="10">
-			<tbody>
-				<tr ng-hide="discussions">
-					<td class="text-center"><i class="fa fa-fw fa-spin fa-refresh"></i>&nbsp;&nbsp;Loading Discussions...</td>
+			<tbody ng-hide="discussions_returned">
+				<tr>
+					<td colspan="7" class="text-center">
+						<i class="fa fa-refresh fa-spin"></i>&nbsp;&nbsp;Loading...
+					</td>
+				</tr>
+			</tbody>
+			<tbody ng-show="discussions_returned">
+				<tr ng-hide="discussions.length > 0">
+					<td class="text-center bg-info">No discussions have been started..</td>
 				</tr>
 				<tr ng-repeat="discussion in discussions"
 					ui-sref="app.page.project.discussion({project_id:$stateParams.project_id, discussion_id:discussion.id})"
 					class="pointer"
-					ng-show="discussions">
+					ng-show="discussions.length > 0">
 					<td>
 						<article class="media">
 							<div class="media-body">
@@ -42,7 +49,7 @@
 					</td>
 				</tr>
 			</tbody>
-			<tfoot class="hide-if-no-paging" ng-show="discussions">
+			<tfoot class="hide-if-no-paging" ng-show="discussions_returned">
 				<tr>
 					<td colspan="5" class="text-center">
 						<ul class="pagination"></ul>

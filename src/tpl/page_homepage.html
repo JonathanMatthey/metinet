@@ -2,7 +2,7 @@
 	<!-- main -->
 	<div class="col" id="main_body">
 		<!-- main header -->
-		<div class="bg-light lter b-b wrapper-md" ng-show="newsfeed.length > 0">
+		<div class="bg-light lter b-b wrapper-md" ng-show="user_has_network">
 			<div class="row">
 				<div class="col-sm-6 col-xs-12">
 					<h1 class="m-n font-thin h3 text-black">Welcome {{ user_data.firstname }}</h1>
@@ -12,7 +12,7 @@
 		<!-- / main header -->
 
 		<!-- main body -->
-		<div class="row" ng-hide="newsfeed.length > 0">
+		<div class="row" ng-hide="user_has_network">
 			<div class="wrapper-lg">
 				<div class="row">
 					<div class="col-md-offset-3 col-md-6">
@@ -32,8 +32,10 @@
 							</div>
 							<div class="panel-body">
 								<div class="btn-group btn-group-justified">
-									<a class="btn btn-default">Request To Join Network</a>
-									<a class="btn btn-default">Create A New Network</a>
+									<a 	ui-sref="app.page.settings.network"
+										class="btn btn-default">Request To Join Network</a>
+									<a 	ui-sref="app.page.create_network"
+										class="btn btn-default">Create A New Network</a>
 								</div>
 							</div>
 
@@ -43,7 +45,7 @@
 			</div>
 		</div>
 
-		<div class="bg-black lter b-b" ng-show="newsfeed.length > 0">
+		<div class="bg-black lter b-b" ng-show="user_has_network">
 
 			<!-- info column -->
 			<div class="col-md-3 b-r">
@@ -54,37 +56,37 @@
 						</div>
 						<div class="wrapper pointer" ng-click="changeAction('projects')">
 							<span>Active Projects</span>
-							<div class="h1 text-muted font-thin" ng-hide="user_projects">
+							<div class="h1 text-muted font-thin" ng-hide="homepage_returned">
 								<i class="fa fa-spin fa-refresh"></i>
 							</div>
-							<div class="h1 text-info font-thin" ng-show="user_projects">
+							<div class="h1 text-info font-thin" ng-show="homepage_returned">
 								{{ user_projects.length }}
 							</div>
 						</div>
 						<div class="wrapper bg-info pointer" ng-click="changeAction('current_tasks')">
 							<span>Active Tasks</span>
-							<div class="h1 text-muted font-thin" ng-hide="current_tasks">
+							<div class="h1 text-muted font-thin" ng-hide="homepage_returned">
 								<i class="fa fa-spin fa-refresh"></i>
 							</div>
-							<div class="h1 text-warning font-thin" ng-show="current_tasks">
+							<div class="h1 text-warning font-thin" ng-show="homepage_returned">
 								{{ current_tasks.length }}
 							</div>
 						</div>
 						<div class="wrapper pointer" ng-click="changeAction('upcoming_tasks')">
 							<span>Upcoming Tasks</span>
-							<div class="h1 text-muted font-thin" ng-hide="upcoming_tasks">
+							<div class="h1 text-muted font-thin" ng-hide="homepage_returned">
 								<i class="fa fa-spin fa-refresh"></i>
 							</div>
-							<div class="h1 text-info font-thin" ng-show="upcoming_tasks">
+							<div class="h1 text-info font-thin" ng-show="homepage_returned">
 								{{ upcoming_tasks.length }}
 							</div>
 						</div>
 						<div class="wrapper bg-info pointer" ng-click="changeAction('rfis')">
 							<span>Network RFIs</span>
-							<div class="h1 text-muted font-thin" ng-hide="network_rfis">
+							<div class="h1 text-muted font-thin" ng-hide="homepage_returned">
 								<i class="fa fa-spin fa-refresh"></i>
 							</div>
-							<div class="h1 text-warning font-thin" ng-show="network_rfis">
+							<div class="h1 text-warning font-thin" ng-show="homepage_returned">
 								{{ network_rfis.length }}
 							</div>
 						</div>

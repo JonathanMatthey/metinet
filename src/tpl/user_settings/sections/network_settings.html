@@ -1,11 +1,19 @@
 <div class="alert alert-danger" ng-show="network_request_error">
 	{{ network_request_error }}
 </div>
-<div class="panel">
+<div class="panel" ng-init="network_init()">
 	<div class="panel-heading b-b">
 		<h4 class="m-n font-thin h4">Network Settings</h4>
 	</div>
-	<div class="panel-body">
+
+	<div class="panel-body text-center" ng-hide="user_data.network">
+		<a class="btn w-md btn-primary" ng-click="changeNetwork()" ng-disabled="!networks">
+			<span ng-hide="networks"><i class="fa fa-fw fa-spin fa-refresh"></i></span>
+			<span ng-show="networks">Request To Join Network</span>
+		</a>
+	</div>
+
+	<div class="panel-body" ng-show="user_data.network">
 		<form role="form" class="ng-pristine ng-valid">
 			<div class="row">
 				<div class="form-group col-sm-6">
@@ -13,7 +21,10 @@
 					<div class="input-group">
 						<input type="text" class="form-control" value="{{ user_data.network.name }}" readonly>
 						<span class="input-group-btn">
-							<button class="btn btn-primary change-network-btn" type="button" ng-click="changeNetwork()" ng-disabled="!networks">
+							<button class="btn btn-primary change-network-btn"
+									type="button"
+									ng-click="changeNetwork()"
+									ng-disabled="!networks">
 								Change Network
 							</button>
 						</span>
@@ -33,12 +44,8 @@
 						</a>
 					</div>
 				</div>
-			</div>		
+			</div>
 		</form>
 	</div>
+
 </div>
-<script>
-	$(document).ready(function() {
-		$(".chosen-select").chosen();
-	});
-</script>

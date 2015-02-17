@@ -1,6 +1,6 @@
 angular.module('app.services')
 	.factory('LongLeads', ['$resource', '$rootScope', function($resource, $rootScope) {
-	    return $resource($rootScope.api_url+'/long-leads/:id',{
+	    return $resource($rootScope.api_url_version+'/long-leads/:id',{
 	      id:'@id'
 	    },{
 	        query: {

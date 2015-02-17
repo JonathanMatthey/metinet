@@ -1,6 +1,6 @@
 angular.module('app.services')
 	.factory('ProjectGantt', ['$resource', '$rootScope', function($resource, $rootScope) {
-	    return $resource($rootScope.api_url+'/projects/:id/gantt',{
+	    return $resource($rootScope.api_url_version+'/projects/:id/gantt',{
 			id:'@_id'
 	    },{
 			query: {

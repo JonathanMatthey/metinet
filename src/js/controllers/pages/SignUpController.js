@@ -40,7 +40,7 @@ angular.module('app.controllers').controller('SignUpController', [	'$scope',
 			.$promise.then(function(response) {
 					$scope.process_engaged 	= false;
 					if (response.data.active) {
-						Auth.setCredentials($scope.email, $scope.password, response.data);
+						Auth.setCredentials($scope.user_data.email, $scope.user_data.password, response.data);
 						$state.go('app.home');
 					} else {
 						$scope.sign_up_complete = true;
