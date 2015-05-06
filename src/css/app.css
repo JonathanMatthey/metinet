@@ -258,10 +258,6 @@ a.list-group-item.no-hover.hover {
   border-color: #23b7e5 !important;
 }
 
-.list-group-item.active .text-muted {
-  color: #ace4f5 !important;
-}
-
 .list-group-item.active a {
   color: #fff;
 }
@@ -407,6 +403,10 @@ a.list-group-item.no-hover.hover {
   border-color: #dee5e7;
 }
 
+.panel {
+  border-radius: 0 !important;
+}
+
 .panel .accordion-toggle {
   display: block;
   font-size: 14px;
@@ -427,6 +427,7 @@ a.list-group-item.no-hover.hover {
 }
 
 .panel-heading {
+  border-radius: 0 !important;
 }
 
 .panel-default .panel-heading {
@@ -449,6 +450,7 @@ a.list-group-item.no-hover.hover {
 .panel-footer {
   background-color: #ffffff;
   border-color: #edf1f2;
+  border-radius: 0 !important;
 }
 
 .panel-default {
@@ -2907,10 +2909,6 @@ fieldset[disabled] .i-checks input + i:before {
   color: #ffffff;
 }
 
-.bg-metinet .text-muted {
-  color: #8088a4 !important;
-}
-
 .bg-metinet .text-lt {
   color: #e8e9ef !important;
 }
@@ -3017,7 +3015,7 @@ a.bg-black.list-group-item:focus {
 }
 
 .bg-black .text-muted {
-  color: #80AbCb !important;
+  color: rgba(255,255,255,0.2);
 }
 
 .bg-black .text-lt {
@@ -3120,10 +3118,6 @@ a.bg-black.list-group-item:focus {
   color: #ffffff;
 }
 
-.bg-primary .text-muted {
-  color: #d3cfea !important;
-}
-
 .bg-primary .text-lt {
   color: #ffffff !important;
 }
@@ -3222,10 +3216,6 @@ a.bg-black.list-group-item:focus {
 .bg-success .open > a:hover,
 .bg-success .open > a:focus {
   color: #ffffff;
-}
-
-.bg-success .text-muted {
-  color: #98eaab !important;
 }
 
 .bg-success .text-lt {
@@ -3328,10 +3318,6 @@ a.bg-black.list-group-item:focus {
   color: #ffffff;
 }
 
-.bg-info .text-muted {
-  color: #ace4f5 !important;
-}
-
 .bg-info .text-lt {
   color: #ffffff !important;
 }
@@ -3430,10 +3416,6 @@ a.bg-black.list-group-item:focus {
 .bg-warning .open > a:hover,
 .bg-warning .open > a:focus {
   color: #ffffff;
-}
-
-.bg-warning .text-muted {
-  color: #fef4c8 !important;
 }
 
 .bg-warning .text-lt {
@@ -3536,10 +3518,6 @@ a.bg-black.list-group-item:focus {
   color: #ffffff;
 }
 
-.bg-danger .text-muted {
-  color: #e6e6e6 !important;
-}
-
 .bg-danger .text-lt {
   color: #ffffff !important;
 }
@@ -3572,10 +3550,6 @@ a.bg-black.list-group-item:focus {
 
 .bg-white a:hover {
   color: #1f2427;
-}
-
-.bg-white .text-muted {
-  color: #98a6ad !important;
 }
 
 .bg-white .lt,
@@ -3793,8 +3767,8 @@ a.text-#000000:hover {
   color: #fff;
 }
 
-.text-muted {
-  color: #98a6ad;
+.text-muted-light {
+  color: rgba(0,0,0,0.2);
 }
 
 .pos-rlt {
@@ -3982,6 +3956,10 @@ a.text-#000000:hover {
 
 .text-u-l {
   text-decoration: underline;
+}
+
+.text-muted {
+  color: rgba(0,0,0,0.1);
 }
 
 .text-active,

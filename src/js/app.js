@@ -22,6 +22,7 @@ var app = angular.module('app', [	'ngAnimate',
 									'xeditable',
 									'truncate',
 									'angular-lodash',
+									'angular-flot',
 									'infinite-scroll',
 									'angularFileUpload',
 									'uiGmapgoogle-maps']).run([ '$rootScope',
@@ -36,7 +37,7 @@ var app = angular.module('app', [	'ngAnimate',
 		$rootScope.$state 									= $state;
 		$rootScope.$stateParams 							= $stateParams;
 		$rootScope.api_url									= 'http://api.meti.net';
-		$rootScope.api_url_version							= 'http://api.meti.net/v1';
+		$rootScope.api_url_version							= $rootScope.api_url + '/v1';
 		$http.defaults.headers.common['Authorization'] 		= 'Basic ' + $cookieStore.get('authdata');
 	}])
 	.config([ 	'$stateProvider',
@@ -98,7 +99,11 @@ var app = angular.module('app', [	'ngAnimate',
 					deps: ['uiLoad',
 						function( uiLoad ){
 							return uiLoad.load([
-								'js/libs/moment.min.js'
+								'components/angular-moment/angular-moment.min.js',
+								'components/jquery-flot/jquery.flot.js',
+								'components/jquery-flot/jquery.flot.time.js',
+								'components/jquery-flot/jquery.flot.resize.js',
+								'components/flot.tooltip/js/jquery.flot.tooltip.min.js'
 							]);
 					}]
 				}
@@ -154,7 +159,7 @@ var app = angular.module('app', [	'ngAnimate',
 					deps: ['uiLoad',
 						function(uiLoad) {
 							return uiLoad.load([
-								'js/jquery/sticky/jquery.sticky.js'
+								'components/jquery-sticky/jquery.sticky.js'
 							]);
 					}]
 				}
@@ -199,10 +204,12 @@ var app = angular.module('app', [	'ngAnimate',
 					deps: ['uiLoad',
 						function( uiLoad ){
 							return uiLoad.load([
-								'js/libs/moment.min.js',
-								'js/jquery/charts/sparkline/jquery.sparkline.min.js',
-								'js/jquery/charts/flot/jquery.flot.min.js',
-								'js/jquery/charts/flot/jquery.flot.resize.js'
+								'components/angular-moment/angular-moment.min.js',
+								'components/jquery.sparkline/index.js',
+								'components/jquery-flot/jquery.flot.js',
+								'components/jquery-flot/jquery.flot.time.js',
+								'components/jquery-flot/jquery.flot.resize.js',
+								'components/flot.tooltip/js/jquery.flot.tooltip.min.js'
 							]);
 						}]
 				}
@@ -222,7 +229,7 @@ var app = angular.module('app', [	'ngAnimate',
 					deps: ['uiLoad',
 						function( uiLoad ){
 							return uiLoad.load([
-								'js/libs/moment.min.js'
+								'components/angular-moment/angular-moment.min.js'
 							]);
 					}]
 				}
@@ -242,8 +249,10 @@ var app = angular.module('app', [	'ngAnimate',
 						deps: ['uiLoad',
 							function( uiLoad ){
 								return uiLoad.load([
-									'js/jquery/charts/flot/jquery.flot.min.js',
-									'js/jquery/charts/flot/jquery.flot.resize.js'
+									'components/jquery-flot/jquery.flot.js',
+									'components/jquery-flot/jquery.flot.time.js',
+									'components/jquery-flot/jquery.flot.resize.js',
+									'components/flot.tooltip/js/jquery.flot.tooltip.min.js'
 								]);
 							}]
 					}
@@ -335,9 +344,9 @@ var app = angular.module('app', [	'ngAnimate',
 						deps: ['uiLoad',
 							function( uiLoad ){
 								return uiLoad.load([
-									'js/libs/moment.min.js',
-									'js/jquery/charts/sparkline/jquery.sparkline.min.js',
-									'js/jquery/slider/slider.css'
+									'components/angular-moment/angular-moment.min.js',
+									'components/jquery.sparkline/index.js',
+									'components/bootstrap-slider/slider.css'
 								]);
 						}]
 					}
@@ -357,7 +366,7 @@ var app = angular.module('app', [	'ngAnimate',
 								return uiLoad.load([
 									'js/app/mail/mail.js',
 									'js/app/mail/mail-service.js',
-									'js/libs/moment.min.js'
+									'components/angular-moment/angular-moment.min.js'
 								]);
 						}]
 					}
@@ -483,73 +492,70 @@ var app = angular.module('app', [	'ngAnimate',
  */
 .constant('JQ_CONFIG', {
 		easyPieChart:   [
-							'js/jquery/charts/easypiechart/jquery.easy-pie-chart.js'
+							'components/jquery.easy-pie-chart/dist/jquery.easypiechart.js'
 						],
 		sparkline:      [
-							'js/jquery/charts/sparkline/jquery.sparkline.min.js'
+							'components/jquery.sparkline/index.js'
 						],
 		plot:           [
-							'js/jquery/charts/flot/jquery.flot.min.js',
-							'js/jquery/charts/flot/jquery.flot.resize.js',
-							'js/jquery/charts/flot/jquery.flot.tooltip.min.js',
-							'js/jquery/charts/flot/jquery.flot.spline.js',
-							'js/jquery/charts/flot/jquery.flot.orderBars.js',
-							'js/jquery/charts/flot/jquery.flot.time.js',
-							'js/jquery/charts/flot/jquery.flot.pie.min.js'
+							'components/jquery-flot/jquery.flot.js',
+							'components/jquery-flot/jquery.flot.time.js',
+							'components/jquery-flot/jquery.flot.resize.js',
+							'components/flot.tooltip/js/jquery.flot.tooltip.min.js',
 						],
 		slimScroll:     [
-							'js/jquery/slimscroll/jquery.slimscroll.min.js'
+							'components/jquery.slimscroll/jquery.slimscroll.min.js'
 						],
 		sortable:       [
-							'js/jquery/sortable/jquery.sortable.js'
+							'components/jquery.sortable/jquery.sortable.min.js'
 						],
 		nestable:       [
-							'js/jquery/nestable/jquery.nestable.js',
-							'js/jquery/nestable/nestable.css'
+							'components/nestable/jquery.nestable.js',
+							'css/nestable/nestable.css'
 						],
 		filestyle:      [
-							'js/jquery/file/bootstrap-filestyle.min.js'
+							'components/bootstrap-filestyle/src/bootstrap-filestyle.min.js'
 						],
 		slider:         [
-							'js/jquery/slider/bootstrap-slider.js',
-							'js/jquery/slider/slider.css'
+							'components/bootstrap-slider/bootstrap-slider.js',
+							'components/bootstrap-slider/slider.css'
 						],
 		chosen:         [
-							'js/jquery/chosen/chosen.jquery.min.js',
-							'js/jquery/chosen/chosen.css'
+							'components/chosen_v1.3.0/chosen.jquery.min.js',
+							'components/chosen_v1.3.0/chosen.css'
 						],
 		TouchSpin:      [
-							'js/jquery/spinner/jquery.bootstrap-touchspin.min.js',
-							'js/jquery/spinner/jquery.bootstrap-touchspin.css'
+							'js/modules/spinner/jquery.bootstrap-touchspin.min.js',
+							'js/modules/spinner/jquery.bootstrap-touchspin.css'
 						],
 		wysiwyg:        [
-							'js/jquery/wysiwyg/bootstrap-wysiwyg.js',
-							'js/jquery/wysiwyg/jquery.hotkeys.js'
+							'js/modules/wysiwyg/bootstrap-wysiwyg.js',
+							'js/modules/wysiwyg/jquery.hotkeys.js'
 						],
 		dataTable:      [
-							'js/jquery/datatables/jquery.dataTables.min.js',
-							'js/jquery/datatables/dataTables.bootstrap.js',
-							'js/jquery/datatables/dataTables.bootstrap.css'
+							'js/modules/datatables/jquery.dataTables.min.js',
+							'js/modules/datatables/dataTables.bootstrap.js',
+							'js/modules/datatables/dataTables.bootstrap.css'
 						],
 		vectorMap:      [
-							'js/jquery/jvectormap/jquery-jvectormap.min.js',
-							'js/jquery/jvectormap/jquery-jvectormap-world-mill-en.js',
-							'js/jquery/jvectormap/jquery-jvectormap-us-aea-en.js',
-							'js/jquery/jvectormap/jquery-jvectormap.css'
+							'js/modules/jvectormap/jquery-jvectormap.min.js',
+							'js/modules/jvectormap/jquery-jvectormap-world-mill-en.js',
+							'js/modules/jvectormap/jquery-jvectormap-us-aea-en.js',
+							'js/modules/jvectormap/jquery-jvectormap.css'
 						],
 		footable:       [
-							'js/jquery/footable/footable.all.min.js',
-							'js/jquery/footable/footable.core.css'
+							'components/footable/dist/footable.all.min.js',
+							'components/footable/css/footable.core.css'
 						]
 		}
 )
 
 // modules config
 .constant('MODULE_CONFIG', {
-		select2:        ['js/jquery/select2/select2.css',
-							'js/jquery/select2/select2-bootstrap.css',
-							'js/jquery/select2/select2.min.js',
-							'js/modules/ui-select2.js']
+		select2:        [	'components/select2/select2.css',
+							'components/select2/select2-bootstrap.css',
+							'components/select2/select2.min.js',
+							'components/angular-ui-select2/src/select2.js'	]
 		}
 )
 
@@ -563,16 +569,16 @@ var app = angular.module('app', [	'ngAnimate',
 					{
 						name: 'ngGrid',
 						files: [
-							'js/modules/ng-grid/ng-grid.min.js',
-							'js/modules/ng-grid/ng-grid.css',
-							'js/modules/ng-grid/theme.css'
+							'components/ng-grid/build/ng-grid.min.js',
+							'components/ng-grid/ng-grid.min.css',
+							'css/ng-grid.css'
 						]
 					},
 					{
 						name: 'toaster',
 						files: [
-							'js/modules/toaster/toaster.js',
-							'js/modules/toaster/toaster.css'
+							'components/AngularJS-Toaster/toaster.js',
+							'components/AngularJS-Toaster/toaster.css'
 						]
 					}
 			]

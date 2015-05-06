@@ -10,57 +10,7 @@
 			</span>
 		</div>
 		<div class="text-center m-t-md">
-		    <div ui-jq="plot" ui-refresh="seven_day.progress_plot" ui-options="
-		      [
-		        {
-		          data: [ {{ seven_day.projected_progress_plot }} ],
-		          label: 'Calculated',
-		          points: { show: true, radius: 1 },
-		          splines: { show: true, tension: 0.4, lineWidth: 1 }
-		        },
-		        {
-		          data: [ {{ seven_day.progress_plot }} ],
-		          label: 'Actual',
-		          points: { show: true, radius: 2 },
-		          splines: { show: true, tension: 0.4, lineWidth: 1}
-		        }
-		      ],
-		      {
-		        colors: [
-		          '#314554',
-		          '{{ app.color.info }}'
-		        ],
-		        series: {
-		          shadowSize: 3
-		        },
-		        xaxis: {
-		          mode:'time',
-		          minTickSize: [1, 'day'],
-		          timeformat: '%d-%m-%Y',
-		          font: { color: '#507b9b' }
-		        },
-		        yaxis: {
-		          font: { color: '#507b9b' },
-		          max:100
-		        },
-		        grid: {
-		          hoverable: true,
-		          clickable: true,
-		          borderWidth: 0,
-		          color: '#1c2b36'
-		        },
-		        tooltip: true,
-		        tooltipOpts: {
-		          content: '%y% on %x',
-		          defaultTheme: false,
-		          shifts: {
-		            x: 10,
-		            y: -25
-		          }
-		        }
-		      }
-		      " style="min-height:360px" >
-		    </div>
+			<flot dataset="plot_data" options="plot_options" height="360px"></flot>
 		</div>
 	</div>
 </div>
